@@ -1,0 +1,132 @@
+.pg-verse-grid {
+  display: grid;
+}
+.pg-verse-item {
+  position: relative;
+  overflow: hidden;
+}
+.pg-verse-content,
+.pg-verse-readmore {
+  position: absolute;
+  left: 0;
+  padding: 30px;
+}
+.pg-verse-content {
+  top: 0;
+}
+.pg-verse-readmore {
+  bottom: 0;
+}
+.pg-verse-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.pg-verse-image-wrap .pg-verse-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pg-verse-image-wrap::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #fff;
+  transition: all 0.4s cubic-bezier(0.31, 0.67, 0.36, 1);
+}
+.pg-verse-item:hover .pg-verse-image-wrap::before {
+  width: 100%;
+}
+.pg-verse-title,
+.pg-verse-text,
+.pg-verse-readmore {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: all 0.4s cubic-bezier(0.31, 0.67, 0.36, 1);
+}
+.pg-verse-item:hover .pg-verse-title,
+.pg-verse-item:hover .pg-verse-text,
+.pg-verse-item:hover .pg-verse-readmore {
+  opacity: 1;
+  transform: translateX(0);
+}
+.pg-verse-item:hover .pg-verse-title {
+  transition-delay: .3s;
+}
+.pg-verse-item:hover .pg-verse-text {
+  transition-delay: .4s;
+}
+.pg-verse-item:hover .pg-verse-readmore {
+  transition-delay: .5s;
+}
+.pg-verse-title {
+  font-size: 35px;
+  text-transform: capitalize;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: rgba(13, 59, 84, 0.8);
+}
+.pg-verse-text {
+  font-size: 14px;
+  text-transform: capitalize;
+  color: #747e96;
+  line-height: 1.7;
+}
+.pg-verse-text p {
+  margin: 0;
+}
+.pg-verse-readmore a {
+  color: #fff;
+  padding: 14px 35px;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  background-color: rgba(13, 59, 84, 0.8);
+  overflow: hidden;
+  transition: all 300ms ease;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 12px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.pg-verse-readmore a:hover {
+  padding: 14px 45px;
+  background-color: #0D3B54;
+}
+.pg-verse-readmore a span {
+  transition: all 300ms ease;
+}
+.pg-verse-readmore a:hover span {
+  transform: translateX(12px);
+}
+.pg-verse-readmore a::before,
+.pg-verse-readmore a::after {
+  content: '';
+  position: absolute;
+  transition: all 300ms ease;
+}
+.pg-verse-readmore a::before {
+  background-color: #fff;
+  left: 0;
+  top: 0;
+  width: 45px;
+  height: 100%;
+  transform: translateX(-150%) rotate(45deg);
+}
+.pg-verse-readmore a:hover::before {
+  transform: translateX(-50%) rotate(45deg);
+}
+.pg-verse-readmore a::after {
+  left: 30px;
+  width: 0px;
+  height: 1px;
+  background-color: #fff;
+}
+.pg-verse-readmore a:hover::after {
+  width: 20px;
+  transition-delay: 200ms;
+}

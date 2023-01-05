@@ -1,0 +1,51 @@
+## 1.2.0 [4th January 2023]
+
+### Added
+
+- Alien widget added
+- Aware widget added
+- Crop widget added
+- Ocean widget added
+- Diamond widget added
+- Ridex widget added
+- Kitec widget added
+- Polo widget added
+- Entrance animation extension added
+- Grid loading system Improved
+
+## 1.1.0 [16th November 2022]
+
+### Added
+
+- Amaze widget added
+- Dream widget added
+- Evolve widget added
+- Flash widget added
+- Floral widget added
+- Maven widget added
+- Pastel widget added
+- Menuz widget added
+- Tread widget added
+- Xero widget added
+- Fixer widget added
+- Heron widget added
+- Humble widget added
+- Insta widget added
+- Loop widget added
+- Trance widget added
+- Masonry feature added
+- Items Align option added
+
+## 1.0.1 [13th August 2022]
+
+### Added
+
+- Column auto fill option added
+
+### Fixed
+
+- Some minor issue fixed
+- Row issue fixed in Fabric widget
+
+## 1.0.0
+- Initial Release

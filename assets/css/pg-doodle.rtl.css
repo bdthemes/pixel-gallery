@@ -1,0 +1,106 @@
+.pg-doodle-grid {
+  display: grid;
+}
+.pg-doodle-item {
+  position: relative;
+  overflow: hidden;
+}
+.pg-doodle-item:hover .pg-doodle-image-wrap img {
+  transform: scale(1.5);
+}
+.pg-doodle-item:hover .pg-doodle-image-wrap::before {
+  transform: translate(50%, -50%) scale(1, 1);
+}
+.pg-doodle-item:hover .pg-doodle-head-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+.pg-doodle-item:nth-child(5n+2) {
+  grid-column: span 8 / auto;
+}
+.pg-doodle-image-wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.pg-doodle-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform 0.5s ease-out;
+}
+.pg-doodle-image-wrap::before {
+  content: "";
+  position: absolute;
+  width: 170%;
+  height: 170%;
+  padding-bottom: 170%;
+  top: 60%;
+  right: 50%;
+  transform: translate(50%, -50%) scale(0, 0);
+  border-radius: 50%;
+  box-sizing: border-box;
+  z-index: 1;
+}
+.pg-doodle-image-wrap::before {
+  transition: transform 0.5s ease-out;
+  background: #fff;
+}
+.pg-doodle-content {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  text-align: center;
+  z-index: 1;
+  margin: 0 30px;
+  transform: translateY(-50%);
+  transition: all .4s ease;
+}
+.pg-doodle-meta::before {
+  position: absolute;
+  content: '';
+  top: -63%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  width: 0;
+  height: 2px;
+  background: rgba(13, 59, 84, 0.8);
+  opacity: 0;
+  transition: all .5s ease;
+}
+.pg-doodle-item:hover .pg-doodle-meta::before {
+  opacity: 1;
+  width: 70px;
+  transition-delay: .3s;
+}
+.pg-doodle-title {
+  margin: 0 0 30px;
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: all .4s ease;
+  transform: translateX(-100px);
+  color: rgba(13, 59, 84, 0.8);
+}
+.pg-doodle-meta {
+  font-size: 14px;
+  color: #567687;
+  text-transform: capitalize;
+  opacity: 0;
+  transform: translateX(100px);
+  transition: all .4s ease;
+}
+.pg-doodle-follow-btn {
+  opacity: 0;
+  transform: translateX(100px);
+  transition: all .4s ease;
+}
+.pg-doodle-item:hover .pg-doodle-meta,
+.pg-doodle-item:hover .pg-doodle-title {
+  opacity: 1;
+  transform: translateX(0);
+}

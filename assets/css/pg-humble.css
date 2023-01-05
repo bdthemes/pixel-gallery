@@ -1,0 +1,61 @@
+.pg-humble-grid {
+  display: grid;
+}
+.pg-humble-item {
+  position: relative;
+}
+.pg-humble-item:hover .pg-humble-image-wrap {
+  transform: translateY(-100px);
+}
+.pg-humble-image-wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.4s;
+  z-index: 10;
+  overflow: hidden;
+}
+.pg-humble-image-wrap .pg-humble-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  vertical-align: middle;
+}
+.pg-humble-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
+  height: 100px;
+  width: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+}
+.pg-humble-title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: #fff;
+}
+.pg-humble-meta {
+  font-size: 14px;
+  color: #eee;
+  text-transform: capitalize;
+}
+.pg-humble-readmore {
+  display: inline-flex;
+}
+.pg-humble-readmore a {
+  color: rgba(13, 59, 84, 0.8);
+  font-size: 13px;
+  font-weight: 500;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 2px;
+  transition: all .3s ease;
+}
+.pg-humble-readmore a:hover {
+  color: #0D3B54;
+}

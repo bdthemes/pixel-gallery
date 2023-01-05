@@ -1,0 +1,2075 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Pixel Gallery\n"
+"POT-Creation-Date: 2022-11-17 15:45+0600\n"
+"PO-Revision-Date: 2022-08-03 23:50+0600\n"
+"Last-Translator: Selim Rana <selim@bdthemes.com>\n"
+"Language-Team: Selim Rana <selim@bdthemes.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: pixel-gallery.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+
+#: admin/admin-settings.php:245
+msgid "Dashboard"
+msgstr ""
+
+#: admin/admin-settings.php:257 admin/admin-settings.php:308
+msgid "Core Widgets"
+msgstr ""
+
+#: admin/admin-settings.php:267 admin/admin-settings.php:314
+msgid "Other Settings"
+msgstr ""
+
+#: admin/admin-settings.php:278
+msgid "Get Pro"
+msgstr ""
+
+#: admin/admin-settings.php:362
+msgid "All Widgets"
+msgstr ""
+
+#: admin/admin-settings.php:363
+msgid "Used:"
+msgstr ""
+
+#: admin/admin-settings.php:364
+msgid "Unused:"
+msgstr ""
+
+#: admin/admin-settings.php:365
+msgid "Total:"
+msgstr ""
+
+#: admin/admin-settings.php:382
+msgid "Active"
+msgstr ""
+
+#: admin/admin-settings.php:383
+msgid "Core: "
+msgstr ""
+
+#: admin/admin-settings.php:384
+msgid "Total Widget:"
+msgstr ""
+
+#: admin/admin-settings.php:703
+msgid "PHP Version:"
+msgstr ""
+
+#: admin/admin-settings.php:719
+msgid "Maximum execution time:"
+msgstr ""
+
+#: admin/admin-settings.php:734
+msgid "Memory Limit:"
+msgstr ""
+
+#: admin/admin-settings.php:750
+msgid "Max Post Limit:"
+msgstr ""
+
+#: admin/admin-settings.php:766
+msgid "Uploads folder writable:"
+msgstr ""
+
+#: admin/admin-settings.php:780
+msgid "MultiSite: "
+msgstr ""
+
+#: admin/admin-settings.php:796
+msgid "GZip Enabled:"
+msgstr ""
+
+#: admin/admin-settings.php:810
+msgid "Debug Mode: "
+msgstr ""
+
+#: admin/admin-settings.php:826
+msgid "Note:"
+msgstr ""
+
+#: admin/admin-settings.php:826
+msgid "If you have multiple addons like"
+msgstr ""
+
+#: admin/admin-settings.php:826
+msgid "Ultimate Store Kit"
+msgstr ""
+
+#: admin/admin-settings.php:827
+msgid ""
+"so you need some more requirement some\n"
+"      cases so make sure you added more memory for others addon too."
+msgstr ""
+
+#: admin/admin-settings.php:1049
+msgid "Please wait, Saving settings..."
+msgstr ""
+
+#: admin/admin-settings.php:1057
+msgid "Settings Saved Successfully."
+msgstr ""
+
+#: admin/admin-settings.php:1064
+msgid "Unknown error, make sure access is correct!"
+msgstr ""
+
+#: admin/admin-settings.php:1131
+msgid ""
+"Please activate <strong>Usage Data Sharing</strong> features from Elementor, "
+"otherwise Widgets Analytics will not work. Please activate the settings from "
+"<strong>Elementor > Settings > General Tab >  Usage Data Sharing.</strong> "
+"Thank you."
+msgstr ""
+
+#: admin/admin.php:90
+msgid "Go for Get Support"
+msgstr ""
+
+#: admin/admin.php:90
+msgid "Get Support"
+msgstr ""
+
+#: admin/admin.php:91
+msgid "View Pixel Gallery Video Tutorials"
+msgstr ""
+
+#: admin/admin.php:91
+msgid "Video Tutorials"
+msgstr ""
+
+#: admin/admin.php:109
+msgid "Settings"
+msgstr ""
+
+#: admin/admin.php:115
+msgid "License"
+msgstr ""
+
+#: admin/class-settings-api.php:616 traits/global-widget-controls.php:1241
+msgid "Choose File"
+msgstr ""
+
+#: admin/class-settings-api.php:951
+msgid "Activate All"
+msgstr ""
+
+#: admin/class-settings-api.php:956
+msgid "Deactivate All"
+msgstr ""
+
+#: admin/module-settings.php:25 modules/axen/module.info.php:5
+#: modules/axen/widgets/axen.php:41
+msgid "Axen"
+msgstr ""
+
+#: admin/module-settings.php:35
+msgid "Amaze"
+msgstr ""
+
+#: admin/module-settings.php:45 modules/craze/module.info.php:5
+#: modules/craze/widgets/craze.php:31
+msgid "Craze"
+msgstr ""
+
+#: admin/module-settings.php:55 modules/doodle/module.info.php:5
+#: modules/doodle/widgets/doodle.php:31
+msgid "Doodle"
+msgstr ""
+
+#: admin/module-settings.php:65
+msgid "Dream"
+msgstr ""
+
+#: admin/module-settings.php:75 modules/elixir/module.info.php:5
+#: modules/elixir/widgets/elixir.php:31
+msgid "Elixir"
+msgstr ""
+
+#: admin/module-settings.php:85 modules/epoch/module.info.php:5
+#: modules/epoch/widgets/epoch.php:31
+msgid "Epoch"
+msgstr ""
+
+#: admin/module-settings.php:95
+msgid "Evolve"
+msgstr ""
+
+#: admin/module-settings.php:105 modules/fabric/module.info.php:5
+#: modules/fabric/widgets/fabric.php:31
+msgid "Fabric"
+msgstr ""
+
+#: admin/module-settings.php:115 modules/fever/module.info.php:5
+#: modules/fever/widgets/fever.php:31
+msgid "Fever"
+msgstr ""
+
+#: admin/module-settings.php:125 modules/fixer/module.info.php:5
+#: modules/fixer/widgets/fixer.php:31
+msgid "Fixer"
+msgstr ""
+
+#: admin/module-settings.php:135 modules/flame/module.info.php:5
+#: modules/flame/widgets/flame.php:31
+msgid "Flame"
+msgstr ""
+
+#: admin/module-settings.php:145
+msgid "Flash"
+msgstr ""
+
+#: admin/module-settings.php:155 modules/fluid/module.info.php:5
+#: modules/fluid/widgets/fluid.php:30
+msgid "Fluid"
+msgstr ""
+
+#: admin/module-settings.php:165
+msgid "Floral"
+msgstr ""
+
+#: admin/module-settings.php:175 modules/glam/module.info.php:5
+#: modules/glam/widgets/glam.php:31
+msgid "Glam"
+msgstr ""
+
+#: admin/module-settings.php:185 modules/glaze/module.info.php:5
+#: modules/glaze/widgets/glaze.php:31
+msgid "Glaze"
+msgstr ""
+
+#: admin/module-settings.php:195
+msgid "Heron"
+msgstr ""
+
+#: admin/module-settings.php:205 modules/humble/module.info.php:5
+#: modules/humble/widgets/humble.php:31
+msgid "Humble"
+msgstr ""
+
+#: admin/module-settings.php:215 modules/insta/module.info.php:5
+#: modules/insta/widgets/insta.php:31
+msgid "Insta"
+msgstr ""
+
+#: admin/module-settings.php:225 modules/koral/module.info.php:5
+#: modules/koral/widgets/koral.php:31
+msgid "Koral"
+msgstr ""
+
+#: admin/module-settings.php:235 modules/lumen/module.info.php:5
+#: modules/lumen/widgets/lumen.php:31
+msgid "Lumen"
+msgstr ""
+
+#: admin/module-settings.php:245 modules/lunar/module.info.php:5
+#: modules/lunar/widgets/lunar.php:31
+msgid "Lunar"
+msgstr ""
+
+#: admin/module-settings.php:255 modules/lytical/module.info.php:5
+#: modules/lytical/widgets/lytical.php:34
+msgid "Lytical"
+msgstr ""
+
+#: admin/module-settings.php:265 modules/marron/module.info.php:5
+#: modules/marron/widgets/marron.php:34
+msgid "Marron"
+msgstr ""
+
+#: admin/module-settings.php:275
+msgid "Maven"
+msgstr ""
+
+#: admin/module-settings.php:285 modules/mastery/module.info.php:5
+#: modules/mastery/widgets/mastery.php:34
+msgid "Mastery"
+msgstr ""
+
+#: admin/module-settings.php:295 modules/mosaic/module.info.php:5
+#: modules/mosaic/widgets/mosaic.php:34
+msgid "Mosaic"
+msgstr ""
+
+#: admin/module-settings.php:305 modules/mystic/module.info.php:5
+#: modules/mystic/widgets/mystic.php:34
+msgid "Mystic"
+msgstr ""
+
+#: admin/module-settings.php:315 modules/nexus/module.info.php:5
+#: modules/nexus/widgets/nexus.php:34
+msgid "Nexus"
+msgstr ""
+
+#: admin/module-settings.php:325 modules/orbit/module.info.php:5
+#: modules/orbit/widgets/orbit.php:34
+msgid "Orbit"
+msgstr ""
+
+#: admin/module-settings.php:335 modules/panda/module.info.php:5
+#: modules/panda/widgets/panda.php:34
+msgid "Panda"
+msgstr ""
+
+#: admin/module-settings.php:345
+msgid "Pastel"
+msgstr ""
+
+#: admin/module-settings.php:355 modules/plex/module.info.php:5
+#: modules/plex/widgets/plex.php:34
+msgid "Plex"
+msgstr ""
+
+#: admin/module-settings.php:365 modules/plumb/module.info.php:5
+#: modules/plumb/widgets/plumb.php:34
+msgid "Plumb"
+msgstr ""
+
+#: admin/module-settings.php:375 modules/punch/module.info.php:5
+#: modules/punch/widgets/punch.php:34
+msgid "Punch"
+msgstr ""
+
+#: admin/module-settings.php:385 modules/ranch/module.info.php:5
+#: modules/ranch/widgets/ranch.php:34
+msgid "Ranch"
+msgstr ""
+
+#: admin/module-settings.php:395 modules/remix/module.info.php:5
+#: modules/remix/widgets/remix.php:34
+msgid "Remix"
+msgstr ""
+
+#: admin/module-settings.php:405
+msgid "Menuz"
+msgstr ""
+
+#: admin/module-settings.php:415 modules/ruby/module.info.php:5
+#: modules/ruby/widgets/ruby.php:34
+msgid "Ruby"
+msgstr ""
+
+#: admin/module-settings.php:425 modules/shark/module.info.php:5
+#: modules/shark/widgets/shark.php:34
+msgid "Shark"
+msgstr ""
+
+#: admin/module-settings.php:435 modules/sonic/module.info.php:5
+#: modules/sonic/widgets/sonic.php:34
+msgid "Sonic"
+msgstr ""
+
+#: admin/module-settings.php:445 modules/spirit/module.info.php:5
+#: modules/spirit/widgets/spirit.php:34
+msgid "Spirit"
+msgstr ""
+
+#: admin/module-settings.php:455 modules/tour/module.info.php:5
+#: modules/tour/widgets/tour.php:31
+msgid "Tour"
+msgstr ""
+
+#: admin/module-settings.php:465 modules/trance/module.info.php:5
+#: modules/trance/widgets/trance.php:31
+msgid "Trance"
+msgstr ""
+
+#: admin/module-settings.php:475
+msgid "Tread"
+msgstr ""
+
+#: admin/module-settings.php:485 modules/turbo/module.info.php:5
+#: modules/turbo/widgets/turbo.php:31
+msgid "Turbo"
+msgstr ""
+
+#: admin/module-settings.php:495 modules/verse/module.info.php:5
+#: modules/verse/widgets/verse.php:31
+msgid "Verse"
+msgstr ""
+
+#: admin/module-settings.php:505 modules/walden/module.info.php:5
+#: modules/walden/widgets/walden.php:31
+msgid "Walden"
+msgstr ""
+
+#: admin/module-settings.php:515 modules/wisdom/module.info.php:5
+#: modules/wisdom/widgets/wisdom.php:31
+msgid "Wisdom"
+msgstr ""
+
+#: admin/module-settings.php:525
+msgid "Xero"
+msgstr ""
+
+#: admin/module-settings.php:535 modules/zilax/module.info.php:5
+#: modules/zilax/widgets/zilax.php:31
+msgid "Zilax"
+msgstr ""
+
+#: admin/module-settings.php:549 admin/module-settings.php:556
+msgid "Asset Manager"
+msgstr ""
+
+#: admin/module-settings.php:550
+msgid ""
+"If you want to combine your JS and css and load in a single file so enable "
+"it. When you enable it all widgets css and JS will combine in a single file."
+msgstr ""
+
+#: assets/js/pg-editor.js:99
+#, javascript-format
+msgid "%s"
+msgstr ""
+
+#: assets/js/pg-editor.js:100
+#, javascript-format
+msgid ""
+"Use %s widget and dozens more pro features to extend your toolbox and build "
+"sites faster and better."
+msgstr ""
+
+#: includes/class-pro-widget-map.php:32
+msgid "See it in Action"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:19
+#: traits/global-widget-controls.php:1138
+msgid "Source"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:31
+msgid "Limit"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:40
+#: includes/controls/group-query/group-control-query.php:183
+msgid "Search & Select"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:65
+#: traits/global-terms-query-controls.php:60
+msgid "Include"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:75
+msgid "Include By"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:80
+#: includes/controls/group-query/group-control-query.php:92
+#: includes/controls/group-query/group-control-query.php:169
+#: includes/controls/group-query/group-control-query.php:203
+msgid "Authors"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:81
+#: includes/controls/group-query/group-control-query.php:109
+#: includes/controls/group-query/group-control-query.php:172
+#: includes/controls/group-query/group-control-query.php:220
+msgid "Terms"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:110
+#: includes/controls/group-query/group-control-query.php:221
+msgid ""
+"Terms are items in a taxonomy. The available taxonomies are: Categories, "
+"Tags, Formats and custom taxonomies."
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:114
+#: includes/controls/group-query/group-control-query.php:225
+msgid "Type and select terms"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:154
+#: traits/global-terms-query-controls.php:84
+msgid "Exclude"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:164
+msgid "Exclude By"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:170
+msgid "Current Post"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:171
+#: includes/controls/group-query/group-control-query.php:389
+#: includes/controls/group-query/group-control-query.php:780
+msgid "Manual Selection"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:254
+#: modules/fluid/widgets/fluid.php:155
+msgid "Offset"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:264
+#: includes/controls/group-query/group-control-query.php:317
+#: includes/controls/group-query/group-control-query.php:411
+#: modules/elixir/widgets/elixir.php:132 modules/mosaic/widgets/mosaic.php:390
+#: modules/panda/widgets/panda.php:352 modules/wisdom/widgets/wisdom.php:460
+#: traits/global-widget-controls.php:491 traits/global-widget-controls.php:873
+msgid "Date"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:268
+#: traits/global-terms-query-controls.php:27
+msgid "All"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:269
+msgid "Past Day"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:270
+msgid "Past Week"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:271
+msgid "Past Month"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:272
+msgid "Past Quarter"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:273
+msgid "Past Year"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:274
+#: modules/fluid/widgets/fluid.php:158
+msgid "Custom"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:285
+msgid "Before"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:287
+msgid ""
+"Setting a ‘Before’ date will show all the posts published until the chosen "
+"date (inclusive)."
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:298
+msgid "After"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:300
+msgid ""
+"Setting an ‘After’ date will show all the posts published since the chosen "
+"date (inclusive)."
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:311
+#: includes/controls/group-query/group-control-query.php:405
+#: traits/global-terms-query-controls.php:134
+msgid "Order By"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:315
+#: includes/controls/group-query/group-control-query.php:409
+#: modules/axen/widgets/axen.php:179 modules/fluid/widgets/fluid.php:137
+#: modules/fluid/widgets/fluid.php:442 modules/glam/widgets/glam.php:371
+#: modules/insta/widgets/insta.php:132 modules/lytical/widgets/lytical.php:236
+#: modules/mosaic/widgets/mosaic.php:268 modules/ranch/widgets/ranch.php:144
+#: modules/turbo/widgets/turbo.php:177 modules/wisdom/widgets/wisdom.php:160
+#: traits/global-widget-controls.php:288 traits/global-widget-controls.php:797
+msgid "Title"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:316
+#: includes/controls/group-query/group-control-query.php:410
+msgid "ID"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:318
+#: includes/controls/group-query/group-control-query.php:412
+msgid "Author"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:319
+#: includes/controls/group-query/group-control-query.php:413
+msgid "Comment Count"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:320
+#: includes/controls/group-query/group-control-query.php:414
+msgid "Menu Order"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:321
+#: includes/controls/group-query/group-control-query.php:415
+msgid "Random"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:331
+#: traits/global-terms-query-controls.php:150
+msgid "Order"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:335
+msgid "ASC"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:336
+msgid "DESC"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:347
+msgid "Ignore Sticky Posts"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:360
+msgid "Only Featured Image Post"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:361
+msgid "Enable to display posts only when featured image is present."
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:373
+msgid "Query ID"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:374
+msgid "Give your Query a custom unique id to allow server side filtering"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:390
+#: includes/controls/group-query/group-control-query.php:781
+msgid "Current Query"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:391
+#: includes/controls/group-query/group-control-query.php:782
+msgid "Related"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:416
+#: modules/tour/widgets/tour.php:105 modules/tour/widgets/tour.php:413
+msgid "Price"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:417
+msgid "Sales"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:425
+msgid "Show Product"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:429
+msgid "All Products"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:430
+msgid "On Sale"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:431
+msgid "Featured"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:442
+msgid "Hide Free Product"
+msgstr ""
+
+#: includes/controls/group-query/group-control-query.php:452
+msgid "Hide Out of Stock"
+msgstr ""
+
+#: includes/controls/select-input/dynamic-select-input-module.php:399
+msgid "Template Not Found!"
+msgstr ""
+
+#: includes/controls/select-input/dynamic-select-input-module.php:434
+msgid "AE Plugin Not Installed"
+msgstr ""
+
+#: includes/helper.php:69
+msgid "Multiply"
+msgstr ""
+
+#: includes/helper.php:70
+msgid "Screen"
+msgstr ""
+
+#: includes/helper.php:71 modules/doodle/widgets/doodle.php:124
+#: modules/fever/widgets/fever.php:128 modules/flame/widgets/flame.php:126
+#: modules/fluid/widgets/fluid.php:261 modules/mastery/widgets/mastery.php:151
+#: modules/mosaic/widgets/mosaic.php:129 modules/punch/widgets/punch.php:203
+#: modules/punch/widgets/punch.php:287 modules/tour/widgets/tour.php:174
+#: modules/wisdom/widgets/wisdom.php:234
+msgid "Overlay"
+msgstr ""
+
+#: includes/helper.php:72
+msgid "Darken"
+msgstr ""
+
+#: includes/helper.php:73
+msgid "Lighten"
+msgstr ""
+
+#: includes/helper.php:74
+msgid "Color-Dodge"
+msgstr ""
+
+#: includes/helper.php:75
+msgid "Color-Burn"
+msgstr ""
+
+#: includes/helper.php:76
+msgid "Hard-Light"
+msgstr ""
+
+#: includes/helper.php:77
+msgid "Soft-Light"
+msgstr ""
+
+#: includes/helper.php:78
+msgid "Difference"
+msgstr ""
+
+#: includes/helper.php:79
+msgid "Exclusion"
+msgstr ""
+
+#: includes/helper.php:80
+msgid "Hue"
+msgstr ""
+
+#: includes/helper.php:81
+msgid "Saturation"
+msgstr ""
+
+#: includes/helper.php:82 modules/doodle/widgets/doodle.php:309
+#: modules/elixir/widgets/elixir.php:377 modules/elixir/widgets/elixir.php:441
+#: modules/elixir/widgets/elixir.php:549 modules/epoch/widgets/epoch.php:378
+#: modules/epoch/widgets/epoch.php:470 modules/fluid/widgets/fluid.php:453
+#: modules/fluid/widgets/fluid.php:544 modules/fluid/widgets/fluid.php:647
+#: modules/fluid/widgets/fluid.php:718 modules/fluid/widgets/fluid.php:809
+#: modules/glam/widgets/glam.php:382 modules/glam/widgets/glam.php:466
+#: modules/glam/widgets/glam.php:531 modules/glam/widgets/glam.php:624
+#: modules/insta/widgets/insta.php:422 modules/insta/widgets/insta.php:545
+#: modules/koral/widgets/koral.php:315 modules/koral/widgets/koral.php:413
+#: modules/koral/widgets/koral.php:506 modules/lunar/widgets/lunar.php:250
+#: modules/lunar/widgets/lunar.php:348 modules/lunar/widgets/lunar.php:442
+#: modules/lytical/widgets/lytical.php:247
+#: modules/mosaic/widgets/mosaic.php:279 modules/mosaic/widgets/mosaic.php:401
+#: modules/mosaic/widgets/mosaic.php:516 modules/mosaic/widgets/mosaic.php:619
+#: modules/panda/widgets/panda.php:363 modules/plex/widgets/plex.php:307
+#: modules/plex/widgets/plex.php:400 modules/ranch/widgets/ranch.php:422
+#: modules/ranch/widgets/ranch.php:476 modules/ranch/widgets/ranch.php:600
+#: modules/sonic/widgets/sonic.php:301 modules/sonic/widgets/sonic.php:404
+#: modules/spirit/widgets/spirit.php:243 modules/spirit/widgets/spirit.php:336
+#: modules/tour/widgets/tour.php:424 modules/turbo/widgets/turbo.php:188
+#: modules/turbo/widgets/turbo.php:290 modules/verse/widgets/verse.php:347
+#: modules/verse/widgets/verse.php:455 modules/walden/widgets/walden.php:378
+#: modules/wisdom/widgets/wisdom.php:480 modules/wisdom/widgets/wisdom.php:508
+#: modules/wisdom/widgets/wisdom.php:568 modules/wisdom/widgets/wisdom.php:677
+#: modules/zilax/widgets/zilax.php:285 traits/global-widget-controls.php:244
+#: traits/global-widget-controls.php:299 traits/global-widget-controls.php:455
+#: traits/global-widget-controls.php:502 traits/global-widget-controls.php:549
+#: traits/global-widget-controls.php:606 traits/global-widget-controls.php:698
+msgid "Color"
+msgstr ""
+
+#: includes/helper.php:83
+msgid "Luminosity"
+msgstr ""
+
+#: loader.php:62 loader.php:73
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: loader.php:355
+msgctxt "User Login and Register"
+msgid "Login successful, Redirecting..."
+msgstr ""
+
+#: loader.php:362
+msgctxt "User Login and Register"
+msgid "Oops! Wrong username or password!"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:69 modules/craze/widgets/craze.php:59
+#: modules/doodle/widgets/doodle.php:59 modules/elixir/widgets/elixir.php:59
+#: modules/epoch/widgets/epoch.php:59 modules/fabric/widgets/fabric.php:59
+#: modules/fever/widgets/fever.php:59 modules/fixer/widgets/fixer.php:55
+#: modules/flame/widgets/flame.php:59 modules/fluid/widgets/fluid.php:58
+#: modules/glam/widgets/glam.php:55 modules/glaze/widgets/glaze.php:55
+#: modules/humble/widgets/humble.php:55 modules/insta/widgets/insta.php:55
+#: modules/koral/widgets/koral.php:55 modules/lumen/widgets/lumen.php:63
+#: modules/lunar/widgets/lunar.php:55 modules/lytical/widgets/lytical.php:62
+#: modules/marron/widgets/marron.php:62 modules/mastery/widgets/mastery.php:63
+#: modules/mosaic/widgets/mosaic.php:62 modules/mystic/widgets/mystic.php:63
+#: modules/nexus/widgets/nexus.php:62 modules/orbit/widgets/orbit.php:63
+#: modules/panda/widgets/panda.php:63 modules/plex/widgets/plex.php:62
+#: modules/plumb/widgets/plumb.php:63 modules/punch/widgets/punch.php:63
+#: modules/ranch/widgets/ranch.php:67 modules/remix/widgets/remix.php:63
+#: modules/ruby/widgets/ruby.php:63 modules/shark/widgets/shark.php:63
+#: modules/sonic/widgets/sonic.php:63 modules/spirit/widgets/spirit.php:63
+#: modules/tour/widgets/tour.php:59 modules/trance/widgets/trance.php:55
+#: modules/turbo/widgets/turbo.php:68 modules/verse/widgets/verse.php:59
+#: modules/walden/widgets/walden.php:59 modules/wisdom/widgets/wisdom.php:59
+#: modules/zilax/widgets/zilax.php:59
+msgid "Layout"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:77
+msgid "Select Source"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:81
+msgid "Custom Content"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:82
+msgid "Dynamic Query"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:104 traits/global-terms-query-controls.php:15
+msgid "Query"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:127 modules/axen/widgets/axen.php:324
+#: modules/craze/widgets/craze.php:102 modules/craze/widgets/craze.php:139
+#: modules/doodle/widgets/doodle.php:79 modules/doodle/widgets/doodle.php:116
+#: modules/elixir/widgets/elixir.php:90 modules/elixir/widgets/elixir.php:161
+#: modules/epoch/widgets/epoch.php:82 modules/epoch/widgets/epoch.php:141
+#: modules/fabric/widgets/fabric.php:101 modules/fever/widgets/fever.php:82
+#: modules/fever/widgets/fever.php:120 modules/fixer/widgets/fixer.php:75
+#: modules/fixer/widgets/fixer.php:112 modules/flame/widgets/flame.php:81
+#: modules/fluid/widgets/fluid.php:90 modules/fluid/widgets/fluid.php:253
+#: modules/glam/widgets/glam.php:77 modules/glam/widgets/glam.php:114
+#: modules/glaze/widgets/glaze.php:77 modules/glaze/widgets/glaze.php:114
+#: modules/humble/widgets/humble.php:124 modules/insta/widgets/insta.php:83
+#: modules/insta/widgets/insta.php:194 modules/koral/widgets/koral.php:77
+#: modules/koral/widgets/koral.php:114 modules/lumen/widgets/lumen.php:99
+#: modules/lunar/widgets/lunar.php:77 modules/lunar/widgets/lunar.php:114
+#: modules/lytical/widgets/lytical.php:82
+#: modules/lytical/widgets/lytical.php:120 modules/marron/widgets/marron.php:85
+#: modules/mastery/widgets/mastery.php:86
+#: modules/mastery/widgets/mastery.php:143 modules/mosaic/widgets/mosaic.php:84
+#: modules/mosaic/widgets/mosaic.php:121 modules/mystic/widgets/mystic.php:84
+#: modules/mystic/widgets/mystic.php:120 modules/nexus/widgets/nexus.php:83
+#: modules/nexus/widgets/nexus.php:119 modules/orbit/widgets/orbit.php:102
+#: modules/orbit/widgets/orbit.php:139 modules/panda/widgets/panda.php:85
+#: modules/panda/widgets/panda.php:144 modules/plex/widgets/plex.php:84
+#: modules/plex/widgets/plex.php:120 modules/plumb/widgets/plumb.php:85
+#: modules/punch/widgets/punch.php:85 modules/punch/widgets/punch.php:121
+#: modules/ranch/widgets/ranch.php:96 modules/ranch/widgets/ranch.php:206
+#: modules/remix/widgets/remix.php:103 modules/remix/widgets/remix.php:157
+#: modules/ruby/widgets/ruby.php:85 modules/ruby/widgets/ruby.php:122
+#: modules/shark/widgets/shark.php:84 modules/shark/widgets/shark.php:120
+#: modules/sonic/widgets/sonic.php:84 modules/sonic/widgets/sonic.php:119
+#: modules/spirit/widgets/spirit.php:84 modules/spirit/widgets/spirit.php:120
+#: modules/tour/widgets/tour.php:88 modules/tour/widgets/tour.php:166
+#: modules/trance/widgets/trance.php:75 modules/trance/widgets/trance.php:112
+#: modules/turbo/widgets/turbo.php:90 modules/verse/widgets/verse.php:81
+#: modules/verse/widgets/verse.php:118 modules/walden/widgets/walden.php:112
+#: modules/walden/widgets/walden.php:170 modules/wisdom/widgets/wisdom.php:90
+#: modules/wisdom/widgets/wisdom.php:226 modules/zilax/widgets/zilax.php:82
+msgid "Items"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:139 modules/axen/widgets/axen.php:443
+#: modules/craze/widgets/craze.php:111 modules/craze/widgets/craze.php:258
+#: modules/doodle/widgets/doodle.php:89 modules/elixir/widgets/elixir.php:100
+#: modules/elixir/widgets/elixir.php:280 modules/epoch/widgets/epoch.php:91
+#: modules/epoch/widgets/epoch.php:257 modules/fabric/widgets/fabric.php:110
+#: modules/fabric/widgets/fabric.php:232 modules/fever/widgets/fever.php:91
+#: modules/fixer/widgets/fixer.php:85 modules/fixer/widgets/fixer.php:231
+#: modules/flame/widgets/flame.php:90 modules/fluid/widgets/fluid.php:99
+#: modules/glam/widgets/glam.php:86 modules/glam/widgets/glam.php:233
+#: modules/glaze/widgets/glaze.php:86 modules/glaze/widgets/glaze.php:230
+#: modules/humble/widgets/humble.php:134 modules/humble/widgets/humble.php:162
+#: modules/insta/widgets/insta.php:93 modules/insta/widgets/insta.php:313
+#: modules/koral/widgets/koral.php:86 modules/koral/widgets/koral.php:231
+#: modules/lumen/widgets/lumen.php:109 modules/lumen/widgets/lumen.php:242
+#: modules/lunar/widgets/lunar.php:86 modules/lytical/widgets/lytical.php:91
+#: modules/marron/widgets/marron.php:94 modules/marron/widgets/marron.php:198
+#: modules/mastery/widgets/mastery.php:95 modules/mosaic/widgets/mosaic.php:93
+#: modules/mystic/widgets/mystic.php:93 modules/mystic/widgets/mystic.php:250
+#: modules/nexus/widgets/nexus.php:92 modules/orbit/widgets/orbit.php:111
+#: modules/orbit/widgets/orbit.php:258 modules/panda/widgets/panda.php:94
+#: modules/panda/widgets/panda.php:263 modules/plex/widgets/plex.php:93
+#: modules/plex/widgets/plex.php:239 modules/plumb/widgets/plumb.php:94
+#: modules/plumb/widgets/plumb.php:205 modules/punch/widgets/punch.php:94
+#: modules/ranch/widgets/ranch.php:105 modules/ranch/widgets/ranch.php:325
+#: modules/remix/widgets/remix.php:112 modules/ruby/widgets/ruby.php:94
+#: modules/shark/widgets/shark.php:93 modules/shark/widgets/shark.php:239
+#: modules/sonic/widgets/sonic.php:93 modules/sonic/widgets/sonic.php:213
+#: modules/spirit/widgets/spirit.php:93 modules/tour/widgets/tour.php:97
+#: modules/tour/widgets/tour.php:334 modules/trance/widgets/trance.php:85
+#: modules/trance/widgets/trance.php:231 modules/turbo/widgets/turbo.php:99
+#: modules/verse/widgets/verse.php:90 modules/verse/widgets/verse.php:237
+#: modules/walden/widgets/walden.php:121 modules/wisdom/widgets/wisdom.php:99
+#: modules/zilax/widgets/zilax.php:91 modules/zilax/widgets/zilax.php:204
+msgid "Content"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:152 modules/craze/widgets/craze.php:125
+#: modules/doodle/widgets/doodle.php:102 modules/elixir/widgets/elixir.php:147
+#: modules/epoch/widgets/epoch.php:127 modules/fabric/widgets/fabric.php:124
+#: modules/fever/widgets/fever.php:106 modules/fixer/widgets/fixer.php:98
+#: modules/flame/widgets/flame.php:103 modules/fluid/widgets/fluid.php:112
+#: modules/glam/widgets/glam.php:100 modules/glaze/widgets/glaze.php:100
+#: modules/humble/widgets/humble.php:148 modules/insta/widgets/insta.php:106
+#: modules/koral/widgets/koral.php:100 modules/lumen/widgets/lumen.php:122
+#: modules/lunar/widgets/lunar.php:100 modules/lytical/widgets/lytical.php:106
+#: modules/marron/widgets/marron.php:109
+#: modules/mastery/widgets/mastery.php:129
+#: modules/mosaic/widgets/mosaic.php:107 modules/mystic/widgets/mystic.php:106
+#: modules/nexus/widgets/nexus.php:105 modules/orbit/widgets/orbit.php:125
+#: modules/panda/widgets/panda.php:128 modules/plex/widgets/plex.php:106
+#: modules/plumb/widgets/plumb.php:108 modules/punch/widgets/punch.php:107
+#: modules/ranch/widgets/ranch.php:118 modules/remix/widgets/remix.php:126
+#: modules/ruby/widgets/ruby.php:108 modules/shark/widgets/shark.php:106
+#: modules/sonic/widgets/sonic.php:105 modules/spirit/widgets/spirit.php:106
+#: modules/tour/widgets/tour.php:152 modules/trance/widgets/trance.php:98
+#: modules/turbo/widgets/turbo.php:112 modules/verse/widgets/verse.php:104
+#: modules/walden/widgets/walden.php:156 modules/wisdom/widgets/wisdom.php:135
+#: modules/zilax/widgets/zilax.php:105
+msgid "Grid"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:166
+msgid "Gallery Builder"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:184 traits/global-widget-controls.php:802
+msgid "Gallery Title Here"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:185 traits/global-widget-controls.php:803
+msgid "Enter your title"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:193 traits/global-widget-controls.php:931
+msgid "Column Span"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:221 traits/global-widget-controls.php:959
+msgid "Row Span"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:249 modules/doodle/widgets/doodle.php:320
+#: modules/remix/widgets/remix.php:133 traits/global-widget-controls.php:907
+msgid "Height"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:267 traits/global-widget-controls.php:1035
+msgid "Item Hidden"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:277 traits/global-widget-controls.php:1045
+msgid "Blank Space Hide on Tablet"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:290 traits/global-widget-controls.php:1058
+msgid "Item Hide on Mobile"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:308
+msgid "Gallery Item #1"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:309
+msgid "Gallery Item #2"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:310
+msgid "Gallery Item #3"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:311
+msgid "Gallery Item #4"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:312
+msgid "Gallery Item #5"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:313
+msgid "Gallery Item #6"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:334 modules/craze/widgets/craze.php:149
+#: modules/doodle/widgets/doodle.php:178 modules/elixir/widgets/elixir.php:171
+#: modules/elixir/widgets/elixir.php:434 modules/epoch/widgets/epoch.php:151
+#: modules/epoch/widgets/epoch.php:371 modules/fabric/widgets/fabric.php:148
+#: modules/fever/widgets/fever.php:179 modules/fixer/widgets/fixer.php:122
+#: modules/fluid/widgets/fluid.php:315 modules/fluid/widgets/fluid.php:537
+#: modules/fluid/widgets/fluid.php:711 modules/glam/widgets/glam.php:124
+#: modules/glam/widgets/glam.php:243 modules/glam/widgets/glam.php:524
+#: modules/glaze/widgets/glaze.php:124 modules/insta/widgets/insta.php:204
+#: modules/insta/widgets/insta.php:415 modules/koral/widgets/koral.php:124
+#: modules/koral/widgets/koral.php:406 modules/lumen/widgets/lumen.php:146
+#: modules/lunar/widgets/lunar.php:124 modules/lunar/widgets/lunar.php:341
+#: modules/lytical/widgets/lytical.php:130
+#: modules/mastery/widgets/mastery.php:205
+#: modules/mosaic/widgets/mosaic.php:183 modules/mosaic/widgets/mosaic.php:509
+#: modules/mystic/widgets/mystic.php:130 modules/nexus/widgets/nexus.php:129
+#: modules/orbit/widgets/orbit.php:149 modules/panda/widgets/panda.php:154
+#: modules/plex/widgets/plex.php:130 modules/plex/widgets/plex.php:300
+#: modules/plumb/widgets/plumb.php:132 modules/punch/widgets/punch.php:131
+#: modules/ranch/widgets/ranch.php:216 modules/ranch/widgets/ranch.php:469
+#: modules/remix/widgets/remix.php:240 modules/shark/widgets/shark.php:130
+#: modules/sonic/widgets/sonic.php:129 modules/sonic/widgets/sonic.php:294
+#: modules/spirit/widgets/spirit.php:130 modules/spirit/widgets/spirit.php:236
+#: modules/tour/widgets/tour.php:225 modules/trance/widgets/trance.php:122
+#: modules/verse/widgets/verse.php:128 modules/verse/widgets/verse.php:340
+#: modules/walden/widgets/walden.php:227 modules/wisdom/widgets/wisdom.php:288
+#: modules/wisdom/widgets/wisdom.php:561 modules/zilax/widgets/zilax.php:129
+#: traits/global-widget-controls.php:599
+msgid "Normal"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:342 modules/axen/widgets/axen.php:452
+#: modules/craze/widgets/craze.php:157 modules/craze/widgets/craze.php:267
+#: modules/doodle/widgets/doodle.php:129 modules/doodle/widgets/doodle.php:139
+#: modules/doodle/widgets/doodle.php:186 modules/doodle/widgets/doodle.php:260
+#: modules/elixir/widgets/elixir.php:179 modules/elixir/widgets/elixir.php:289
+#: modules/fever/widgets/fever.php:133 modules/fever/widgets/fever.php:143
+#: modules/fixer/widgets/fixer.php:130 modules/fixer/widgets/fixer.php:240
+#: modules/flame/widgets/flame.php:131 modules/flame/widgets/flame.php:141
+#: modules/fluid/widgets/fluid.php:266 modules/fluid/widgets/fluid.php:276
+#: modules/fluid/widgets/fluid.php:323 modules/fluid/widgets/fluid.php:404
+#: modules/fluid/widgets/fluid.php:556 modules/fluid/widgets/fluid.php:660
+#: modules/glam/widgets/glam.php:132 modules/glam/widgets/glam.php:251
+#: modules/glam/widgets/glam.php:333 modules/humble/widgets/humble.php:171
+#: modules/insta/widgets/insta.php:212 modules/insta/widgets/insta.php:322
+#: modules/koral/widgets/koral.php:132 modules/koral/widgets/koral.php:240
+#: modules/koral/widgets/koral.php:327 modules/lunar/widgets/lunar.php:132
+#: modules/lunar/widgets/lunar.php:262 modules/marron/widgets/marron.php:132
+#: modules/marron/widgets/marron.php:207
+#: modules/mastery/widgets/mastery.php:156
+#: modules/mastery/widgets/mastery.php:166
+#: modules/mastery/widgets/mastery.php:213
+#: modules/mosaic/widgets/mosaic.php:134 modules/mosaic/widgets/mosaic.php:144
+#: modules/mosaic/widgets/mosaic.php:291 modules/mosaic/widgets/mosaic.php:413
+#: modules/mosaic/widgets/mosaic.php:528 modules/mosaic/widgets/mosaic.php:632
+#: modules/mystic/widgets/mystic.php:138 modules/mystic/widgets/mystic.php:259
+#: modules/orbit/widgets/orbit.php:157 modules/orbit/widgets/orbit.php:267
+#: modules/panda/widgets/panda.php:162 modules/panda/widgets/panda.php:272
+#: modules/panda/widgets/panda.php:375 modules/plex/widgets/plex.php:138
+#: modules/plex/widgets/plex.php:248 modules/plumb/widgets/plumb.php:215
+#: modules/punch/widgets/punch.php:139 modules/punch/widgets/punch.php:208
+#: modules/punch/widgets/punch.php:219 modules/punch/widgets/punch.php:292
+#: modules/punch/widgets/punch.php:303 modules/ranch/widgets/ranch.php:224
+#: modules/ranch/widgets/ranch.php:334 modules/shark/widgets/shark.php:138
+#: modules/shark/widgets/shark.php:248 modules/sonic/widgets/sonic.php:313
+#: modules/sonic/widgets/sonic.php:416 modules/tour/widgets/tour.php:179
+#: modules/tour/widgets/tour.php:189 modules/tour/widgets/tour.php:233
+#: modules/tour/widgets/tour.php:436 modules/trance/widgets/trance.php:130
+#: modules/trance/widgets/trance.php:240 modules/verse/widgets/verse.php:136
+#: modules/verse/widgets/verse.php:246 modules/walden/widgets/walden.php:235
+#: modules/walden/widgets/walden.php:317 modules/wisdom/widgets/wisdom.php:239
+#: modules/wisdom/widgets/wisdom.php:249 modules/wisdom/widgets/wisdom.php:296
+#: modules/wisdom/widgets/wisdom.php:378 modules/zilax/widgets/zilax.php:214
+msgid "Background"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:361 modules/axen/widgets/axen.php:479
+#: modules/craze/widgets/craze.php:176 modules/craze/widgets/craze.php:294
+#: modules/doodle/widgets/doodle.php:205 modules/elixir/widgets/elixir.php:198
+#: modules/elixir/widgets/elixir.php:468 modules/epoch/widgets/epoch.php:175
+#: modules/epoch/widgets/epoch.php:317 modules/epoch/widgets/epoch.php:409
+#: modules/fabric/widgets/fabric.php:175 modules/fever/widgets/fever.php:195
+#: modules/fixer/widgets/fixer.php:149 modules/fixer/widgets/fixer.php:267
+#: modules/flame/widgets/flame.php:190 modules/fluid/widgets/fluid.php:350
+#: modules/fluid/widgets/fluid.php:586 modules/fluid/widgets/fluid.php:748
+#: modules/glam/widgets/glam.php:151 modules/glam/widgets/glam.php:278
+#: modules/glam/widgets/glam.php:563 modules/glaze/widgets/glaze.php:148
+#: modules/glaze/widgets/glaze.php:255 modules/glaze/widgets/glaze.php:330
+#: modules/humble/widgets/humble.php:198 modules/humble/widgets/humble.php:250
+#: modules/insta/widgets/insta.php:231 modules/insta/widgets/insta.php:349
+#: modules/insta/widgets/insta.php:451 modules/koral/widgets/koral.php:149
+#: modules/koral/widgets/koral.php:259 modules/koral/widgets/koral.php:346
+#: modules/koral/widgets/koral.php:445 modules/lumen/widgets/lumen.php:173
+#: modules/lumen/widgets/lumen.php:267 modules/lunar/widgets/lunar.php:151
+#: modules/lunar/widgets/lunar.php:281 modules/lunar/widgets/lunar.php:380
+#: modules/lytical/widgets/lytical.php:154
+#: modules/lytical/widgets/lytical.php:275
+#: modules/marron/widgets/marron.php:151 modules/marron/widgets/marron.php:226
+#: modules/mastery/widgets/mastery.php:240
+#: modules/mosaic/widgets/mosaic.php:199 modules/mosaic/widgets/mosaic.php:318
+#: modules/mosaic/widgets/mosaic.php:440 modules/mosaic/widgets/mosaic.php:558
+#: modules/mystic/widgets/mystic.php:168 modules/mystic/widgets/mystic.php:286
+#: modules/mystic/widgets/mystic.php:349 modules/nexus/widgets/nexus.php:145
+#: modules/orbit/widgets/orbit.php:176 modules/orbit/widgets/orbit.php:294
+#: modules/panda/widgets/panda.php:181 modules/panda/widgets/panda.php:299
+#: modules/panda/widgets/panda.php:402 modules/plex/widgets/plex.php:157
+#: modules/plex/widgets/plex.php:338 modules/plumb/widgets/plumb.php:148
+#: modules/punch/widgets/punch.php:158 modules/ranch/widgets/ranch.php:243
+#: modules/ranch/widgets/ranch.php:361 modules/ranch/widgets/ranch.php:506
+#: modules/remix/widgets/remix.php:182 modules/remix/widgets/remix.php:256
+#: modules/remix/widgets/remix.php:297 modules/shark/widgets/shark.php:157
+#: modules/shark/widgets/shark.php:275 modules/sonic/widgets/sonic.php:144
+#: modules/sonic/widgets/sonic.php:238 modules/sonic/widgets/sonic.php:343
+#: modules/spirit/widgets/spirit.php:162 modules/spirit/widgets/spirit.php:274
+#: modules/tour/widgets/tour.php:252 modules/tour/widgets/tour.php:351
+#: modules/trance/widgets/trance.php:149 modules/trance/widgets/trance.php:267
+#: modules/turbo/widgets/turbo.php:143 modules/turbo/widgets/turbo.php:216
+#: modules/turbo/widgets/turbo.php:318 modules/verse/widgets/verse.php:155
+#: modules/verse/widgets/verse.php:374 modules/walden/widgets/walden.php:262
+#: modules/wisdom/widgets/wisdom.php:323 modules/wisdom/widgets/wisdom.php:432
+#: modules/wisdom/widgets/wisdom.php:600 modules/zilax/widgets/zilax.php:147
+#: modules/zilax/widgets/zilax.php:232 traits/global-widget-controls.php:637
+msgid "Border Radius"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:373 modules/axen/widgets/axen.php:491
+#: modules/craze/widgets/craze.php:188 modules/craze/widgets/craze.php:306
+#: modules/doodle/widgets/doodle.php:217 modules/elixir/widgets/elixir.php:210
+#: modules/elixir/widgets/elixir.php:328 modules/elixir/widgets/elixir.php:480
+#: modules/epoch/widgets/epoch.php:187 modules/epoch/widgets/epoch.php:265
+#: modules/epoch/widgets/epoch.php:421 modules/fabric/widgets/fabric.php:268
+#: modules/fever/widgets/fever.php:207 modules/fever/widgets/fever.php:284
+#: modules/fixer/widgets/fixer.php:161 modules/fixer/widgets/fixer.php:279
+#: modules/fluid/widgets/fluid.php:362 modules/fluid/widgets/fluid.php:472
+#: modules/fluid/widgets/fluid.php:598 modules/fluid/widgets/fluid.php:760
+#: modules/glam/widgets/glam.php:163 modules/glam/widgets/glam.php:290
+#: modules/glam/widgets/glam.php:404 modules/glam/widgets/glam.php:575
+#: modules/glaze/widgets/glaze.php:160 modules/glaze/widgets/glaze.php:267
+#: modules/glaze/widgets/glaze.php:342 modules/humble/widgets/humble.php:210
+#: modules/insta/widgets/insta.php:243 modules/insta/widgets/insta.php:361
+#: modules/insta/widgets/insta.php:463 modules/koral/widgets/koral.php:161
+#: modules/koral/widgets/koral.php:271 modules/koral/widgets/koral.php:358
+#: modules/koral/widgets/koral.php:457 modules/lumen/widgets/lumen.php:185
+#: modules/lumen/widgets/lumen.php:279 modules/lunar/widgets/lunar.php:163
+#: modules/lunar/widgets/lunar.php:293 modules/lunar/widgets/lunar.php:393
+#: modules/lytical/widgets/lytical.php:166
+#: modules/lytical/widgets/lytical.php:287
+#: modules/marron/widgets/marron.php:163 modules/marron/widgets/marron.php:238
+#: modules/mastery/widgets/mastery.php:252
+#: modules/mosaic/widgets/mosaic.php:211 modules/mosaic/widgets/mosaic.php:330
+#: modules/mosaic/widgets/mosaic.php:452 modules/mosaic/widgets/mosaic.php:570
+#: modules/mystic/widgets/mystic.php:180 modules/mystic/widgets/mystic.php:298
+#: modules/nexus/widgets/nexus.php:157 modules/orbit/widgets/orbit.php:188
+#: modules/orbit/widgets/orbit.php:306 modules/panda/widgets/panda.php:193
+#: modules/panda/widgets/panda.php:311 modules/panda/widgets/panda.php:414
+#: modules/plex/widgets/plex.php:169 modules/plex/widgets/plex.php:258
+#: modules/plex/widgets/plex.php:351 modules/plumb/widgets/plumb.php:235
+#: modules/punch/widgets/punch.php:170 modules/ranch/widgets/ranch.php:255
+#: modules/ranch/widgets/ranch.php:373 modules/ranch/widgets/ranch.php:518
+#: modules/remix/widgets/remix.php:194 modules/ruby/widgets/ruby.php:143
+#: modules/shark/widgets/shark.php:169 modules/shark/widgets/shark.php:287
+#: modules/sonic/widgets/sonic.php:156 modules/sonic/widgets/sonic.php:250
+#: modules/sonic/widgets/sonic.php:355 modules/spirit/widgets/spirit.php:287
+#: modules/tour/widgets/tour.php:264 modules/tour/widgets/tour.php:363
+#: modules/trance/widgets/trance.php:161 modules/trance/widgets/trance.php:279
+#: modules/turbo/widgets/turbo.php:228 modules/turbo/widgets/turbo.php:330
+#: modules/verse/widgets/verse.php:167 modules/verse/widgets/verse.php:285
+#: modules/verse/widgets/verse.php:386 modules/walden/widgets/walden.php:274
+#: modules/wisdom/widgets/wisdom.php:335 modules/wisdom/widgets/wisdom.php:612
+#: modules/zilax/widgets/zilax.php:244 traits/global-widget-controls.php:310
+#: traits/global-widget-controls.php:649
+msgid "Padding"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:386 modules/axen/widgets/axen.php:504
+#: modules/craze/widgets/craze.php:201 modules/craze/widgets/craze.php:319
+#: modules/doodle/widgets/doodle.php:230 modules/elixir/widgets/elixir.php:223
+#: modules/elixir/widgets/elixir.php:341 modules/elixir/widgets/elixir.php:399
+#: modules/elixir/widgets/elixir.php:492 modules/epoch/widgets/epoch.php:200
+#: modules/epoch/widgets/epoch.php:278 modules/epoch/widgets/epoch.php:329
+#: modules/epoch/widgets/epoch.php:433 modules/fabric/widgets/fabric.php:281
+#: modules/fever/widgets/fever.php:220 modules/fever/widgets/fever.php:297
+#: modules/fixer/widgets/fixer.php:174 modules/fixer/widgets/fixer.php:292
+#: modules/flame/widgets/flame.php:202 modules/fluid/widgets/fluid.php:374
+#: modules/fluid/widgets/fluid.php:484 modules/fluid/widgets/fluid.php:610
+#: modules/fluid/widgets/fluid.php:772 modules/glam/widgets/glam.php:176
+#: modules/glam/widgets/glam.php:303 modules/glam/widgets/glam.php:416
+#: modules/glam/widgets/glam.php:488 modules/glam/widgets/glam.php:587
+#: modules/glaze/widgets/glaze.php:173 modules/glaze/widgets/glaze.php:280
+#: modules/insta/widgets/insta.php:256 modules/insta/widgets/insta.php:374
+#: modules/insta/widgets/insta.php:475 modules/koral/widgets/koral.php:174
+#: modules/koral/widgets/koral.php:284 modules/koral/widgets/koral.php:370
+#: modules/koral/widgets/koral.php:469 modules/lumen/widgets/lumen.php:291
+#: modules/lunar/widgets/lunar.php:176 modules/lunar/widgets/lunar.php:305
+#: modules/lunar/widgets/lunar.php:405 modules/lytical/widgets/lytical.php:179
+#: modules/lytical/widgets/lytical.php:300
+#: modules/marron/widgets/marron.php:176 modules/marron/widgets/marron.php:250
+#: modules/mastery/widgets/mastery.php:265
+#: modules/mosaic/widgets/mosaic.php:343 modules/mosaic/widgets/mosaic.php:465
+#: modules/mosaic/widgets/mosaic.php:582 modules/mystic/widgets/mystic.php:193
+#: modules/mystic/widgets/mystic.php:310 modules/mystic/widgets/mystic.php:361
+#: modules/orbit/widgets/orbit.php:201 modules/orbit/widgets/orbit.php:319
+#: modules/panda/widgets/panda.php:206 modules/panda/widgets/panda.php:324
+#: modules/panda/widgets/panda.php:426 modules/plex/widgets/plex.php:182
+#: modules/plex/widgets/plex.php:270 modules/plex/widgets/plex.php:363
+#: modules/plumb/widgets/plumb.php:248 modules/punch/widgets/punch.php:183
+#: modules/ranch/widgets/ranch.php:268 modules/ranch/widgets/ranch.php:386
+#: modules/ranch/widgets/ranch.php:434 modules/ranch/widgets/ranch.php:530
+#: modules/remix/widgets/remix.php:207 modules/remix/widgets/remix.php:268
+#: modules/shark/widgets/shark.php:182 modules/shark/widgets/shark.php:300
+#: modules/sonic/widgets/sonic.php:263 modules/sonic/widgets/sonic.php:367
+#: modules/spirit/widgets/spirit.php:299 modules/tour/widgets/tour.php:277
+#: modules/tour/widgets/tour.php:376 modules/tour/widgets/tour.php:446
+#: modules/trance/widgets/trance.php:174 modules/trance/widgets/trance.php:292
+#: modules/turbo/widgets/turbo.php:155 modules/turbo/widgets/turbo.php:240
+#: modules/turbo/widgets/turbo.php:342 modules/verse/widgets/verse.php:180
+#: modules/verse/widgets/verse.php:298 modules/verse/widgets/verse.php:398
+#: modules/walden/widgets/walden.php:287 modules/walden/widgets/walden.php:389
+#: modules/wisdom/widgets/wisdom.php:348 modules/wisdom/widgets/wisdom.php:519
+#: modules/zilax/widgets/zilax.php:257 modules/zilax/widgets/zilax.php:296
+#: traits/global-widget-controls.php:255 traits/global-widget-controls.php:322
+#: traits/global-widget-controls.php:466 traits/global-widget-controls.php:513
+#: traits/global-widget-controls.php:560 traits/global-widget-controls.php:661
+msgid "Margin"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:408 modules/craze/widgets/craze.php:223
+#: modules/doodle/widgets/doodle.php:252 modules/elixir/widgets/elixir.php:245
+#: modules/elixir/widgets/elixir.php:542 modules/epoch/widgets/epoch.php:222
+#: modules/epoch/widgets/epoch.php:463 modules/fabric/widgets/fabric.php:197
+#: modules/fever/widgets/fever.php:242 modules/fixer/widgets/fixer.php:196
+#: modules/fluid/widgets/fluid.php:396 modules/fluid/widgets/fluid.php:640
+#: modules/fluid/widgets/fluid.php:802 modules/glam/widgets/glam.php:198
+#: modules/glam/widgets/glam.php:325 modules/glam/widgets/glam.php:617
+#: modules/glaze/widgets/glaze.php:195 modules/insta/widgets/insta.php:278
+#: modules/insta/widgets/insta.php:538 modules/koral/widgets/koral.php:196
+#: modules/koral/widgets/koral.php:499 modules/lumen/widgets/lumen.php:207
+#: modules/lunar/widgets/lunar.php:198 modules/lunar/widgets/lunar.php:435
+#: modules/lytical/widgets/lytical.php:201
+#: modules/mastery/widgets/mastery.php:287
+#: modules/mosaic/widgets/mosaic.php:233 modules/mosaic/widgets/mosaic.php:612
+#: modules/mystic/widgets/mystic.php:215 modules/nexus/widgets/nexus.php:179
+#: modules/orbit/widgets/orbit.php:223 modules/panda/widgets/panda.php:228
+#: modules/plex/widgets/plex.php:204 modules/plex/widgets/plex.php:393
+#: modules/plumb/widgets/plumb.php:170 modules/punch/widgets/punch.php:258
+#: modules/ranch/widgets/ranch.php:290 modules/ranch/widgets/ranch.php:593
+#: modules/remix/widgets/remix.php:290 modules/shark/widgets/shark.php:204
+#: modules/sonic/widgets/sonic.php:178 modules/sonic/widgets/sonic.php:397
+#: modules/spirit/widgets/spirit.php:184 modules/spirit/widgets/spirit.php:329
+#: modules/tour/widgets/tour.php:299 modules/trance/widgets/trance.php:196
+#: modules/verse/widgets/verse.php:202 modules/verse/widgets/verse.php:448
+#: modules/walden/widgets/walden.php:309 modules/wisdom/widgets/wisdom.php:370
+#: modules/wisdom/widgets/wisdom.php:670 modules/zilax/widgets/zilax.php:169
+#: traits/global-widget-controls.php:691
+msgid "Hover"
+msgstr ""
+
+#: modules/axen/widgets/axen.php:415 modules/craze/widgets/craze.php:230
+#: modules/doodle/widgets/doodle.php:270 modules/elixir/widgets/elixir.php:252
+#: modules/elixir/widgets/elixir.php:568 modules/epoch/widgets/epoch.php:229
+#: modules/epoch/widgets/epoch.php:489 modules/fabric/widgets/fabric.php:204
+#: modules/fever/widgets/fever.php:249 modules/fixer/widgets/fixer.php:203
+#: modules/fluid/widgets/fluid.php:414 modules/fluid/widgets/fluid.php:678
+#: modules/fluid/widgets/fluid.php:829 modules/glam/widgets/glam.php:205
+#: modules/glam/widgets/glam.php:343 modules/glam/widgets/glam.php:644
+#: modules/glaze/widgets/glaze.php:202 modules/insta/widgets/insta.php:285
+#: modules/insta/widgets/insta.php:564 modules/koral/widgets/koral.php:203
+#: modules/koral/widgets/koral.php:526 modules/lumen/widgets/lumen.php:214
+#: modules/lunar/widgets/lunar.php:205 modules/lunar/widgets/lunar.php:462
+#: modules/lytical/widgets/lytical.php:208
+#: modules/mastery/widgets/mastery.php:294
+#: modules/mosaic/widgets/mosaic.php:240 modules/mosaic/widgets/mosaic.php:650
+#: modules/mystic/widgets/mystic.php:222 modules/nexus/widgets/nexus.php:208
+#: modules/orbit/widgets/orbit.php:230 modules/panda/widgets/panda.php:235
+#: modules/plex/widgets/plex.php:211 modules/plex/widgets/plex.php:419
+#: modules/plumb/widgets/plumb.php:177 modules/punch/widgets/punch.php:265
+#: modules/ranch/widgets/ranch.php:297 modules/ranch/widgets/ranch.php:619
+#: modules/shark/widgets/shark.php:211 modules/sonic/widgets/sonic.php:185
+#: modules/sonic/widgets/sonic.php:434 modules/spirit/widgets/spirit.php:191
+#: modules/spirit/widgets/spirit.php:357 modules/tour/widgets/tour.php:306
+#: modules/trance/widgets/trance.php:203 modules/verse/widgets/verse.php:209
+#: modules/verse/widgets/verse.php:475 modules/walden/widgets/walden.php:327
+#: modules/wisdom/widgets/wisdom.php:388 modules/wisdom/widgets/wisdom.php:699
+#: modules/zilax/widgets/zilax.php:176 traits/global-widget-controls.php:717
+msgid "Border Color"
+msgstr ""
+
+#: modules/craze/widgets/craze.php:71 modules/orbit/widgets/orbit.php:75
+msgid "Content Width"
+msgstr ""
+
+#: modules/doodle/widgets/doodle.php:128 modules/fever/widgets/fever.php:132
+#: modules/flame/widgets/flame.php:130 modules/fluid/widgets/fluid.php:157
+#: modules/fluid/widgets/fluid.php:265 modules/mastery/widgets/mastery.php:155
+#: modules/mosaic/widgets/mosaic.php:133 modules/punch/widgets/punch.php:207
+#: modules/punch/widgets/punch.php:291 modules/tour/widgets/tour.php:178
+#: modules/wisdom/widgets/wisdom.php:238 traits/global-widget-controls.php:744
+msgid "None"
+msgstr ""
+
+#: modules/doodle/widgets/doodle.php:130 modules/fever/widgets/fever.php:134
+#: modules/flame/widgets/flame.php:132 modules/fluid/widgets/fluid.php:267
+#: modules/mastery/widgets/mastery.php:157
+#: modules/mosaic/widgets/mosaic.php:135 modules/punch/widgets/punch.php:209
+#: modules/punch/widgets/punch.php:293 modules/tour/widgets/tour.php:180
+#: modules/wisdom/widgets/wisdom.php:240
+msgid "Blend"
+msgstr ""
+
+#: modules/doodle/widgets/doodle.php:160 modules/fever/widgets/fever.php:161
+#: modules/flame/widgets/flame.php:165 modules/fluid/widgets/fluid.php:297
+#: modules/mastery/widgets/mastery.php:187
+#: modules/mosaic/widgets/mosaic.php:165 modules/punch/widgets/punch.php:243
+#: modules/punch/widgets/punch.php:327 modules/tour/widgets/tour.php:210
+#: modules/wisdom/widgets/wisdom.php:270
+msgid "Blend Type"
+msgstr ""
+
+#: modules/doodle/widgets/doodle.php:301
+msgid "Line"
+msgstr ""
+
+#: modules/doodle/widgets/doodle.php:337
+msgid "Width"
+msgstr ""
+
+#: modules/doodle/widgets/doodle.php:354
+msgid "Spacing"
+msgstr ""
+
+#: modules/elixir/widgets/elixir.php:73
+msgid "Show category"
+msgstr ""
+
+#: modules/elixir/widgets/elixir.php:110 modules/elixir/widgets/elixir.php:112
+#: modules/elixir/widgets/elixir.php:421
+msgid "Category"
+msgstr ""
+
+#: modules/elixir/widgets/elixir.php:113
+msgid "Category Text"
+msgstr ""
+
+#: modules/elixir/widgets/elixir.php:121 modules/elixir/widgets/elixir.php:124
+msgid "Author Name"
+msgstr ""
+
+#: modules/elixir/widgets/elixir.php:123
+msgid "Adam Smith"
+msgstr ""
+
+#: modules/elixir/widgets/elixir.php:134
+msgid "April 22, 2022"
+msgstr ""
+
+#: modules/elixir/widgets/elixir.php:135 traits/global-widget-controls.php:876
+msgid "Date Text"
+msgstr ""
+
+#: modules/elixir/widgets/elixir.php:366 modules/glam/widgets/glam.php:455
+#: modules/plex/widgets/plex.php:287 modules/ranch/widgets/ranch.php:411
+#: modules/turbo/widgets/turbo.php:279 modules/walden/widgets/walden.php:358
+#: modules/zilax/widgets/zilax.php:274 traits/global-widget-controls.php:444
+#: traits/global-widget-controls.php:820
+msgid "Meta"
+msgstr ""
+
+#: modules/elixir/widgets/elixir.php:388 modules/glam/widgets/glam.php:393
+#: modules/glam/widgets/glam.php:477
+msgid "Hover Color"
+msgstr ""
+
+#: modules/elixir/widgets/elixir.php:504 modules/humble/widgets/humble.php:103
+#: modules/insta/widgets/insta.php:512 modules/ranch/widgets/ranch.php:567
+#: modules/verse/widgets/verse.php:410 modules/zilax/widgets/zilax.php:308
+msgid "Space Between"
+msgstr ""
+
+#: modules/elixir/widgets/elixir.php:532 modules/verse/widgets/verse.php:438
+msgid "Typography"
+msgstr ""
+
+#: modules/elixir/widgets/elixir.php:597
+msgctxt "Frontend"
+msgid "by"
+msgstr ""
+
+#: modules/epoch/widgets/epoch.php:101
+msgid "Zoom Button"
+msgstr ""
+
+#: modules/epoch/widgets/epoch.php:103
+msgid "zoom"
+msgstr ""
+
+#: modules/epoch/widgets/epoch.php:104 modules/epoch/widgets/epoch.php:115
+msgid "Button Text"
+msgstr ""
+
+#: modules/epoch/widgets/epoch.php:112
+msgid "View Button"
+msgstr ""
+
+#: modules/epoch/widgets/epoch.php:114
+msgid "view"
+msgstr ""
+
+#: modules/epoch/widgets/epoch.php:292 modules/fabric/widgets/fabric.php:138
+#: modules/flame/widgets/flame.php:117 modules/glaze/widgets/glaze.php:302
+#: modules/humble/widgets/humble.php:232 modules/marron/widgets/marron.php:123
+#: modules/mystic/widgets/mystic.php:332 modules/plumb/widgets/plumb.php:122
+#: modules/remix/widgets/remix.php:230 modules/turbo/widgets/turbo.php:126
+#: modules/wisdom/widgets/wisdom.php:416 modules/zilax/widgets/zilax.php:119
+#: traits/global-widget-controls.php:1081
+#: traits/global-widget-controls.php:1100
+msgid "Image"
+msgstr ""
+
+#: modules/epoch/widgets/epoch.php:357 modules/sonic/widgets/sonic.php:280
+msgid "Link Button"
+msgstr ""
+
+#: modules/epoch/widgets/epoch.php:398 modules/fluid/widgets/fluid.php:575
+#: modules/glam/widgets/glam.php:552 modules/insta/widgets/insta.php:441
+#: modules/koral/widgets/koral.php:434 modules/lunar/widgets/lunar.php:369
+#: modules/mosaic/widgets/mosaic.php:547 modules/plex/widgets/plex.php:327
+#: modules/ranch/widgets/ranch.php:496 modules/sonic/widgets/sonic.php:332
+#: modules/spirit/widgets/spirit.php:263 traits/global-widget-controls.php:626
+msgid "Border"
+msgstr ""
+
+#: modules/fabric/widgets/fabric.php:70 modules/remix/widgets/remix.php:73
+#: traits/global-widget-controls.php:173
+msgid "Item Height"
+msgstr ""
+
+#: modules/fabric/widgets/fabric.php:156 modules/lumen/widgets/lumen.php:154
+msgid "Image Overlay"
+msgstr ""
+
+#: modules/fabric/widgets/fabric.php:240
+msgid "Animated Border Color"
+msgstr ""
+
+#: modules/fabric/widgets/fabric.php:251
+msgid "Animated Border Width"
+msgstr ""
+
+#: modules/fever/widgets/fever.php:275
+msgid "C O N T E N T"
+msgstr ""
+
+#: modules/fluid/widgets/fluid.php:71 modules/insta/widgets/insta.php:68
+#: modules/ranch/widgets/ranch.php:80 modules/wisdom/widgets/wisdom.php:73
+msgid "Show Social Link"
+msgstr ""
+
+#: modules/fluid/widgets/fluid.php:125 modules/fluid/widgets/fluid.php:698
+#: modules/insta/widgets/insta.php:120 modules/insta/widgets/insta.php:402
+#: modules/ranch/widgets/ranch.php:132 modules/ranch/widgets/ranch.php:456
+#: modules/wisdom/widgets/wisdom.php:148 modules/wisdom/widgets/wisdom.php:548
+msgid "Social Link"
+msgstr ""
+
+#: modules/fluid/widgets/fluid.php:146 modules/insta/widgets/insta.php:140
+#: modules/ranch/widgets/ranch.php:152 modules/wisdom/widgets/wisdom.php:169
+#: traits/global-widget-controls.php:740
+msgid "Link"
+msgstr ""
+
+#: modules/fluid/widgets/fluid.php:148 modules/fluid/widgets/fluid.php:231
+#: modules/insta/widgets/insta.php:160 modules/ranch/widgets/ranch.php:172
+#: modules/wisdom/widgets/wisdom.php:171 modules/wisdom/widgets/wisdom.php:192
+msgid "http://www.facebook.com/bdthemes/"
+msgstr ""
+
+#: modules/fluid/widgets/fluid.php:169
+msgid "Horizontal"
+msgstr ""
+
+#: modules/fluid/widgets/fluid.php:197
+msgid "Vertical"
+msgstr ""
+
+#: modules/fluid/widgets/fluid.php:235 modules/insta/widgets/insta.php:168
+#: modules/ranch/widgets/ranch.php:180 modules/wisdom/widgets/wisdom.php:200
+msgid "http://www.twitter.com/bdthemes/"
+msgstr ""
+
+#: modules/fluid/widgets/fluid.php:239 modules/insta/widgets/insta.php:176
+#: modules/ranch/widgets/ranch.php:188 modules/wisdom/widgets/wisdom.php:208
+msgid "http://www.instagram.com/bdthemes/"
+msgstr ""
+
+#: modules/fluid/widgets/fluid.php:505 modules/glam/widgets/glam.php:437
+#: modules/lytical/widgets/lytical.php:321
+#: modules/mosaic/widgets/mosaic.php:372 modules/turbo/widgets/turbo.php:261
+#: traits/global-widget-controls.php:343
+msgid "Text Shadow"
+msgstr ""
+
+#: modules/fluid/widgets/fluid.php:523 modules/glam/widgets/glam.php:510
+#: modules/koral/widgets/koral.php:392 modules/lunar/widgets/lunar.php:327
+#: modules/mosaic/widgets/mosaic.php:495 modules/spirit/widgets/spirit.php:222
+#: modules/verse/widgets/verse.php:326 traits/global-widget-controls.php:585
+#: traits/global-widget-controls.php:858 traits/global-widget-controls.php:859
+msgid "Read More"
+msgstr ""
+
+#: modules/glaze/widgets/glaze.php:310
+msgid "Overlay Color"
+msgstr ""
+
+#: modules/humble/widgets/humble.php:66
+msgid "Content Height"
+msgstr ""
+
+#: modules/humble/widgets/humble.php:86
+msgid "Content Position"
+msgstr ""
+
+#: modules/humble/widgets/humble.php:91 traits/global-widget-controls.php:115
+#: traits/global-widget-controls.php:146 traits/global-widget-controls.php:197
+msgid "Left"
+msgstr ""
+
+#: modules/humble/widgets/humble.php:95 traits/global-widget-controls.php:119
+#: traits/global-widget-controls.php:150 traits/global-widget-controls.php:201
+msgid "Center"
+msgstr ""
+
+#: modules/humble/widgets/humble.php:99 traits/global-widget-controls.php:123
+#: traits/global-widget-controls.php:154 traits/global-widget-controls.php:205
+msgid "Right"
+msgstr ""
+
+#: modules/insta/widgets/insta.php:148 modules/ranch/widgets/ranch.php:160
+#: modules/wisdom/widgets/wisdom.php:178
+msgid "Choose Icon"
+msgstr ""
+
+#: modules/insta/widgets/insta.php:495 modules/ranch/widgets/ranch.php:550
+#: modules/wisdom/widgets/wisdom.php:634
+msgid "Icon Size"
+msgstr ""
+
+#: modules/insta/widgets/insta.php:528 modules/ranch/widgets/ranch.php:583
+msgid "Show Tooltip"
+msgstr ""
+
+#: modules/koral/widgets/koral.php:304 modules/lunar/widgets/lunar.php:239
+msgid "Icon"
+msgstr ""
+
+#: modules/lumen/widgets/lumen.php:74
+msgid "Perspective"
+msgstr ""
+
+#: modules/lumen/widgets/lumen.php:136
+msgid "Item"
+msgstr ""
+
+#: modules/mastery/widgets/mastery.php:104 modules/panda/widgets/panda.php:114
+#: modules/wisdom/widgets/wisdom.php:107 modules/wisdom/widgets/wisdom.php:473
+msgid "Day"
+msgstr ""
+
+#: modules/mastery/widgets/mastery.php:106 modules/panda/widgets/panda.php:116
+msgid "24"
+msgstr ""
+
+#: modules/mastery/widgets/mastery.php:107 modules/panda/widgets/panda.php:117
+#: modules/wisdom/widgets/wisdom.php:110
+msgid "Day Text"
+msgstr ""
+
+#: modules/mastery/widgets/mastery.php:114 modules/panda/widgets/panda.php:103
+#: modules/wisdom/widgets/wisdom.php:118 modules/wisdom/widgets/wisdom.php:501
+msgid "Month"
+msgstr ""
+
+#: modules/mastery/widgets/mastery.php:116 modules/panda/widgets/panda.php:105
+msgid "May"
+msgstr ""
+
+#: modules/mastery/widgets/mastery.php:117 modules/panda/widgets/panda.php:106
+#: modules/wisdom/widgets/wisdom.php:121
+msgid "Month Text"
+msgstr ""
+
+#: modules/mastery/widgets/mastery.php:335
+msgid "Additional"
+msgstr ""
+
+#: modules/mastery/widgets/mastery.php:343
+msgid "Read More Max Width"
+msgstr ""
+
+#: modules/nexus/widgets/nexus.php:186 modules/walden/widgets/walden.php:186
+msgid "Primary Color"
+msgstr ""
+
+#: modules/nexus/widgets/nexus.php:197 modules/walden/widgets/walden.php:200
+msgid "Secondary Color"
+msgstr ""
+
+#: modules/ruby/widgets/ruby.php:130
+msgid "Background Color"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:72
+msgid "Show Price"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:107
+msgid "$540"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:108
+msgid "Enter your price"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:116
+msgid "Meta Days"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:118
+msgid "10 Days"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:119
+msgid "Enter your Meta Day"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:127
+msgid "Meta Member"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:129
+msgid "10+"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:130
+msgid "Enter your Meta Member"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:138
+msgid "Meta Location"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:140
+msgid "Istanbul"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:141
+msgid "Enter your Meta Location"
+msgstr ""
+
+#: modules/tour/widgets/tour.php:396
+msgid "Line Color"
+msgstr ""
+
+#: modules/walden/widgets/walden.php:67
+msgctxt "bdthemes-prime-slider"
+msgid "Layout Style"
+msgstr ""
+
+#: modules/walden/widgets/walden.php:71
+msgctxt "bdthemes-prime-slider"
+msgid "01"
+msgstr ""
+
+#: modules/walden/widgets/walden.php:72
+msgctxt "bdthemes-prime-slider"
+msgid "02"
+msgstr ""
+
+#: modules/walden/widgets/walden.php:85
+msgid "Show Follow"
+msgstr ""
+
+#: modules/walden/widgets/walden.php:94
+msgid "Show Like"
+msgstr ""
+
+#: modules/walden/widgets/walden.php:130
+msgid "Follow"
+msgstr ""
+
+#: modules/walden/widgets/walden.php:132
+msgid "403"
+msgstr ""
+
+#: modules/walden/widgets/walden.php:133
+msgid "Follow Number"
+msgstr ""
+
+#: modules/walden/widgets/walden.php:141
+msgid "Like"
+msgstr ""
+
+#: modules/walden/widgets/walden.php:143
+msgid "604"
+msgstr ""
+
+#: modules/walden/widgets/walden.php:144
+msgid "Like Number"
+msgstr ""
+
+#: modules/walden/widgets/walden.php:178
+msgid "O V E R L A Y"
+msgstr ""
+
+#: modules/wisdom/widgets/wisdom.php:109
+msgid "03"
+msgstr ""
+
+#: modules/wisdom/widgets/wisdom.php:120
+msgid "March"
+msgstr ""
+
+#: modules/wisdom/widgets/wisdom.php:651
+msgid "Icon Spacing"
+msgstr ""
+
+#: pixel-gallery.php:112
+msgid ""
+"Ops! Pixel Gallery not working because you need to activate the Elementor "
+"plugin first."
+msgstr ""
+
+#: pixel-gallery.php:113
+msgid "Activate Elementor Now"
+msgstr ""
+
+#: pixel-gallery.php:119
+msgid ""
+"Ops! Pixel Gallery not working because you need to install the Elementor "
+"plugin"
+msgstr ""
+
+#: pixel-gallery.php:120
+msgid "Install Elementor Now"
+msgstr ""
+
+#: traits/global-terms-query-controls.php:23
+msgid "Type"
+msgstr ""
+
+#: traits/global-terms-query-controls.php:28
+msgid "Only Parents"
+msgstr ""
+
+#: traits/global-terms-query-controls.php:29
+msgid "Only Child"
+msgstr ""
+
+#: traits/global-terms-query-controls.php:37
+msgid "Item Limit"
+msgstr ""
+
+#: traits/global-terms-query-controls.php:68
+#: traits/global-terms-query-controls.php:92
+msgid "Categories"
+msgstr ""
+
+#: traits/global-terms-query-controls.php:109
+msgid "WARNING!, Must Select Parent Category from Child Categories of."
+msgstr ""
+
+#: traits/global-terms-query-controls.php:120
+msgid "Child Categories of"
+msgstr ""
+
+#: traits/global-terms-query-controls.php:138
+msgid "Name"
+msgstr ""
+
+#: traits/global-terms-query-controls.php:139
+msgid "Count"
+msgstr ""
+
+#: traits/global-terms-query-controls.php:140
+msgid "Slug"
+msgstr ""
+
+#: traits/global-terms-query-controls.php:154
+msgid "Descending"
+msgstr ""
+
+#: traits/global-terms-query-controls.php:155
+msgid "Ascending"
+msgstr ""
+
+#: traits/global-terms-query-controls.php:162
+msgid "Hide Empty"
+msgstr ""
+
+#: traits/global-widget-controls.php:32
+msgid "Masonry"
+msgstr ""
+
+#: traits/global-widget-controls.php:35
+msgid ""
+"Note: If you enable Masonry then Repeater Column Span and Row Span will not "
+"work."
+msgstr ""
+
+#: traits/global-widget-controls.php:43
+msgid "Show Title"
+msgstr ""
+
+#: traits/global-widget-controls.php:53
+msgid "Title HTML Tag"
+msgstr ""
+
+#: traits/global-widget-controls.php:68
+msgid "Show Meta"
+msgstr ""
+
+#: traits/global-widget-controls.php:79
+msgid "Show Pagination"
+msgstr ""
+
+#: traits/global-widget-controls.php:89
+msgid "Show Text"
+msgstr ""
+
+#: traits/global-widget-controls.php:100
+msgid "Show Date"
+msgstr ""
+
+#: traits/global-widget-controls.php:111 traits/global-widget-controls.php:142
+msgid "Alignment"
+msgstr ""
+
+#: traits/global-widget-controls.php:127 traits/global-widget-controls.php:158
+msgid "Justified"
+msgstr ""
+
+#: traits/global-widget-controls.php:193
+msgid "Item Alignment"
+msgstr ""
+
+#: traits/global-widget-controls.php:233
+msgid "Play Icon"
+msgstr ""
+
+#: traits/global-widget-controls.php:267
+msgid "Size"
+msgstr ""
+
+#: traits/global-widget-controls.php:367
+msgid "Columns"
+msgstr ""
+
+#: traits/global-widget-controls.php:392
+msgid "Grid Template Columns"
+msgstr ""
+
+#: traits/global-widget-controls.php:393
+msgid ""
+"Note: If you Changed Grid Template Columns then you must set Column Span and "
+"Row Span from Repeater Items."
+msgstr ""
+
+#: traits/global-widget-controls.php:410
+msgid "Row Gap"
+msgstr ""
+
+#: traits/global-widget-controls.php:426
+msgid "Column Gap"
+msgstr ""
+
+#: traits/global-widget-controls.php:538 traits/global-widget-controls.php:838
+msgid "Text"
+msgstr ""
+
+#: traits/global-widget-controls.php:745
+msgid "Media File"
+msgstr ""
+
+#: traits/global-widget-controls.php:746 traits/global-widget-controls.php:890
+msgid "Custom URL"
+msgstr ""
+
+#: traits/global-widget-controls.php:755
+msgid "Lightbox"
+msgstr ""
+
+#: traits/global-widget-controls.php:759
+msgid "Default"
+msgstr ""
+
+#: traits/global-widget-controls.php:760
+msgid "Yes"
+msgstr ""
+
+#: traits/global-widget-controls.php:761
+msgid "No"
+msgstr ""
+
+#: traits/global-widget-controls.php:775
+msgid "Link Target"
+msgstr ""
+
+#: traits/global-widget-controls.php:779
+msgid "Whole Item"
+msgstr ""
+
+#: traits/global-widget-controls.php:780
+msgid "Only Button"
+msgstr ""
+
+#: traits/global-widget-controls.php:822
+msgid "Meta content"
+msgstr ""
+
+#: traits/global-widget-controls.php:823
+msgid "Enter your content"
+msgstr ""
+
+#: traits/global-widget-controls.php:842
+msgid "Lorem ipsum may be used as a placeholder before final."
+msgstr ""
+
+#: traits/global-widget-controls.php:856
+msgid "Read More Text"
+msgstr ""
+
+#: traits/global-widget-controls.php:875
+msgid "February 3, 2022"
+msgstr ""
+
+#: traits/global-widget-controls.php:999
+msgid "Gallery Item one"
+msgstr ""
+
+#: traits/global-widget-controls.php:1003
+msgid "Gallery Item two"
+msgstr ""
+
+#: traits/global-widget-controls.php:1007
+msgid "Gallery Item three"
+msgstr ""
+
+#: traits/global-widget-controls.php:1011
+msgid "Gallery Item four"
+msgstr ""
+
+#: traits/global-widget-controls.php:1015
+msgid "Gallery Item five"
+msgstr ""
+
+#: traits/global-widget-controls.php:1019
+msgid "Gallery Item six"
+msgstr ""
+
+#: traits/global-widget-controls.php:1076
+msgid "Media Type"
+msgstr ""
+
+#: traits/global-widget-controls.php:1085
+msgid "Video"
+msgstr ""
+
+#: traits/global-widget-controls.php:1119
+msgid "Poster"
+msgstr ""
+
+#: traits/global-widget-controls.php:1142
+msgid "YouTube"
+msgstr ""
+
+#: traits/global-widget-controls.php:1143
+msgid "Vimeo"
+msgstr ""
+
+#: traits/global-widget-controls.php:1144
+msgid "Dailymotion"
+msgstr ""
+
+#: traits/global-widget-controls.php:1145
+msgid "Self Hosted"
+msgstr ""
+
+#: traits/global-widget-controls.php:1158
+#: traits/global-widget-controls.php:1182
+#: traits/global-widget-controls.php:1205
+msgid "Source Link"
+msgstr ""
+
+#: traits/global-widget-controls.php:1167
+#: traits/global-widget-controls.php:1191
+#: traits/global-widget-controls.php:1214
+#: traits/global-widget-controls.php:1276
+msgid "Enter your URL"
+msgstr ""
+
+#: traits/global-widget-controls.php:1228
+msgid "External URL"
+msgstr ""
+
+#: traits/global-widget-controls.php:1262
+msgid "URL"
+msgstr ""
+
+#: traits/global-widget-controls.php:1289
+msgid "Aspect Ratio"
+msgstr ""
+
+#: traits/global-widget-controls.php:1313
+msgid "Autoplay"
+msgstr ""
+
+#: traits/global-widget-controls.php:1327
+msgid "Loop"
+msgstr ""
+
+#: traits/global-widget-controls.php:1341
+msgid "Player Controls"
+msgstr ""
+
+#: traits/global-widget-controls.php:1343
+msgid "Hide"
+msgstr ""
+
+#: traits/global-widget-controls.php:1344
+msgid "Show"
+msgstr ""
+
+#: traits/global-widget-controls.php:1358
+msgid "Mute"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Pixel Gallery"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://pixelgallery.pro/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"The all-new <a href=\"https://pixelgallery.pro/\">Pixel Gallery</a> brings "
+"incredibly advanced, and super-flexible widgets, and A to Z essential addons "
+"to the Elementor page builder for WordPress. Explore expertly-coded widgets "
+"with first-class support by experts."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "BdThemes"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://bdthemes.com/"
+msgstr ""

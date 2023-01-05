@@ -1,0 +1,75 @@
+.pg-orbit-grid {
+  display: grid;
+}
+.pg-orbit-item {
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+.pg-orbit-item:hover img {
+  transform: perspective(500px) rotateX(50deg);
+}
+.pg-orbit-item:hover .pg-orbit-content {
+  opacity: 1;
+  transform: perspective(500px) rotateX(0);
+}
+.pg-orbit-image-wrap {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.pg-orbit-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: bottom center;
+  transform: perspective(500px) rotateX(0);
+  transition: all 0.5s ease 0s;
+}
+.pg-orbit-content {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform-origin: top center;
+  transform: perspective(500px) rotateX(-50deg);
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: all 0.5s ease 0s;
+}
+.pg-orbit-content-inner {
+  width: 80%;
+  transform: translateX(50%) translateY(-50%);
+  position: absolute;
+  top: 50%;
+  right: 50%;
+}
+.pg-orbit-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  color: #fff;
+}
+.pg-orbit-meta {
+  color: #eee;
+  font-size: 16px;
+  font-weight: 500;
+  display: block;
+  margin: 0 0 15px;
+}
+.pg-orbit-readmore {
+  display: inline-flex;
+}
+.pg-orbit-readmore a {
+  color: rgba(13, 59, 84, 0.8);
+  background: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 10px;
+  transition: all .3s ease;
+}
+.pg-orbit-readmore a:hover {
+  color: #fff;
+  background: #0D3B54;
+}

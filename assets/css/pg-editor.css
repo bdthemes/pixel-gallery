@@ -1,0 +1,327 @@
+@font-face {
+  font-family: 'pixel-gallery';
+  src: url('../fonts/pixel-gallery.woff2?1qfkbl') format('woff2'), url('../fonts/pixel-gallery.ttf?1qfkbl') format('truetype'), url('../fonts/pixel-gallery.woff?1qfkbl') format('woff'), url('../fonts/pixel-gallery.svg?1qfkbl#pixel-gallery') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+[class^="pg-icon-"],
+[class*=" pg-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'pixel-gallery' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.pg-icon-ridex:before {
+  content: "\e937";
+}
+.pg-icon-kitec:before {
+  content: "\e938";
+}
+.pg-icon-polo:before {
+  content: "\e939";
+}
+.pg-icon-diamond:before {
+  content: "\e93a";
+}
+.pg-icon-heron:before {
+  content: "\e933";
+}
+.pg-icon-amaze:before {
+  content: "\e925";
+}
+.pg-icon-dream:before {
+  content: "\e926";
+}
+.pg-icon-evolve:before {
+  content: "\e927";
+}
+.pg-icon-flash:before {
+  content: "\e928";
+}
+.pg-icon-floral:before {
+  content: "\e929";
+}
+.pg-icon-maven:before {
+  content: "\e92a";
+}
+.pg-icon-menuz:before {
+  content: "\e92b";
+}
+.pg-icon-pastel:before {
+  content: "\e92c";
+}
+.pg-icon-tread:before {
+  content: "\e92d";
+}
+.pg-icon-xero:before {
+  content: "\e92e";
+}
+.pg-icon-aware:before {
+  content: "\e93b";
+}
+.pg-icon-ocean:before {
+  content: "\e93c";
+}
+.pg-icon-crop:before {
+  content: "\e93d";
+}
+.pg-icon-alien:before {
+  content: "\e93e";
+}
+.pg-icon-humble:before {
+  content: "\e934";
+}
+.pg-icon-fixer:before {
+  content: "\e92f";
+}
+.pg-icon-insta:before {
+  content: "\e930";
+}
+.pg-icon-trance:before {
+  content: "\e931";
+}
+.pg-icon-lumen:before {
+  content: "\e932";
+}
+.pg-icon-axen:before {
+  content: "\e900";
+}
+.pg-icon-craze:before {
+  content: "\e901";
+}
+.pg-icon-doodle:before {
+  content: "\e902";
+}
+.pg-icon-elixir:before {
+  content: "\e903";
+}
+.pg-icon-epoch:before {
+  content: "\e904";
+}
+.pg-icon-fabric:before {
+  content: "\e905";
+}
+.pg-icon-fever:before {
+  content: "\e906";
+}
+.pg-icon-flame:before {
+  content: "\e907";
+}
+.pg-icon-fluid:before {
+  content: "\e908";
+}
+.pg-icon-glam:before {
+  content: "\e909";
+}
+.pg-icon-glaze:before {
+  content: "\e90a";
+}
+.pg-icon-koral:before {
+  content: "\e90b";
+}
+.pg-icon-lunar:before {
+  content: "\e90c";
+}
+.pg-icon-lytical:before {
+  content: "\e90d";
+}
+.pg-icon-marron:before {
+  content: "\e90e";
+}
+.pg-icon-mastery:before {
+  content: "\e90f";
+}
+.pg-icon-mosaic:before {
+  content: "\e910";
+}
+.pg-icon-mystic:before {
+  content: "\e911";
+}
+.pg-icon-nexus:before {
+  content: "\e912";
+}
+.pg-icon-orbit:before {
+  content: "\e913";
+}
+.pg-icon-panda:before {
+  content: "\e914";
+}
+.pg-icon-plex:before {
+  content: "\e915";
+}
+.pg-icon-plumb:before {
+  content: "\e916";
+}
+.pg-icon-punch:before {
+  content: "\e917";
+}
+.pg-icon-ranch:before {
+  content: "\e918";
+}
+.pg-icon-remix:before {
+  content: "\e919";
+}
+.pg-icon-ruby:before {
+  content: "\e91a";
+}
+.pg-icon-shark:before {
+  content: "\e91b";
+}
+.pg-icon-sonic:before {
+  content: "\e91c";
+}
+.pg-icon-spirit:before {
+  content: "\e91d";
+}
+.pg-icon-tour:before {
+  content: "\e91e";
+}
+.pg-icon-turbo:before {
+  content: "\e91f";
+}
+.pg-icon-verse:before {
+  content: "\e920";
+}
+.pg-icon-walden:before {
+  content: "\e921";
+}
+.pg-icon-wisdom:before {
+  content: "\e922";
+}
+.pg-icon-zilax:before {
+  content: "\e923";
+}
+.pg-icon-animations:before {
+  content: "\e93f";
+}
+.pg-icon-tutorial:before {
+  content: "\e935";
+}
+.pg-icon-preview:before {
+  content: "\e936";
+}
+.pg-icon-Pixel-Gallery-Logo-for-font-logo:before {
+  content: "\e924";
+}
+#elementor-panel-category-pixel-gallery .elementor-element:hover {
+  -webkit-box-shadow: 0 2px 6px rgba(13, 59, 84, 0.3);
+  box-shadow: 0 2px 6px rgba(13, 59, 84, 0.3);
+}
+#elementor-panel-category-pixel-gallery .elementor-element:hover .icon,
+#elementor-panel-category-pixel-gallery .elementor-element:hover .title {
+  color: rgba(13, 59, 84, 0.8);
+}
+#elementor-panel-category-pixel-gallery .elementor-element:hover .icon i[class^="pg-icon-"]:after {
+  opacity: 1;
+}
+.elementor-element .icon {
+  position: relative;
+}
+.elementor-element .icon .pg-new:after {
+  color: rgba(13, 59, 84, 0.8);
+  opacity: 1 !important;
+}
+.elementor-element .icon i[class^="pg-icon-"]:before {
+  font-size: 48px;
+}
+.elementor-element .icon i[class^="pg-icon-"]:after {
+  content: '\e924';
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-size: 12px;
+  opacity: .4;
+  color: rgba(13, 59, 84, 0.8);
+}
+#elementor-panel #elementor-panel-header-title span.pg-widget-badge:after,
+#elementor-panel .elementor-control-title span.pg-widget-badge:after,
+#elementor-panel .elementor-section-title span.pg-widget-badge:after {
+  font-family: 'pixel-gallery' !important;
+  content: '\e988';
+  background-color: #fff;
+  color: #d30c5c;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 30px;
+  padding: 3px 4px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+#elementor-panel .elementor-control-title span.pg-widget-badge:after,
+#elementor-panel .elementor-section-title span.pg-widget-badge:after {
+  background-color: #e0e6ec;
+  color: #50565d;
+}
+.pg-new-control:after,
+.pg-pro-control:after {
+  color: #fff;
+  font-size: 8px;
+  font-weight: 700;
+  border-radius: 2px;
+  padding: 3px 4px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+.pg-new-control:after {
+  content: 'NEW';
+  background-color: #55c10c;
+}
+.pg-pro-control:after {
+  content: 'PRO';
+  background-color: #e62a3f;
+}
+#elementor-panel .elementor-control-type-section span.pg-widget-badge {
+  position: absolute;
+  right: 15px;
+}
+.tm-header-wrapper {
+  pointer-events: none;
+}
+#elementor-panel #elementor-controls .pg-disabled-control .elementor-control-input-wrapper {
+  pointer-events: none !important;
+  opacity: 0.4;
+}
+#elementor-panel #elementor-controls .pg-disabled-control .elementor-control-field {
+  pointer-events: none !important;
+}
+#elementor-panel #elementor-controls .pg-disabled-control .elementor-control-field:before {
+  background: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%280%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E") no-repeat;
+  height: 6px;
+  width: 18px;
+  margin-bottom: 6px;
+  background-size: 100% auto !important;
+  content: "";
+  display: none;
+  position: absolute;
+  right: 35px;
+  top: 0;
+}
+#elementor-panel #elementor-controls .pg-disabled-control .elementor-control-field:after {
+  content: "This is a pro control, available with Ultimate Post Kit Pro version.";
+  padding: 10px;
+  display: none;
+  position: absolute;
+  top: -52px;
+  right: 20px;
+  width: 220px;
+  text-align: left;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 3px;
+  color: #fff;
+  z-index: 10;
+  line-height: 16px;
+  pointer-events: none;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+}
+#elementor-panel #elementor-controls .pg-disabled-control:hover .elementor-control-field:after,
+#elementor-panel #elementor-controls .pg-disabled-control:hover .elementor-control-field:before {
+  display: block;
+}

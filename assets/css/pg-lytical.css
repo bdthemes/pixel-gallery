@@ -1,0 +1,103 @@
+.pg-lytical-grid {
+  display: grid;
+}
+.pg-lytical-item {
+  position: relative;
+  overflow: hidden;
+}
+.pg-lytical-item:hover .pg-lytical-img {
+  transform: translateY(-20px);
+}
+.pg-lytical-item:hover .pg-lytical-img,
+.pg-lytical-item:hover .pg-lytical-image-wrap:before {
+  clip-path: polygon(21% 0, 100% 0%, 100% 100%, 21% 100%);
+}
+.pg-lytical-item:hover .pg-lytical-title {
+  opacity: 1;
+  transform: translateY(-50%);
+  transition-delay: .3s;
+}
+.pg-lytical-item:hover .pg-lytical-readmore,
+.pg-lytical-item:hover .pg-lytical-meta {
+  opacity: 1;
+  transform: translateY(0);
+}
+.pg-lytical-item:hover .pg-lytical-meta {
+  transition-delay: .4s;
+}
+.pg-lytical-item:hover .pg-lytical-readmore {
+  transition-delay: .5s;
+}
+.pg-lytical-image-wrap {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+.pg-lytical-image-wrap::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  z-index: 1;
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(353deg, rgba(13, 59, 84, 0.2), transparent);
+}
+.pg-lytical-image-wrap img {
+  width: 100%;
+  height: 120%;
+  object-fit: cover;
+  right: 0;
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+  transition: all 0.3s ease-in-out;
+}
+.pg-lytical-title {
+  position: absolute;
+  top: 50%;
+  margin: 0;
+  transform: translateY(-10%);
+  font-size: 24px;
+  font-weight: 700;
+  z-index: 1;
+  line-height: 1.5;
+  opacity: 0;
+  color: rgba(13, 59, 84, 0.8);
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 3px;
+  transition: all .3s ease;
+}
+.pg-lytical-content-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 22%;
+  right: 2%;
+  margin: 20px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.pg-lytical-readmore,
+.pg-lytical-meta {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease-in-out;
+}
+.pg-lytical-meta {
+  font-size: 14px;
+  text-transform: capitalize;
+  color: #eee;
+  font-weight: 700;
+}
+.pg-lytical-readmore a {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-weight: 700;
+}
+.pg-lytical-readmore a:hover {
+  color: #0D3B54;
+}

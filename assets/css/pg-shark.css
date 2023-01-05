@@ -1,0 +1,64 @@
+.pg-shark-grid {
+  display: grid;
+}
+.pg-shark-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.pg-shark-image-wrap {
+  width: 100%;
+  height: 100%;
+}
+.pg-shark-image-wrap .pg-shark-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  vertical-align: middle;
+}
+.pg-shark-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 30px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  opacity: 1;
+  clip-path: circle(0 at 50% 50%);
+  transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.pg-shark-item:hover .pg-shark-content {
+  opacity: 1;
+  clip-path: circle(33% at 50% 50%);
+}
+.pg-shark-title,
+.pg-shark-meta {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s;
+}
+.pg-shark-item:hover .pg-shark-meta,
+.pg-shark-item:hover .pg-shark-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+.pg-shark-title {
+  transition-delay: .2s;
+  font-size: 20px;
+  text-transform: capitalize;
+  margin: 0 0 5px;
+  color: rgba(13, 59, 84, 0.8);
+  font-weight: 700;
+}
+.pg-shark-meta {
+  transition-delay: .3s;
+  font-size: 14px;
+  text-transform: capitalize;
+  color: #567687;
+}

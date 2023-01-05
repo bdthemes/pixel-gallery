@@ -1,0 +1,105 @@
+.pg-marron-grid {
+  display: grid;
+}
+.pg-marron-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.pg-marron-item:hover .pg-marron-image-wrap::before {
+  height: 100%;
+}
+.pg-marron-item:hover .pg-marron-img {
+  transform: scale(1.08) translateY(-15px);
+}
+.pg-marron-item:hover .pg-marron-meta {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.pg-marron-item:hover .pg-marron-readmore {
+  opacity: 1;
+  transform: translateY(-28px);
+}
+.pg-marron-item:hover .pg-marron-date {
+  opacity: 1;
+  transform: translateY(0);
+}
+.pg-marron-item:hover .pg-marron-title a::before {
+  width: 100%;
+}
+.pg-marron-image-wrap {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+.pg-marron-image-wrap::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  width: 100%;
+  height: 0;
+  background: linear-gradient(180deg, rgba(13, 59, 84, 0.8), transparent);
+  z-index: 1;
+  transition: height 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.pg-marron-image-wrap .pg-marron-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  vertical-align: middle;
+  transform: scale(1.08) translateY(0);
+  transform-origin: 100% 0%;
+  transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.pg-marron-date {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 20px;
+  font-size: 14px;
+  color: #f3f5fd;
+  text-transform: uppercase;
+  font-weight: 500;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+  z-index: 1;
+}
+.pg-marron-content {
+  margin-top: 20px;
+}
+.pg-marron-title {
+  margin: 0 0 7px;
+  font-size: 25px;
+  text-transform: capitalize;
+  font-weight: 700;
+  z-index: 1;
+  position: relative;
+  color: rgba(13, 59, 84, 0.8);
+}
+.pg-marron-meta {
+  opacity: 1;
+  transform: translateY(0);
+  transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+  font-size: 15px;
+  color: rgba(13, 59, 84, 0.8);
+}
+.pg-marron-readmore {
+  opacity: 0;
+  transform: translateY(0);
+  transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.pg-marron-readmore a {
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: capitalize;
+  transition: color 0.3s ease-out;
+  color: rgba(13, 59, 84, 0.8);
+}
+.pg-marron-readmore a:hover {
+  color: #0D3B54;
+}

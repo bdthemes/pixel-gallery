@@ -1,0 +1,117 @@
+.pg-elixir-grid {
+  display: grid;
+}
+.pg-elixir-item {
+  position: relative;
+  overflow: hidden;
+}
+.pg-elixir-item:hover .pg-elixir-image-wrap::before {
+  opacity: 1;
+}
+.pg-elixir-item:hover .pg-elixir-title,
+.pg-elixir-item:hover .pg-elixir-category {
+  opacity: 1;
+  transform: translateY(0);
+}
+.pg-elixir-item:hover .pg-elixir-title {
+  transition-delay: .4s;
+}
+.pg-elixir-item:hover .pg-elixir-category {
+  transition-delay: .4s;
+}
+.pg-elixir-item:hover .pg-link-button {
+  transition-delay: .5s;
+}
+.pg-elixir-item:hover .pg-elixir-author,
+.pg-elixir-item:hover .pg-elixir-date {
+  opacity: 1;
+  transform: translateY(0);
+}
+.pg-elixir-item:hover .pg-elixir-author {
+  transition-delay: .5s;
+}
+.pg-elixir-item:hover .pg-elixir-date {
+  transition-delay: .6s;
+}
+.pg-elixir-image-wrap {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.pg-elixir-image-wrap:before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.31, 0.67, 0.36, 1);
+}
+.pg-elixir-image-wrap .pg-elixir-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pg-elixir-content,
+.pg-elixir-meta {
+  position: absolute;
+  right: 0;
+  left: 0;
+  padding: 30px;
+}
+.pg-elixir-content {
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+.pg-elixir-meta {
+  bottom: 0;
+  display: inline-flex;
+  align-content: center;
+  justify-content: space-between;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #567687;
+  letter-spacing: 1px;
+}
+.pg-elixir-author a {
+  color: rgba(13, 59, 84, 0.8);
+  font-weight: 500;
+  text-decoration: none;
+}
+.pg-elixir-title,
+.pg-elixir-category {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s cubic-bezier(0.31, 0.67, 0.36, 1);
+}
+.pg-elixir-category {
+  margin-bottom: 10px;
+}
+.pg-elixir-category a {
+  color: #567687;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+.pg-elixir-title {
+  font-size: 28px;
+  text-transform: capitalize;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: rgba(13, 59, 84, 0.8);
+}
+.pg-elixir-category a:hover,
+.pg-elixir-author a:hover {
+  color: #0D3B54;
+}
+.pg-elixir-author,
+.pg-elixir-date {
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.31, 0.67, 0.36, 1);
+}
