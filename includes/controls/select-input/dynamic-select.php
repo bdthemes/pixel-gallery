@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
  * @since 5.8.0
  */
 class Dynamic_Select extends Base_Data_Control {
-    
+
     const TYPE = 'pg-dynamic-select';
 
     /**
@@ -70,7 +70,7 @@ class Dynamic_Select extends Base_Data_Control {
      */
     public function content_template() {
         $control_uid = $this->get_control_uid();
-        ?>
+?>
         <div class="elementor-control-field">
             <# if ( data.label ) {#>
             <label for="<?php echo $control_uid; ?>" class="elementor-control-title">{{{data.label }}}</label>
@@ -105,24 +105,22 @@ class Dynamic_Select extends Base_Data_Control {
      * Used to register and enqueue custom scripts and styles used by the control.
      * @since 5.8.0
      */
-	public function enqueue() {
-		wp_enqueue_script( 'pg-dynamic-select', BDTPG_URL . 'includes/controls/assets/js/pg-dynamic-select.min.js', array( 'jquery' ), BDTPG_VER );
-		
-		wp_localize_script(
-			'pg-dynamic-select',
-			'pg_dynamic_select', [
-				'nonce'    => wp_create_nonce( 'pg_dynamic_select' ),
-				'action'   => 'pixel_gallery_dynamic_select_input_data',
-				'ajax_url' => admin_url( 'admin-ajax.php' )
-			]
-		);
-	}
+    public function enqueue() {
+        wp_enqueue_script('pg-dynamic-select', BDTPG_URL . 'includes/controls/assets/js/pg-dynamic-select.min.js', array('jquery'), BDTPG_VER);
+
+        wp_localize_script(
+            'pg-dynamic-select',
+            'pg_dynamic_select',
+            [
+                'nonce'    => wp_create_nonce('pg_dynamic_select'),
+                'action'   => 'pixel_gallery_dynamic_select_input_data',
+                'ajax_url' => admin_url('admin-ajax.php')
+            ]
+        );
+    }
 }
 
-add_action('elementor/controls/controls_registered', function () {
+add_action('elementor/controls/register', function () {
     $controls_manager = Plugin::$instance->controls_manager;
-    $controls_manager->register_control(Dynamic_Select::TYPE, new Dynamic_Select());
+    $controls_manager->register(new Dynamic_Select());
 });
-
-
-

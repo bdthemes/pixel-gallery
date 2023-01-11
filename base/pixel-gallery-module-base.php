@@ -6,7 +6,7 @@ use Elementor\Core\Base\Module;
 use Elementor\Plugin;
 use PixelGallery\Pixel_Gallery_Loader;
 
-if ( !defined('ABSPATH') ) {
+if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
@@ -18,7 +18,7 @@ abstract class Pixel_Gallery_Module_Base extends Module {
 
     public function __construct() {
 
-        add_action('elementor/widgets/widgets_registered', [$this, 'init_widgets']);
+        add_action('elementor/widgets/register', [$this, 'init_widgets']);
     }
 
 
@@ -26,26 +26,26 @@ abstract class Pixel_Gallery_Module_Base extends Module {
 
         $widget_manager = Pixel_Gallery_Loader::elementor()->widgets_manager;
 
-        foreach ( $this->get_widgets() as $widget ) {
+        foreach ($this->get_widgets() as $widget) {
             $class_name = $this->get_reflection()->getNamespaceName() . '\Widgets\\' . $widget;
 
             //var_dump($class_name);
 
-            $widget_manager->register_widget_type(new $class_name());
+            $widget_manager->register(new $class_name());
         }
     }
 
     private function find_element_recursive($elements, $form_id) {
 
-        foreach ( $elements as $element ) {
-            if ( $form_id === $element['id'] ) {
+        foreach ($elements as $element) {
+            if ($form_id === $element['id']) {
                 return $element;
             }
 
-            if ( !empty($element['elements']) ) {
+            if (!empty($element['elements'])) {
                 $element = $this->find_element_recursive($element['elements'], $form_id);
 
-                if ( $element ) {
+                if ($element) {
                     return $element;
                 }
             }
@@ -59,25 +59,25 @@ abstract class Pixel_Gallery_Module_Base extends Module {
      * @param $widget_id | elementor widget ids
      */
     public function get_widget_settings($post_id, $widget_id) {
-        if ( !$post_id || !$widget_id ) {
+        if (!$post_id || !$widget_id) {
             return "Invalid request";
         }
 
         $elementor = Plugin::$instance;
         $pageMeta  = $elementor->documents->get($post_id);
 
-        if ( !$pageMeta ) {
+        if (!$pageMeta) {
             return "Invalid Post or Page ID";
         }
         $metaData = $pageMeta->get_elements_data();
-        if ( !$metaData ) {
+        if (!$metaData) {
             return "Page page is not under elementor";
         }
 
         $widget_data = $this->find_element_recursive($metaData, $widget_id);
         $settings    = [];
 
-        if ( is_array($widget_data) ) {
+        if (is_array($widget_data)) {
             $widget   = $elementor->elements_manager->create_element_instance($widget_data);
             $settings = $widget->get_settings();
         }
