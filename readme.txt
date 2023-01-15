@@ -5,11 +5,11 @@ Tags:  elementor addons, elementor widget, elementor extensions, elementor addon
 Requires at least: 4.7.0
 Tested up to: 6.1.1
 Requires PHP: 7.4.0
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
-Elementor tested up to: 3.9.2
+Elementor tested up to: 3.10.0
 
 Best Addon for Elementor WordPress Plugin with 50+ Most Popular Elements that need your everyday website page building.
 
@@ -178,6 +178,11 @@ e.g.
 6. Our others plugins
 
 == Changelog ==
+
+= 1.2.1 [12th January 2023] =
+
+* Fixed: Elementor version 3.10.0 deprecation issue fixed
+* Updated: Design improved in kitec widget
 
 = 1.2.0 [4th January 2023] =
 

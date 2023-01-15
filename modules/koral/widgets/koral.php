@@ -47,6 +47,10 @@ class Koral extends Module_Base {
 		return ['pg-koral'];
 	}
 
+	public function get_custom_help_url() {
+		return 'https://youtu.be/wR2yfKdbTbg';
+	}
+
 	protected function register_controls() {
 
 		$this->start_controls_section(

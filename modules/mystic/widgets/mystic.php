@@ -54,6 +54,10 @@ class Mystic extends Module_Base
 		return ['pg-mystic'];
 	}
 
+	public function get_custom_help_url() {
+		return 'https://youtu.be/VnFKJguCK7g';
+	}
+
 	protected function register_controls()
 	{
 

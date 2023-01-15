@@ -54,6 +54,10 @@ class Nexus extends Module_Base
         return ['pg-nexus'];
     }
 
+    public function get_custom_help_url() {
+		return 'https://youtu.be/At7BhTM-9Gs';
+	}
+
     protected function register_controls() {
 
         $this->start_controls_section(

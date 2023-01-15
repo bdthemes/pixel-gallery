@@ -54,6 +54,10 @@ class Plumb extends Module_Base
 		return ['pg-plumb'];
 	}
 
+	public function get_custom_help_url() {
+		return 'https://youtu.be/H4Pz6KPRuKI';
+	}
+
 	protected function register_controls()
 	{
 

@@ -228,7 +228,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/glaze/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/AiYE9aRqTvQ',
                 ],
                 [
                     'name'         => 'ridex',
@@ -288,7 +288,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/koral/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/wR2yfKdbTbg',
                 ],
                 [
                     'name'         => 'lumen',
@@ -368,7 +368,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/mystic/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/VnFKJguCK7g',
                 ],
                 [
                     'name'         => 'nexus',
@@ -378,7 +378,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/nexus/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/At7BhTM-9Gs',
                 ],
                 [
                     'name'         => 'ocean',
@@ -398,7 +398,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/orbit/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/gleOj0ByQpc',
                 ],
                 [
                     'name'         => 'panda',
@@ -408,7 +408,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/panda/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/2qnNCDyiXpg',
                 ],
                 [
                     'name'         => 'polo',
@@ -448,7 +448,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/plumb/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/H4Pz6KPRuKI',
                 ],
                 [
                     'name'         => 'punch',

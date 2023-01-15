@@ -54,6 +54,10 @@ class Orbit extends Module_Base
 		return ['pg-orbit'];
 	}
 
+	public function get_custom_help_url() {
+		return 'https://youtu.be/gleOj0ByQpc';
+	}
+
 	protected function register_controls()
 	{
 

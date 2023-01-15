@@ -47,6 +47,10 @@ class Glaze extends Module_Base {
 		return ['pg-glaze'];
 	}
 
+	public function get_custom_help_url() {
+		return 'https://youtu.be/AiYE9aRqTvQ';
+	}
+	
 	protected function register_controls() {
 
 		$this->start_controls_section(

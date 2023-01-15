@@ -54,6 +54,10 @@ class Panda extends Module_Base
 		return ['pg-panda'];
 	}
 
+	public function get_custom_help_url() {
+		return 'https://youtu.be/2qnNCDyiXpg';
+	}
+
 	protected function register_controls()
 	{
 
