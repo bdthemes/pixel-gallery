@@ -511,6 +511,16 @@ class ModuleService {
                     'video_url'    => '',
                 ],
                 [
+                    'name'         => 'scrovis',
+                    'label'        => esc_html__('Scrovis', 'pixel-gallery'),
+                    'type'         => 'checkbox',
+                    'default'      => 'on',
+                    'widget_type'  => 'pro',
+                    'content_type' => 'custom',
+                    'demo_url'     => 'https://pixelgallery.pro/demo/scrovis/',
+                    'video_url'    => '',
+                ],
+                [
                     'name'         => 'sonic',
                     'label'        => esc_html__('Sonic', 'pixel-gallery'),
                     'type'         => 'checkbox',
