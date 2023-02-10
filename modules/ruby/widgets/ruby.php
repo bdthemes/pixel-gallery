@@ -54,6 +54,10 @@ class Ruby extends Module_Base
 		return ['pg-ruby'];
 	}
 
+	public function get_custom_help_url() {
+		return 'https://youtu.be/mQCrx2jVRRI';
+	}
+
 	protected function register_controls()
 	{
 

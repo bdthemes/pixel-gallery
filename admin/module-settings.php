@@ -371,6 +371,16 @@ class ModuleService {
                     'video_url'    => 'https://youtu.be/VnFKJguCK7g',
                 ],
                 [
+                    'name'         => 'menuz',
+                    'label'        => esc_html__('Menuz', 'pixel-gallery'),
+                    'type'         => 'checkbox',
+                    'default'      => 'on',
+                    'widget_type'  => 'pro',
+                    'content_type' => 'custom',
+                    'demo_url'     => 'https://pixelgallery.pro/demo/menuz/',
+                    'video_url'    => '',
+                ],
+                [
                     'name'         => 'nexus',
                     'label'        => esc_html__('Nexus', 'pixel-gallery'),
                     'type'         => 'checkbox',
@@ -438,7 +448,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/plex/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/RIiCTpHo0W0',
                 ],
                 [
                     'name'         => 'plumb',
@@ -468,7 +478,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/ranch/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/IBjHSszBflk',
                 ],
                 [
                     'name'         => 'remix',
@@ -478,18 +488,9 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/remix/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/DM_VPJjn7TQ',
                 ],
-                [
-                    'name'         => 'menuz',
-                    'label'        => esc_html__('Menuz', 'pixel-gallery'),
-                    'type'         => 'checkbox',
-                    'default'      => 'on',
-                    'widget_type'  => 'pro',
-                    'content_type' => 'custom',
-                    'demo_url'     => 'https://pixelgallery.pro/demo/menuz/',
-                    'video_url'    => '',
-                ],
+                
                 [
                     'name'         => 'ruby',
                     'label'        => esc_html__('Ruby', 'pixel-gallery'),
@@ -498,7 +499,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/ruby/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/mQCrx2jVRRI',
                 ],
                 [
                     'name'         => 'shark',
@@ -508,7 +509,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/shark/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/LqZyTJAPUmM',
                 ],
                 // [
                 //     'name'         => 'scrovis',
@@ -528,7 +529,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/sonic/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/8KkaSa-v8l8',
                 ],
                 [
                     'name'         => 'spirit',

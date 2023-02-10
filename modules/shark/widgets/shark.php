@@ -54,6 +54,10 @@ class Shark extends Module_Base
 		return ['pg-shark'];
 	}
 
+	public function get_custom_help_url() {
+		return 'https://youtu.be/LqZyTJAPUmM';
+	}
+
 	protected function register_controls()
 	{
 

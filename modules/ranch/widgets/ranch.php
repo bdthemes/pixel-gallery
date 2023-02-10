@@ -58,6 +58,11 @@ class Ranch extends Module_Base
 		];
 	}
 
+	
+	public function get_custom_help_url() {
+		return 'https://youtu.be/IBjHSszBflk';
+	}
+
 	protected function register_controls()
 	{
 

@@ -28,7 +28,7 @@ Best Addon for Elementor WordPress Plugin with 50+ Most Popular Elements that ne
 
 * Beginner-friendly UI
 * Easy gallery making procedure with drag and drop modules.
-* More than 35 Elementor widgets to design awesome image galleries on your WordPress website.
+* More than 60 Elementor widgets to design awesome image galleries on your WordPress website.
 * Unique layouts with different style sets.
 * Fully customizable.
 * Lightweight plugin.
@@ -167,6 +167,8 @@ e.g.
 1. Upload `pixel-gallery` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Start using it by going to the elementor editor.
+
+https://youtu.be/f70l2qE7W7o
 
 == Screenshots ==
 

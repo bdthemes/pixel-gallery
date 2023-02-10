@@ -54,6 +54,10 @@ class Plex extends Module_Base
 		return ['pg-plex'];
 	}
 
+	public function get_custom_help_url() {
+		return 'https://youtu.be/RIiCTpHo0W0';
+	}
+
 	protected function register_controls() {
 
 		$this->start_controls_section(

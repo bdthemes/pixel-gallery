@@ -54,6 +54,10 @@ class Sonic extends Module_Base
 		return ['pg-sonic'];
 	}
 
+	public function get_custom_help_url() {
+		return 'https://youtu.be/8KkaSa-v8l8';
+	}
+
 	protected function register_controls()
 	{
 

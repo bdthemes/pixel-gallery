@@ -54,6 +54,10 @@ class Remix extends Module_Base
 		return ['pg-remix'];
 	}
 
+	public function get_custom_help_url() {
+		return 'https://youtu.be/DM_VPJjn7TQ';
+	}
+
 	protected function register_controls()
 	{
 
