@@ -657,6 +657,9 @@ class Glam extends Module_Base {
 		$this->end_controls_tabs();
 
 		$this->end_controls_section();
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('glam');
 	}
 
 	public function render_title($item, $name) {

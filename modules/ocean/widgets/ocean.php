@@ -517,6 +517,9 @@ class Ocean extends Module_Base {
 
 		//Global meta Controls
 		$this->register_meta_controls('ocean');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('ocean');
 	}
 
 	/**

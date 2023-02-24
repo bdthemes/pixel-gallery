@@ -331,6 +331,9 @@ class Zilax extends Module_Base {
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('zilax');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('zilax');
 	}
 
 	public function render_items() {

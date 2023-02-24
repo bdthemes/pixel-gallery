@@ -305,6 +305,9 @@ class Lumen extends Module_Base {
         //Global meta Controls
 		$this->register_meta_controls('lumen');
 
+        //Clip Path Controls
+		$this->register_clip_path_controls('lumen');
+
 	}
 	
 	public function render_items() {

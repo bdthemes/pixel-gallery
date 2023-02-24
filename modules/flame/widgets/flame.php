@@ -226,6 +226,9 @@ class Flame extends Module_Base {
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('flame');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('flame');
 	}
 
 	public function render_items() {

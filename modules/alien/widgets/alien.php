@@ -66,6 +66,7 @@ class Alien extends Module_Base {
 		$this->register_global_height_controls('alien');
 		$this->register_title_tag_controls();
 		$this->register_show_meta_controls();
+		$this->register_alignment_controls('alien');
 		$this->register_thumbnail_size_controls();
 
 		//Global Lightbox Controls
@@ -332,6 +333,9 @@ class Alien extends Module_Base {
 		//Global Meta Controls
 		$this->register_meta_controls('alien');
 		$this->register_readmore_controls('alien');
+		
+		//Clip Path Controls
+		$this->register_clip_path_controls('alien');
 
 	}
 

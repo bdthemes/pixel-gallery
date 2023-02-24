@@ -454,6 +454,9 @@ class Crop extends Module_Base {
 
 		//Global meta Controls
 		$this->register_meta_controls('crop');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('crop');
 	}
 
 	/**

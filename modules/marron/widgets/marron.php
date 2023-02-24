@@ -269,6 +269,9 @@ class Marron extends Module_Base
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('marron');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('marron');
 	}
 
 	public function render_items()

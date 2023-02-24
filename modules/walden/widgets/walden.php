@@ -407,6 +407,9 @@ class Walden extends Module_Base {
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('walden');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('walden');
 	}
 
 	public function render_items() {

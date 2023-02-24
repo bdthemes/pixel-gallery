@@ -451,6 +451,9 @@ class Sonic extends Module_Base
 		$this->end_controls_tabs();
 
 		$this->end_controls_section();
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('sonic');
 	}
 
 	public function render_readmore_icon($item, $index, $id)

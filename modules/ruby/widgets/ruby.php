@@ -163,6 +163,9 @@ class Ruby extends Module_Base
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('ruby');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('ruby');
 	}
 
 	public function render_items()

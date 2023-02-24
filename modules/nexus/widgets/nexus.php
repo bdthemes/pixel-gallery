@@ -239,6 +239,9 @@ class Nexus extends Module_Base
 
         //Global Readmore Controls
         $this->register_readmore_controls('nexus');
+
+        //Clip Path Controls
+		$this->register_clip_path_controls('nexus');
     }
 
     public function render_items()

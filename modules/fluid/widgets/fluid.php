@@ -842,6 +842,9 @@ class Fluid extends Module_Base {
 		$this->end_controls_tabs();
 
 		$this->end_controls_section();
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('fluid');
 	}
 
 	public function render_social_link() {

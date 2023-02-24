@@ -348,6 +348,9 @@ class Orbit extends Module_Base
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('orbit');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('orbit');
 	}
 
 	public function render_items() {

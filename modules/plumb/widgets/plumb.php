@@ -268,6 +268,9 @@ class Plumb extends Module_Base
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('plumb');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('plumb');
 	}
 
 	public function render_items()

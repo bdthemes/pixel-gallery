@@ -464,6 +464,9 @@ class Tour extends Module_Base {
 
 		//Global Meta Controls
 		$this->register_meta_controls('tour');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('tour');
 	}
 
 	public function render_meta($item, $name) {

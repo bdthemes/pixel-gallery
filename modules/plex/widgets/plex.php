@@ -439,6 +439,9 @@ class Plex extends Module_Base
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('plex');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('plex');
 	}
 
 	public function render_items()

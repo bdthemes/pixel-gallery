@@ -343,6 +343,9 @@ class Craze extends Module_Base {
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('craze');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('craze');
 	}
 
 	public function render_items() {

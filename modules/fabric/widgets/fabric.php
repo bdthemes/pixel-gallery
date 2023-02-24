@@ -297,6 +297,9 @@ class Fabric extends Module_Base {
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('fabric');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('fabric');
 	}
 
 	public function render_items() {

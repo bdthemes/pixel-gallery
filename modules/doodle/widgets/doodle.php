@@ -369,6 +369,9 @@ class Doodle extends Module_Base {
 
 		//Global Meta Controls
 		$this->register_meta_controls('doodle');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('doodle');
 	}
 
 	public function render_items() {

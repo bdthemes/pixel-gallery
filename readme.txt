@@ -5,13 +5,13 @@ Tags:  elementor addons, elementor widget, elementor extensions, elementor addon
 Requires at least: 4.7.0
 Tested up to: 6.1.1
 Requires PHP: 7.4.0
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
-Elementor tested up to: 3.10.0
+Elementor tested up to: 3.11.2
 
-Best Addon for Elementor WordPress Plugin with 50+ Most Popular Elements that need your everyday website page building.
+Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
 
 == Description ==
@@ -148,7 +148,7 @@ Feel free to [Contact us](https://bdthemes.com/support/) 💌 or check our widge
 
 * **[Prime Slider](https://wordpress.org/plugins/bdthemes-prime-slider-lite/)** - The revolutionary slider builder addon for Elementor with next-gen superb interface.
 
-* **[Ultimate Post Kit](https://wordpress.org/plugins/pixel-gallery/)** - Best blogging addon for building quality blogging website with fine-tuned features and widgets.
+* **[Ultimate Post Kit](https://wordpress.org/plugins/ultimate-post-kit/)** - Best blogging addon for building quality blogging website with fine-tuned features and widgets.
 
 * **[Ultimate Store Kit](https://wordpress.org/plugins/ultimate-store-kit/)** - The only eCommmerce addon for answering all your online store design problems in one package.
 
@@ -180,6 +180,11 @@ https://youtu.be/f70l2qE7W7o
 6. Our others plugins
 
 == Changelog ==
+
+= 1.2.2 [23rd February 2023] =
+
+* Added: Clip Path feature added all widgets
+* Added: Lazy loading compatibility added
 
 = 1.2.1 [12th January 2023] =
 

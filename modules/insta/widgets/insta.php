@@ -578,6 +578,9 @@ class Insta extends Module_Base {
 
 		$this->end_controls_section();
 
+		//Clip Path Controls
+		$this->register_clip_path_controls('insta');
+
 	}
 
 	public function render_social_link($item) {

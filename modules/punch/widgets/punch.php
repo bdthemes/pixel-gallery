@@ -348,6 +348,9 @@ class Punch extends Module_Base
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('punch');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('punch');
 	}
 
 	public function render_items()

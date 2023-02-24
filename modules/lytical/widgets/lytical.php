@@ -338,6 +338,9 @@ class Lytical extends Module_Base
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('lytical');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('lytical');
 	}
 
 	public function render_items()

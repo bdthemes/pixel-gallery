@@ -445,6 +445,9 @@ class Panda extends Module_Base
 		);
 
 		$this->end_controls_section();
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('panda');
 	}
 
 	public function render_date($item)

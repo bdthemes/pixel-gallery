@@ -314,6 +314,9 @@ class Trance extends Module_Base {
 		//Global Meta Controls
 		$this->register_meta_controls('trance');
 
+		//Clip Path Controls
+		$this->register_clip_path_controls('trance');
+
 	}
 
 	public function render_items() {

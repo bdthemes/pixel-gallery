@@ -325,6 +325,9 @@ class Shark extends Module_Base
 
 		//Global Meta Controls
 		$this->register_meta_controls('shark');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('shark');
 	}
 
 	public function render_items()

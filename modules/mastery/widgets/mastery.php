@@ -355,6 +355,9 @@ class Mastery extends Module_Base
 		);
 
 		$this->end_controls_section();
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('mastery');
 	}
 
 	public function render_items()

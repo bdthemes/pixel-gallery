@@ -316,6 +316,9 @@ class Fever extends Module_Base {
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('fever');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('fever');
 	}
 
 	public function render_items() {

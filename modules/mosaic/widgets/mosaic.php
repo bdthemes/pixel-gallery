@@ -663,6 +663,9 @@ class Mosaic extends Module_Base
 		$this->end_controls_tabs();
 
 		$this->end_controls_section();
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('mosaic');
 	}
 
 	public function render_items()

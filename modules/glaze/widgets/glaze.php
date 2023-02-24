@@ -370,6 +370,9 @@ class Glaze extends Module_Base {
 
 		//Global Readmore Controls
 		$this->register_readmore_controls('glaze');
+
+		//Clip Path Controls
+		$this->register_clip_path_controls('glaze');
 	}
 
 	public function render_items() {

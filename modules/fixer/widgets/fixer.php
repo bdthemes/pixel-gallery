@@ -314,6 +314,9 @@ class Fixer extends Module_Base {
 		//Global Meta Controls
 		$this->register_meta_controls('fixer');
 
+		//Clip Path Controls
+		$this->register_clip_path_controls('fixer');
+
 	}
 
 	public function render_items() {

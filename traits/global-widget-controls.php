@@ -588,8 +588,7 @@ trait Global_Widget_Controls
 		$this->end_controls_section();
 	}
 
-	protected function register_readmore_controls($name)
-	{
+	protected function register_readmore_controls($name) {
 		$this->start_controls_section(
 			'section_style_readmore',
 			[
@@ -743,8 +742,7 @@ trait Global_Widget_Controls
 		$this->end_controls_section();
 	}
 
-	protected function register_lightbox_controls()
-	{
+	protected function register_lightbox_controls() {
 		$this->add_control(
 			'link_to',
 			[
@@ -778,8 +776,7 @@ trait Global_Widget_Controls
 		);
 	}
 
-	protected function register_link_target_controls()
-	{
+	protected function register_link_target_controls() {
 		$this->add_control(
 			'link_target',
 			[
@@ -797,6 +794,84 @@ trait Global_Widget_Controls
 		);
 	}
 
+	//Clip Path
+	protected function register_clip_path_controls($name) {
+		$this->start_controls_section(
+			'pg_section_style_clip_path',
+			[
+				'label'     => esc_html__('Clip Path', 'pixel-gallery') . BDTPG_NC,
+				'tab'       => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->start_controls_tabs('tabs_item_clip_path_style');
+
+		$this->start_controls_tab(
+			'tab_item_clip_path_normal',
+			[
+				'label' => esc_html__('Normal', 'pixel-gallery'),
+			]
+		);
+
+		$this->add_control(
+			'clip_path',
+			[
+				'label'       => esc_html__('Clip Path', 'pixel-gallery'),
+				'type'        => Controls_Manager::TEXTAREA,
+				'description'   => sprintf(__('Enter your clip path value, if you don\'t understand clip path so please %1s look here %2s', 'pixel-gallery'), '<a href="https://bennettfeely.com/clippy/" target="_blank">', '</a>'),
+				'placeholder' => esc_html__('polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);', 'pixel-gallery'),
+				'label_block' => true,
+				'selectors'  => [
+					'{{WRAPPER}} .pg-' . $name . '-image-wrap' => 'clip-path: {{VALUE}}; -webkit-clip-path: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'transition',
+			[
+				'label'       => esc_html__('CSS Transition', 'pixel-gallery'),
+				'type'        => Controls_Manager::TEXTAREA,
+				'placeholder' => esc_html__('Enter your CSS transition value', 'pixel-gallery'),
+				'label_block' => true,
+				'selectors'  => [
+					'{{WRAPPER}} .pg-' . $name . '-image-wrap' => 'transition: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->end_controls_tab();
+
+		$this->start_controls_tab(
+			'tab_item_clip_path_hover',
+			[
+				'label' => esc_html__('Hover', 'pixel-gallery'),
+			]
+		);
+
+
+		$this->add_control(
+			'clip_path_hover',
+			[
+				'label'       => esc_html__('Clip Path', 'pixel-gallery'),
+				'type'        => Controls_Manager::TEXTAREA,
+				'description'   => sprintf(__('Enter your clip path value, if you don\'t understand clip path so please %1s look here %2s', 'pixel-gallery'), '<a href="https://bennettfeely.com/clippy/" target="_blank">', '</a>'),
+				'placeholder' => esc_html__('polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);', 'pixel-gallery'),
+				'label_block' => true,
+				'selectors'  => [
+					'{{WRAPPER}} .pg-' . $name . '-item:hover .pg-' . $name . '-image-wrap' => 'clip-path: {{VALUE}}; -webkit-clip-path: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->end_controls_tab();
+
+		$this->end_controls_tabs();
+
+		$this->end_controls_section();
+	}
+
+	
 	/**
 	 * Repeater Title Global
 	 */
@@ -1573,30 +1648,41 @@ trait Global_Widget_Controls
 
 		$thumb_url = Group_Control_Image_Size::get_attachment_image_src($item['image']['id'], 'thumbnail_size', $settings);
 		if (!$thumb_url) {
-			$thumb_url = $item['image']['url'];
+			printf('<img src="%1$s" alt="%2$s" class="pg-%3$s-img">', $item['image']['url'], esc_html($item['title']), esc_attr($name));
+		} else {
+			print(wp_get_attachment_image(
+				$item['image']['id'],
+				$settings['thumbnail_size_size'],
+				false,
+				[
+					'class' => 'pg-'. esc_attr($name) .'-img',
+					'alt' => esc_html($item['title'])
+				]
+			));
 		}
-
-	?>
-		<img class="pg-<?php echo esc_attr($name); ?>-img" src="<?php echo esc_url($thumb_url); ?>" alt="<?php echo esc_html($item['title']); ?>">
-	<?php
+           
 	}
 
     protected function render_dynamic_image($post_id, $size, $name) {
 		$settings = $this->get_settings_for_display();
 
         $placeholder_image_src = Utils::get_placeholder_image_src();
-
         $image_src = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), $size);
 
-        if (!$image_src) {
-            $image_src = $placeholder_image_src;
-        } else {
-            $image_src = $image_src[0];
-        }
+		if (!$image_src) {
+			printf('<img src="%1$s" alt="%2$s" class="pg-%3$s-img">', $placeholder_image_src, esc_html(get_the_title()), esc_attr($name));
+		} else {
+			print(wp_get_attachment_image(
+				get_post_thumbnail_id(),
+				$size,
+				false,
+				[
+					'class' => 'pg-'. esc_attr($name) .'-img',
+					'alt' => esc_html(get_the_title())
+				]
+			));
+		}
 
-	    ?>
-		<img class="pg-<?php echo esc_attr($name); ?>-img" src="<?php echo esc_url($image_src); ?>" alt="<?php echo esc_attr(get_the_title()); ?>">
-	<?php
 	}
 
 	/**
@@ -1653,12 +1739,19 @@ trait Global_Widget_Controls
 
 		$thumb_url = Group_Control_Image_Size::get_attachment_image_src($item['poster']['id'], 'thumbnail_size', $settings);
 		if (!$thumb_url) {
-			$thumb_url = $item['poster']['url'];
+			printf('<img src="%1$s" alt="%2$s" class="pg-%3$s-img">', $item['poster']['url'], esc_html($item['title']), esc_attr($name));
+		} else {
+			print(wp_get_attachment_image(
+				$item['poster']['id'],
+				$settings['thumbnail_size_size'],
+				false,
+				[
+					'class' => 'pg-'. esc_attr($name) .'-img',
+					'alt' => esc_html($item['title'])
+				]
+			));
 		}
 
-	?>
-		<img class="pg-<?php echo esc_attr($name); ?>-img" src="<?php echo esc_url($thumb_url); ?>" alt="<?php echo esc_html($item['title']); ?>">
-	<?php
 	}
 
 	protected function render_title($item, $name) {
