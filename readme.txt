@@ -181,7 +181,7 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.2.2 [23rd February 2023] =
+= 1.2.2 [25rd February 2023] =
 
 * Added: Clip Path feature added all widgets
 * Added: Lazy loading compatibility added

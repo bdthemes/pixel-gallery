@@ -1,5 +1,7 @@
-* {
-  box-sizing: inherit;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 .pg-open-lightbox {
   position: absolute;
@@ -28,6 +30,10 @@
   font-size: 40px;
   color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
+}
+[class*=" elementor-widget-pg-"] svg.e-font-icon-svg {
+  height: 1em;
+  width: 1em;
 }
 /**
  * Entrance Animation
