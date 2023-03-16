@@ -198,3 +198,18 @@ if (!function_exists('pg_license_validation')) {
         return false;
     }
 }
+
+/**
+ * Mask Shapes
+ */
+
+function pixel_gallery_mask_shapes() {
+    $shape_name = 'shape';
+    $list       = [];
+
+    for ($i = 1; $i <= 20; $i++) {
+        $list[$shape_name . '-' . $i] = ucwords($shape_name . ' ' . $i);
+    }
+
+    return $list;
+}

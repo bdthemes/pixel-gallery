@@ -5,11 +5,11 @@ Tags:  elementor addons, elementor widget, elementor extensions, elementor addon
 Requires at least: 4.7.0
 Tested up to: 6.1.1
 Requires PHP: 7.4.0
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
-Elementor tested up to: 3.11.2
+Elementor tested up to: 3.11.5
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -163,7 +163,7 @@ Visit [BdThemes](https://bdthemes.com/) to learn about our services, Elementor p
 This section describes how to install the plugin and get it working.
 
 e.g.
- 
+
 1. Upload `pixel-gallery` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Start using it by going to the elementor editor.
@@ -181,7 +181,11 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.2.2 [25rd February 2023] =
+= 1.3.0 [15th March 2023] =
+
+* Added: Svg mask feature added
+
+= 1.2.2 [25th February 2023] =
 
 * Added: Clip Path feature added all widgets
 * Added: Lazy loading compatibility added

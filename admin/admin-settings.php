@@ -422,7 +422,7 @@ class PixelGallery_Admin_Settings {
                             you 24/7.</p>
                         <p><strong>Or if you’re facing technical issues with our plugin, then please create a support
                                 ticket</strong></p>
-                        <a class="bdt-button bdt-btn-blue bdt-margin-small-top bdt-margin-small-right" target="_blank" rel="" href="https://bdthemes.com/knowledge-base">Knowledge
+                        <a class="bdt-button bdt-btn-blue bdt-margin-small-top bdt-margin-small-right" target="_blank" rel="" href="https://bdthemes.com/all-knowledge-base-of-pixel-gallery/">Knowledge
                             Base</a>
                         <a class="bdt-button bdt-btn-grey bdt-margin-small-top" target="_blank" href="https://bdthemes.com/support/">Get Support</a>
                     </div>
@@ -442,7 +442,7 @@ class PixelGallery_Admin_Settings {
                         <h1 class="pg-feature-title">Missing Any Feature?</h1>
                         <p style="max-width: 520px;">Are you in need of a feature that’s not available in our plugin?
                             Feel free to do a feature request from here,</p>
-                        <a class="bdt-button bdt-btn-yellow bdt-margin-small-top" target="_blank" rel="" href="https://bdthemes.com/make-a-suggestion/">Request Feature</a>
+                        <a class="bdt-button bdt-btn-yellow bdt-margin-small-top" target="_blank" rel="" href="https://feedback.bdthemes.com/b/6vr2250l/feature-requests/">Request Feature</a>
                     </div>
                 </div>
 
@@ -668,7 +668,7 @@ class PixelGallery_Admin_Settings {
 
                             <?php if (true !== _is_pg_pro_activated()) : ?>
                                 <div class=pg-purchase-button">
-                                    <a href="https://bdthemes.com/pixel-gallery/#a851ca7" target="_blank">Purchase Now</a>
+                                    <a href="https://pixelgallery.pro/pricing/" target="_blank">Purchase Now</a>
                                 </div>
                             <?php endif; ?>
 
