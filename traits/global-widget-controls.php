@@ -78,6 +78,9 @@ trait Global_Widget_Controls
 			[
 				'label'   => esc_html__('Show Pagination', 'pixel-gallery'),
 				'type'    => Controls_Manager::SWITCHER,
+				'condition' => [
+					'source' => 'dynamic',
+				],
 			]
 		);
 	}
