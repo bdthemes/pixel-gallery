@@ -758,10 +758,12 @@ class Wisdom extends Module_Base {
 			<div <?php $this->print_render_attribute_string($attr_name); ?>>
 				<?php if ($item['item_hidden'] !== 'yes') : ?>
 					<div class="pg-wisdom-head-content">
+						<?php if($settings['show_date'] == 'yes') : ?>
 						<div class="pg-wisdom-date-wrap">
 							<span class="pg-wisdom-day"><?php echo esc_html($item['date_day']); ?></span>
 							<span class="pg-wisdom-month"><?php echo esc_html($item['date_month']); ?></span>
 						</div>
+						<?php endif; ?>
 						<?php $this->render_title($item, 'wisdom'); ?>
 						<?php $this->render_text($item, 'wisdom'); ?>
 					</div>

@@ -5,7 +5,7 @@ Tags:  elementor addons, elementor widget, elementor extensions, elementor addon
 Requires at least: 4.7.0
 Tested up to: 6.1.1
 Requires PHP: 7.4.0
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
@@ -179,7 +179,15 @@ https://youtu.be/f70l2qE7W7o
 5. Free Features for lifetime because it's free
 6. Our others plugins
 
+
 == Changelog ==
+
+= 1.3.1 [22nd March 2023] =
+
+* Fixed: Image border radius issue fixed in craze grid widget
+* Fixed: Modal title color issue fixed in Flash widget (Pro)
+* Fixed: Secondary color issue fixed in Nexus widget
+* Fixed: Overlay color issue fixed in plex widget
 
 = 1.3.0 [15th March 2023] =
 

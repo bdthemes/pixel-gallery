@@ -202,6 +202,7 @@ class Nexus extends Module_Base
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .pg-nexus-item:hover .pg-nexus-image-wrap::after' => 'box-shadow: inset 0 0 0 10px {{VALUE}};',
+                    '{{WRAPPER}} .pg-nexus-image-wrap::after' => 'box-shadow: inset 0 0 0 0 {{VALUE}};',
                 ],
             ]
         );

@@ -253,6 +253,27 @@ class Plex extends Module_Base
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-plex-image-wrap:before',
+				'fields_options' => [
+					'background' => [
+						'label' => esc_html__('Overlay Color', 'pixel-gallery'),
+						'default' => 'gradient',
+					],
+					'color' => [
+						'default' => 'rgba(13, 59, 84, 0.8)',
+					],
+					'color_b' => [
+						'default' => '#00000000',
+					],
+					'gradient_type' => [
+						'default' => 'linear',
+					],
+					'gradient_angle' => [
+						'default' => [
+							'unit' => 'deg',
+							'size' => 5,
+						],
+					],
+				],
 			]
 		);
 
