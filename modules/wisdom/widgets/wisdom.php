@@ -228,58 +228,6 @@ class Wisdom extends Module_Base {
 			]
 		);
 
-		$this->add_control(
-			'overlay_type',
-			[
-				'label'   => esc_html__('Overlay', 'bdthemes-prime-slider'),
-				'type'    => Controls_Manager::SELECT,
-				'default' => 'background',
-				'options' => [
-					'none'       => esc_html__('None', 'bdthemes-prime-slider'),
-					'background' => esc_html__('Background', 'bdthemes-prime-slider'),
-					'blend'      => esc_html__('Blend', 'bdthemes-prime-slider'),
-				],
-			]
-		);
-
-		$this->add_group_control(
-			Group_Control_Background::get_type(),
-			[
-				'name' => 'overlay_color',
-				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
-				'types' => ['classic', 'gradient'],
-				'exclude' => ['image'],
-				'selector' => '{{WRAPPER}} .pg-wisdom-image-wrap:hover:before',
-				'fields_options' => [
-					'background' => [
-						'default' => 'classic',
-					],
-					'color' => [
-						'default' => 'rgba(13, 59, 84, 0.2)',
-					],
-				],
-				'condition' => [
-					'overlay_type' => ['background', 'blend'],
-				],
-			]
-		);
-
-		$this->add_control(
-			'blend_type',
-			[
-				'label'     => esc_html__('Blend Type', 'bdthemes-prime-slider'),
-				'type'      => Controls_Manager::SELECT,
-				'default'   => 'multiply',
-				'options'   => pixel_gallery_blend_options(),
-				'condition' => [
-					'overlay_type' => 'blend',
-				],
-				'selectors' => [
-					'{{WRAPPER}} .pg-wisdom-image-wrap:hover:before' => 'mix-blend-mode: {{VALUE}};'
-				],
-			]
-		);
-
 		$this->start_controls_tabs('tabs_item_style');
 
 		$this->start_controls_tab(
@@ -418,11 +366,64 @@ class Wisdom extends Module_Base {
 			]
 		);
 
+		$this->add_control(
+			'overlay_type',
+			[
+				'label'   => esc_html__('Overlay', 'bdthemes-prime-slider'),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'background',
+				'options' => [
+					'none'       => esc_html__('None', 'bdthemes-prime-slider'),
+					'background' => esc_html__('Background', 'bdthemes-prime-slider'),
+					'blend'      => esc_html__('Blend', 'bdthemes-prime-slider'),
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			[
+				'name' => 'overlay_color',
+				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
+				'types' => ['classic', 'gradient'],
+				'exclude' => ['image'],
+				'selector' => '{{WRAPPER}} .pg-wisdom-image-wrap:hover:before',
+				'fields_options' => [
+					'background' => [
+						'default' => 'classic',
+					],
+					'color' => [
+						'default' => 'rgba(13, 59, 84, 0.2)',
+					],
+				],
+				'condition' => [
+					'overlay_type' => ['background', 'blend'],
+				],
+			]
+		);
+
+		$this->add_control(
+			'blend_type',
+			[
+				'label'     => esc_html__('Blend Type', 'bdthemes-prime-slider'),
+				'type'      => Controls_Manager::SELECT,
+				'default'   => 'multiply',
+				'options'   => pixel_gallery_blend_options(),
+				'condition' => [
+					'overlay_type' => 'blend',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .pg-wisdom-image-wrap:hover:before' => 'mix-blend-mode: {{VALUE}};'
+				],
+			]
+		);
+
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
 			[
 				'name'      => 'image_border',
 				'selector'  => '{{WRAPPER}} .pg-wisdom-image-wrap',
+				'separator' => 'before',
 			]
 		);
 
@@ -462,6 +463,18 @@ class Wisdom extends Module_Base {
 				'condition' => [
 					'show_date' => 'yes',
 				]
+			]
+		);
+
+		// spacing control
+		$this->add_responsive_control(
+			'date_spacing',
+			[
+				'label'      => esc_html__('Spacing', 'pixel-gallery') . BDTPG_NC,
+				'type'       => Controls_Manager::SLIDER,
+				'selectors'  => [
+					'{{WRAPPER}} .pg-wisdom-date-wrap' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+				],
 			]
 		);
 

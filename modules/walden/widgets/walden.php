@@ -175,7 +175,7 @@ class Walden extends Module_Base {
 		$this->add_control(
 			'overlay_heading',
 			[
-				'label'     => esc_html__('O V E R L A Y', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('OVERLAY', 'bdthemes-pixel-gallery'),
 				'type'      => Controls_Manager::HEADING,
 			]
 		);

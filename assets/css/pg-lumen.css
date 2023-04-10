@@ -11,12 +11,12 @@
 }
 .pg-lumen-item:hover .pg-lumen-title,
 .pg-lumen-item:hover .pg-lumen-meta {
-  transform: translateX(0);
+  transform: translateY(0);
   opacity: 1;
 }
 .pg-lumen-content {
   transform: rotate3d(1, 0, 0, 90deg);
-  width: 110%;
+  width: 100%;
   height: 100%;
   padding: 20px;
   position: absolute;
@@ -41,7 +41,7 @@
 }
 .pg-lumen-title,
 .pg-lumen-meta {
-  transform: translateX(-40px);
+  transform: translateY(-40px);
   opacity: 0;
   transition: transform 0.5s cubic-bezier(0, 0, 0.2, 1), opacity 0.5s cubic-bezier(0, 0, 0.2, 1);
 }

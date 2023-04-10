@@ -1,6 +1,6 @@
-*,
-*::before,
-*::after {
+.elementor-lightbox *,
+.elementor-lightbox *::before,
+.elementor-lightbox *::after {
   box-sizing: border-box;
 }
 .pg-open-lightbox {

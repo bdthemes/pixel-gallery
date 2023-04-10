@@ -5,11 +5,11 @@ Tags:  elementor addons, elementor widget, elementor extensions, elementor addon
 Requires at least: 4.7.0
 Tested up to: 6.2.0
 Requires PHP: 7.4.0
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
-Elementor tested up to: 3.12.0
+Elementor tested up to: 3.12.1
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -181,6 +181,11 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 1.3.4 [8th April 2023] =
+
+* Added: Date Spacing option added in wisdom widget
+* Fixed: Style issue fixed in lumen widget
 
 = 1.3.3 [30th March 2023] =
 
