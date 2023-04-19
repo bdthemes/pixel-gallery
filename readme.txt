@@ -5,7 +5,7 @@ Tags:  elementor addons, elementor widget, elementor extensions, elementor addon
 Requires at least: 4.7.0
 Tested up to: 6.2.0
 Requires PHP: 7.4.0
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
@@ -181,6 +181,12 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 1.3.5 [19th April 2023] =
+
+* Added: Item style, sub title padding, text padding option added in evolve widget
+* Fixed: Dashboard search issue fixed
+* Fixed: Item margin issue fixed in panda widget
 
 = 1.3.4 [8th April 2023] =
 

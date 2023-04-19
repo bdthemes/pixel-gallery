@@ -919,8 +919,11 @@ class PixelGallery_Admin_Settings {
 
             function filterSearch(e) {
                 var parentID = '#' + jQuery(e).data('id');
-
                 var search = jQuery(parentID).find('.bdt-search-input').val().toLowerCase();
+
+                jQuery(".pg-options .pg-option-item").filter(function() {
+                    jQuery(this).toggle(jQuery(this).attr('data-widget-name').toLowerCase().indexOf(search) > -1)
+                });
 
                 if (!search) {
                     jQuery(parentID).find('.bdt-search-input').attr('bdt-filter-control', "");
@@ -1004,7 +1007,7 @@ class PixelGallery_Admin_Settings {
 
                 jQuery('#pixel_gallery_active_modules_page a.pg-deactive-all-widget').click(function(e) {
                     e.preventDefault();
-                    
+
                     jQuery('#pixel_gallery_active_modules_page .pg-option-item:not(.pg-pro-inactive) .checkbox:visible').each(function() {
                         jQuery(this).removeAttr('checked');
                     });

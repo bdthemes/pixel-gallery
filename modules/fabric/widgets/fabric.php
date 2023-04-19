@@ -252,8 +252,8 @@ class Fabric extends Module_Base {
 				'type'    => Controls_Manager::SLIDER,
 				'range'   => [
 					'px' => [
-						'min' => 200,
-						'max' => 500,
+						'min' => 0,
+						'max' => 20,
 					],
 				],
 				'selectors' => [
