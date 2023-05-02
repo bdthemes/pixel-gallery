@@ -61,6 +61,19 @@ class Zilax extends Module_Base {
 			]
 		);
 
+		$this->add_control(
+			'layout_style',
+			[
+				'label'   => _x('Layout Style', 'bdthemes-prime-slider') . BDTPG_NC,
+				'type'    => Controls_Manager::SELECT,
+				'default' => '1',
+				'options' => [
+					'1'       => _x('01', 'bdthemes-prime-slider'),
+					'2'       => _x('02', 'bdthemes-prime-slider'),
+				],
+			]
+		);
+
 		//Global
 		$this->register_grid_controls('zilax');
 		$this->register_global_height_controls('zilax');
@@ -384,7 +397,7 @@ class Zilax extends Module_Base {
 
 	public function render() {
 		$settings   = $this->get_settings_for_display();
-		$this->add_render_attribute('grid', 'class', 'pg-zilax-grid pg-grid');
+		$this->add_render_attribute('grid', 'class', 'pg-zilax-grid pg-grid pg-zilax-style-' . $settings['layout_style']);
 
 		if (isset($settings['pg_in_animation_show']) && ($settings['pg_in_animation_show'] == 'yes')) {
 			$this->add_render_attribute( 'grid', 'class', 'pg-in-animation' );

@@ -5,11 +5,11 @@ Tags:  elementor addons, elementor widget, elementor extensions, elementor addon
 Requires at least: 4.7.0
 Tested up to: 6.2.0
 Requires PHP: 7.4.0
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
-Elementor tested up to: 3.12.1
+Elementor tested up to: 3.12.2
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -181,6 +181,12 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 1.3.6 [29th April 2023] =
+
+* Added: Layout Style option added in zilax widget
+* Fixed: Border radius issue fixed in sonic widget
+* Fixed: Zilax widget item hover issue fixed when enable entrance animation
 
 = 1.3.5 [19th April 2023] =
 
