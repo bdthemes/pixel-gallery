@@ -57,9 +57,10 @@ class Ocean extends Module_Base {
 		return ['pg-ocean'];
 	}
 
-	// public function get_custom_help_url() {
-	// 	return 'https://youtu.be/2g6YB1oRug8';
-	// }
+	public function get_custom_help_url() {
+		return 'https://youtu.be/150N81SaAHQ';
+	}
+	
 
 	protected function register_controls() {
 

@@ -3,13 +3,13 @@ Contributors: bdthemes, selimmw, mohammaadfarid, bdkoder, abutalib, muhammadasik
 Donate link: http://bdthemes.com/
 Tags:  elementor addons, elementor widget, elementor extensions, elementor addon, addons, elementor, addons for elementor, addons pack, live copy, template library, bdthemes
 Requires at least: 4.7.0
-Tested up to: 6.2.0
+Tested up to: 6.2.2
 Requires PHP: 7.4.0
-Stable tag: 1.3.6
+Stable tag: 1.3.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
-Elementor tested up to: 3.12.2
+Elementor tested up to: 3.13.4
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -181,6 +181,14 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 1.3.8 [14th June 2023] =
+
+* Fixed: Content spacing issue fixed in alien widget
+
+= 1.3.7 [25th May 2023] =
+
+* Added: Content Align option added in Craze widget
 
 = 1.3.6 [29th April 2023] =
 

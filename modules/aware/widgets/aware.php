@@ -47,9 +47,9 @@ class Aware extends Module_Base {
 		return ['pg-aware'];
 	}
 
-	// public function get_custom_help_url() {
-	// 	return 'https://youtu.be/T9QmOd9o550';
-	// }
+	public function get_custom_help_url() {
+		return 'https://youtu.be/r6XFiNTDFOA';
+	}
 
 	protected function register_controls() {
 
@@ -61,7 +61,6 @@ class Aware extends Module_Base {
 			]
 		);
 
-
 		$this->add_control(
 			'layout_style',
 			[
@@ -69,11 +68,11 @@ class Aware extends Module_Base {
 				'type'    => Controls_Manager::SELECT,
 				'default' => '1',
 				'options' => [
-					'1'       => _x('01', 'pixel-gallery'),
-					'2'       => _x('02', 'pixel-gallery'),
-					'3'       => _x('03', 'pixel-gallery'),
-					'4'       => _x('04', 'pixel-gallery'),
-					'5'       => _x('05', 'pixel-gallery'),
+					'1'	=> '01',
+					'2'	=> '02',
+					'3'	=> '03',
+					'4'	=> '04',
+					'5'	=> '05',
 				],
 			]
 		);

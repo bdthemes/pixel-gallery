@@ -28,7 +28,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom new',
                     'demo_url'     => 'https://pixelgallery.pro/demo/alien/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/O4YS5LNJI2g',
                 ],
                 [
                     'name'         => 'aware',
@@ -38,7 +38,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom new',
                     'demo_url'     => 'https://pixelgallery.pro/demo/aware/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/r6XFiNTDFOA',
                 ],
                 [
                     'name'         => 'axen',
@@ -78,7 +78,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom new',
                     'demo_url'     => 'https://pixelgallery.pro/demo/crop/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/EbxYzM47GAs',
                 ],
                 [
                     'name'         => 'diamond',
@@ -88,7 +88,7 @@ class ModuleService {
                     'widget_type'  => 'pro',
                     'content_type' => 'custom new',
                     'demo_url'     => 'https://pixelgallery.pro/demo/diamond/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/a6wrnjc-tPk',
                 ],
                 [
                     'name'         => 'doodle',
@@ -238,7 +238,7 @@ class ModuleService {
                     'widget_type'  => 'pro',
                     'content_type' => 'custom new',
                     'demo_url'     => 'https://pixelgallery.pro/demo/ridex/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/6e8ELgxVmyo',
                 ],
                 [
                     'name'         => 'heron',
@@ -278,7 +278,7 @@ class ModuleService {
                     'widget_type'  => 'pro',
                     'content_type' => 'custom new',
                     'demo_url'     => 'https://pixelgallery.pro/demo/kitec/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/NJXfdAwMIxM',
                 ],
                 [
                     'name'         => 'koral',
@@ -398,7 +398,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom new',
                     'demo_url'     => 'https://pixelgallery.pro/demo/ocean/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/150N81SaAHQ',
                 ],
                 [
                     'name'         => 'orbit',

@@ -82,6 +82,28 @@ class Craze extends Module_Base {
 			]
 		);
 
+		//content align left right
+		$this->add_control(
+			'content_align',
+			[
+				'label'   => __('Content Align', 'pixel-gallery') . BDTPG_NC,
+				'type'    => Controls_Manager::CHOOSE,
+				'options' => [
+					'left'   => [
+						'title' => __('Left', 'pixel-gallery'),
+						'icon'  => 'eicon-h-align-left',
+					],
+					'right'  => [
+						'title' => __('Right', 'pixel-gallery'),
+						'icon'  => 'eicon-h-align-right',
+					],
+				],
+				'default'     => 'left',
+				'toggle'      => false,
+				'prefix_class' => 'pg-craze-content-align-',
+			]
+		);
+
 		/**
 		 * Global Title Tag & text
 		 */

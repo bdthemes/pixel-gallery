@@ -3025,6 +3025,17 @@
 .pg-craze-readmore a:hover {
   color: #0D3B54;
 }
+.pg-craze-content-align-right .pg-craze-item:hover img {
+  transform: translateX(50px);
+}
+.pg-craze-content-align-right .pg-craze-item:hover .pg-craze-content {
+  left: 0;
+  right: auto;
+}
+.pg-craze-content-align-right .pg-craze-content {
+  left: 40px;
+  right: auto;
+}
 
 .pg-orbit-grid {
   display: grid;
@@ -4576,7 +4587,7 @@
   height: 100%;
 }
 .pg-alien-content {
-  padding: 15px 0;
+  padding: 15px 0 0;
 }
 .pg-alien-image-wrap {
   position: relative;

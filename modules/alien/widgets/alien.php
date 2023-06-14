@@ -47,9 +47,9 @@ class Alien extends Module_Base {
 		return ['pg-alien'];
 	}
 
-	// public function get_custom_help_url() {
-	// 	return 'https://youtu.be/T9QmOd9o550';
-	// }
+	public function get_custom_help_url() {
+		return 'https://youtu.be/O4YS5LNJI2g';
+	}
 
 	protected function register_controls() {
 

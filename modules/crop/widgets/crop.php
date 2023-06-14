@@ -57,9 +57,9 @@ class Crop extends Module_Base {
 		return ['pg-crop'];
 	}
 
-	// public function get_custom_help_url() {
-	// 	return 'https://youtu.be/2g6YB1oRug8';
-	// }
+	public function get_custom_help_url() {
+		return 'https://youtu.be/EbxYzM47GAs';
+	}
 
 	protected function register_controls() {
 
