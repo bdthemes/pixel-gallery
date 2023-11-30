@@ -74,8 +74,8 @@ class Asset_Minifier {
         $direction = is_rtl() ? '.rtl' : '';
 
         foreach ( $widgets as $widget ) {
-            $jsPath  = BDTPG_PATH . 'assets/js/modules/pg-' . $widget . '.js';
-            $cssPath = BDTPG_PATH . 'assets/css/pg-' . $widget . $direction . '.css';
+            $jsPath  = BDTPG_PATH . 'assets/js/modules/ep-' . $widget . '.js';
+            $cssPath = BDTPG_PATH . 'assets/css/ep-' . $widget . $direction . '.css';
 
             $script = [];
             if ( file_exists($jsPath) ) {
@@ -119,7 +119,7 @@ class Asset_Minifier {
             BDTPG_ASSETS_PATH . 'js/common/helper.js'
         ], $this->getJsPaths());
 
-        $scripts  = apply_filters('pixel_gallery/optimization/assets/scripts', $scripts);
+        $scripts  = apply_filters('pixelgallery/optimization/assets/scripts', $scripts);
         $minifier = new Minify\JS();
 
         foreach ( $scripts as $item ) {
@@ -128,17 +128,17 @@ class Asset_Minifier {
 
         $uploads_dir = trailingslashit(wp_upload_dir()['basedir']) . 'pixel-gallery/minified/js';
         wp_mkdir_p($uploads_dir);
-        $minifiedPath = "$uploads_dir" . "/pg-scripts.js";
+        $minifiedPath = "$uploads_dir" . "/ep-scripts.js";
         $minifier->minify($minifiedPath);
     }
 
     public function minifyCss() {
         $styles = array_merge($this->getCssPaths(), [
             // global js path goes there
-            BDTPG_ASSETS_PATH . 'css/pg-font.css'
+            BDTPG_ASSETS_PATH . 'css/ep-font.css'
         ]);
 
-        $styles   = apply_filters('pixel_gallery/optimization/assets/styles', $styles);
+        $styles   = apply_filters('pixelgallery/optimization/assets/styles', $styles);
         $minifier = new Minify\CSS();
 
         foreach ( $styles as $item ) {
@@ -147,7 +147,7 @@ class Asset_Minifier {
 
         $uploads_dir = trailingslashit(wp_upload_dir()['basedir']) . 'pixel-gallery/minified/css';
         wp_mkdir_p($uploads_dir);
-        $minifiedPath = "$uploads_dir" . "/pg-styles.css";
+        $minifiedPath = "$uploads_dir" . "/ep-styles.css";
         $minifier->minify($minifiedPath);
     }
 

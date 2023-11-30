@@ -170,6 +170,42 @@ class Fever extends Module_Base {
 				],
 			]
 		);
+		$this->add_control(
+			'glassmorphism_effect',
+			[
+				'label' => esc_html__('Glassmorphism', 'bdthemes-element-pack') . BDTPG_NC,
+				'type'  => Controls_Manager::SWITCHER,
+				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'bdthemes-element-pack'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
+				'condition' => [
+					'overlay_type' => 'background',
+				]
+			]
+		);
+
+		$this->add_control(
+			'glassmorphism_blur_level',
+			[
+				'label'       => esc_html__('Blur Level', 'bdthemes-element-pack'),
+				'type'        => Controls_Manager::SLIDER,
+				'range'       => [
+					'px' => [
+						'min'  => 0,
+						'step' => 1,
+						'max'  => 50,
+					]
+				],
+				'default'     => [
+					'size' => 5
+				],
+				'selectors'   => [
+					'{{WRAPPER}} .pg-fever-image-wrap::before' => 'backdrop-filter: blur({{SIZE}}px); -webkit-backdrop-filter: blur({{SIZE}}px);'
+				],
+				'condition' => [
+					'glassmorphism_effect' => 'yes',
+					'overlay_type' => 'background',
+				]
+			]
+		);
 
 		$this->start_controls_tabs('tabs_item_style');
 

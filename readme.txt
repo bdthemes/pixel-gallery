@@ -1,15 +1,15 @@
 === Pixel Gallery Addons for Elementor - Easy Grid, Creative Gallery, Drag and Drop Grid, Custom Grid Layout, Portfolio Gallery ===
-Contributors: bdthemes, selimmw, mohammaadfarid, bdkoder, abutalib, muhammadasik
+Contributors: bdthemes, selimmw, mohammaadfarid, bdkoder, abutalib, muhammadasik, tauhidalam, maudud
 Donate link: http://bdthemes.com/
 Tags:  elementor addons, elementor widget, elementor extensions, elementor addon, addons, elementor, addons for elementor, addons pack, live copy, template library, bdthemes
-Requires at least: 4.7.0
-Tested up to: 6.2.2
+Requires at least: 5.0.0
+Tested up to: 6.4.1
 Requires PHP: 7.4.0
-Stable tag: 1.3.8
+Stable tag: 1.4.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
-Elementor tested up to: 3.13.4
+Elementor tested up to: 3.17.3
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -181,6 +181,38 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 1.4.6 [9th November 2023] =
+
+* Fixed: Read more issue fixed in glam widget
+
+= 1.4.5 [29th October 2023] =
+
+* Fixed: conflict issue fixed
+
+= 1.4.4 [29th October 2023] =
+
+* Updated: System improved
+
+= 1.4.3 [12th August 2023] =
+
+* Added: Content Position option added in fixer widget
+
+= 1.4.2 [25th July 2023] =
+
+* Added: Overlay color option added in lunar, lytical widget
+* Added: Glassmorphism effect added in axen, craze, doodle, elixir, epoch, fabric, fever, flame, fluid, glaze, insta, koral, lumen, lunar, lytical, marron widget
+
+= 1.4.1 [12th July 2023] =
+
+* Added: Glassmorphism effect added in fixer widget
+
+= 1.4.0 [18th June 2023] =
+
+* Added: Glassmorphism effect added in mystic, ocean, panda, ranch, sonic, trance widgets
+* Fixed: Lightbox issue fixed in lytical widget
+* Fixed: Height issue fixed in wisdom widget
+* Fixed: Alignment issue fixed in insta, crop, flame, lunar, mosaic, ranch, shark, sonic, trance, walden widgets
 
 = 1.3.8 [14th June 2023] =
 

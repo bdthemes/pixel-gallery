@@ -53,9 +53,7 @@ final class Manager {
 
     public function load_module_instance($module) {
 
-
         $direction = is_rtl() ? '.rtl' : '';
-        $suffix    = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
         $module_id  = $module['name'];
         $class_name = str_replace('-', ' ', $module_id);
@@ -70,7 +68,7 @@ final class Manager {
                 }
                 // register widget JS
                 if (ModuleService::has_module_script($module_id)) {
-                    wp_register_script('pg-' . $module_id, BDTPG_URL . 'assets/js/modules/pg-' . $module_id . $suffix . '.js', ['jquery', 'elementor-frontend'], BDTPG_VER, true);
+                    wp_register_script('pg-' . $module_id, BDTPG_URL . 'assets/js/modules/pg-' . $module_id . '.min.js', ['jquery', 'elementor-frontend'], BDTPG_VER, true);
                 }
             }
         }

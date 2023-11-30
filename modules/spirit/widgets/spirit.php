@@ -66,9 +66,114 @@ class Spirit extends Module_Base
 		);
 
 		//Global
-		$this->register_grid_controls('spirit');
-		$this->register_global_height_controls('spirit');
-		$this->register_title_tag_controls();
+		$this->add_control(
+			'grid_template_columns',
+			[
+				'label' => esc_html__('Grid Template Columns', 'pixel-gallery'),
+				'description' => esc_html__('Note: If you Changed Grid Template Columns then you must set Column Span and Row Span from Repeater Items.', 'pixel-gallery'),
+				'type'  => Controls_Manager::NUMBER,
+				'min'   => 1,
+				'max'   => 12,
+				'default' => 12,
+				'selectors' => [
+					'{{WRAPPER}} .pg-spirit-grid' => 'grid-template-columns: repeat({{VALUE}}, 1fr); grid-auto-flow: dense;',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'row_gap',
+			[
+				'label' => esc_html__('Row Gap', 'pixel-gallery'),
+				'type'  => Controls_Manager::SLIDER,
+				'default' => [
+					'size' => 10,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .pg-spirit-grid' => 'grid-row-gap: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'column_gap',
+			[
+				'label' => esc_html__('Column Gap', 'pixel-gallery'),
+				'type'  => Controls_Manager::SLIDER,
+				'default' => [
+					'size' => 10,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .pg-spirit-grid' => 'grid-column-gap: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+		$this->add_responsive_control(
+			'item_height',
+			[
+				'label'   => __('Item Height', 'pixel-gallery'),
+				'type'    => Controls_Manager::SLIDER,
+				'range'   => [
+					'px' => [
+						'min' => 200,
+						'max' => 800,
+					],
+				],
+				'default' => [
+					'size' => 380,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .pg-spirit-item' => 'height: {{SIZE}}px;',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+            'items_align',
+            [
+                'label'     => __('Item Alignment', 'pixel-gallery') . BDTPG_NC,
+                'type'      => Controls_Manager::CHOOSE,
+                'options'   => [
+                    'start'    => [
+                        'title' => __('Left', 'pixel-gallery-pro'),
+                        'icon'  => 'eicon-v-align-top',
+                    ],
+                    'center'  => [
+                        'title' => __('Center', 'pixel-gallery-pro'),
+                        'icon'  => 'eicon-v-align-middle',
+                    ],
+                    'end'   => [
+                        'title' => __('Right', 'pixel-gallery-pro'),
+                        'icon'  => ' eicon-v-align-bottom',
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .pg-spirit-grid' => 'align-items: {{VALUE}};',
+                ],
+            ]
+        );
+		$this->add_control(
+			'show_title',
+			[
+				'label'   => __('Show Title', 'pixel-gallery'),
+				'type'    => Controls_Manager::SWITCHER,
+				'default' => 'yes',
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'title_tag',
+			[
+				'label'   => __('Title HTML Tag', 'pixel-gallery'),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'h3',
+				'options' => pixel_gallery_title_tags(),
+				'condition' => [
+					'show_title' => 'yes',
+				]
+			]
+		);
 		$this->register_alignment_controls('spirit');
 		$this->register_thumbnail_size_controls();
 

@@ -173,10 +173,7 @@ class Pixel_Gallery_Loader {
      * @return [type] [description]
      */
     public function register_site_scripts() {
-
-        $suffix       = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-
-        wp_register_script('pg-animations', BDTPG_ASSETS_URL . 'js/extensions/pg-animations' . $suffix . '.js', ['jquery'], '', true);
+        wp_register_script('pg-animations', BDTPG_ASSETS_URL . 'js/extensions/pg-animations.min.js', ['jquery'], '', true);
     }
 
     public function register_site_styles() {
@@ -203,23 +200,11 @@ class Pixel_Gallery_Loader {
         wp_enqueue_style('pg-helper', BDTPG_ASSETS_URL . 'css/pg-helper' . $direction_suffix . '.css', [], BDTPG_VER);
     }
 
-
-    /**
-     * Loading site related script that needs all time such as uikit.
-     * @return [type] [description]mn
-     */
-    public function enqueue_site_scripts() {
-
-        $suffix           = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-    }
-
     public function enqueue_editor_scripts() {
-
-        $suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
         wp_enqueue_script(
             'pg-editor',
-            BDTPG_ASSETS_URL . 'js/pg-editor' . $suffix . '.js',
+            BDTPG_ASSETS_URL . 'js/pg-editor.min.js',
             [
                 'backbone-marionette',
                 'elementor-common-modules',
@@ -247,17 +232,6 @@ class Pixel_Gallery_Loader {
 
         wp_localize_script('pg-editor', 'PixelGalleryConfigEditor', $localize_data);
     }
-
-    /**
-     * Load editor editor related style from here
-     * @return [type] [description]
-     */
-    public function enqueue_preview_styles() {
-        $direction_suffix = is_rtl() ? '.rtl' : '';
-
-        //wp_enqueue_style('pg-preview', BDTPG_ASSETS_URL . 'css/pg-preview' . $direction_suffix . '.css', '', BDTPG_VER);
-    }
-
 
     public function enqueue_editor_styles() {
         $direction_suffix = is_rtl() ? '.rtl' : '';
@@ -287,17 +261,16 @@ class Pixel_Gallery_Loader {
     }
 
     public function enqueue_minified_js() {
-        $suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
         $upload_dir = $this->get_upload_dir() . 'js/pg-scripts.js';
         $version    = get_option('pixel-gallery-minified-asset-manager-version');
 
         if (pixel_gallery_is_asset_optimization_enabled() && file_exists($upload_dir)) {
-            $upload_url = $this->get_upload_url() . 'js/pg-scripts.js';
+            $upload_url = $this->get_upload_url() . 'js/pg-scripts.min.js';
 
             wp_register_script('pg-scripts', $upload_url, ['elementor-frontend'], $version, true);
         } else {
-            wp_register_script('pg-scripts', BDTPG_URL . 'assets/js/pg-scripts' . $suffix . '.js', ['elementor-frontend'], BDTPG_VER, true);
+            wp_register_script('pg-scripts', BDTPG_URL . 'assets/js/pg-scripts.min.js', ['elementor-frontend'], BDTPG_VER, true);
         }
 
         if (pixel_gallery_is_asset_optimization_enabled()) {
@@ -410,11 +383,9 @@ class Pixel_Gallery_Loader {
         add_action('elementor/frontend/before_register_styles', [$this, 'register_site_styles']);
         add_action('elementor/frontend/before_register_scripts', [$this, 'register_site_scripts']);
 
-        add_action('elementor/preview/enqueue_styles', [$this, 'enqueue_preview_styles']);
         add_action('elementor/editor/after_enqueue_scripts', [$this, 'enqueue_editor_scripts']);
 
         add_action('elementor/frontend/after_register_styles', [$this, 'enqueue_site_styles']);
-        add_action('elementor/frontend/before_enqueue_scripts', [$this, 'enqueue_site_scripts']);
 
         // For frontend css load
         add_action('elementor/frontend/after_enqueue_styles', [$this, 'enqueue_minified_css']);

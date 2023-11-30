@@ -1,28 +1,30 @@
 {
-  "name": "pixel-gallery",
-  "version": "1.0.0",
-  "main": "index.php",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "pixel-gallery",
-    "theme"
-  ],
-  "author": "bdthemes",
-  "license": "ISC",
-  "devDependencies": {
-    "grunt": "^1.5.3",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-less": "^1.4.1",
-    "grunt-contrib-uglify": "^5.0.1",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-rtlcss": "^2.0.2",
-    "grunt-terser": "^1.0.0",
-    "jit-grunt": "^0.10.0"
-  },
-  "dependencies": {
-    "grunt-contrib-concat": "^1.0.1",
-    "vue": "^2.6.14"
-  }
+	"name": "pixel-gallery",
+	"version": "2.0.0",
+	"main": "index.php",
+	"scripts": {
+		"dev": "cross-env NODE_ENV=development grunt watch",
+		"build": "npm run clean && cross-env NODE_ENV=production grunt",
+		"clean": "rimraf ./assets"
+	},
+	"keywords": [
+		"pixel-gallery",
+		"theme"
+	],
+	"author": "bdthemes",
+	"license": "ISC",
+	"devDependencies": {
+		"cross-env": "^7.0.3",
+		"grunt": "^1.6.1",
+		"grunt-contrib-concat": "^2.1.0",
+		"grunt-contrib-copy": "^1.0.0",
+		"grunt-contrib-less": "^3.0.0",
+		"grunt-contrib-watch": "^1.1.0",
+		"grunt-rtlcss": "^2.0.2",
+		"grunt-terser": "^2.0.0",
+		"jit-grunt": "^0.10.0",
+		"rimraf": "^5.0.1",
+		"terser": "^5.18.2",
+		"uikit": "3.16.23-dev.10a221fa8"
+	}
 }

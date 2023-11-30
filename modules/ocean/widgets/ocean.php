@@ -91,7 +91,7 @@ class Ocean extends Module_Base {
 		$this->register_title_tag_controls();
 		$this->register_show_meta_controls();
 		$this->register_show_pagination_controls();
-		$this->register_alignment_controls('ocean');
+		// $this->register_alignment_controls('ocean');
 		$this->register_thumbnail_size_controls();
 
 		//Global Lightbox Controls
@@ -446,6 +446,40 @@ class Ocean extends Module_Base {
 			]
 		);
 
+		$this->add_control(
+			'glassmorphism_effect',
+			[
+				'label' => esc_html__('Glassmorphism', 'bdthemes-element-pack') . BDTPG_NC,
+				'type'  => Controls_Manager::SWITCHER,
+				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'bdthemes-element-pack'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
+
+			]
+		);
+
+		$this->add_control(
+			'glassmorphism_blur_level',
+			[
+				'label'       => esc_html__('Blur Level', 'bdthemes-element-pack'),
+				'type'        => Controls_Manager::SLIDER,
+				'range'       => [
+					'px' => [
+						'min'  => 0,
+						'step' => 1,
+						'max'  => 50,
+					]
+				],
+				'default'     => [
+					'size' => 5
+				],
+				'selectors'   => [
+					'{{WRAPPER}} .pg-ocean-overlay' => 'backdrop-filter: blur({{SIZE}}px); -webkit-backdrop-filter: blur({{SIZE}}px);'
+				],
+				'condition' => [
+					'glassmorphism_effect' => 'yes',
+				]
+			]
+		);
+
 		$this->add_group_control(
 			Group_Control_Background::get_type(),
 			[
@@ -462,6 +496,7 @@ class Ocean extends Module_Base {
 						'default' => '#fff',
 					],
 				],
+				'separator' => 'before',
 			]
 		);
 

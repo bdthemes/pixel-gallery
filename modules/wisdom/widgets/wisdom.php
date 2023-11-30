@@ -770,6 +770,7 @@ class Wisdom extends Module_Base {
 
 			<div <?php $this->print_render_attribute_string($attr_name); ?>>
 				<?php if ($item['item_hidden'] !== 'yes') : ?>
+				<div class="pg-wisdom-item-inner">
 					<div class="pg-wisdom-head-content">
 						<?php if($settings['show_date'] == 'yes') : ?>
 						<div class="pg-wisdom-date-wrap">
@@ -801,6 +802,7 @@ class Wisdom extends Module_Base {
 					<?php if ('none' !== $settings['link_to'] && $settings['link_target'] == 'whole_item') : ?>
 						<?php $this->render_lightbox_link_url($item, $index, $id); ?>
 					<?php endif; ?>
+				</div>
 				<?php endif; ?>
 			</div>
 

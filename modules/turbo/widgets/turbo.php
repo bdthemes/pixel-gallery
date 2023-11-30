@@ -75,7 +75,7 @@ class Turbo extends Module_Base {
 		$this->register_global_height_controls('turbo');
 		$this->register_title_tag_controls();
 		$this->register_show_meta_controls();
-		$this->register_content_alignment_controls('turbo');
+		// $this->register_content_alignment_controls('turbo');
 		$this->register_thumbnail_size_controls();
 
 		//Global Lightbox Controls

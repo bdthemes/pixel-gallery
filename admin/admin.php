@@ -70,13 +70,12 @@ class Admin {
     public function enqueue_styles() {
 
         $direction_suffix = is_rtl() ? '.rtl' : '';
-        $suffix           = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
         wp_enqueue_style('bdt-uikit', BDTPG_ADMIN_URL . 'assets/css/bdt-uikit' . $direction_suffix . '.css', [], '3.10.1');
         wp_enqueue_style('pg-editor', BDTPG_ASSETS_URL . 'css/pg-editor' . $direction_suffix . '.css', [], BDTPG_VER);
         wp_enqueue_style('pg-admin', BDTPG_ADMIN_URL . 'assets/css/pg-admin' . $direction_suffix . '.css', [], BDTPG_VER);
 
-        wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit' . $suffix . '.js', ['jquery'], '3.10.1');
+        wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit.min.js', ['jquery'], '3.10.1');
     }
 
     /**

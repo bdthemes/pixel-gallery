@@ -73,6 +73,8 @@ class Lytical extends Module_Base
 
 		//Global Lightbox Controls
 		$this->register_lightbox_controls();
+		$this->register_link_target_controls();
+
 		$this->end_controls_section();
 
 		//Repeater
@@ -119,6 +121,61 @@ class Lytical extends Module_Base
 			[
 				'label'     => esc_html__('Items', 'pixel-gallery'),
 				'tab'       => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_control(
+			'glassmorphism_effect',
+			[
+				'label' => esc_html__('Glassmorphism', 'bdthemes-element-pack') . BDTPG_NC,
+				'type'  => Controls_Manager::SWITCHER,
+				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'bdthemes-element-pack'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
+
+			]
+		);
+
+		$this->add_control(
+			'glassmorphism_blur_level',
+			[
+				'label'       => esc_html__('Blur Level', 'bdthemes-element-pack'),
+				'type'        => Controls_Manager::SLIDER,
+				'range'       => [
+					'px' => [
+						'min'  => 0,
+						'step' => 1,
+						'max'  => 50,
+					]
+				],
+				'default'     => [
+					'size' => 5
+				],
+				'selectors'   => [
+					'{{WRAPPER}} .pg-lytical-image-wrap::before' => 'backdrop-filter: blur({{SIZE}}px); -webkit-backdrop-filter: blur({{SIZE}}px);'
+				],
+				'condition' => [
+					'glassmorphism_effect' => 'yes',
+				]
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			[
+				'name' => 'overlay_background',
+				'label' => esc_html__('Background', 'pixel-gallery'),
+				'types' => ['classic', 'gradient'],
+				'exclude' => ['image'],
+				'selector' => '{{WRAPPER}} .pg-lytical-image-wrap::before',
+				'separator' => 'before',
+				'fields_options' => [
+					'background' => [
+						'default' => 'classic',
+						'label' => esc_html__('Overlay Color', 'pixel-gallery') . BDTPG_NC,
+					],
+					'color' => [
+						'default' => 'rgba(13, 59, 84, 0.2)',
+					],
+				],
 			]
 		);
 
