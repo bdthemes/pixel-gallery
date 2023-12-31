@@ -58,7 +58,7 @@ class ModuleService {
                     'widget_type'  => 'pro',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/amaze/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/WPwS_wjGBIk?si=3V3eH4H2Qrn2-H3v',
                 ],
                 [
                     'name'         => 'craze',
@@ -118,7 +118,7 @@ class ModuleService {
                     'widget_type'  => 'pro',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/dream/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/eGGVcn2LL-c?si=tRXJbJuirEjlBcLj',
                 ],
                 [
                     'name'         => 'elixir',
@@ -148,7 +148,7 @@ class ModuleService {
                     'widget_type'  => 'pro',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/evolve/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/yJ3HR4cNg_s?si=-SU8_FJjefyucD7n',
                 ],
                 [
                     'name'         => 'fabric',
@@ -198,7 +198,7 @@ class ModuleService {
                     'widget_type'  => 'pro',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/flash/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/SIdaSB9mjnk?si=uyCsv08oBZdVbwdz',
                 ],
                 [
                     'name'         => 'fluid',
@@ -218,7 +218,7 @@ class ModuleService {
                     'widget_type'  => 'pro',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/floral/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/DWkgliNNKPA?si=LSOAZHyL-vqe2zOq',
                 ],
                 [
                     'name'         => 'glam',
@@ -348,7 +348,7 @@ class ModuleService {
                     'widget_type'  => 'pro',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/maven/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/Ojb7RzSmb2g?si=y-cyd379WE6JUFtM',
                 ],
                 [
                     'name'         => 'mastery',
@@ -438,7 +438,7 @@ class ModuleService {
                     'widget_type'  => 'pro',
                     'content_type' => 'custom new',
                     'demo_url'     => 'https://pixelgallery.pro/demo/polo/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/l67_lQN9FNA?si=_SOVMq1ulBaC2m56',
                 ],
                 [
                     'name'         => 'pastel',
@@ -549,7 +549,7 @@ class ModuleService {
                     'widget_type'  => 'free',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/spirit/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/kBMiCVbo68w?si=H5lrUXK86gQfGYrA',
                 ],
                 [
                     'name'         => 'tour',
@@ -579,7 +579,7 @@ class ModuleService {
                     'widget_type'  => 'pro',
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/tread/',
-                    'video_url'    => '',
+                    'video_url'    => 'https://youtu.be/WYEDNZfwDlM?si=nsm8D8ZOuCvuAeSO',
                 ],
                 [
                     'name'         => 'turbo',
