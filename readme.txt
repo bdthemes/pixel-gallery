@@ -182,7 +182,7 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.4.7 [31th November 2023] =
+= 1.4.7 [31th December 2023] =
 
 * Updated: System improved
 
