@@ -158,14 +158,14 @@ class Admin {
      */
 
     public function admin_script() {
-        $suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+        
         if (is_admin()) { // for Admin Dashboard Only
 
             if (isset($_GET['page']) && ($_GET['page'] == 'pixel_gallery_options')) {
-                wp_enqueue_script('chart', BDTPG_ADMIN_URL . 'assets/js/chart' . $suffix . '.js', ['jquery'], '2.7.3', true);
-                wp_enqueue_script('pg-admin', BDTPG_ADMIN_URL  . 'assets/js/pg-admin' . $suffix . '.js', ['jquery', 'chart'], BDTPG_VER, true);
+                wp_enqueue_script('chart', BDTPG_ADMIN_URL . 'assets/js/chart.min.js', ['jquery'], '2.7.3', true);
+                wp_enqueue_script('pg-admin', BDTPG_ADMIN_URL  . 'assets/js/pg-admin.min.js', ['jquery', 'chart'], BDTPG_VER, true);
             }else{
-                wp_enqueue_script('pg-admin', BDTPG_ADMIN_URL  . 'assets/js/pg-admin' . $suffix . '.js', ['jquery'], BDTPG_VER, true);
+                wp_enqueue_script('pg-admin', BDTPG_ADMIN_URL  . 'assets/js/pg-admin.min.js', ['jquery'], BDTPG_VER, true);
             }
 
             wp_enqueue_script('jquery');
