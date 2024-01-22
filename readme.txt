@@ -5,7 +5,7 @@ Tags:  elementor addons, elementor widget, elementor extensions, elementor addon
 Requires at least: 5.0.0
 Tested up to: 6.4.2
 Requires PHP: 7.4.0
-Stable tag: 1.4.7
+Stable tag: 1.4.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
@@ -181,6 +181,10 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 1.4.8 [22th January 2024] =
+
+* Fixed: Admin script min js file not found issue fixed
 
 = 1.4.7 [31th December 2023] =
 
