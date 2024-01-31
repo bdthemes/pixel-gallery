@@ -44,7 +44,7 @@ class Koral extends Module_Base {
 	}
 
 	public function get_style_depends() {
-		return ['pg-koral'];
+		return [ 'pg-koral'];
 	}
 
 	public function get_custom_help_url() {
@@ -623,7 +623,7 @@ class Koral extends Module_Base {
 						<?php endif; ?>
 					</div>
 					<div class="pg-koral-icon">
-						<i class="eicon-arrow-right"></i>
+						<i class="pg-icon-arrow-right"></i>
 					</div>
 					<?php if ('none' !== $settings['link_to'] && $settings['link_target'] == 'whole_item') : ?>
 						<?php $this->render_lightbox_link_url($item, $index, $id); ?>

@@ -50,6 +50,7 @@ module.exports = function (grunt) {
 					{
 						'assets/css/pg-helper.css': 'src/less/helper.less',
 						'assets/css/pg-editor.css': 'src/less/editor.less',
+						'assets/css/pg-font.css': 'src/less/font.less',
 					},
 					{
 						expand: true,

@@ -481,19 +481,19 @@ class Tour extends Module_Base {
 			<div class="pg-tour-meta">
 				<?php if (!empty($item['meta_days'])) : ?>
 					<div class="pg-tour-days">
-						<i class="eicon-calendar"></i>
+						<i class="pg-icon-calendar"></i>
 						<span><?php echo wp_kses_post($item['meta_days']); ?></span>
 					</div>
 				<?php endif; ?>
 				<?php if (!empty($item['meta_member'])) : ?>
 					<div class="pg-tour-member">
-						<i class="eicon-person"></i>
+						<i class="pg-icon-user"></i>
 						<span><?php echo wp_kses_post($item['meta_member']); ?></span>
 					</div>
 				<?php endif; ?>
 				<?php if (!empty($item['meta_location'])) : ?>
 					<div class="pg-tour-location">
-						<i class="eicon-globe"></i>
+						<i class="pg-icon-globe"></i>
 						<span><?php echo wp_kses_post($item['meta_location']); ?></span>
 					</div>
 				<?php endif; ?>

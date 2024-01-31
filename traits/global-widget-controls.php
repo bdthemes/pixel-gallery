@@ -1865,7 +1865,7 @@ trait Global_Widget_Controls
 		<?php if ($link) : ?>
 			<div class="pg-<?php echo esc_attr($name); ?>-readmore">
 				<a <?php $this->print_render_attribute_string('link' . $index); ?>>
-					<i class="eicon-arrow-right"></i>
+					<i class="pg-icon-arrow-right"></i>
 				</a>
 			</div>
 		<?php endif; ?>
@@ -1934,7 +1934,7 @@ trait Global_Widget_Controls
 			?>
 			<?php if ('file' == $settings['link_to'] && $item['media_type'] == 'video') : ?>
 			<span class="pg-video-icon-wrap">
-				<i class="eicon-play pg-eicon-play"></i>
+				<i class="pg-icon-play pg-eicon-play"></i>
 			</span>
 			<?php endif; ?>
 		</div>

@@ -564,7 +564,7 @@ class Lunar extends Module_Base {
 				</div>
 
 				<div class="pg-lunar-icon">
-					<i class="eicon-arrow-right"></i>
+					<i class="pg-icon-arrow-right"></i>
 				</div>
 
 				<div class="pg-lunar-content">
