@@ -3,13 +3,13 @@ Contributors: bdthemes, selimmw, mohammaadfarid, bdkoder, abutalib, muhammadasik
 Donate link: http://bdthemes.com/
 Tags:  elementor addons, elementor widget, elementor extensions, elementor addon, addons, elementor, addons for elementor, addons pack, live copy, template library, bdthemes
 Requires at least: 5.0.0
-Tested up to: 6.4.2
+Tested up to: 6.4.3
 Requires PHP: 7.4.0
-Stable tag: 1.4.8
+Stable tag: 1.4.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
-Elementor tested up to: 3.18.3
+Elementor tested up to: 3.19.0
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -181,6 +181,10 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 1.4.9 [31th January 2024] =
+
+* Fixed: Image crop issue fixed in marron widget
 
 = 1.4.8 [22th January 2024] =
 

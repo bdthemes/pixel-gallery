@@ -446,13 +446,13 @@ class Walden extends Module_Base {
 					<div class="pg-walden-bottom-content">
 						<?php if ($settings['show_follow'] == 'yes') : ?>
 							<div class="pg-walden-follow-btn">
-								<i class="eicon-preview-medium"></i>
+								<i class="pg-icon-preview"></i>
 								<span><?php echo esc_html($item['follow']); ?></span>
 							</div>
 						<?php endif; ?>
 						<?php if ($settings['show_follow'] == 'yes') : ?>
 							<div class="pg-walden-like-btn">
-								<i class="eicon-heart-o"></i>
+								<i class="pg-icon-heart"></i>
 								<span><?php echo esc_html($item['like']); ?></span>
 							</div>
 						<?php endif; ?>

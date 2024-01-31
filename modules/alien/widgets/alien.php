@@ -366,8 +366,8 @@ class Alien extends Module_Base {
 			<div class="pg-<?php echo esc_attr($name); ?>-readmore">
 				<a <?php $this->print_render_attribute_string('link' . $index); ?>>
 					<span><?php echo esc_html($item['readmore_text']); ?></span>
-					<i class="eicon-plus"></i>
-					<i class="eicon-plus"></i>
+					<i class="pg-icon-plus"></i>
+					<i class="pg-icon-plus"></i>
 				</a>
 			</div>
 		<?php endif; ?>

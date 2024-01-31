@@ -511,10 +511,10 @@ class Sonic extends Module_Base
 		<?php if ($link) : ?>
 			<div class="pg-sonic-readmore">
 				<a <?php $this->print_render_attribute_string('link' . $index); ?>>
-					<i class="eicon-search-bold"></i>
+					<i class="pg-icon-search"></i>
 				</a>
 				<a <?php $this->print_render_attribute_string('link' . $index); ?>>
-					<i class="eicon-link"></i>
+					<i class="pg-icon-link"></i>
 				</a>
 			</div>
 		<?php endif; ?>
