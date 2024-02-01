@@ -1934,7 +1934,7 @@ trait Global_Widget_Controls
 			?>
 			<?php if ('file' == $settings['link_to'] && $item['media_type'] == 'video') : ?>
 			<span class="pg-video-icon-wrap">
-				<i class="pg-icon-play pg-eicon-play"></i>
+				<i class="pg-icon-play-circle pg-eicon-play"></i>
 			</span>
 			<?php endif; ?>
 		</div>
