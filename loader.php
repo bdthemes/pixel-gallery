@@ -18,6 +18,11 @@ class Pixel_Gallery_Loader {
      */
     private static $_instance;
 
+    /**
+	 * @var Manager
+	 */
+	private $_modules_manager;
+
     public $elements_data = [
         'sections' => [],
         'columns'  => [],
