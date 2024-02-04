@@ -114,6 +114,7 @@ You can also use our plugin to display static WooCommerce product galleries at e
 == Pro Version Widgets 🔥 ==
 
 0. **[Amaze](https://pixelgallery.pro/demo/amaze/)** - Create mini-gallery combination anytime and anywhere in WordPress using the Amaze gallery widget by Pixel Gallery. The widget has a tab-like interface and smooth hover animation that pops up the inserted images in a fancy animation. Creative and unique for your website.
+0. **[Coslide](https://pixelgallery.pro/demo/coslide/)** - Bring next level motion to your image gallery with the Coslide gallery widget. The layout presents a scattered image placements and opens in lightbox view paired with entrance and exit animations.
 0. **[Diamond](https://pixelgallery.pro/demo/diamond/)** - Curved from the perspective of a diamond reel, the Diamond widget lets you create your image gallery with stripe-shaped diamonds along with a unique lightbox interface.
 0. **[Dream](https://pixelgallery.pro/demo/amaze/)** - If you want to make a WordPress grid gallery that stands out and is built uniquely, then you have no other choice but to have the Dream Gallery widget by Pixel Gallery. The widget displays a scattered image layout that brings more enhanced visual experience and interact more with the visitors. Best for making galleries that everyone loves.
 0. **[Evolve](https://pixelgallery.pro/demo/amaze/)** - The Evolve gallery widget has a completely exclusive layout with flexible masonry style interface. With it, you can display event or location specific images in a distinctive image gallery that looks trending and fresh out of the box.
@@ -182,9 +183,11 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.4.9 [31th January 2024] =
+= 1.4.9 [4th February 2024] =
 
+* Added: Coslide widget added (Pro)
 * Fixed: Image crop issue fixed in marron widget
+* Fixed: Icon not showing issue fixed
 
 = 1.4.8 [22th January 2024] =
 
