@@ -9,7 +9,7 @@ Stable tag: 1.4.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
-Elementor tested up to: 3.19.0
+Elementor tested up to: 3.19.2
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -183,9 +183,8 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.4.9 [4th February 2024] =
+= 1.4.9 [8th February 2024] =
 
-* Added: Coslide widget added (Pro)
 * Fixed: Image crop issue fixed in marron widget
 * Fixed: Icon not showing issue fixed
 
