@@ -34,6 +34,7 @@ class Admin {
         add_action('after_setup_theme', [$this, 'whitelabel']);
 
         // register_activation_hook(BDTPG__FILE__, 'install_and_activate');
+        wp_enqueue_style('pg-admin-notice', BDTPG_ADMIN_URL . 'assets/css/pg-admin-notice.css', [], BDTPG_VER);
     }
 
 
@@ -74,6 +75,7 @@ class Admin {
         wp_enqueue_style('bdt-uikit', BDTPG_ADMIN_URL . 'assets/css/bdt-uikit' . $direction_suffix . '.css', [], '3.10.1');
         wp_enqueue_style('pg-editor', BDTPG_ASSETS_URL . 'css/pg-editor' . $direction_suffix . '.css', [], BDTPG_VER);
         wp_enqueue_style('pg-admin', BDTPG_ADMIN_URL . 'assets/css/pg-admin' . $direction_suffix . '.css', [], BDTPG_VER);
+
 
         wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit.min.js', ['jquery'], '3.10.1');
     }
