@@ -140,4 +140,19 @@ jQuery(document).ready(function ($) {
         'vertical-align': 'middle'
     });
 
+    // Button Color
+window.CSS.registerProperty({
+    name: '--primaryColor',
+    syntax: '<color>',
+      inherits: false,
+      initialValue: '#AA00FF',
+    });
+    
+    window.CSS.registerProperty({
+    name: '--secondaryColor',
+    syntax: '<color>',
+      inherits: false,
+      initialValue: '#FF2661',
+});
+
 });
