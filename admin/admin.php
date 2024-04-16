@@ -34,8 +34,14 @@ class Admin {
         add_action('after_setup_theme', [$this, 'whitelabel']);
 
         // register_activation_hook(BDTPG__FILE__, 'install_and_activate');
-        wp_enqueue_style('pg-admin-notice', BDTPG_ADMIN_URL . 'assets/css/pg-admin-notice.css', [], BDTPG_VER);
+
+        add_action('admin_init', [$this, 'admin_notice_styles']);
+        
     }
+
+    public function admin_notice_styles(){
+		wp_enqueue_style('pg-admin-notice', BDTPG_ADMIN_URL . 'assets/css/pg-admin-notice.css', [], BDTPG_VER);
+	}
 
 
     function install_and_activate() {
