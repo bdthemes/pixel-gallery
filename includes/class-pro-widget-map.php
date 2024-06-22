@@ -23,13 +23,13 @@ class Pro_Widget_Map
                     if ('pro' == $widget['widget_type']) {
 
                         $ar = [
-                            'categories' => ['pixel-gallery-pro'],
+                            'categories' => ['pixel-gallery'],
                             'name'       => $widget['name'],
                             'title'      => $widget['label'],
                             'icon'       => 'pg-icon-' . $widget['name'] . ' bdt-pro-unlock-icon',
                             'action_button' => [
                                 'classes'   => ['elementor-button', 'elementor-button-success'],
-                                'text'      => esc_html__('See it in Action', 'ultimate-store-kit'),
+                                'text'      => esc_html__('See it in Action', 'pixel-gallery'),
                                 'url'       => esc_url($widget['demo_url'])
                             ]
                         ];

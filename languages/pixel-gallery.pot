@@ -1908,17 +1908,17 @@ msgid "Line Color"
 msgstr ""
 
 #: modules/walden/widgets/walden.php:67
-msgctxt "bdthemes-prime-slider"
+msgctxt "pixel-gallery"
 msgid "Layout Style"
 msgstr ""
 
 #: modules/walden/widgets/walden.php:71
-msgctxt "bdthemes-prime-slider"
+msgctxt "pixel-gallery"
 msgid "01"
 msgstr ""
 
 #: modules/walden/widgets/walden.php:72
-msgctxt "bdthemes-prime-slider"
+msgctxt "pixel-gallery"
 msgid "02"
 msgstr ""
 

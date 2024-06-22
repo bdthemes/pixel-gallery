@@ -122,7 +122,7 @@ class Fluid extends Module_Base {
 		$this->start_controls_section(
 			'section_content_social_link',
 			[
-				'label' 	=> __('Social Link', 'bdthemes-prime-slider'),
+				'label' 	=> __('Social Link', 'pixel-gallery'),
 				'condition' => [
 					'show_social_link' => 'yes',
 				],
@@ -134,7 +134,7 @@ class Fluid extends Module_Base {
 		$repeater->add_control(
 			'social_link_title',
 			[
-				'label'   => __('Title', 'bdthemes-prime-slider'),
+				'label'   => __('Title', 'pixel-gallery'),
 				'type'    => Controls_Manager::TEXT,
 				'default' => 'Facebook',
 			]
@@ -143,9 +143,9 @@ class Fluid extends Module_Base {
 		$repeater->add_control(
 			'social_link',
 			[
-				'label'   => __('Link', 'bdthemes-prime-slider'),
+				'label'   => __('Link', 'pixel-gallery'),
 				'type'    => Controls_Manager::TEXT,
-				'default' => __('http://www.facebook.com/bdthemes/', 'bdthemes-prime-slider'),
+				'default' => __('http://www.facebook.com/bdthemes/', 'pixel-gallery'),
 			]
 		);
 
@@ -228,15 +228,15 @@ class Fluid extends Module_Base {
 				'fields'  => $repeater->get_controls(),
 				'default' => [
 					[
-						'social_link'       => __('http://www.facebook.com/bdthemes/', 'bdthemes-prime-slider'),
+						'social_link'       => __('http://www.facebook.com/bdthemes/', 'pixel-gallery'),
 						'social_link_title' => 'Facebook',
 					],
 					[
-						'social_link'       => __('http://www.twitter.com/bdthemes/', 'bdthemes-prime-slider'),
+						'social_link'       => __('http://www.twitter.com/bdthemes/', 'pixel-gallery'),
 						'social_link_title' => 'Twitter',
 					],
 					[
-						'social_link'       => __('http://www.instagram.com/bdthemes/', 'bdthemes-prime-slider'),
+						'social_link'       => __('http://www.instagram.com/bdthemes/', 'pixel-gallery'),
 						'social_link_title' => 'Instagram',
 					],
 				],
@@ -258,13 +258,13 @@ class Fluid extends Module_Base {
 		$this->add_control(
 			'overlay_type',
 			[
-				'label'   => esc_html__('Overlay', 'bdthemes-prime-slider'),
+				'label'   => esc_html__('Overlay', 'pixel-gallery'),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'background',
 				'options' => [
-					'none'       => esc_html__('None', 'bdthemes-prime-slider'),
-					'background' => esc_html__('Background', 'bdthemes-prime-slider'),
-					'blend'      => esc_html__('Blend', 'bdthemes-prime-slider'),
+					'none'       => esc_html__('None', 'pixel-gallery'),
+					'background' => esc_html__('Background', 'pixel-gallery'),
+					'blend'      => esc_html__('Blend', 'pixel-gallery'),
 				],
 			]
 		);
@@ -273,7 +273,7 @@ class Fluid extends Module_Base {
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'overlay_color',
-				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-fluid-content::before, {{WRAPPER}} .pg-fluid-content::after',
@@ -294,7 +294,7 @@ class Fluid extends Module_Base {
 		$this->add_control(
 			'blend_type',
 			[
-				'label'     => esc_html__('Blend Type', 'bdthemes-prime-slider'),
+				'label'     => esc_html__('Blend Type', 'pixel-gallery'),
 				'type'      => Controls_Manager::SELECT,
 				'default'   => 'multiply',
 				'options'   => pixel_gallery_blend_options(),
@@ -310,9 +310,9 @@ class Fluid extends Module_Base {
 		$this->add_control(
 			'glassmorphism_effect',
 			[
-				'label' => esc_html__('Glassmorphism', 'bdthemes-element-pack') . BDTPG_NC,
+				'label' => esc_html__('Glassmorphism', 'pixel-gallery') . BDTPG_NC,
 				'type'  => Controls_Manager::SWITCHER,
-				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'bdthemes-element-pack'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
+				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'pixel-gallery'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
 				'condition' => [
 					'overlay_type' => 'background',
 				]
@@ -322,7 +322,7 @@ class Fluid extends Module_Base {
 		$this->add_control(
 			'glassmorphism_blur_level',
 			[
-				'label'       => esc_html__('Blur Level', 'bdthemes-element-pack'),
+				'label'       => esc_html__('Blur Level', 'pixel-gallery'),
 				'type'        => Controls_Manager::SLIDER,
 				'range'       => [
 					'px' => [
@@ -357,7 +357,7 @@ class Fluid extends Module_Base {
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'item_background',
-				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-fluid-item',
@@ -438,7 +438,7 @@ class Fluid extends Module_Base {
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'item_hover_background',
-				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-fluid-item:hover',
@@ -590,7 +590,7 @@ class Fluid extends Module_Base {
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'readmore_background',
-				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-fluid-readmore a',
@@ -694,7 +694,7 @@ class Fluid extends Module_Base {
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'readmore_hover_background',
-				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-fluid-readmore a::before',
@@ -732,7 +732,7 @@ class Fluid extends Module_Base {
 		$this->start_controls_section(
 			'section_style_social_link',
 			[
-				'label'     => esc_html__('Social Link', 'bdthemes-prime-slider'),
+				'label'     => esc_html__('Social Link', 'pixel-gallery'),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => [
 					'show_social_link' => 'yes',
@@ -745,14 +745,14 @@ class Fluid extends Module_Base {
 		$this->start_controls_tab(
 			'tab_social_link_normal',
 			[
-				'label' => esc_html__('Normal', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Normal', 'pixel-gallery'),
 			]
 		);
 
 		$this->add_control(
 			'social_link_color',
 			[
-				'label'     => esc_html__('Color', 'bdthemes-prime-slider'),
+				'label'     => esc_html__('Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-fluid-social-link a' => 'color: {{VALUE}};',
@@ -782,7 +782,7 @@ class Fluid extends Module_Base {
 		$this->add_responsive_control(
 			'social_link_radius',
 			[
-				'label'      => esc_html__('Border Radius', 'bdthemes-prime-slider'),
+				'label'      => esc_html__('Border Radius', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', '%'],
 				'selectors'  => [
@@ -794,7 +794,7 @@ class Fluid extends Module_Base {
 		$this->add_responsive_control(
 			'social_link_padding',
 			[
-				'label'      => esc_html__('Padding', 'bdthemes-prime-slider'),
+				'label'      => esc_html__('Padding', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -806,7 +806,7 @@ class Fluid extends Module_Base {
 		$this->add_responsive_control(
 			'social_link_margin',
 			[
-				'label'      => esc_html__('Margin', 'bdthemes-prime-slider'),
+				'label'      => esc_html__('Margin', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -836,14 +836,14 @@ class Fluid extends Module_Base {
 		$this->start_controls_tab(
 			'tab_social_link_hover',
 			[
-				'label' => esc_html__('Hover', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Hover', 'pixel-gallery'),
 			]
 		);
 
 		$this->add_control(
 			'social_link_hover_color',
 			[
-				'label'     => esc_html__('Color', 'bdthemes-prime-slider'),
+				'label'     => esc_html__('Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-fluid-social-link a:hover' => 'color: {{VALUE}};',
@@ -863,7 +863,7 @@ class Fluid extends Module_Base {
 		$this->add_control(
 			'icon_hover_border_color',
 			[
-				'label'     => esc_html__('Border Color', 'bdthemes-prime-slider'),
+				'label'     => esc_html__('Border Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => [
 					'social_link_border_border!' => '',

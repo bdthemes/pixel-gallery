@@ -64,12 +64,12 @@ class Walden extends Module_Base {
 		$this->add_control(
 			'layout_style',
 			[
-				'label'   => _x('Layout Style', 'bdthemes-prime-slider'),
+				'label'   => _x('Layout Style', 'pixel-gallery'),
 				'type'    => Controls_Manager::SELECT,
 				'default' => '1',
 				'options' => [
-					'1'       => _x('01', 'bdthemes-prime-slider'),
-					'2'       => _x('02', 'bdthemes-prime-slider'),
+					'1'       => _x('01', 'pixel-gallery'),
+					'2'       => _x('02', 'pixel-gallery'),
 				],
 			]
 		);
@@ -232,7 +232,7 @@ class Walden extends Module_Base {
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'item_background',
-				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-walden-grid .pg-walden-item',
@@ -314,7 +314,7 @@ class Walden extends Module_Base {
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'item_hover_background',
-				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-walden-grid .pg-walden-item:hover',

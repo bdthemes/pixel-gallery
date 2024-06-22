@@ -135,15 +135,15 @@ class Spirit extends Module_Base
                 'type'      => Controls_Manager::CHOOSE,
                 'options'   => [
                     'start'    => [
-                        'title' => __('Left', 'pixel-gallery-pro'),
+                        'title' => __('Left', 'pixel-gallery'),
                         'icon'  => 'eicon-v-align-top',
                     ],
                     'center'  => [
-                        'title' => __('Center', 'pixel-gallery-pro'),
+                        'title' => __('Center', 'pixel-gallery'),
                         'icon'  => 'eicon-v-align-middle',
                     ],
                     'end'   => [
-                        'title' => __('Right', 'pixel-gallery-pro'),
+                        'title' => __('Right', 'pixel-gallery'),
                         'icon'  => ' eicon-v-align-bottom',
                     ],
                 ],

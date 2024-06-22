@@ -101,7 +101,7 @@ class Crop extends Module_Base {
 		$this->start_controls_section(
 			'section_post_query_builder',
 			[
-				'label' => __('Query', 'bdthemes-element-pack') . BDTPG_NC,
+				'label' => __('Query', 'pixel-gallery') . BDTPG_NC,
 				'tab' => Controls_Manager::TAB_CONTENT,
 				'condition' => [
 					'source' => 'dynamic',

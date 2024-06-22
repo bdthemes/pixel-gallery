@@ -285,9 +285,9 @@ class Elixir extends Module_Base {
 		$this->add_control(
 			'glassmorphism_effect',
 			[
-				'label' => esc_html__('Glassmorphism', 'bdthemes-element-pack') . BDTPG_NC,
+				'label' => esc_html__('Glassmorphism', 'pixel-gallery') . BDTPG_NC,
 				'type'  => Controls_Manager::SWITCHER,
-				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'bdthemes-element-pack'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
+				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'pixel-gallery'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
 
 			]
 		);
@@ -295,7 +295,7 @@ class Elixir extends Module_Base {
 		$this->add_control(
 			'glassmorphism_blur_level',
 			[
-				'label'       => esc_html__('Blur Level', 'bdthemes-element-pack'),
+				'label'       => esc_html__('Blur Level', 'pixel-gallery'),
 				'type'        => Controls_Manager::SLIDER,
 				'range'       => [
 					'px' => [
@@ -453,7 +453,7 @@ class Elixir extends Module_Base {
 		$this->start_controls_section(
 			'section_style_category',
 			[
-				'label'     => esc_html__('Category', 'ultimate-post-kit-pro'),
+				'label'     => esc_html__('Category', 'pixel-gallery'),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => [
 					'show_category' => 'yes',
@@ -466,14 +466,14 @@ class Elixir extends Module_Base {
 		$this->start_controls_tab(
 			'tab_category_normal',
 			[
-				'label' => esc_html__('Normal', 'ultimate-post-kit-pro'),
+				'label' => esc_html__('Normal', 'pixel-gallery'),
 			]
 		);
 
 		$this->add_control(
 			'category_color',
 			[
-				'label'     => esc_html__('Color', 'ultimate-post-kit-pro'),
+				'label'     => esc_html__('Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-elixir-category a' => 'color: {{VALUE}};',
@@ -500,7 +500,7 @@ class Elixir extends Module_Base {
 		$this->add_responsive_control(
 			'category_border_radius',
 			[
-				'label'      => esc_html__('Border Radius', 'ultimate-post-kit-pro'),
+				'label'      => esc_html__('Border Radius', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', '%'],
 				'selectors'  => [
@@ -512,7 +512,7 @@ class Elixir extends Module_Base {
 		$this->add_responsive_control(
 			'category_padding',
 			[
-				'label'      => esc_html__('Padding', 'ultimate-post-kit-pro'),
+				'label'      => esc_html__('Padding', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -524,7 +524,7 @@ class Elixir extends Module_Base {
 		$this->add_responsive_control(
 			'category_margin',
 			[
-				'label'      => esc_html__('Margin', 'ultimate-post-kit-pro'),
+				'label'      => esc_html__('Margin', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -536,7 +536,7 @@ class Elixir extends Module_Base {
 		$this->add_responsive_control(
 			'category_spacing',
 			[
-				'label'   => esc_html__('Space Between', 'ultimate-post-kit-pro'),
+				'label'   => esc_html__('Space Between', 'pixel-gallery'),
 				'type'    => Controls_Manager::SLIDER,
 				'range' => [
 					'px' => [
@@ -564,7 +564,7 @@ class Elixir extends Module_Base {
 			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'category_typography',
-				'label'    => esc_html__('Typography', 'ultimate-post-kit-pro'),
+				'label'    => esc_html__('Typography', 'pixel-gallery'),
 				'selector' => '{{WRAPPER}} .pg-elixir-category a',
 			]
 		);
@@ -574,14 +574,14 @@ class Elixir extends Module_Base {
 		$this->start_controls_tab(
 			'tab_category_hover',
 			[
-				'label' => esc_html__('Hover', 'ultimate-post-kit-pro'),
+				'label' => esc_html__('Hover', 'pixel-gallery'),
 			]
 		);
 
 		$this->add_control(
 			'category_hover_color',
 			[
-				'label'     => esc_html__('Color', 'ultimate-post-kit-pro'),
+				'label'     => esc_html__('Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-elixir-category a:hover' => 'color: {{VALUE}};',
@@ -600,7 +600,7 @@ class Elixir extends Module_Base {
 		$this->add_control(
 			'category_hover_border_color',
 			[
-				'label'     => esc_html__('Border Color', 'ultimate-post-kit-pro'),
+				'label'     => esc_html__('Border Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => [
 					'category_border_border!' => '',

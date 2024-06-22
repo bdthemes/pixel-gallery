@@ -197,15 +197,15 @@ trait Global_Widget_Controls
                 'type'      => Controls_Manager::CHOOSE,
                 'options'   => [
                     'start'    => [
-                        'title' => __('Left', 'pixel-gallery-pro'),
+                        'title' => __('Left', 'pixel-gallery'),
                         'icon'  => 'eicon-v-align-top',
                     ],
                     'center'  => [
-                        'title' => __('Center', 'pixel-gallery-pro'),
+                        'title' => __('Center', 'pixel-gallery'),
                         'icon'  => 'eicon-v-align-middle',
                     ],
                     'end'   => [
-                        'title' => __('Right', 'pixel-gallery-pro'),
+                        'title' => __('Right', 'pixel-gallery'),
                         'icon'  => ' eicon-v-align-bottom',
                     ],
                 ],
@@ -903,17 +903,17 @@ trait Global_Widget_Controls
 		$this->add_control(
 			'image_mask_shape',
 			[
-				'label'     => esc_html__('Masking Shape', 'bdthemes-element-pack'),
-				'title'     => esc_html__('Masking Shape', 'bdthemes-element-pack'),
+				'label'     => esc_html__('Masking Shape', 'pixel-gallery'),
+				'title'     => esc_html__('Masking Shape', 'pixel-gallery'),
 				'type'      => Controls_Manager::CHOOSE,
 				'default'   => 'default',
 				'options'   => [
 					'default' => [
-						'title' => esc_html__('Default Shapes', 'bdthemes-element-pack'),
+						'title' => esc_html__('Default Shapes', 'pixel-gallery'),
 						'icon'  => 'eicon-star',
 					],
 					'custom'  => [
-						'title' => esc_html__('Custom Shape', 'bdthemes-element-pack'),
+						'title' => esc_html__('Custom Shape', 'pixel-gallery'),
 						'icon'  => 'eicon-image-bold',
 					],
 				],
@@ -927,7 +927,7 @@ trait Global_Widget_Controls
 		$this->add_control(
 			'image_mask_shape_default',
 			[
-				'label'          => _x('Default', 'Mask Image', 'bdthemes-element-pack'),
+				'label'          => _x('Default', 'Mask Image', 'pixel-gallery'),
 				'label_block'    => true,
 				'show_label'     => false,
 				'type'           => Controls_Manager::SELECT,
@@ -947,7 +947,7 @@ trait Global_Widget_Controls
 		$this->add_control(
 			'image_mask_shape_custom',
 			[
-				'label'      => _x('Custom Shape', 'Mask Image', 'bdthemes-element-pack'),
+				'label'      => _x('Custom Shape', 'Mask Image', 'pixel-gallery'),
 				'type'       => Controls_Manager::MEDIA,
 				'show_label' => false,
 				'selectors'  => [
@@ -963,19 +963,19 @@ trait Global_Widget_Controls
 		$this->add_control(
 			'image_mask_shape_position',
 			[
-				'label'                => esc_html__('Position', 'bdthemes-element-pack'),
+				'label'                => esc_html__('Position', 'pixel-gallery'),
 				'type'                 => Controls_Manager::SELECT,
 				'default'              => 'center-center',
 				'options'              => [
-					'center-center' => esc_html__('Center Center', 'bdthemes-element-pack'),
-					'center-left'   => esc_html__('Center Left', 'bdthemes-element-pack'),
-					'center-right'  => esc_html__('Center Right', 'bdthemes-element-pack'),
-					'top-center'    => esc_html__('Top Center', 'bdthemes-element-pack'),
-					'top-left'      => esc_html__('Top Left', 'bdthemes-element-pack'),
-					'top-right'     => esc_html__('Top Right', 'bdthemes-element-pack'),
-					'bottom-center' => esc_html__('Bottom Center', 'bdthemes-element-pack'),
-					'bottom-left'   => esc_html__('Bottom Left', 'bdthemes-element-pack'),
-					'bottom-right'  => esc_html__('Bottom Right', 'bdthemes-element-pack'),
+					'center-center' => esc_html__('Center Center', 'pixel-gallery'),
+					'center-left'   => esc_html__('Center Left', 'pixel-gallery'),
+					'center-right'  => esc_html__('Center Right', 'pixel-gallery'),
+					'top-center'    => esc_html__('Top Center', 'pixel-gallery'),
+					'top-left'      => esc_html__('Top Left', 'pixel-gallery'),
+					'top-right'     => esc_html__('Top Right', 'pixel-gallery'),
+					'bottom-center' => esc_html__('Bottom Center', 'pixel-gallery'),
+					'bottom-left'   => esc_html__('Bottom Left', 'pixel-gallery'),
+					'bottom-right'  => esc_html__('Bottom Right', 'pixel-gallery'),
 				],
 				'selectors_dictionary' => [
 					'center-center' => 'center center',
@@ -1000,14 +1000,14 @@ trait Global_Widget_Controls
 		$this->add_control(
 			'image_mask_shape_size',
 			[
-				'label'     => esc_html__('Size', 'bdthemes-element-pack'),
+				'label'     => esc_html__('Size', 'pixel-gallery'),
 				'type'      => Controls_Manager::SELECT,
 				'default'   => 'contain',
 				'options'   => [
-					'auto'    => esc_html__('Auto', 'bdthemes-element-pack'),
-					'cover'   => esc_html__('Cover', 'bdthemes-element-pack'),
-					'contain' => esc_html__('Contain', 'bdthemes-element-pack'),
-					'initial' => esc_html__('Custom', 'bdthemes-element-pack'),
+					'auto'    => esc_html__('Auto', 'pixel-gallery'),
+					'cover'   => esc_html__('Cover', 'pixel-gallery'),
+					'contain' => esc_html__('Contain', 'pixel-gallery'),
+					'initial' => esc_html__('Custom', 'pixel-gallery'),
 				],
 				'selectors' => [
 					'{{WRAPPER}} .pg-' . $name . '-image-wrap' => '-webkit-mask-size: {{VALUE}}; mask-size: {{VALUE}};',
@@ -1021,7 +1021,7 @@ trait Global_Widget_Controls
 		$this->add_control(
 			'image_mask_shape_custom_size',
 			[
-				'label'      => _x('Custom Size', 'Mask Image', 'bdthemes-element-pack'),
+				'label'      => _x('Custom Size', 'Mask Image', 'pixel-gallery'),
 				'type'       => Controls_Manager::SLIDER,
 				'responsive' => true,
 				'size_units' => ['px', 'em', '%', 'vw'],
@@ -1061,19 +1061,19 @@ trait Global_Widget_Controls
 		$this->add_control(
 			'image_mask_shape_repeat',
 			[
-				'label'                => esc_html__('Repeat', 'bdthemes-element-pack'),
+				'label'                => esc_html__('Repeat', 'pixel-gallery'),
 				'type'                 => Controls_Manager::SELECT,
 				'default'              => 'no-repeat',
 				'options'              => [
-					'repeat'          => esc_html__('Repeat', 'bdthemes-element-pack'),
-					'repeat-x'        => esc_html__('Repeat-x', 'bdthemes-element-pack'),
-					'repeat-y'        => esc_html__('Repeat-y', 'bdthemes-element-pack'),
-					'space'           => esc_html__('Space', 'bdthemes-element-pack'),
-					'round'           => esc_html__('Round', 'bdthemes-element-pack'),
-					'no-repeat'       => esc_html__('No-repeat', 'bdthemes-element-pack'),
-					'repeat-space'    => esc_html__('Repeat Space', 'bdthemes-element-pack'),
-					'round-space'     => esc_html__('Round Space', 'bdthemes-element-pack'),
-					'no-repeat-round' => esc_html__('No-repeat Round', 'bdthemes-element-pack'),
+					'repeat'          => esc_html__('Repeat', 'pixel-gallery'),
+					'repeat-x'        => esc_html__('Repeat-x', 'pixel-gallery'),
+					'repeat-y'        => esc_html__('Repeat-y', 'pixel-gallery'),
+					'space'           => esc_html__('Space', 'pixel-gallery'),
+					'round'           => esc_html__('Round', 'pixel-gallery'),
+					'no-repeat'       => esc_html__('No-repeat', 'pixel-gallery'),
+					'repeat-space'    => esc_html__('Repeat Space', 'pixel-gallery'),
+					'round-space'     => esc_html__('Round Space', 'pixel-gallery'),
+					'no-repeat-round' => esc_html__('No-repeat Round', 'pixel-gallery'),
 				],
 				'selectors_dictionary' => [
 					'repeat'          => 'repeat',
@@ -1150,7 +1150,7 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'text',
 			[
-				'label'       => esc_html__('Text', 'bdthemes-prime-slider'),
+				'label'       => esc_html__('Text', 'pixel-gallery'),
 				'type'        => Controls_Manager::WYSIWYG,
 				'label_block' => true,
 				'dynamic'     => ['active' => true],

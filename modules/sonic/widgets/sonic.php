@@ -222,9 +222,9 @@ class Sonic extends Module_Base
 		$this->add_control(
 			'glassmorphism_effect',
 			[
-				'label' => esc_html__('Glassmorphism', 'bdthemes-element-pack') . BDTPG_NC,
+				'label' => esc_html__('Glassmorphism', 'pixel-gallery') . BDTPG_NC,
 				'type'  => Controls_Manager::SWITCHER,
-				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'bdthemes-element-pack'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
+				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'pixel-gallery'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
 
 			]
 		);
@@ -232,7 +232,7 @@ class Sonic extends Module_Base
 		$this->add_control(
 			'glassmorphism_blur_level',
 			[
-				'label'       => esc_html__('Blur Level', 'bdthemes-element-pack'),
+				'label'       => esc_html__('Blur Level', 'pixel-gallery'),
 				'type'        => Controls_Manager::SLIDER,
 				'range'       => [
 					'px' => [
@@ -349,7 +349,7 @@ class Sonic extends Module_Base
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'meta_background',
-				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				// 'exclude' => [ 'image' ],
 				'selector' => '{{WRAPPER}} .pg-sonic-readmore a',
@@ -452,7 +452,7 @@ class Sonic extends Module_Base
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'meta_hover_background',
-				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				// 'exclude' => [ 'image' ],
 				'selector' => '{{WRAPPER}} .pg-sonic-readmore a::before',
