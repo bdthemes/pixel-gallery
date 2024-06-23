@@ -23,7 +23,7 @@ class Pro_Widget_Map
                     if ('pro' == $widget['widget_type']) {
 
                         $ar = [
-                            'categories' => ['pixel-gallery'],
+                            'categories' => ['pixel-gallery-pro'],
                             'name'       => $widget['name'],
                             'title'      => $widget['label'],
                             'icon'       => 'pg-icon-' . $widget['name'] . ' bdt-pro-unlock-icon',
