@@ -200,13 +200,13 @@ class Punch extends Module_Base
 		$this->add_control(
 			'overlay',
 			[
-				'label'     => esc_html__('Overlay', 'bdthemes-prime-slider'),
+				'label'     => esc_html__('Overlay', 'pixel-gallery'),
 				'type'      => Controls_Manager::SELECT,
 				'default'   => 'background',
 				'options'   => [
-					'none'       => esc_html__('None', 'bdthemes-prime-slider'),
-					'background' => esc_html__('Background', 'bdthemes-prime-slider'),
-					'blend'      => esc_html__('Blend', 'bdthemes-prime-slider'),
+					'none'       => esc_html__('None', 'pixel-gallery'),
+					'background' => esc_html__('Background', 'pixel-gallery'),
+					'blend'      => esc_html__('Blend', 'pixel-gallery'),
 				],
 				'separator' => 'before',
 			]
@@ -240,7 +240,7 @@ class Punch extends Module_Base
 		$this->add_control(
 			'blend_type',
 			[
-				'label'     => esc_html__('Blend Type', 'bdthemes-prime-slider'),
+				'label'     => esc_html__('Blend Type', 'pixel-gallery'),
 				'type'      => Controls_Manager::SELECT,
 				'default'   => 'multiply',
 				'options'   => pixel_gallery_blend_options(),
@@ -284,13 +284,13 @@ class Punch extends Module_Base
 		$this->add_control(
 			'overlay_hover',
 			[
-				'label'     => esc_html__('Overlay', 'bdthemes-prime-slider'),
+				'label'     => esc_html__('Overlay', 'pixel-gallery'),
 				'type'      => Controls_Manager::SELECT,
 				'default'   => 'background',
 				'options'   => [
-					'none'       => esc_html__('None', 'bdthemes-prime-slider'),
-					'background' => esc_html__('Background', 'bdthemes-prime-slider'),
-					'blend'      => esc_html__('Blend', 'bdthemes-prime-slider'),
+					'none'       => esc_html__('None', 'pixel-gallery'),
+					'background' => esc_html__('Background', 'pixel-gallery'),
+					'blend'      => esc_html__('Blend', 'pixel-gallery'),
 				],
 				'separator' => 'before',
 			]
@@ -324,7 +324,7 @@ class Punch extends Module_Base
 		$this->add_control(
 			'blend_hover_type',
 			[
-				'label'     => esc_html__('Blend Type', 'bdthemes-prime-slider'),
+				'label'     => esc_html__('Blend Type', 'pixel-gallery'),
 				'type'      => Controls_Manager::SELECT,
 				'default'   => 'multiply',
 				'options'   => pixel_gallery_blend_options(),

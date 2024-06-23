@@ -109,7 +109,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
                 }
                 echo '<div class="pg-options bdt-grid bdt-child-width-1-1 bdt-child-width-1-2@m bdt-child-width-1-3@l' . esc_attr($section_class) . '" role="presentation" bdt-grid="masonry: true" ' . esc_attr($data_settings) . '>';
 
-                echo '<p class="pg-no-result bdt-text-center bdt-width-1-1 bdt-margin-small-top bdt-h4">Ops! Your Searched widget not found! Do you have any idea? If yes, <a href="https://feedback.elementpack.pro/b/3v2gg80n/feature-requests/idea/new" target="_blank">Submit here</a></p>';
+                echo '<p class="pg-no-result bdt-text-center bdt-width-1-1 bdt-margin-small-top bdt-h4">'.esc_html__('Ops! Your Searched widget not found! Do you have any idea? If yes, ', 'pixel-gallery').'<a href="https://feedback.elementpack.pro/b/3v2gg80n/feature-requests/idea/new" target="_blank">'.esc_html__('Submit here', 'pixel-gallery').'</a></p>';
 
                 $this->do_settings_fields($page, $section['id']);
 
@@ -162,7 +162,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
 
                 if (!empty($field['args']['widget_type']) && 'pro' == $field['args']['widget_type'] && true !== _is_pg_pro_activated()) {
-                    $data_type .= ' bdt-tooltip="Pro widget only works with Pro version."';
+                    $data_type .= ' bdt-tooltip="'.esc_html__('Pro widget only works with Pro version.', 'pixel-gallery').'"';
                 }
 
                 echo "<div class='pg-option-item {$class} {$widget_used_status}' {$data_type}>";
@@ -420,7 +420,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
                 }
             }
 
-            $widget_using_status = '</span> <br><span class="pg-widget-count-text">Total Used  - ' . esc_html($used_widgets_count) . ' </span>';
+            $widget_using_status = '</span> <br><span class="pg-widget-count-text">'.esc_html__('Total Used', 'pixel-gallery').'  - ' . esc_html($used_widgets_count) . ' </span>';
 
             // remove counts
             if (isset($args['id']) && $args['id'] == 'not') {
@@ -461,14 +461,14 @@ if (!class_exists('PixelGallery_Settings_API')) :
                     }
                     if (!is_plugin_active($plugin_path)) {
                         $active_link = wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_path . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin_path);
-                        $html .= '<a href="' . $active_link . '" class="pixel-gallery-3pp-active" bdt-tooltip="Activate the plugin first then you can activate this widget."><span class="dashicons dashicons-admin-plugins"></span></a>';
+                        $html .= '<a href="' . $active_link . '" class="pixel-gallery-3pp-active" bdt-tooltip="'.esc_html__('Activate the plugin first then you can activate this widget.', 'pixel-gallery').'"><span class="dashicons dashicons-admin-plugins"></span></a>';
                     }
                 } else {
                     if ($paid) {
-                        $html .= '<a href="' . $paid . '" class="pixel-gallery-3pp-download" bdt-tooltip="Download and install plugin first then you can activate this widget."><span class="dashicons dashicons-download"></span></a>';
+                        $html .= '<a href="' . $paid . '" class="pixel-gallery-3pp-download" bdt-tooltip="'.esc_html__('Download and install plugin first then you can activate this widget.', 'pixel-gallery').'"><span class="dashicons dashicons-download"></span></a>';
                     } else {
                         $install_link = wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=' . $plugin_name), 'install-plugin_' . $plugin_name);
-                        $html .= '<a href="' . $install_link . '" class="pixel-gallery-3pp-install" bdt-tooltip="Install the plugin first then you can activate this widget."><span class="dashicons dashicons-download"></span></a>';
+                        $html .= '<a href="' . $install_link . '" class="pixel-gallery-3pp-install" bdt-tooltip="'.esc_html__('Install the plugin first then you can activate this widget.', 'pixel-gallery').'"><span class="dashicons dashicons-download"></span></a>';
                     }
                 }
 
@@ -613,7 +613,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
             $value = esc_attr($this->get_option($args['id'], $args['section'], $args['std']));
             $size  = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
             $id    = $args['section']  . '[' . $args['id'] . ']';
-            $label = isset($args['options']['button_label']) ? $args['options']['button_label'] : __('Choose File');
+            $label = isset($args['options']['button_label']) ? $args['options']['button_label'] : __('Choose File', 'pixel-gallery');
 
             $html  = sprintf('<input type="text" class="%1$s-text wpsa-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value);
             $html  .= '<input type="button" class="button wpsa-browse" value="' . $label . '" />';
@@ -807,7 +807,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
             $html = '<div class="bdt-dashboard-navigation">';
             $html .= '<ul class="bdt-tab" bdt-tab="animation: bdt-animation-slide-bottom-small;connect: .bdt-tab-container;">';
 
-            $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="0">%2$s</a></li>', 'pixel_gallery_welcome', 'Dashboard');
+            $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="0">%2$s</a></li>', 'pixel_gallery_welcome', esc_html__('Dashboard', 'pixel-gallery'));
 
             $count = 1;
 
@@ -816,7 +816,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
             }
 
             if (true !== _is_pg_pro_activated()) {
-                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="5">%2$s</a></li>', 'pixel_gallery_get_pro', 'Get Pro');
+                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="5">%2$s</a></li>', 'pixel_gallery_get_pro', esc_html__('Get Pro', 'pixel-gallery'));
             }
 
             // if ( !defined('BDTUPK_LO') ) {
@@ -824,7 +824,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
             // }
 
             if ((true == _is_pg_pro_activated()) && !defined('BDTUPK_LO')) {
-                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="5">%2$s</a></li>', 'pixel_gallery_license_settings', 'License');
+                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="5">%2$s</a></li>', 'pixel_gallery_license_settings', esc_html__('License', 'pixel-gallery'));
             }
 
             $html .= '</ul>';
@@ -895,22 +895,22 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
                                         <div>
                                             <ul class="bdt-subnav bdt-subnav-pill pg-widget-filter bdt-widget-type-content bdt-flex-inline">
-                                                <li class="pg-widget-all bdt-active" bdt-filter-control="*"><a href="#">All</a></li>
-                                                <li class="pg-widget-free" bdt-filter-control="filter: [data-widget-type='free']; group: data-content-type"><a href="#">Free</a></li>
-                                                <li class="pg-widget-pro" bdt-filter-control="filter: [data-widget-type='pro']; group: data-content-type"><a href="#">Pro</a></li>
+                                                <li class="pg-widget-all bdt-active" bdt-filter-control="*"><a href="#"><?php esc_html_e('All', 'pixel-gallery'); ?></a></li>
+                                                <li class="pg-widget-free" bdt-filter-control="filter: [data-widget-type='free']; group: data-content-type"><a href="#"><?php esc_html_e('Free', 'pixel-gallery'); ?></a></li>
+                                                <li class="pg-widget-pro" bdt-filter-control="filter: [data-widget-type='pro']; group: data-content-type"><a href="#"><?php esc_html_e('Pro', 'pixel-gallery'); ?></a></li>
                                             </ul>
                                         </div>
 
                                         <?php if ($form['id'] == 'pixel_gallery_active_modules') : ?>
                                             <div>
-                                                <button class="bdt-button bdt-button-default" type="button">Filter By</button>
+                                                <button class="bdt-button bdt-button-default" type="button"><?php esc_html_e('Filter By', 'pixel-gallery'); ?></button>
                                                 <div bdt-dropdown="animation: bdt-animation-slide-top-small; duration: 300">
                                                     <ul class="bdt-nav bdt-subnav-pill bdt-dropdown-nav pg-widget-filter pg-widget-content-type">
                                                         
-                                                        <li class="pg-widget-new" bdt-filter-control="filter: [data-content-type*='new']; group: data-widget-type"><a href="#">New</a></li>
-                                                        <li class="pg-widget-grid" bdt-filter-control="filter: [data-content-type*='grid']; group: data-widget-type"><a href="#">Grid</a></li>
-                                                        <li class="pg-widget-custom" bdt-filter-control="filter: [data-content-type*='custom']; group: data-widget-type"><a href="#">Custom</a></li>
-                                                        <li class="pg-widget-others" bdt-filter-control="filter: [data-content-type*='others']; group: data-widget-type"><a href="#">Others</a></li>
+                                                        <li class="pg-widget-new" bdt-filter-control="filter: [data-content-type*='new']; group: data-widget-type"><a href="#"><?php esc_html_e('New', 'pixel-gallery'); ?></a></li>
+                                                        <li class="pg-widget-grid" bdt-filter-control="filter: [data-content-type*='grid']; group: data-widget-type"><a href="#"><?php esc_html_e('Grid', 'pixel-gallery'); ?></a></li>
+                                                        <li class="pg-widget-custom" bdt-filter-control="filter: [data-content-type*='custom']; group: data-widget-type"><a href="#"><?php esc_html_e('Custom', 'pixel-gallery'); ?></a></li>
+                                                        <li class="pg-widget-others" bdt-filter-control="filter: [data-content-type*='others']; group: data-widget-type"><a href="#"><?php esc_html_e('Others', 'pixel-gallery'); ?></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -919,11 +919,11 @@ if (!class_exists('PixelGallery_Settings_API')) :
                                                 <div>
                                                     <ul class="bdt-subnav bdt-subnav-pill pg-widget-filter pg-used-unused-widgets bdt-flex-inline">
                                                         <li class="pg-widget--" bdt-filter-control="filter: [data-content-type*='pg-used']; group: data-content-type">
-                                                            <a href="#">Used
+                                                            <a href="#"><?php esc_html_e('Used', 'pixel-gallery'); ?>
                                                                 <span class="bdt-badge pg-used-widget"></span>
                                                             </a>
                                                         </li>
-                                                        <li class="pg-widget--" bdt-filter-control="filter: [data-content-type*='pg-unused']; group: data-content-type"><a href="#" bdt-tooltip="Don't need unused widget? Click on the Deactivate All button.">Unused
+                                                        <li class="pg-widget--" bdt-filter-control="filter: [data-content-type*='pg-unused']; group: data-content-type"><a href="#" bdt-tooltip="<?php esc_html_e('Don\'t need unused widget? Click on the Deactivate All button.', 'pixel-gallery'); ?>"><?php esc_html_e('Unused', 'pixel-gallery'); ?>
                                                                 <span class="bdt-badge pg-unused-widget bdt-danger"></span>
                                                             </a>
                                                         </li>
@@ -995,7 +995,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
                                     <div class="bdt-width-auto@s pg-setting-save-btn">
 
                                         <?php if (isset($this->settings_fields[$form['id']])) : ?>
-                                            <button class="bdt-button bdt-button-primary pixel-gallery-settings-save-btn" type="submit">Save Settings</button>
+                                            <button class="bdt-button bdt-button-primary pixel-gallery-settings-save-btn" type="submit"><?php esc_html_e('Save Settings', 'pixel-gallery'); ?></button>
 
                                         <?php endif; ?>
 

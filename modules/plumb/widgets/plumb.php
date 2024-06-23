@@ -216,7 +216,7 @@ class Plumb extends Module_Base
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'content_background',
-				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-plumb-content-wrap',

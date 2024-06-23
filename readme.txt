@@ -155,6 +155,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.X.XX [XXth June 2024] =
+
+* Fixed: Text Domain issue fixed (Thanks to itapress)
+
 = 1.4.10 [16th April 2024] =
 
 * Updated: System improved

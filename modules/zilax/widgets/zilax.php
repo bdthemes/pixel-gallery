@@ -64,12 +64,12 @@ class Zilax extends Module_Base {
 		$this->add_control(
 			'layout_style',
 			[
-				'label'   => _x('Layout Style', 'bdthemes-prime-slider') . BDTPG_NC,
+				'label'   => _x('Layout Style', 'pixel-gallery') . BDTPG_NC,
 				'type'    => Controls_Manager::SELECT,
 				'default' => '1',
 				'options' => [
-					'1'       => _x('01', 'bdthemes-prime-slider'),
-					'2'       => _x('02', 'bdthemes-prime-slider'),
+					'1'       => _x('01', 'pixel-gallery'),
+					'2'       => _x('02', 'pixel-gallery'),
 				],
 			]
 		);
@@ -224,7 +224,7 @@ class Zilax extends Module_Base {
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'content_background',
-				'label' => esc_html__('Background', 'bdthemes-prime-slider'),
+				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-zilax-content',

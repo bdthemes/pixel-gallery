@@ -323,7 +323,7 @@ class Verse extends Module_Base {
 		$this->start_controls_section(
 			'section_style_readmore',
 			[
-				'label'     => esc_html__('Read More', 'ultimate-post-kit-pro'),
+				'label'     => esc_html__('Read More', 'pixel-gallery'),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => [
 					'link_to' => ['file', 'custom'],
@@ -337,14 +337,14 @@ class Verse extends Module_Base {
 		$this->start_controls_tab(
 			'tab_readmore_normal',
 			[
-				'label' => esc_html__('Normal', 'ultimate-post-kit-pro'),
+				'label' => esc_html__('Normal', 'pixel-gallery'),
 			]
 		);
 
 		$this->add_control(
 			'readmore_color',
 			[
-				'label'     => esc_html__('Color', 'ultimate-post-kit-pro'),
+				'label'     => esc_html__('Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-verse-readmore a' => 'color: {{VALUE}};',
@@ -371,7 +371,7 @@ class Verse extends Module_Base {
 		$this->add_responsive_control(
 			'readmore_border_radius',
 			[
-				'label'      => esc_html__('Border Radius', 'ultimate-post-kit-pro'),
+				'label'      => esc_html__('Border Radius', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', '%'],
 				'selectors'  => [
@@ -383,7 +383,7 @@ class Verse extends Module_Base {
 		$this->add_responsive_control(
 			'readmore_padding',
 			[
-				'label'      => esc_html__('Padding', 'ultimate-post-kit-pro'),
+				'label'      => esc_html__('Padding', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -395,7 +395,7 @@ class Verse extends Module_Base {
 		$this->add_responsive_control(
 			'readmore_margin',
 			[
-				'label'      => esc_html__('Margin', 'ultimate-post-kit-pro'),
+				'label'      => esc_html__('Margin', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -407,7 +407,7 @@ class Verse extends Module_Base {
 		$this->add_responsive_control(
 			'readmore_spacing',
 			[
-				'label'   => esc_html__('Space Between', 'ultimate-post-kit-pro'),
+				'label'   => esc_html__('Space Between', 'pixel-gallery'),
 				'type'    => Controls_Manager::SLIDER,
 				'range' => [
 					'px' => [
@@ -435,7 +435,7 @@ class Verse extends Module_Base {
 			Group_Control_Typography::get_type(),
 			[
 				'name'     => 'readmore_typography',
-				'label'    => esc_html__('Typography', 'ultimate-post-kit-pro'),
+				'label'    => esc_html__('Typography', 'pixel-gallery'),
 				'selector' => '{{WRAPPER}} .pg-verse-readmore a',
 			]
 		);
@@ -445,14 +445,14 @@ class Verse extends Module_Base {
 		$this->start_controls_tab(
 			'tab_readmore_hover',
 			[
-				'label' => esc_html__('Hover', 'ultimate-post-kit-pro'),
+				'label' => esc_html__('Hover', 'pixel-gallery'),
 			]
 		);
 
 		$this->add_control(
 			'readmore_hover_color',
 			[
-				'label'     => esc_html__('Color', 'ultimate-post-kit-pro'),
+				'label'     => esc_html__('Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-verse-readmore a:hover' => 'color: {{VALUE}};',
@@ -472,7 +472,7 @@ class Verse extends Module_Base {
 		$this->add_control(
 			'readmore_hover_border_color',
 			[
-				'label'     => esc_html__('Border Color', 'ultimate-post-kit-pro'),
+				'label'     => esc_html__('Border Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => [
 					'readmore_border_border!' => '',
