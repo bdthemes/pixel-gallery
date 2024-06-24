@@ -3,13 +3,13 @@ Contributors: bdthemes, selimmw, mohammaadfarid, bdkoder, abutalib, muhammadasik
 Donate link: http://bdthemes.com/
 Tags:  elementor, elementor addons, grid gallery, responsive gallery, lightbox
 Requires at least: 5.0.0
-Tested up to: 6.5.2
+Tested up to: 6.5.4
 Requires PHP: 7.4.0
-Stable tag: 1.4.10
+Stable tag: 1.4.11
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
-Elementor tested up to: 3.21.0
+Elementor tested up to: 3.22.1
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -117,6 +117,8 @@ Feel free to [Contact us](https://bdthemes.com/support/) 💌 or check our widge
 
 == Check out our other Addons 👑 ==
 
+* **[ZoloBlocks](https://wordpress.org/plugins/zoloblocks/)** 🆕☀️ - Mind-blowing dynamic block plugin for Gutenberg with powerful and advanced features offering greater web design experience.
+
 * **[Element Pack](https://wordpress.org/plugins/bdthemes-element-pack-lite/)** - Element Pack Lite Build responsive website from scratch with an all-rounder package for Elementor
 
 * **[Prime Slider](https://wordpress.org/plugins/bdthemes-prime-slider-lite/)** - The revolutionary slider builder addon for Elementor with next-gen superb interface.
@@ -155,7 +157,7 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.X.XX [XXth June 2024] =
+= 1.4.11 [24th June 2024] =
 
 * Fixed: Text Domain issue fixed (Thanks to itapress)
 
