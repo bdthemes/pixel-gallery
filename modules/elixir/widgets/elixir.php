@@ -51,6 +51,10 @@ class Elixir extends Module_Base {
 		return 'https://youtu.be/WaKwrJX9z-g';
 	}
 
+	protected function is_dynamic_content(): bool {
+		return false;
+	}
+
 	protected function register_controls() {
 
 		$this->start_controls_section(

@@ -61,6 +61,10 @@ class Axen extends Module_Base {
 		return 'https://youtu.be/2g6YB1oRug8';
 	}
 
+	protected function is_dynamic_content(): bool {
+		return false;
+	}
+
 	protected function register_controls() {
 
 		$this->start_controls_section(

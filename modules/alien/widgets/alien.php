@@ -51,6 +51,10 @@ class Alien extends Module_Base {
 		return 'https://youtu.be/O4YS5LNJI2g';
 	}
 
+	protected function is_dynamic_content(): bool {
+		return false;
+	}
+
 	protected function register_controls() {
 
 		$this->start_controls_section(
