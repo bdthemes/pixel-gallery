@@ -464,7 +464,6 @@ button.notice-dismiss {
 
 .dci-global-notice.dci-notice-data .dci-button-allow:hover {
 	--primaryColor: #20E2AD;
-	;
 	--secondaryColor: #08AEEC;
 }
 
@@ -497,7 +496,6 @@ button.notice-dismiss {
 
 .dci-global-notice.dci_pixel_gallery .dci-button-allow:hover {
 	--primaryColor: #0d3b54;
-	;
 	--secondaryColor: #086698;
 }
 
