@@ -61,6 +61,10 @@ class Crop extends Module_Base {
 		return 'https://youtu.be/EbxYzM47GAs';
 	}
 
+	protected function is_dynamic_content(): bool {
+		return false;
+	}
+
 	protected function register_controls() {
 
 		$this->start_controls_section(

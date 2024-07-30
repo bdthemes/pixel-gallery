@@ -47,6 +47,10 @@ class Lunar extends Module_Base {
 		return ['pg-lunar'];
 	}
 
+	protected function is_dynamic_content(): bool {
+		return false;
+	}
+
 	protected function register_controls() {
 
 		$this->start_controls_section(

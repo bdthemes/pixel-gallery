@@ -54,8 +54,11 @@ class Punch extends Module_Base
 		return ['pg-punch'];
 	}
 
-	protected function register_controls()
-	{
+	protected function is_dynamic_content(): bool {
+		return false;
+	}
+
+	protected function register_controls() {
 
 		$this->start_controls_section(
 			'section_layout',

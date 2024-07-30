@@ -51,6 +51,10 @@ class Fabric extends Module_Base {
 		return 'https://youtu.be/Jms62u57nMI';
 	}
 
+	protected function is_dynamic_content(): bool {
+		return false;
+	}
+
 	protected function register_controls() {
 
 		$this->start_controls_section(

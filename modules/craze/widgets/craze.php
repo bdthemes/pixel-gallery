@@ -51,6 +51,10 @@ class Craze extends Module_Base {
 		return 'https://youtu.be/4_TsiUOKS64';
 	}
 
+	protected function is_dynamic_content(): bool {
+		return false;
+	}
+
 	protected function register_controls() {
 
 		$this->start_controls_section(

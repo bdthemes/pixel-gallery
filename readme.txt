@@ -3,13 +3,13 @@ Contributors: bdthemes, selimmw, mohammaadfarid, bdkoder, abutalib, muhammadasik
 Donate link: http://bdthemes.com/
 Tags:  elementor, elementor addons, grid gallery, responsive gallery, lightbox
 Requires at least: 5.0.0
-Tested up to: 6.5.4
+Tested up to: 6.6.1
 Requires PHP: 7.4.0
-Stable tag: 1.4.11
+Stable tag: 1.5.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
-Elementor tested up to: 3.22.1
+Elementor tested up to: 3.23.3
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -156,6 +156,10 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 1.5.0 [30th July 2024] =
+
+* Added: Element caching feature added
 
 = 1.4.11 [24th June 2024] =
 

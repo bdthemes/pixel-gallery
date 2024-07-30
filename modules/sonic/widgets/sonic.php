@@ -58,8 +58,11 @@ class Sonic extends Module_Base
 		return 'https://youtu.be/8KkaSa-v8l8';
 	}
 
-	protected function register_controls()
-	{
+	protected function is_dynamic_content(): bool {
+		return false;
+	}
+
+	protected function register_controls() {
 
 		$this->start_controls_section(
 			'section_layout',

@@ -51,6 +51,10 @@ class Tour extends Module_Base {
 		return 'https://youtu.be/kDB1kUXChP0';
 	}
 
+	protected function is_dynamic_content(): bool {
+		return false;
+	}
+
 	protected function register_controls() {
 
 		$this->start_controls_section(
