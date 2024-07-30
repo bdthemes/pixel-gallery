@@ -173,8 +173,8 @@ if ( ! function_exists( 'dci_plugin_pixel_gallery' ) ) {
 			'sdk_version'         => '1.2.0',
 			'product_id'          => 7,
 			'plugin_name'         => 'Pixel Gallery', // make simple, must not empty
-			'plugin_title'        => 'Love using Pixel Gallery? Congrats 🎉  ( Never miss an Important Update )', // You can describe your plugin title here
-			'plugin_icon'         => BDTPG_ASSETS_URL . 'images/logo.svg', // delete the line of you don't need
+			'plugin_title'        => 'Love using Pixel Gallery? Congrats 🎉  ( Never miss an Important Update )',
+			'plugin_icon'         => BDTPG_ASSETS_URL . 'images/logo.svg',
 			'api_endpoint'        => 'https://analytics.bdthemes.com/wp-json/dci/v1/data-insights',
 			'slug'                => 'pixel-gallery',
 			'menu'                => array(
