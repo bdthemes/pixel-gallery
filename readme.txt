@@ -160,6 +160,7 @@ https://youtu.be/f70l2qE7W7o
 = 1.5.0 [30th July 2024] =
 
 * Added: Element caching feature added
+* Updated: Dashboard system improved
 
 = 1.4.11 [24th June 2024] =
 
