@@ -170,7 +170,7 @@ if ( ! function_exists( 'dci_plugin_pixel_gallery' ) ) {
 		wp_enqueue_style( 'dci-sdk-pg', plugins_url( 'dci/assets/css/dci.css', __FILE__ ), array(), '1.2.0', 'all' );
 
 		dci_dynamic_init( array(
-			'sdk_version'         => '1.2.0',
+			'sdk_version'         => '1.2.1',
 			'product_id'          => 7,
 			'plugin_name'         => 'Pixel Gallery', // make simple, must not empty
 			'plugin_title'        => 'Love using Pixel Gallery? Congrats 🎉  ( Never miss an Important Update )',
@@ -181,8 +181,8 @@ if ( ! function_exists( 'dci_plugin_pixel_gallery' ) ) {
 				'slug' => 'pixel_gallery_options',
 			),
 			'public_key'          => 'pk_BnUlEdhDltMcn1IlZHH8V1YLDoGjvl40',
-			'is_premium'          => false,
-			'popup_notice'        => true,
+			'is_premium'          => true,
+			'popup_notice'        => false,
 			'deactivate_feedback' => true,
 			'plugin_msg'          => '<p>Be Top-contributor by sharing non-sensitive plugin data and create an impact to the global WordPress community today! You can receive valuable emails periodically.</p>',
 		) );
