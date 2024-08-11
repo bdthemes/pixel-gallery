@@ -5,11 +5,11 @@ Tags:  elementor, elementor addons, grid gallery, responsive gallery, lightbox
 Requires at least: 5.0.0
 Tested up to: 6.6.1
 Requires PHP: 7.4.0
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.0.0
-Elementor tested up to: 3.23.3
+Elementor tested up to: 3.23.4
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -156,6 +156,10 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 1.5.1 [11th August 2024] =
+
+* Updated: Dashboard system improved
 
 = 1.5.0 [30th July 2024] =
 
