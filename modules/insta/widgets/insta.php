@@ -635,7 +635,7 @@ class Insta extends Module_Base {
 		<div <?php $this->print_render_attribute_string('social-icon'); ?>>
 			<?php
 			foreach ($settings['social_link_list'] as $item) :
-				$tooltip = ('yes' == $settings['social_icon_tooltip']) ? ' title="' . esc_attr($item['social_link_title']) . '" pg-tooltip="pos: right;"' : ''; ?>
+				$tooltip = ('yes' == $settings['social_icon_tooltip']) ? ' title="' . esc_html($item['social_link_title']) . '" pg-tooltip="pos: right;"' : ''; ?>
 
 				<a href="<?php echo esc_url($item['social_link']); ?>" target="_blank" <?php echo wp_kses_post($tooltip); ?>>
 					<span>
