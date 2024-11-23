@@ -69,11 +69,23 @@ if ( function_exists( 'pg_license_validation' ) && true !== pg_license_validatio
 require_once ( dirname( __FILE__ ) . '/includes/utils.php' );
 
 /**
+ * Loads translations
+ *
+ * @return void
+ */
+
+if ( ! function_exists( 'pixel_gallery_load_textdomain' ) ) {
+	function pixel_gallery_load_textdomain() {
+		load_plugin_textdomain( 'pixel-gallery', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
+	add_action( 'init', 'pixel_gallery_load_textdomain' );
+}
+
+/**
  * Plugin load here correctly
  * Also loaded the language file from here
  */
 function pixel_gallery_load_plugin() {
-	load_plugin_textdomain( 'pixel-gallery', false, BDTPG_PNAME . '/languages' );
 
 	if ( ! did_action( 'elementor/loaded' ) ) {
 		add_action( 'admin_notices', 'pixel_gallery_fail_load' );

@@ -130,15 +130,6 @@ class Pixel_Gallery_Loader {
         if ($essential_shortcodes == 'on') {
             require_once BDTPG_INC_PATH . 'shortcodes/shortcode-loader.php';
         }
-
-        if (is_admin()) {
-            if (!defined('BDTPG_CH')) {
-                require_once BDTPG_ADMIN_PATH . 'admin.php';
-
-                // Load admin class for admin related content process
-                new Admin();
-            }
-        }
     }
 
     /**
@@ -404,6 +395,13 @@ class Pixel_Gallery_Loader {
         }
     }
 
+    public function init(){
+		if ( ! defined( 'BDTPG_CH' ) && is_admin() ) {
+			require_once BDTPG_ADMIN_PATH . 'admin.php';
+			new Admin();
+		}
+    }
+
     /**
      * Pixel_Gallery_Loader constructor.
      */
@@ -415,6 +413,8 @@ class Pixel_Gallery_Loader {
 
         // Finally hooked up all things here
         $this->setup_hooks();
+
+        add_action('init', [$this, 'init']);
     }
 }
 
