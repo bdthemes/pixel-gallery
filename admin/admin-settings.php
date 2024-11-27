@@ -404,7 +404,7 @@ class PixelGallery_Admin_Settings {
                             <div class="bdt-flex bdt-flex-between bdt-flex-middle">
                                 <div class="pg-count-wrap">
                                     <div class="pg-widget-count"><?php esc_html_e('Core: ', 'pixel-gallery'); ?><b id="bdt-total-widgets-status-core"></b></div>
-                                    <div class="pg-widget-count"><?php esc_html_e('Total Widget:', 'pixel-gallery'); ?> <b id="bdt-total-widgets-status-heading"></b></div>
+                                    <div class="pg-widget-count"><?php esc_html_e('Total:', 'pixel-gallery'); ?> <b id="bdt-total-widgets-status-heading"></b></div>
                                 </div>
 
                                 <div class="pg-canvas-wrap">
