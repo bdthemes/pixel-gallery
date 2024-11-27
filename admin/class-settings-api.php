@@ -816,7 +816,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
             }
 
             if (true !== _is_pg_pro_activated()) {
-                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="5">%2$s</a></li>', 'pixel_gallery_get_pro', esc_html__('Get Pro', 'pixel-gallery'));
+                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="5"><span></span><span></span><span></span><span></span>%2$s</a></li>', 'pixel_gallery_get_pro', esc_html__('Get Pro', 'pixel-gallery'));
             }
 
             // if ( !defined('BDTUPK_LO') ) {

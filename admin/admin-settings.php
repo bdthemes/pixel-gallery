@@ -231,6 +231,7 @@ class PixelGallery_Admin_Settings {
 
         //initialize settings
         $this->settings_api->admin_init();
+        $this->pg_redirect_to_get_pro();
     }
 
     /**
@@ -239,6 +240,14 @@ class PixelGallery_Admin_Settings {
      * @access public
      *
      */
+
+    // Redirect to Pixel Gallery Pro pricing page
+    public function pg_redirect_to_get_pro() {
+        if (isset($_GET['page']) && $_GET['page'] === self::PAGE_ID . '_get_pro') {
+            wp_redirect('https://pixelgallery.pro/pricing/');
+            exit;
+        }
+    }
 
     public function admin_menu() {
         add_menu_page(
@@ -286,7 +295,7 @@ class PixelGallery_Admin_Settings {
                 BDTPG_TITLE,
                 esc_html__('Get Pro', 'upixel-gallery'),
                 'manage_options',
-                self::PAGE_ID . '#pixel_gallery_get_pro',
+                self::PAGE_ID . '_get_pro',
                 [$this, 'display_page']
             );
         }
@@ -360,7 +369,7 @@ class PixelGallery_Admin_Settings {
 
         <div class="pg-dashboard-panel" bdt-scrollspy="target: > div > div > .bdt-card; cls: bdt-animation-slide-bottom-small; delay: 300">
 
-            <div class="bdt-grid" bdt-grid bdt-height-match="target: > div > .bdt-card">
+            <div class="bdt-grid bdt-grid-medium" bdt-grid bdt-height-match="target: > div > .bdt-card">
                 <div class="bdt-width-1-2@m bdt-width-1-4@l">
                     <div class="pg-widget-status bdt-card bdt-card-body">
 
@@ -368,17 +377,19 @@ class PixelGallery_Admin_Settings {
                         $used_widgets    = count(self::get_used_widgets());
                         $un_used_widgets = count(self::get_unused_widgets());
                         ?>
-                        <div class="pg-count-canvas-wrap bdt-flex bdt-flex-between">
-                            <div class="pg-count-wrap">
-                                <h1 class="pg-feature-title"><?php echo esc_html__('All Widgets', 'pixel-gallery'); ?></h1>
-                                <div class="pg-widget-count"><?php echo esc_html__('Used:', 'pixel-gallery'); ?> <b><?php echo esc_html__($used_widgets, 'pixel-gallery'); ?></b></div>
-                                <div class="pg-widget-count"><?php echo esc_html__('Unused:', 'pixel-gallery'); ?> <b><?php echo esc_html__($un_used_widgets, 'pixel-gallery'); ?></b></div>
-                                <div class="pg-widget-count"><?php echo esc_html__('Total:', 'pixel-gallery'); ?> <b><?php echo esc_html__($used_widgets + $un_used_widgets, 'pixel-gallery'); ?></b>
+                        <div class="pg-count-canvas-wrap">
+                            <h1 class="pg-feature-title"><?php echo esc_html__('All Widgets', 'pixel-gallery'); ?></h1>
+                            <div class="bdt-flex bdt-flex-between bdt-flex-middle">
+                                <div class="pg-count-wrap">
+                                    <div class="pg-widget-count"><?php echo esc_html__('Used:', 'pixel-gallery'); ?> <b><?php echo esc_html__($used_widgets, 'pixel-gallery'); ?></b></div>
+                                    <div class="pg-widget-count"><?php echo esc_html__('Unused:', 'pixel-gallery'); ?> <b><?php echo esc_html__($un_used_widgets, 'pixel-gallery'); ?></b></div>
+                                    <div class="pg-widget-count"><?php echo esc_html__('Total:', 'pixel-gallery'); ?> <b><?php echo esc_html__($used_widgets + $un_used_widgets, 'pixel-gallery'); ?></b>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="pg-canvas-wrap">
-                                <canvas id="bdt-db-total-status" style="height: 120px; width: 120px;" data-label="Total Widgets Status - (<?php echo esc_html__($used_widgets + $un_used_widgets, 'pixel-gallery'); ?>)" data-labels="<?php echo esc_attr('Used, Unused'); ?>" data-value="<?php echo esc_attr($used_widgets) . ',' . esc_attr($un_used_widgets); ?>" data-bg="#FFD166, #fff4d9" data-bg-hover="#0673e1, #e71522"></canvas>
+                                <div class="pg-canvas-wrap">
+                                    <canvas id="bdt-db-total-status" style="height: 100px; width: 100px;" data-label="Total Widgets Status - (<?php echo esc_html__($used_widgets + $un_used_widgets, 'pixel-gallery'); ?>)" data-labels="<?php echo esc_attr('Used, Unused'); ?>" data-value="<?php echo esc_attr($used_widgets) . ',' . esc_attr($un_used_widgets); ?>" data-bg="#FFD166, #fff4d9" data-bg-hover="#0673e1, #e71522"></canvas>
+                                </div>
                             </div>
                         </div>
 
@@ -388,23 +399,25 @@ class PixelGallery_Admin_Settings {
                 <div class="bdt-width-1-2@m bdt-width-1-4@l">
                     <div class="pg-widget-status bdt-card bdt-card-body">
 
-                        <div class="pg-count-canvas-wrap bdt-flex bdt-flex-between">
-                            <div class="pg-count-wrap">
-                                <h1 class="pg-feature-title"><?php echo esc_html_e('Active', 'pixel-gallery'); ?></h1>
-                                <div class="pg-widget-count"><?php esc_html_e('Core: ', 'pixel-gallery'); ?><b id="bdt-total-widgets-status-core"></b></div>
-                                <div class="pg-widget-count"><?php esc_html_e('Total Widget:', 'pixel-gallery'); ?> <b id="bdt-total-widgets-status-heading"></b></div>
-                            </div>
+                        <div class="pg-count-canvas-wrap">
+                            <h1 class="pg-feature-title"><?php echo esc_html_e('Active', 'pixel-gallery'); ?></h1>
+                            <div class="bdt-flex bdt-flex-between bdt-flex-middle">
+                                <div class="pg-count-wrap">
+                                    <div class="pg-widget-count"><?php esc_html_e('Core: ', 'pixel-gallery'); ?><b id="bdt-total-widgets-status-core"></b></div>
+                                    <div class="pg-widget-count"><?php esc_html_e('Total Widget:', 'pixel-gallery'); ?> <b id="bdt-total-widgets-status-heading"></b></div>
+                                </div>
 
-                            <div class="pg-canvas-wrap">
-                                <canvas id="bdt-total-widgets-status" style="height: 120px; width: 120px;" data-labels="Total Active, Total Widgets" data-bg="#0680d6, #E6F9FF" data-bg-hover="#0673e1, #b6f9e8">
-                                </canvas>
+                                <div class="pg-canvas-wrap">
+                                    <canvas id="bdt-total-widgets-status" style="height: 100px; width: 100px;" data-labels="Total Active, Total Widgets" data-bg="#0680d6, #E6F9FF" data-bg-hover="#0673e1, #b6f9e8">
+                                    </canvas>
+                                </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
 
-                <div class="bdt-width-1-2@m bdt-width-1-2@l">
+                <div class="bdt-width-1-1@m bdt-width-1-2@l">
                     <div class="pg-elementor-addons bdt-card bdt-card-body">
                         <a target="_blank" rel="" href="https://www.elementpack.pro/elements-demo/"></a>
                     </div>
@@ -413,8 +426,8 @@ class PixelGallery_Admin_Settings {
             </div>
 
 
-            <div class=" bdt-grid" bdt-grid bdt-height-match="target: > div > .bdt-card">
-                <div class="bdt-width-1-3@m pg-support-section">
+            <div class="bdt-grid bdt-grid-medium" bdt-grid bdt-height-match="target: > div > .bdt-card">
+                <div class="bdt-width-2-5@m pg-support-section">
                     <div class="pg-support-content bdt-card bdt-card-body">
                         <h1 class="pg-feature-title">Support And Feedback</h1>
                         <p>Feeling like to consult with an expert? Take live Chat support immediately from <a href="https://pixelgallery.com" target="_blank" rel="">PixelGallery</a>. We are always
@@ -428,7 +441,7 @@ class PixelGallery_Admin_Settings {
                     </div>
                 </div>
 
-                <div class="bdt-width-2-3@m">
+                <div class="bdt-width-3-5@m">
                     <div class="bdt-card bdt-card-body pg-system-requirement">
                         <h1 class="pg-feature-title bdt-margin-small-bottom">System Requirement</h1>
                         <?php $this->pixel_gallery_system_requirement(); ?>
@@ -436,7 +449,7 @@ class PixelGallery_Admin_Settings {
                 </div>
             </div>
 
-            <div class="bdt-grid" bdt-grid bdt-height-match="target: > div > .bdt-card">
+            <div class="bdt-grid bdt-grid-medium" bdt-grid bdt-height-match="target: > div > .bdt-card">
                 <div class="bdt-width-1-2@m pg-support-section">
                     <div class="bdt-card bdt-card-body pg-feedback-bg">
                         <h1 class="pg-feature-title">Missing Any Feature?</h1>
@@ -480,17 +493,25 @@ class PixelGallery_Admin_Settings {
 
     function pixel_gallery_get_pro() {
     ?>
-        <div class=pg-dashboard-panel" bdt-scrollspy="target: > div > div > .bdt-card; cls: bdt-animation-slide-bottom-small; delay: 300">
+        <div class="pg-dashboard-panel" bdt-scrollspy="target: > div > div > .bdt-card; cls: bdt-animation-slide-bottom-small; delay: 300">
 
             <div class="bdt-grid" bdt-grid bdt-height-match="target: > div > .bdt-card" style="max-width: 800px; margin-left: auto; margin-right: auto;">
                 <div class="bdt-width-1-1@m pg-comparision bdt-text-center">
-                    <h1 class="bdt-text-bold">WHY GO WITH PRO?</h1>
-                    <h2>Just Compare With Ultimate Post Kit Free Vs Pro</h2>
-
-
+                    <div class="bdt-flex bdt-flex-between bdt-flex-middle">
+                        <div class="bdt-text-left">
+                            <h1 class="bdt-text-bold">WHY GO WITH PRO?</h1>
+                            <h2>Just Compare With Pixel Gallery Free Vs Pro</h2>
+                        </div>
+                        <?php if (true !== _is_pg_pro_activated()) : ?>
+                            <div class="pg-purchase-button">
+                                <a href="https://pixelgallery.pro/pricing/" target="_blank">Purchase Now</a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    
                     <div>
 
-                        <ul class="bdt-list bdt-list-divider bdt-text-left bdt-text-normal" style="font-size: 16px;">
+                        <ul class="bdt-list bdt-list-divider bdt-text-left bdt-text-normal" style="font-size: 15px;">
 
 
                             <li class="bdt-text-bold">
@@ -537,20 +558,6 @@ class PixelGallery_Admin_Settings {
                             </li>
                             <li class="">
                                 <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Rooten Theme Pro Features</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-no"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Priority Support</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-no"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
                                     <div class="bdt-width-expand@m">Ready Made Pages</div>
                                     <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
                                     <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
@@ -572,29 +579,15 @@ class PixelGallery_Admin_Settings {
                             </li>
                             <li class="">
                                 <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Live Copy or Paste</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Duplicator</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+                                    <div class="bdt-width-expand@m">Rooten Theme Pro Features</div>
+                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-no"></span></div>
                                     <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
                                 </div>
                             </li>
                             <li class="">
                                 <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Video Link Meta</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Category Image</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+                                    <div class="bdt-width-expand@m">Priority Support</div>
+                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-no"></span></div>
                                     <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
                                 </div>
                             </li>
@@ -602,13 +595,10 @@ class PixelGallery_Admin_Settings {
                         </ul>
 
 
-                        <div class=pg-dashboard-divider"></div>
-
-
-                        <div class=pg-more-features">
-                            <ul class="bdt-list bdt-list-divider bdt-text-left" style="font-size: 16px;">
+                        <div class="pg-more-features bdt-card bdt-card-body bdt-margin-medium-top bdt-padding-large">
+                            <ul class="bdt-list bdt-list-divider bdt-text-left" style="font-size: 15px;">
                                 <li>
-                                    <div class="bdt-grid">
+                                    <div class="bdt-grid bdt-grid-small">
                                         <div class="bdt-width-1-3@m">
                                             <span class="dashicons dashicons-heart"></span> Incredibly Advanced
                                         </div>
@@ -622,7 +612,7 @@ class PixelGallery_Admin_Settings {
                                 </li>
 
                                 <li>
-                                    <div class="bdt-grid">
+                                    <div class="bdt-grid bdt-grid-small">
                                         <div class="bdt-width-1-3@m">
                                             <span class="dashicons dashicons-heart"></span> Super-Flexible Widgets
                                         </div>
@@ -636,7 +626,7 @@ class PixelGallery_Admin_Settings {
                                 </li>
 
                                 <li>
-                                    <div class="bdt-grid">
+                                    <div class="bdt-grid bdt-grid-small">
                                         <div class="bdt-width-1-3@m">
                                             <span class="dashicons dashicons-heart"></span> Special Discount!
                                         </div>
@@ -650,7 +640,7 @@ class PixelGallery_Admin_Settings {
                                 </li>
 
                                 <li>
-                                    <div class="bdt-grid">
+                                    <div class="bdt-grid bdt-grid-small">
                                         <div class="bdt-width-1-3@m">
                                             <span class="dashicons dashicons-heart"></span> Trusted Payment Methods
                                         </div>
@@ -664,10 +654,10 @@ class PixelGallery_Admin_Settings {
                                 </li>
                             </ul>
 
-                            <!-- <div class=pg-dashboard-divider"></div> -->
+                            <!-- <div class="pg-dashboard-divider"></div> -->
 
                             <?php if (true !== _is_pg_pro_activated()) : ?>
-                                <div class=pg-purchase-button">
+                                <div class="pg-purchase-button bdt-margin-medium-top">
                                     <a href="https://pixelgallery.pro/pricing/" target="_blank">Purchase Now</a>
                                 </div>
                             <?php endif; ?>
@@ -871,12 +861,12 @@ class PixelGallery_Admin_Settings {
             ?>
 
             <?php if (_is_pg_pro_activated() !== true) : ?>
-                <div id="pixel_gallery_get_pro" class=pg-option-page group">
+                <div id="pixel_gallery_get_pro" class="pg-option-page group">
                     <?php $this->pixel_gallery_get_pro(); ?>
                 </div>
             <?php endif; ?>
 
-            <div id="pixel_gallery_license_settings_page" class=pg-option-page group">
+            <div id="pixel_gallery_license_settings_page" class="pg-option-page group">
 
                 <?php
                 if (_is_pg_pro_activated() == true) {
@@ -1089,6 +1079,13 @@ class PixelGallery_Admin_Settings {
                     jQuery(this).attr("disabled", true);
                 });
 
+            });
+
+            jQuery(document).ready(function ($) {
+                const getProLink = $('a[href="admin.php?page=pixel_gallery_options_get_pro"]');
+                if (getProLink.length) {
+                    getProLink.attr('target', '_blank');
+                }
             });
         </script>
     <?php
