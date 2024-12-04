@@ -5,11 +5,11 @@ Tags:  elementor, elementor addons, grid gallery, responsive gallery, lightbox
 Requires at least: 5.0.0
 Tested up to: 6.7.1
 Requires PHP: 7.4.0
-Stable tag: 1.5.5
+Stable tag: 1.5.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.22
-Elementor tested up to: 3.25.9
+Elementor tested up to: 3.25.10
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -22,7 +22,7 @@ Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that ne
 
 == What makes Pixel Gallery unique? 💡 ==
 
-**[Pixel Gallery](https://pixelgallery.pro/)** is not your average gallery maker addons for WordPress. Unlike its competitors, our plugin offers more to the appearance, performance, and design choices for creating the best galleries in WordPress.
+**[Pixel Gallery](https://pixelgallery.pro/)** is not your average gallery maker addons for WordPress. Unlike its competitors, our plugin offers more to the appearance, performance and design choices for creating the best galleries in WordPress.
 
 = What Pixel Gallery gives you-💫 =
 
@@ -61,26 +61,51 @@ You can also use our plugin to display static WooCommerce product galleries at e
 
 == Free Widgets for Lifetime 🔥 ==
 
-[Alien](https://pixelgallery.pro/demo/alien/) | [Aware](https://pixelgallery.pro/demo/aware/) | [Axen](https://pixelgallery.pro/demo/axen/) 
-[Craze](https://pixelgallery.pro/demo/craze/) | [Crop](https://pixelgallery.pro/demo/crop/) 
-[Doodle](https://pixelgallery.pro/demo/doodle/) 
-[Elixir](https://pixelgallery.pro/demo/elixir/) | [Epoch](https://pixelgallery.pro/demo/epoch/) | 
-[Fabric](https://pixelgallery.pro/demo/fabric/) | [Fever](https://pixelgallery.pro/demo/fever/) | [Fixer](https://pixelgallery.pro/demo/fixer/) | [Flame](https://pixelgallery.pro/demo/flame/) | [Fluid](https://pixelgallery.pro/demo/fluid/) 
-[Glam](https://pixelgallery.pro/demo/glam/) | [Glaze](https://pixelgallery.pro/demo/glaze/) 
-[Humble](https://pixelgallery.pro/demo/humble/) 
-[Insta](https://pixelgallery.pro/demo/Insta/) 
-[Koral](https://pixelgallery.pro/demo/koral/) 
-[Lumen](https://pixelgallery.pro/demo/lumen/) | [Lunar](https://pixelgallery.pro/demo/lunar/) | [Lytical](https://pixelgallery.pro/demo/lytical/) 
-[Marron](https://pixelgallery.pro/demo/marron/) | [Mastery](https://pixelgallery.pro/demo/mastery/) | [Mosaic](https://pixelgallery.pro/demo/mosaic/) | [Mystic](https://pixelgallery.pro/demo/mystic/) 
-[Nexus](https://pixelgallery.pro/demo/nexus/) 
-[Ocean](https://pixelgallery.pro/demo/ocean/) | [Orbit](https://pixelgallery.pro/demo/orbit/) 
-[Panda](https://pixelgallery.pro/demo/panda/) | [Plex](https://pixelgallery.pro/demo/plex/) | [Plumb](https://pixelgallery.pro/demo/plumb/) | [Punch](https://pixelgallery.pro/demo/punch/) 
-[Ranch](https://pixelgallery.pro/demo/ranch/) | [Remix](https://pixelgallery.pro/demo/remix/) | [Ruby](https://pixelgallery.pro/demo/ruby/) 
-[Shark](https://pixelgallery.pro/demo/shark/) | [Sonic](https://pixelgallery.pro/demo/sonic/) | [Spirit](https://pixelgallery.pro/demo/spirit/) 
-[Tour](https://pixelgallery.pro/demo/tour/) | [Trance](https://pixelgallery.pro/demo/trance/) | [Turbo](https://pixelgallery.pro/demo/turbo/) 
-[Verse](https://pixelgallery.pro/demo/verse/) 
-[Walden](https://pixelgallery.pro/demo/walden/) | [Wisdom](https://pixelgallery.pro/demo/wisdom/) 
-[Zilax](https://pixelgallery.pro/demo/zilax/)
+* [Alien](https://pixelgallery.pro/demo/alien/) - One of the most handy widget for making creative image galleries for WordPress and fit tons of worthwhile images on your webpage and display them to your visitors.
+* [Aware](https://pixelgallery.pro/demo/aware/) - Create modern, responsive layouts with dynamic visual elements and advanced user interaction features.  
+* [Axen](https://pixelgallery.pro/demo/axen/) - Showcase your content elegantly with Axen's sleek, minimalistic styling, offering advanced customization options.  
+* [Craze](https://pixelgallery.pro/demo/craze/) - Add vibrant, energetic design elements to captivate your audience with a fun and lively appearance.  
+* [Crop](https://pixelgallery.pro/demo/crop/) - Perfect for displaying images with customizable cropping, unique borders and creative visual effects.  
+* [Doodle](https://pixelgallery.pro/demo/doodle/) - Add quirky and artistic doodle-style elements to inject fun, personality and uniqueness into your designs.  
+* [Elixir](https://pixelgallery.pro/demo/elixir/) - Infuse life into your pages with smooth animations, intuitive controls and high-quality layouts for professional websites.  
+* [Epoch](https://pixelgallery.pro/demo/epoch/) - Design timeless and elegant sections for business, portfolios, or any formal content presentation.  
+* [Fabric](https://pixelgallery.pro/demo/fabric/) - Create multi-layered, textured layouts with a woven aesthetic that blends style and functionality.  
+* [Fever](https://pixelgallery.pro/demo/fever/) - Bring excitement to your pages with fiery tones, dynamic animations and high-energy visual elements.  
+* [Fixer](https://pixelgallery.pro/demo/fixer/) - Streamline your content alignment and layout issues with powerful and precise design tools.  
+* [Flame](https://pixelgallery.pro/demo/flame/) - Ignite your site’s appeal with dramatic fiery effects, bold color schemes and dynamic animations.  
+* [Fluid](https://pixelgallery.pro/demo/fluid/) - Achieve seamless transitions and responsive adaptability with liquid-inspired effects and layouts.  
+* [Glam](https://pixelgallery.pro/demo/glam/) - Add a touch of glamour with elegant, polished visuals that make your content stand out effortlessly.  
+* [Glaze](https://pixelgallery.pro/demo/glaze/) - Highlight key sections with a glossy, polished effect that adds depth and sophistication to your designs.  
+* [Humble](https://pixelgallery.pro/demo/humble/) - Create minimalist and clean designs with a focus on clarity, simplicity and impactful delivery.  
+* [Insta](https://pixelgallery.pro/demo/Insta/) - Seamlessly integrate your Instagram feed into your site with customizable layouts and interactive features.  
+* [Koral](https://pixelgallery.pro/demo/koral/) - Add fluid, wave-like transitions and aquatic-inspired elements for a serene and visually engaging design.  
+* [Lumen](https://pixelgallery.pro/demo/lumen/) - Brighten your site with luminous effects, vibrant highlights and visually stunning lighting effects.  
+* [Lunar](https://pixelgallery.pro/demo/lunar/) - Lunar places a minimalistic and fully custom WordPress gallery interface with a clean image title and a read-more button style on top of the background and delivers direct content information to the visitors.
+* [Lytical](https://pixelgallery.pro/demo/lytical/) - Perfect for presenting data or analytics with clean, structured layouts and interactive visualizations.  
+* [Marron](https://pixelgallery.pro/demo/marron/) - Create warm, earthy designs with dynamic textures and organic patterns for a grounded look.  
+* [Mastery](https://pixelgallery.pro/demo/mastery/) - Showcase expertise with tools designed for presenting skills, knowledge, or services professionally.  
+* [Mosaic](https://pixelgallery.pro/demo/mosaic/) - Display your content in stunning grid-based mosaics, ideal for galleries or portfolio showcases.  
+* [Mystic](https://pixelgallery.pro/demo/mystic/) - Add an aura of mystery to your site with magical effects, shadow play and enchanting visuals.  
+* [Nexus](https://pixelgallery.pro/demo/nexus/) - Build interconnected layouts for organizing diverse content with intuitive navigation and cohesive design.  
+* [Ocean](https://pixelgallery.pro/demo/ocean/) - Evoke serenity with water-inspired visuals, calming effects and fluid animations.  
+* [Orbit](https://pixelgallery.pro/demo/orbit/) - Create captivating circular animations and orbital layouts to emphasize key content dynamically.  
+* [Panda](https://pixelgallery.pro/demo/panda/) - Add charm and sophistication with panda-inspired playful elements, adaptable for various themes.  
+* [Plex](https://pixelgallery.pro/demo/plex/) - Introduce futuristic, tech-savvy layouts with sharp, modern aesthetics and innovative design.  
+* [Plumb](https://pixelgallery.pro/demo/plumb/) - Ensure perfect vertical alignment and tidy structuring of content for clean, professional designs.  
+* [Punch](https://pixelgallery.pro/demo/punch/) - Deliver bold, attention-grabbing designs with vivid animations and impactful visual effects.  
+* [Ranch](https://pixelgallery.pro/demo/ranch/) - Infuse rustic charm into your site with earthy tones, organic textures and cozy layouts.  
+* [Remix](https://pixelgallery.pro/demo/remix/) - Blend classic and contemporary design elements to create versatile and unique layouts.  
+* [Ruby](https://pixelgallery.pro/demo/ruby/) - Add luxurious jewel-inspired designs with rich, bold colors and elegant visual effects.  
+* [Shark](https://pixelgallery.pro/demo/shark/) - Bring sharp, aggressive styling to your site for a bold, cutting-edge appearance.  
+* [Sonic](https://pixelgallery.pro/demo/sonic/) - Infuse speed and motion into your designs with quick animations and dynamic transitions.  
+* [Spirit](https://pixelgallery.pro/demo/spirit/) - Add gentle, ethereal effects and calming transitions to your pages for a serene design.  
+* [Tour](https://pixelgallery.pro/demo/tour/) - Create interactive guided tours or feature showcases to engage users effortlessly.  
+* [Trance](https://pixelgallery.pro/demo/trance/) - Add hypnotic animations and rhythmic effects for a mesmerizing, immersive experience.  
+* [Turbo](https://pixelgallery.pro/demo/turbo/) - Enhance your site’s performance with lightweight, fast-loading widgets for optimal functionality.  
+* [Verse](https://pixelgallery.pro/demo/verse/) - Showcase poetry, writing, or text-focused designs with refined typography and layouts.  
+* [Walden](https://pixelgallery.pro/demo/walden/) - Build nature-inspired layouts with tranquil designs and serene, organic aesthetics.  
+* [Wisdom](https://pixelgallery.pro/demo/wisdom/) - Elevate your content with refined typography, thoughtful layouts and elegant effects.  
+* [Zilax](https://pixelgallery.pro/demo/zilax/) - Craft futuristic layouts with sleek, modern features and tech-forward design aesthetics.  
 
 == Free Extensions for Lifetime 🔥 ==
 
@@ -88,19 +113,22 @@ You can also use our plugin to display static WooCommerce product galleries at e
 
 == Pro Version Widgets 🔥 ==
 
-[Amaze](https://pixelgallery.pro/demo/amaze/) 
-[Coslide](https://pixelgallery.pro/demo/coslide/) 
-[Diamond](https://pixelgallery.pro/demo/diamond/) | [Dream](https://pixelgallery.pro/demo/amaze/) 
-[Evolve](https://pixelgallery.pro/demo/amaze/) 
-[Flash](https://pixelgallery.pro/demo/amaze/) | [Floral](https://pixelgallery.pro/demo/amaze/) 
-[Heron](https://pixelgallery.pro/demo/heron/) 
-[Kitec](https://pixelgallery.pro/demo/kitec/) 
-[Maven](https://pixelgallery.pro/demo/maven/) 
-[Pastel](https://pixelgallery.pro/demo/pastel/) | [Polo](https://pixelgallery.pro/demo/polo/) 
-[Ridex](https://pixelgallery.pro/demo/ridex/) 
-[Menuz](https://pixelgallery.pro/demo/menuz/) 
-[Tread](https://pixelgallery.pro/demo/tread/) 
-[Xero](https://pixelgallery.pro/demo/xero/) 
+* [Amaze](https://pixelgallery.pro/demo/amaze/) - Create awe-inspiring sections with dynamic transitions, captivating visuals and modern design elements. Perfect for engaging landing pages and portfolios.  
+* [Coslide](https://pixelgallery.pro/demo/coslide/) - Showcase your content with smooth, multi-layered sliding effects, ideal for storytelling and immersive experiences.  
+* [Diamond](https://pixelgallery.pro/demo/diamond/) - Add premium elegance to your designs with refined layouts, shimmering details and high-end aesthetics for luxury brands.  
+* [Dream](https://pixelgallery.pro/demo/amaze/) - Perfect for whimsical and dreamy layouts with soft animations, pastel tones and ethereal vibes to capture imagination.  
+* [Evolve](https://pixelgallery.pro/demo/amaze/) - Transform your designs with adaptive layouts, advanced effects and cutting-edge interactive elements for a futuristic touch.  
+* [Flash](https://pixelgallery.pro/demo/amaze/) - Add striking, quick animations and vibrant effects to grab attention, highlight features and drive user interaction.  
+* [Floral](https://pixelgallery.pro/demo/amaze/) - Incorporate nature-inspired designs with delicate floral patterns, soft hues and organic themes for a fresh look.  
+* [Heron](https://pixelgallery.pro/demo/heron/) - Create majestic designs with graceful, bird-inspired animations, elegant typography and fluid transitions for artistic websites.  
+* [Kitec](https://pixelgallery.pro/demo/kitec/) - Perfect for crafting innovative, tech-inspired sections with futuristic aesthetics, dynamic effects and responsive designs.  
+* [Maven](https://pixelgallery.pro/demo/maven/) - Showcase expertise and professionalism with structured, corporate-friendly layouts for business websites and portfolios.  
+* [Pastel](https://pixelgallery.pro/demo/pastel/) - Add soft, pastel color schemes, subtle textures and modern layouts to give your site a soothing and elegant look.  
+* [Polo](https://pixelgallery.pro/demo/polo/) - Perfect for showcasing products or services with bold, clean visuals, dynamic elements and an engaging interface.  
+* [Ridex](https://pixelgallery.pro/demo/ridex/) - Add dynamic, modern elements for creating fast-paced, energetic layouts, great for sports or lifestyle brands.  
+* [Menuz](https://pixelgallery.pro/demo/menuz/) - Design customizable, advanced menus with unique styles, intuitive navigation and enhanced usability for seamless browsing.  
+* [Tread](https://pixelgallery.pro/demo/tread/) - Add rugged, industrial aesthetics with bold typography, textured backgrounds and commanding visual presence for impactful designs.  
+* [Xero](https://pixelgallery.pro/demo/xero/) - Create sleek, minimalist layouts with cutting-edge design, seamless animations and professional-grade polish for modern projects.  
 
 == Common Issues and Solutions: 🐣 ==
 
@@ -117,6 +145,8 @@ Feel free to [Contact us](https://bdthemes.com/support/) 💌 or check our widge
 
 == Check out our other Addons 👑 ==
 
+Explore the best free addons for Elementor and Gutenberg to boost your site with advanced blocks, sliders and eCommerce tools.
+
 * **[ZoloBlocks](https://wordpress.org/plugins/zoloblocks/)** 🆕☀️ - Mind-blowing dynamic block plugin for Gutenberg with powerful and advanced features offering greater web design experience.
 
 * **[Element Pack](https://wordpress.org/plugins/bdthemes-element-pack-lite/)** - Element Pack Lite Build responsive website from scratch with an all-rounder package for Elementor
@@ -130,7 +160,7 @@ Feel free to [Contact us](https://bdthemes.com/support/) 💌 or check our widge
 * **[Live Copy Paste](https://wordpress.org/plugins/live-copy-paste/)** - Superfast cross-domain copy-paste mechanism for WordPress websites with true UI copy experience.
 
 
-Visit [BdThemes](https://bdthemes.com/) to learn about our services, Elementor page builder based products, informative blogs, and documentations.
+Visit [BdThemes](https://bdthemes.com/) to learn about our services, Elementor page builder based products, informative blogs and documentations.
 
 
 == Installation ==
@@ -156,6 +186,10 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 1.5.6 [4th December 2024] =
+
+* Updated: Dashboard system improved
 
 = 1.5.5 [23th November 2024] =
 
