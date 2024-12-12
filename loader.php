@@ -172,18 +172,6 @@ class Pixel_Gallery_Loader {
         wp_register_script('pg-animations', BDTPG_ASSETS_URL . 'js/extensions/pg-animations.min.js', ['jquery'], '', true);
     }
 
-    public function register_site_styles() {
-        $direction_suffix = is_rtl() ? '.rtl' : '';
-
-
-        // third party widget css
-        /**
-         * No need condition datatables
-         */
-
-        wp_register_style('datatables', BDTPG_ASSETS_URL . 'css/datatables' . $direction_suffix . '.css', [], BDTPG_VER);
-    }
-
     /**
      * Loading site related style from here.
      * @return [type] [description]
@@ -374,7 +362,6 @@ class Pixel_Gallery_Loader {
 
         add_action('elementor/editor/after_enqueue_styles', [$this, 'enqueue_editor_styles']);
 
-        add_action('elementor/frontend/before_register_styles', [$this, 'register_site_styles']);
         add_action('elementor/frontend/before_register_scripts', [$this, 'register_site_scripts']);
 
         add_action('elementor/editor/after_enqueue_scripts', [$this, 'enqueue_editor_scripts']);
