@@ -187,7 +187,7 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.5.7 [XX December 2024] =
+= 1.5.7 [17th December 2024] =
 
 * Added: Optimized Markup feature compatibility added
 
