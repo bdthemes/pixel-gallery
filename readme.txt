@@ -187,6 +187,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.5.X [XXth December 2024] =
+
+* Fixed: e-swiper CSS loading issue fixed
+
 = 1.5.7 [17th December 2024] =
 
 * Added: Optimized Markup feature compatibility added
