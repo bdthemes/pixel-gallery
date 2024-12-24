@@ -180,7 +180,7 @@ class Pixel_Gallery_Loader {
 
         $direction_suffix = is_rtl() ? '.rtl' : '';
 
-        wp_enqueue_style('pg-helper', BDTPG_ASSETS_URL . 'css/pg-helper' . $direction_suffix . '.css', [], BDTPG_VER);
+        wp_enqueue_style('pg-helper', BDTPG_ASSETS_URL . 'css/pg-helper' . $direction_suffix . '.css', ['e-swiper'], BDTPG_VER);
         wp_enqueue_style('pg-font', BDTPG_ASSETS_URL . 'css/pg-font' . $direction_suffix . '.css', [], BDTPG_VER);
     }
 
