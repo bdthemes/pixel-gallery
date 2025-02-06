@@ -244,7 +244,7 @@ class PixelGallery_Admin_Settings {
     // Redirect to Pixel Gallery Pro pricing page
     public function pg_redirect_to_get_pro() {
         if (isset($_GET['page']) && $_GET['page'] === self::PAGE_ID . '_get_pro') {
-            wp_redirect('https://pixelgallery.pro/pricing/');
+            wp_redirect('https://pixelgallery.pro/pricing/?utm_source=PixelGallery&utm_medium=PluginPage&utm_campaign=30%OffOnPixelGallery&coupon=FREETOPRO');
             exit;
         }
     }
@@ -293,7 +293,7 @@ class PixelGallery_Admin_Settings {
             add_submenu_page(
                 self::PAGE_ID,
                 BDTPG_TITLE,
-                esc_html__('Get Pro', 'upixel-gallery'),
+                esc_html__('Upgrade For 30% Off!', 'pixel-gallery'),
                 'manage_options',
                 self::PAGE_ID . '_get_pro',
                 [$this, 'display_page']
@@ -956,10 +956,20 @@ class PixelGallery_Admin_Settings {
             });
 
 
-            jQuery('.pg-widget-filter-nav li a').on('click', function(e) {
-                jQuery(this).closest('.bdt-widget-filter-wrapper').find('.bdt-search-input').val('');
-                jQuery(this).closest('.bdt-widget-filter-wrapper').find('.bdt-search-input').val('').attr('bdt-filter-control', '');
-            });
+            function clearSearchInputs(context) {
+				context.find('.bdt-search-input').val('').attr('bdt-filter-control', '');
+			}
+
+			jQuery('.pg-widget-filter-nav li a').on('click', function () {
+				const wrapper = jQuery(this).closest('.bdt-widget-filter-wrapper');
+				clearSearchInputs(wrapper);
+			});
+
+			jQuery('.bdt-dashboard-navigation li a').on('click', function () {
+				const tabContainer = jQuery(this).closest('.bdt-dashboard-navigation').siblings('.bdt-tab-container');
+				clearSearchInputs(tabContainer);
+					tabContainer.find('.bdt-search-input').trigger('keyup');
+			});
 
 
             jQuery(document).ready(function($) {

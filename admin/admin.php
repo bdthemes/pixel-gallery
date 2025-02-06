@@ -36,6 +36,8 @@ class Admin {
         // register_activation_hook(BDTPG__FILE__, 'install_and_activate');
 
         add_action('admin_init', [$this, 'admin_notice_styles']);
+
+        add_filter('plugin_action_links_' . BDTPG_PBNAME, [$this, 'plugin_action_links']);
         
     }
 
@@ -101,6 +103,24 @@ class Admin {
 
             $plugin_meta = array_merge($plugin_meta, $row_meta);
         }
+
+        return $plugin_meta;
+    }
+
+    /**
+	 * Plugin action links
+	 * @access public
+	 * @return array
+	 */
+
+     public function plugin_action_links( $plugin_meta ) {
+
+        $row_meta = [
+            'settings' => '<a href="'.admin_url( 'admin.php?page=pixel_gallery_options' ) .'" aria-label="' . esc_attr(__('Go to settings', 'pixel-gallery')) . '" >' . __('Settings', 'pixel-gallery') . '</b></a>',
+            'gopro' => '<a href="https://pixelgallery.pro/pricing/?utm_source=PixelGallery&utm_medium=PluginPage&utm_campaign=30%OffOnPixelGallery&coupon=FREETOPRO" aria-label="' . esc_attr(__('Go get the pro version', 'pixel-gallery')) . '" target="_blank" title="When you purchase through this link you will get 30% discount!" class="pg-go-pro">' . __('Upgrade For 30% Off!', 'pixel-gallery') . '</a>',
+        ];
+
+        $plugin_meta = array_merge($plugin_meta, $row_meta);
 
         return $plugin_meta;
     }
