@@ -1,4 +1,5 @@
 .elementor-lightbox {
+
 	*,
 	*::before,
 	*::after {
@@ -40,6 +41,26 @@
 	}
 }
 
+//Mask Css
+.bdt-pg-img-mask {
+	position: relative;
+}
+
+.bdt-pg-img-mask:before {
+	content: "";
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
+}
+
 //Inline font feature fixing
 [class*=' elementor-widget-pg-'] {
 	svg.e-font-icon-svg {
@@ -62,12 +83,8 @@
 		// transform: translateY(100%) rotateX(-80deg);
 		transition: opacity 0s cubic-bezier(0.215, 0.61, 0.355, 1), transform 0s cubic-bezier(0.215, 0.61, 0.355, 1);
 
-		-webkit-transform: translate(var(--pg-translate-x, 0), var(--pg-translate-y, 100%))
-			rotateX(var(--pg-rotate-x, -80deg)) rotateY(var(--pg-rotate-y, 0)) rotateZ(var(--pg-rotate-z, 0))
-			scaleX(var(--pg-scale-x, 1)) scaleY(var(--pg-scale-y, 1)) skewX(var(--pg-skew-x, 0)) skewY(var(--pg-skew-y, 0));
-		transform: translate(var(--pg-translate-x, 0), var(--pg-translate-y, 100%)) rotateX(var(--pg-rotate-x, -80deg))
-			rotateY(var(--pg-rotate-y, 0)) rotateZ(var(--pg-rotate-z, 0)) scaleX(var(--pg-scale-x, 1))
-			scaleY(var(--pg-scale-y, 1)) skewX(var(--pg-skew-x, 0)) skewY(var(--pg-skew-y, 0));
+		-webkit-transform: translate(var(--pg-translate-x, 0), var(--pg-translate-y, 100%)) rotateX(var(--pg-rotate-x, -80deg)) rotateY(var(--pg-rotate-y, 0)) rotateZ(var(--pg-rotate-z, 0)) scaleX(var(--pg-scale-x, 1)) scaleY(var(--pg-scale-y, 1)) skewX(var(--pg-skew-x, 0)) skewY(var(--pg-skew-y, 0));
+		transform: translate(var(--pg-translate-x, 0), var(--pg-translate-y, 100%)) rotateX(var(--pg-rotate-x, -80deg)) rotateY(var(--pg-rotate-y, 0)) rotateZ(var(--pg-rotate-z, 0)) scaleX(var(--pg-scale-x, 1)) scaleY(var(--pg-scale-y, 1)) skewX(var(--pg-skew-x, 0)) skewY(var(--pg-skew-y, 0));
 
 		&.is-inview {
 			transform: none;
@@ -86,6 +103,7 @@
 	grid-auto-flow: dense;
 	grid-row-gap: 10px;
 	grid-column-gap: 10px;
+
 	.pg-item {
 		grid-column: span 4 / auto;
 		grid-row: span 1 / auto;
