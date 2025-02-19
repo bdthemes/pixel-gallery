@@ -934,7 +934,8 @@ trait Global_Widget_Controls
 				'default'        => 'shape-1',
 				'options'        => pixel_gallery_mask_shapes(),
 				'selectors'      => [
-					'{{WRAPPER}} .pg-' . $name . '-image-wrap' => '-webkit-mask-image: url('.BDTPG_ASSETS_URL . 'images/mask/'.'{{VALUE}}.svg); mask-image: url('.BDTPG_ASSETS_URL . 'images/mask/'.'{{VALUE}}.svg);',
+					'{{WRAPPER}} .pg-' . $name . '-image-wrap img' => '-webkit-mask-image: url('.BDTPG_ASSETS_URL . 'images/mask/'.'{{VALUE}}.svg); mask-image: url('.BDTPG_ASSETS_URL . 'images/mask/'.'{{VALUE}}.svg);',
+					'{{WRAPPER}} .pg-' . $name . '-image-wrap:before' => 'background-image: url('.BDTPG_ASSETS_URL . 'images/mask/color-'.'{{VALUE}}.svg);',
 				],
 				'condition'      => [
 					'image_mask_shape'   => 'default',
@@ -951,7 +952,7 @@ trait Global_Widget_Controls
 				'type'       => Controls_Manager::MEDIA,
 				'show_label' => false,
 				'selectors'  => [
-					'{{WRAPPER}} .pg-' . $name . '-image-wrap' => '-webkit-mask-image: url({{URL}}); mask-image: url({{URL}});',
+					'{{WRAPPER}} .pg-' . $name . '-image-wrap img' => '-webkit-mask-image: url({{URL}}); mask-image: url({{URL}});',
 				],
 				'condition'  => [
 					'image_mask_shape'   => 'custom',
@@ -989,7 +990,7 @@ trait Global_Widget_Controls
 					'bottom-right'  => 'bottom right',
 				],
 				'selectors'            => [
-					'{{WRAPPER}} .pg-' . $name . '-image-wrap' => '-webkit-mask-position: {{VALUE}}; mask-position: {{VALUE}};',
+					'{{WRAPPER}} .pg-' . $name . '-image-wrap img' => '-webkit-mask-position: {{VALUE}}; mask-position: {{VALUE}};',
 				],
 				'condition'            => [
 					'mask_type' => 'svg_mask',
@@ -1010,7 +1011,7 @@ trait Global_Widget_Controls
 					'initial' => esc_html__('Custom', 'pixel-gallery'),
 				],
 				'selectors' => [
-					'{{WRAPPER}} .pg-' . $name . '-image-wrap' => '-webkit-mask-size: {{VALUE}}; mask-size: {{VALUE}};',
+					'{{WRAPPER}} .pg-' . $name . '-image-wrap img' => '-webkit-mask-size: {{VALUE}}; mask-size: {{VALUE}};',
 				],
 				'condition' => [
 					'mask_type' => 'svg_mask',
@@ -1049,7 +1050,7 @@ trait Global_Widget_Controls
 				],
 				'required'   => true,
 				'selectors'  => [
-					'{{WRAPPER}} .pg-' . $name . '-image-wrap' => '-webkit-mask-size: {{SIZE}}{{UNIT}}; mask-size: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .pg-' . $name . '-image-wrap img' => '-webkit-mask-size: {{SIZE}}{{UNIT}}; mask-size: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => [
 					'image_mask_shape_size' => 'initial',
@@ -1087,7 +1088,7 @@ trait Global_Widget_Controls
 					'no-repeat-round' => 'no-repeat round',
 				],
 				'selectors'            => [
-					'{{WRAPPER}} .pg-' . $name . '-image-wrap' => '-webkit-mask-repeat: {{VALUE}}; mask-repeat: {{VALUE}};',
+					'{{WRAPPER}} .pg-' . $name . '-image-wrap img' => '-webkit-mask-repeat: {{VALUE}}; mask-repeat: {{VALUE}};',
 				],
 				'condition'            => [
 					'mask_type' => 'svg_mask',
@@ -1920,7 +1921,7 @@ trait Global_Widget_Controls
 	protected function render_image_wrap($item, $name) {
 		$settings = $this->get_settings_for_display();
 		?>
-		<div class="pg-<?php echo esc_attr($name); ?>-image-wrap">
+		<div class="pg-<?php echo esc_attr($name); ?>-image-wrap bdt-pg-img-mask">
 			<?php
 			/**
 			 * Added Poster for Video

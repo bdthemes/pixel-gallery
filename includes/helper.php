@@ -205,11 +205,11 @@ if (!function_exists('pg_license_validation')) {
 
 function pixel_gallery_mask_shapes() {
     $shape_name = 'shape';
-    $list       = [];
+	$list       = [];
 
-    for ($i = 1; $i <= 20; $i++) {
-        $list[$shape_name . '-' . $i] = ucwords($shape_name . ' ' . $i);
-    }
+	for ( $i = 1; $i <= 31; $i++ ) {
+		$list[ $shape_name . '-' . $i ] = ucwords( $shape_name . ' ' . $i );
+	}
 
-    return $list;
+	return $list;
 }
