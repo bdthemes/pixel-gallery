@@ -12,7 +12,7 @@ module.exports = function (grunt) {
 					// Extensiosns JS
 					'src/js/extensions/pg-animations.js',
 				],
-				dest: 'assets/js/pg-scripts.min.js',
+				dest: 'src/js/pg-scripts.js',
 				options: {
 					separator: ';',
 				},

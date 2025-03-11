@@ -39,8 +39,7 @@ var debounce = function(func, wait, immediate) {
         // Immediate mode and no wait timer? Execute the function..
         if (callNow) func.apply(context, args);
     };
-};
-(function ($, elementor) {
+};;(function ($, elementor) {
 
     'use strict';
 
@@ -63,8 +62,7 @@ var debounce = function(func, wait, immediate) {
         elementorFrontend.hooks.addAction('frontend/element_ready/pg-turbo.default', widgetTurbo);
     });
 
-}(jQuery, window.elementorFrontend));
-(function ($, elementor) {
+}(jQuery, window.elementorFrontend));;(function ($, elementor) {
 
     'use strict';
 
@@ -104,103 +102,123 @@ var debounce = function(func, wait, immediate) {
         elementorFrontend.hooks.addAction('frontend/element_ready/pg-lumen.default', widgetlumen);
     });
 
-}(jQuery, window.elementorFrontend));
-(function ($, elementor) {
+}(jQuery, window.elementorFrontend));;(function ($, elementor) {
+	"use strict";
 
-    'use strict';
+	function pgObserveTarget(target, callback) {
+		var options =
+			arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+		// Set the rootMargin to trigger when the target is 10% past the viewport
+		options.rootMargin = options.rootMargin || "10% 0px 0px 0px";
+		var observer = new IntersectionObserver(function (entries, observer) {
+			entries.forEach(function (entry) {
+				if (entry.isIntersecting) {
+					callback(entry);
 
-    var extensionAnimations = function ($scope, $) {
+					if (!options.loop) observer.unobserve(entry.target); // Unobserve after the first intersection
+				}
+			});
+		}, options);
+		observer.observe(target);
+	}
 
-        var $animations = $scope.find('.pg-in-animation');
+	var extensionAnimations = function ($scope, $) {
+		var $animations = $scope.find(".pg-in-animation");
 
-        if (!$animations.length) {
-            return;
-        }
+		if (!$animations.length) {
+			return;
+		}
 
-        var itemQueue = [];
-        var delay = ($animations.data('in-animation-delay')) ? $animations.data('in-animation-delay') : 200;
-        var queueTimer;
+		var itemQueue = [];
+		var delay = $animations.data("in-animation-delay")
+			? $animations.data("in-animation-delay")
+			: 200;
+		var queueTimer;
 
-        function processItemQueue() {
-            if (queueTimer) return // We're already processing the queue
+		function processItemQueue() {
+			if (queueTimer) return; // We're already processing the queue
 
-            queueTimer = window.setInterval(function () {
-                if (itemQueue.length) {
-                    jQuery(itemQueue.shift()).addClass('is-inview');
-                    processItemQueue();
-                } else {
-                    window.clearInterval(queueTimer)
-                    queueTimer = null
-                }
-            }, delay)
-        }
+			queueTimer = window.setInterval(function () {
+				if (itemQueue.length) {
+					jQuery(itemQueue.shift()).addClass("is-inview");
+					processItemQueue();
+				} else {
+					window.clearInterval(queueTimer);
+					queueTimer = null;
+				}
+			}, delay);
+		}
 
-        elementorFrontend.waypoint(jQuery('.pg-in-animation .pg-item'), function () {
-            itemQueue.push($(this));
-            processItemQueue();
-        }, {
-            offset: '90%'
-        });
+		pgObserveTarget(
+			$($animations[0]).find(".pg-item")[0],
+			function () {
+				itemQueue.push($($animations[0]).find(".pg-item"));
+				processItemQueue();
+			},
+			{
+				root: null,
+				rootMargin: "0px",
+				threshold: 0.8,
+			}
+		);
+	};
 
-    };
-
-    jQuery(window).on('elementor/frontend/init', function () {
-
-        var $widgets = [ 
-            'alien',
-			'aware',
-			'axen',
-			'craze',
-			'crop',
-			'doodle',
-			'elixir',
-			'epoch',
-			'fabric',
-			'fever',
-			'fixer',
-			'flame',
-			'fluid',
-			'glam',
-			'glaze',
-			'humble',
-			'insta',
-			'koral',
-			'lumen',
-			'lunar',
-			'lytical',
-			'marron',
-			'mastery',
-			'mosaic',
-			'mystic',
-			'nexus',
-			'ocean',
-			'orbit',
-			'panda',
-			'plex',
-			'plumb',
-			'punch',
-			'ranch',
-			'remix',
-			'ruby',
-			'shark',
-			'sonic',
-			'spirit',
-			'tour',
-			'trance',
+	jQuery(window).on("elementor/frontend/init", function () {
+		var $widgets = [
+			"alien",
+			"aware",
+			"axen",
+			"craze",
+			"crop",
+			"doodle",
+			"elixir",
+			"epoch",
+			"fabric",
+			"fever",
+			"fixer",
+			"flame",
+			"fluid",
+			"glam",
+			"glaze",
+			"humble",
+			"insta",
+			"koral",
+			"lumen",
+			"lunar",
+			"lytical",
+			"marron",
+			"mastery",
+			"mosaic",
+			"mystic",
+			"nexus",
+			"ocean",
+			"orbit",
+			"panda",
+			"plex",
+			"plumb",
+			"punch",
+			"ranch",
+			"remix",
+			"ruby",
+			"shark",
+			"sonic",
+			"spirit",
+			"tour",
+			"trance",
 			// 'turbo',
-			'verse',
-			'walden',
-			'wisdom',
-			'zilax',
+			"verse",
+			"walden",
+			"wisdom",
+			"zilax",
 			// 'heron',
-			'maven'
-        ];
+			"maven",
+		];
 
-        $.each($widgets, function(index, value) {
-            elementorFrontend.hooks.addAction('frontend/element_ready/pg-' + value +'.default', extensionAnimations);
-        });
-    });
-
-}(jQuery, window.elementorFrontend));
-
-
+		$.each($widgets, function (index, value) {
+			elementorFrontend.hooks.addAction(
+				"frontend/element_ready/pg-" + value + ".default",
+				extensionAnimations
+			);
+		});
+	});
+})(jQuery, window.elementorFrontend);
