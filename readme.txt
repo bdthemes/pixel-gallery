@@ -5,7 +5,7 @@ Tags:  elementor, elementor addons, grid gallery, responsive gallery, lightbox
 Requires at least: 5.0.0
 Tested up to: 6.7.2
 Requires PHP: 7.4.0
-Stable tag: 1.5.11
+Stable tag: 1.5.12
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.22
@@ -186,6 +186,11 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 1.5.12 [11th March 2025] =
+
+* Fixed: Entrance animation issue fixed
+* Fixed: Lightbox icon issue fixed in sonic widget
 
 = 1.5.11 [19th February 2025] =
 
