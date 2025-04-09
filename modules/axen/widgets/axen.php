@@ -57,6 +57,10 @@ class Axen extends Module_Base {
 		return ['pg-axen'];
 	}
 
+	public function get_script_depends() {
+		return ['justified-gallery'];
+	}
+
 	public function get_custom_help_url() {
 		return 'https://youtu.be/2g6YB1oRug8';
 	}
@@ -729,7 +733,7 @@ class Axen extends Module_Base {
 
 	public function render() {
 		$settings   = $this->get_settings_for_display();
-		$this->add_render_attribute('grid', 'class', 'pg-axen-grid pg-grid');
+		$this->add_render_attribute('grid', 'class', 'pg-axen-grid pg-grid jgallery');
 
 		if (isset($settings['pg_in_animation_show']) && ($settings['pg_in_animation_show'] == 'yes')) {
 			$this->add_render_attribute( 'grid', 'class', 'pg-in-animation' );

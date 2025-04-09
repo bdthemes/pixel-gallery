@@ -1878,14 +1878,14 @@ trait Global_Widget_Controls
 
 		$thumb_url = Group_Control_Image_Size::get_attachment_image_src($item['image']['id'], 'thumbnail_size', $settings);
 		if (!$thumb_url) {
-			printf('<img src="%1$s" alt="%2$s" class="pg-%3$s-img">', $item['image']['url'], esc_html($item['title']), esc_attr($name));
+			printf('<img src="%1$s" alt="%2$s" class="pg-%3$s-img jgalleryImage">', $item['image']['url'], esc_html($item['title']), esc_attr($name));
 		} else {
 			print(wp_get_attachment_image(
 				$item['image']['id'],
 				$settings['thumbnail_size_size'],
 				false,
 				[
-					'class' => 'pg-'. esc_attr($name) .'-img',
+					'class' => 'pg-'. esc_attr($name) .'-img jgalleryImage',
 					'alt' => esc_html($item['title'])
 				]
 			));
