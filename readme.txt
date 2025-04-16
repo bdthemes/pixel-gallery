@@ -187,6 +187,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.5.X [XX April 2025] =
+
+* Added: Justified Gallery feature added in axen widget
+
 = 1.5.12 [11th March 2025] =
 
 * Fixed: Entrance animation issue fixed
