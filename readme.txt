@@ -187,6 +187,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.5.X [XXth March 2025] =
+
+* Updated: Only one plugin DCI notice will show at a time
+
 = 1.5.12 [11th March 2025] =
 
 * Fixed: Entrance animation issue fixed
