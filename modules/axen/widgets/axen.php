@@ -28,6 +28,8 @@ class Axen extends Module_Base {
 
 	use Global_Widget_Controls;
 	use Group_Control_Query;
+	
+	protected $_query = null;
 
 	public function get_query() {
 		return $this->_query;
@@ -58,7 +60,11 @@ class Axen extends Module_Base {
 	}
 
 	public function get_script_depends() {
-		return ['justified-gallery'];
+		if ( true === _is_pg_pro_activated() ) {
+			return ['justified-gallery'];
+		} else {
+			return [];
+		}
 	}
 
 	public function get_custom_help_url() {
@@ -98,6 +104,10 @@ class Axen extends Module_Base {
 		//Global
 		$this->register_grid_controls('axen');
 		$this->register_global_height_controls('axen');
+		/**
+		 * Justified Gallery Controls
+		 */
+		$this->register_justified_gallery_controls();
 		$this->register_title_tag_controls();
 		$this->register_show_meta_controls();
 		$this->register_show_pagination_controls();
@@ -596,27 +606,6 @@ class Axen extends Module_Base {
 		$this->_query = new \WP_Query($args);
 	}
 
-
-	// public function render_image($image_id, $size) {
-	// 	$placeholder_image_src = Utils::get_placeholder_image_src();
-
-	// 	$image_src = wp_get_attachment_image_src($image_id, $size);
-
-	// 	if (!$image_src) {
-	// 		$image_src = $placeholder_image_src;
-	// 	} else {
-	// 		$image_src = $image_src[0];
-	// 	}
-
-	// 	echo
-	// 		'<div class="bdt-post-grid-img-wrap bdt-overflow-hidden">
-	// 			<a href="' . esc_url(get_permalink()) . '" class="bdt-transition-' . esc_attr($this->get_settings('image_animation')) . ' bdt-background-cover bdt-transition-opaque bdt-flex" title="' . esc_attr(get_the_title()) . '" style="background-image: url(' . esc_url($image_src) . ')">
-	// 			</a>
-	// 		</div>';
-	// }
-
-
-
 	public function render_items() {
 		$settings = $this->get_settings_for_display();
 		$id = 'pg-axen-' . $this->get_id();
@@ -733,8 +722,13 @@ class Axen extends Module_Base {
 
 	public function render() {
 		$settings   = $this->get_settings_for_display();
-		$this->add_render_attribute('grid', 'class', 'pg-axen-grid pg-grid jgallery');
+		$this->add_render_attribute('grid', 'class', 'pg-axen-grid pg-grid');
 
+		/**
+		 * Render Justified Gallery Attributes
+		 */
+		$this->render_justified_gallery_attributes('grid');
+		
 		if (isset($settings['pg_in_animation_show']) && ($settings['pg_in_animation_show'] == 'yes')) {
 			$this->add_render_attribute( 'grid', 'class', 'pg-in-animation' );
 			if (isset($settings['pg_in_animation_delay']['size'])) {

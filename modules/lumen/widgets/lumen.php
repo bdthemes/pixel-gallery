@@ -49,9 +49,17 @@ class Lumen extends Module_Base {
 
 	public function get_script_depends() {
         if ($this->pg_is_edit_mode()) {
-            return ['pg-scripts'];
+			if ( true === _is_pg_pro_activated() ) {
+				return ['pg-scripts', 'justified-gallery'];
+			} else {
+				return ['pg-scripts'];
+			}
         } else {
-			return [ 'pg-lumen' ];
+			if ( true === _is_pg_pro_activated() ) {
+				return ['pg-lumen', 'justified-gallery'];
+			} else {
+				return ['pg-lumen'];
+			}
         }
 	}
 
@@ -75,6 +83,7 @@ class Lumen extends Module_Base {
 		//Global
 		$this->register_grid_controls('lumen');
 		$this->register_global_height_controls('lumen');
+		$this->register_justified_gallery_controls();
 		$this->add_responsive_control(
             'item_perspective',
             [
@@ -398,8 +407,13 @@ class Lumen extends Module_Base {
 
 	public function render() {
 		$settings   = $this->get_settings_for_display();
-		$this->add_render_attribute( 'grid', 'class', 'pg-lumen-grid pg-grid' );
+		$this->add_render_attribute('grid', 'class', 'pg-lumen-grid pg-grid');
 
+		/**
+		 * Render Justified Gallery Attributes
+		 */
+		$this->render_justified_gallery_attributes('grid');
+		
 		if (isset($settings['pg_in_animation_show']) && ($settings['pg_in_animation_show'] == 'yes')) {
 			$this->add_render_attribute( 'grid', 'class', 'pg-in-animation' );
 			if (isset($settings['pg_in_animation_delay']['size'])) {

@@ -78,6 +78,12 @@ class Shark extends Module_Base
 		//Global
 		$this->register_grid_controls('shark');
 		$this->register_global_height_controls('shark');
+		
+		/**
+		 * Justified Gallery Controls
+		 */
+		$this->register_justified_gallery_controls();
+		
 		$this->register_title_tag_controls();
 		$this->register_show_meta_controls();
 		// $this->register_alignment_controls('shark');
@@ -413,6 +419,11 @@ class Shark extends Module_Base
 		$settings   = $this->get_settings_for_display();
 		$this->add_render_attribute('grid', 'class', 'pg-shark-grid pg-grid');
 
+		/**
+		 * Render Justified Gallery Attributes
+		 */
+		$this->render_justified_gallery_attributes('grid');
+		
 		if (isset($settings['pg_in_animation_show']) && ($settings['pg_in_animation_show'] == 'yes')) {
 			$this->add_render_attribute( 'grid', 'class', 'pg-in-animation' );
 			if (isset($settings['pg_in_animation_delay']['size'])) {

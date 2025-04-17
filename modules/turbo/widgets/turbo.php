@@ -53,9 +53,17 @@ class Turbo extends Module_Base {
 
 	public function get_script_depends() {
 		if ($this->pg_is_edit_mode()) {
-			return ['pg-scripts'];
+			if ( true === _is_pg_pro_activated() ) {
+				return ['pg-scripts', 'justified-gallery'];
+			} else {
+				return ['pg-scripts'];
+			}
 		} else {
-			return ['pg-turbo'];
+			if ( true === _is_pg_pro_activated() ) {
+				return ['pg-turbo', 'justified-gallery'];
+			} else {
+				return ['pg-turbo'];
+			}
 		}
 	}
 
@@ -80,6 +88,12 @@ class Turbo extends Module_Base {
 		//Global
 		$this->register_grid_controls('turbo');
 		$this->register_global_height_controls('turbo');
+		
+		/**
+		 * Justified Gallery Controls
+		 */
+		$this->register_justified_gallery_controls();
+		
 		$this->register_title_tag_controls();
 		$this->register_show_meta_controls();
 		// $this->register_content_alignment_controls('turbo');
@@ -418,12 +432,10 @@ class Turbo extends Module_Base {
 		$settings   = $this->get_settings_for_display();
 		$this->add_render_attribute('grid', 'class', 'pg-turbo-grid pg-grid');
 
-		// if (isset($settings['pg_in_animation_show']) && ($settings['pg_in_animation_show'] == 'yes')) {
-		// 	$this->add_render_attribute( 'grid', 'class', 'pg-in-animation' );
-		// 	if (isset($settings['pg_in_animation_delay']['size'])) {
-		// 		$this->add_render_attribute( 'grid', 'data-in-animation-delay', $settings['pg_in_animation_delay']['size'] );
-		// 	}
-		// }
+		/**
+		 * Render Justified Gallery Attributes
+		 */
+		$this->render_justified_gallery_attributes('grid');
 
 		?>
 		<div <?php $this->print_render_attribute_string('grid'); ?>>

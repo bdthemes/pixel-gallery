@@ -44,7 +44,15 @@ class Koral extends Module_Base {
 	}
 
 	public function get_style_depends() {
-		return [ 'pg-koral'];
+		return ['pg-koral'];
+	}
+
+	public function get_script_depends() {
+		if ( true === _is_pg_pro_activated() ) {
+			return ['justified-gallery'];
+		} else {
+			return [];
+		}
 	}
 
 	public function get_custom_help_url() {
@@ -71,6 +79,7 @@ class Koral extends Module_Base {
 		//Global Grid Controls
 		$this->register_grid_controls('koral');
 		$this->register_global_height_controls('koral');
+		$this->register_justified_gallery_controls();
 		$this->register_title_tag_controls();
 		$this->register_show_text_controls();
 		$this->register_alignment_controls('koral');
@@ -647,6 +656,11 @@ class Koral extends Module_Base {
 		$settings   = $this->get_settings_for_display();
 		$this->add_render_attribute('grid', 'class', 'pg-koral-grid pg-grid');
 
+		/**
+		 * Render Justified Gallery Attributes
+		 */
+		$this->render_justified_gallery_attributes('grid');
+		
 		if (isset($settings['pg_in_animation_show']) && ($settings['pg_in_animation_show'] == 'yes')) {
 			$this->add_render_attribute( 'grid', 'class', 'pg-in-animation' );
 			if (isset($settings['pg_in_animation_delay']['size'])) {

@@ -54,6 +54,14 @@ class Lytical extends Module_Base
 		return ['pg-lytical'];
 	}
 
+	public function get_script_depends() {
+		if ( true === _is_pg_pro_activated() ) {
+			return ['justified-gallery'];
+		} else {
+			return [];
+		}
+	}
+
 	public function has_widget_inner_wrapper(): bool {
         return ! \Elementor\Plugin::$instance->experiments->is_feature_active( 'e_optimized_markup' );
     }
@@ -73,6 +81,7 @@ class Lytical extends Module_Base
 		//Global
 		$this->register_grid_controls('lytical');
 		$this->register_global_height_controls('lytical');
+		$this->register_justified_gallery_controls();
 		$this->register_title_tag_controls();
 		$this->register_show_meta_controls();
 		$this->register_thumbnail_size_controls();
@@ -463,6 +472,11 @@ class Lytical extends Module_Base
 		$settings   = $this->get_settings_for_display();
 		$this->add_render_attribute('grid', 'class', 'pg-lytical-grid pg-grid');
 
+		/**
+		 * Render Justified Gallery Attributes
+		 */
+		$this->render_justified_gallery_attributes('grid');
+		
 		if (isset($settings['pg_in_animation_show']) && ($settings['pg_in_animation_show'] == 'yes')) {
 			$this->add_render_attribute( 'grid', 'class', 'pg-in-animation' );
 			if (isset($settings['pg_in_animation_delay']['size'])) {

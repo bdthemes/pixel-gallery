@@ -54,6 +54,15 @@ class Ruby extends Module_Base
 		return ['pg-ruby'];
 	}
 
+	public function get_script_depends()
+	{
+		if ( true === _is_pg_pro_activated() ) {
+			return ['justified-gallery'];
+		} else {
+			return [];
+		}
+	}
+
 	public function get_custom_help_url() {
 		return 'https://youtu.be/mQCrx2jVRRI';
 	}
@@ -78,6 +87,12 @@ class Ruby extends Module_Base
 		//Global
 		$this->register_grid_controls('ruby');
 		$this->register_global_height_controls('ruby');
+		
+		/**
+		 * Justified Gallery Controls
+		 */
+		$this->register_justified_gallery_controls();
+		
 		$this->register_title_tag_controls();
 		$this->register_show_meta_controls();
 		$this->register_alignment_controls('ruby');
@@ -223,6 +238,11 @@ class Ruby extends Module_Base
 		$settings   = $this->get_settings_for_display();
 		$this->add_render_attribute('grid', 'class', 'pg-ruby-grid pg-grid');
 
+		/**
+		 * Render Justified Gallery Attributes
+		 */
+		$this->render_justified_gallery_attributes('grid');
+		
 		if (isset($settings['pg_in_animation_show']) && ($settings['pg_in_animation_show'] == 'yes')) {
 			$this->add_render_attribute( 'grid', 'class', 'pg-in-animation' );
 			if (isset($settings['pg_in_animation_delay']['size'])) {
