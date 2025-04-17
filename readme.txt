@@ -5,11 +5,11 @@ Tags:  elementor, elementor addons, grid gallery, responsive gallery, lightbox
 Requires at least: 5.0.0
 Tested up to: 6.7.2
 Requires PHP: 7.4.0
-Stable tag: 1.5.12
+Stable tag: 1.6.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.22
-Elementor tested up to: 3.27.6
+Elementor tested up to: 3.28.3
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -187,12 +187,11 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.5.X [XX April 2025] =
+= 1.6.0 [17th April 2025] =
 
-* Added: Justified Gallery feature added in axen widget
+* Added: Justified Gallery feature added
 * Fixed: Social icon issue fixed in ranch widget
 * Fixed: Content not showing issue fixed in elixir, trance, verse widget
-* Updated: Only one plugin DCI notice will show at a time
 
 = 1.5.12 [11th March 2025] =
 
