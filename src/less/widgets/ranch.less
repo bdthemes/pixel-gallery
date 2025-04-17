@@ -57,6 +57,7 @@
     padding: 20px;
     transform: translateY(100%);
     transition: transform .6s cubic-bezier(.25, 1, .5, 1);
+    z-index: 1;
 }
 
 .pg-social-icon {
@@ -67,6 +68,7 @@
     flex-direction: column;
     grid-row-gap: 6px;
     margin: 30px;
+    z-index: 1;
 }
 
 .pg-social-icon {
@@ -95,7 +97,7 @@
         span {
             font-size: 12px;
             padding: 8px 10px;
-            color: rgba(13, 59, 84, 0.8);
+            color: #0D3B54;
             text-align: center;
             position: relative;
             display: inline-block;
@@ -114,8 +116,11 @@
                 transition: all 0.35s;
                 transition-timing-function: cubic-bezier(0.31, -0.105, 0.43, 1.59);
             }
+            svg {
+              fill: #0D3B54;
+            }
         }
-        i {
+        svg, i {
             position: relative;
             z-index: 1;
         }
@@ -126,6 +131,9 @@
               &::before {
                   top: -10%;
                   left: -10%;
+              }
+              svg {
+                fill: #fff;
               }
             }
           } 

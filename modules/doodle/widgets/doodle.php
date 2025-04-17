@@ -79,6 +79,10 @@ class Doodle extends Module_Base {
 		//Global
 		$this->register_grid_controls('doodle');
 		$this->register_global_height_controls('doodle');
+		/**
+		 * Global Title Controls
+		 */
+		$this->register_justified_gallery_controls();
 		$this->register_title_tag_controls();
 		$this->register_show_meta_controls();
 		$this->register_thumbnail_size_controls();
@@ -425,11 +429,7 @@ class Doodle extends Module_Base {
 		//Clip Path Controls
 		$this->register_clip_path_controls('doodle');
 
-		/**
-		 * Global Title Controls
-		 */
-		$this->register_justified_gallery_controls();
-		$this->register_title_tag_controls();
+		
 	}
 
 	public function render_items() {

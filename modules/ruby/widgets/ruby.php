@@ -54,8 +54,7 @@ class Ruby extends Module_Base
 		return ['pg-ruby'];
 	}
 
-	public function get_script_depends()
-	{
+	public function get_script_depends() {
 		if ( true === _is_pg_pro_activated() ) {
 			return ['justified-gallery'];
 		} else {

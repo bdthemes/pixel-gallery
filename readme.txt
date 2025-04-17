@@ -190,6 +190,8 @@ https://youtu.be/f70l2qE7W7o
 = 1.5.X [XX April 2025] =
 
 * Added: Justified Gallery feature added in axen widget
+* Fixed: Social icon issue fixed in ranch widget
+* Fixed: Content not showing issue fixed in elixir, trance, verse widget
 
 = 1.5.12 [11th March 2025] =
 

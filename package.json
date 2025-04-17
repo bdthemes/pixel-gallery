@@ -1,11 +1,12 @@
 {
 	"name": "pixel-gallery",
-	"version": "2.0.0",
+	"version": "1.5.12",
 	"main": "index.php",
 	"scripts": {
 		"dev": "cross-env NODE_ENV=development grunt watch",
-		"build": "npm run clean && cross-env NODE_ENV=production grunt",
-		"clean": "rimraf ./assets"
+		"build": "npm run && npm run clean && cross-env NODE_ENV=production grunt",
+		"clean": "rimraf ./assets",
+		"zip": "npm run && npm run clean && cross-env NODE_ENV=production grunt && rsync -av --exclude-from=.buildignore . pixel-gallery && zip -r pixel-gallery-v.$npm_package_version.zip pixel-gallery/*"
 	},
 	"keywords": [
 		"pixel-gallery",
