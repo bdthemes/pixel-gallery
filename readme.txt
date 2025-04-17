@@ -190,6 +190,7 @@ https://youtu.be/f70l2qE7W7o
 = 1.5.X [XX April 2025] =
 
 * Added: Justified Gallery feature added in axen widget
+* Updated: Only one plugin DCI notice will show at a time
 
 = 1.5.12 [11th March 2025] =
 
