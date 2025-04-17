@@ -537,6 +537,7 @@ class Ranch extends Module_Base
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-social-icon span' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .pg-social-icon span svg' => 'fill: {{VALUE}};',
 				],
 			]
 		);
@@ -661,6 +662,7 @@ class Ranch extends Module_Base
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-social-icon a:hover span' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .pg-social-icon a:hover span svg' => 'fill: {{VALUE}};',
 				],
 			]
 		);
@@ -705,7 +707,7 @@ class Ranch extends Module_Base
 			return;
 		}
 
-?>
+		?>
 		<?php if (!empty($item['meta'])) : ?>
 			<div class="pg-ranch-meta">
 				<span><?php echo wp_kses_post($item['meta']); ?></span>
