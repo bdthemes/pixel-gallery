@@ -50,7 +50,12 @@ class PixelGallery_Admin_Settings {
 
         if (class_exists('Elementor\Modules\Usage\Module')) {
             $module     = Module::instance();
-            $elements   = $module->get_formatted_usage('raw');
+ 			
+ 			$old_error_level = error_reporting();
+ 			error_reporting(E_ALL & ~E_WARNING); // Suppress warnings
+ 			$elements = $module->get_formatted_usage('raw');
+ 			error_reporting($old_error_level); // Restore
+
             $pg_widgets = self::get_pg_widgets_names();
 
             if (is_array($elements) || is_object($elements)) {
@@ -232,6 +237,10 @@ class PixelGallery_Admin_Settings {
         //initialize settings
         $this->settings_api->admin_init();
         $this->pg_redirect_to_get_pro();
+
+        if ( _is_pg_pro_activated() ) {
+            $this->bdt_redirect_to_renew_link();
+        }
     }
 
     /**
@@ -245,6 +254,19 @@ class PixelGallery_Admin_Settings {
     public function pg_redirect_to_get_pro() {
         if (isset($_GET['page']) && $_GET['page'] === self::PAGE_ID . '_get_pro') {
             wp_redirect('https://pixelgallery.pro/pricing/?utm_source=PixelGallery&utm_medium=PluginPage&utm_campaign=30%OffOnPixelGallery&coupon=FREETOPRO');
+            exit;
+        }
+    }
+
+     /**
+     * Redirect to license renewal page
+     *
+     * @access public
+     *
+     */
+    public function bdt_redirect_to_renew_link() {
+        if (isset($_GET['page']) && $_GET['page'] === self::PAGE_ID . '_license_renew') {
+            wp_redirect('https://account.bdthemes.com/');
             exit;
         }
     }
@@ -1095,6 +1117,13 @@ class PixelGallery_Admin_Settings {
                 const getProLink = $('a[href="admin.php?page=pixel_gallery_options_get_pro"]');
                 if (getProLink.length) {
                     getProLink.attr('target', '_blank');
+                }
+            });
+
+            jQuery(document).ready(function ($) {
+                const renewalLink = $('a[href="admin.php?page=pixel_gallery_options_license_renew"]');
+                if (renewalLink.length) {
+                    renewalLink.attr('target', '_blank');
                 }
             });
         </script>

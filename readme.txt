@@ -187,6 +187,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.6.X [XXth April 2025] =
+
+* Updated: System improved
+
 = 1.6.0 [17th April 2025] =
 
 * Added: Justified Gallery feature added

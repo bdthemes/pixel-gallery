@@ -819,18 +819,31 @@ if (!class_exists('PixelGallery_Settings_API')) :
                 $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="5"><span></span><span></span><span></span><span></span>%2$s</a></li>', 'pixel_gallery_get_pro', esc_html__('Get Pro', 'pixel-gallery'));
             }
 
-            // if ( !defined('BDTUPK_LO') ) {
-            //     $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="%2$s">%3$s</a></li>', 'pixel_gallery_license_settings', $count, 'License');
-            // }
-
             if ((true == _is_pg_pro_activated()) && !defined('BDTUPK_LO')) {
-                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="5">%2$s</a></li>', 'pixel_gallery_license_settings', esc_html__('License', 'pixel-gallery'));
+                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="4">%2$s</a></li>', 'pixel_gallery_license_settings', esc_html__('License', 'pixel-gallery'));
             }
 
             $html .= '</ul>';
             $html .= '</div>';
 
-            $this->get_control_output($html);
+            echo wp_kses( $html, array(
+				'div' => array(
+					'class' => true,
+				),
+				'ul'  => array(
+					'class'   => true,
+					'bdt-tab' => true,
+				),
+				'li'  => array(
+					'class' => true,
+				),
+				'a'   => array(
+					'href'           => true,
+					'class'          => true,
+					'id'             => true,
+					'data-tab-index' => true,
+				),
+			) );
         }
 
 
