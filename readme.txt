@@ -230,6 +230,7 @@ https://youtu.be/f70l2qE7W7o
 
 = 1.6.X [XX April 2025] =
 
+* Fixed: Resolved jQuery Migrate warning ( Thanks to BackuPs )
 * Fixed: DCI Notice transition issue fixed
 
 = 1.6.2 [28th April 2025] =
