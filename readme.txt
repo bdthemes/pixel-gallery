@@ -231,6 +231,7 @@ https://youtu.be/f70l2qE7W7o
 = 1.6.X [XX April 2025] =
 
 * Fixed: DCI Notice transition issue fixed
+* Fixed: System Requirement Memory Limit and Max Post Limit issue fixed
 
 = 1.6.2 [28th April 2025] =
 
