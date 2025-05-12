@@ -3,9 +3,9 @@ Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, tauhida
 Donate link: http://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
-Tested up to: 6.8
+Tested up to: 6.8.1
 Requires PHP: 7.4.0
-Stable tag: 1.6.2
+Stable tag: 1.6.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.22
@@ -228,7 +228,7 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.6.X [XX April 2025] =
+= 1.6.3 [12th May 2025] =
 
 * Fixed: Resolved jQuery Migrate warning ( Thanks to BackuPs )
 * Fixed: DCI Notice transition issue fixed
