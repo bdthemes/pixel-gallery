@@ -228,6 +228,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.6.X [XXth May 2025] =
+
+* Fixed: JS error fixed in Dashboard Settings
+
 = 1.6.3 [12th May 2025] =
 
 * Fixed: Resolved jQuery Migrate warning ( Thanks to BackuPs )
