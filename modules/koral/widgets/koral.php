@@ -452,7 +452,7 @@ class Koral extends Module_Base {
 		$this->start_controls_section(
 			'section_style_readmore',
 			[
-				'label'     => esc_html__('Read More', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('Read More', 'pixel-gallery'),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => [
 					'link_to' => ['file', 'custom'],
@@ -466,14 +466,14 @@ class Koral extends Module_Base {
 		$this->start_controls_tab(
 			'tab_readmore_normal',
 			[
-				'label' => esc_html__('Normal', 'bdthemes-pixel-gallery'),
+				'label' => esc_html__('Normal', 'pixel-gallery'),
 			]
 		);
 
 		$this->add_control(
 			'readmore_color',
 			[
-				'label'     => esc_html__('Color', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-koral-readmore a' => 'color: {{VALUE}};',
@@ -494,7 +494,7 @@ class Koral extends Module_Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'        => 'readmore_border',
-				'label'       => esc_html__('Border', 'bdthemes-pixel-gallery'),
+				'label'       => esc_html__('Border', 'pixel-gallery'),
 				'placeholder' => '1px',
 				'default'     => '1px',
 				'selector'    => '{{WRAPPER}} .pg-koral-readmore a',
@@ -505,7 +505,7 @@ class Koral extends Module_Base {
 		$this->add_responsive_control(
 			'readmore_radius',
 			[
-				'label'      => esc_html__('Border Radius', 'bdthemes-pixel-gallery'),
+				'label'      => esc_html__('Border Radius', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', '%'],
 				'selectors'  => [
@@ -517,7 +517,7 @@ class Koral extends Module_Base {
 		$this->add_responsive_control(
 			'readmore_padding',
 			[
-				'label'      => esc_html__('Padding', 'bdthemes-pixel-gallery'),
+				'label'      => esc_html__('Padding', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -529,7 +529,7 @@ class Koral extends Module_Base {
 		$this->add_responsive_control(
 			'readmore_margin',
 			[
-				'label'      => esc_html__('Margin', 'bdthemes-pixel-gallery'),
+				'label'      => esc_html__('Margin', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -559,14 +559,14 @@ class Koral extends Module_Base {
 		$this->start_controls_tab(
 			'tab_readmore_hover',
 			[
-				'label' => esc_html__('Hover', 'bdthemes-pixel-gallery'),
+				'label' => esc_html__('Hover', 'pixel-gallery'),
 			]
 		);
 
 		$this->add_control(
 			'readmore_hover_color',
 			[
-				'label'     => esc_html__('Color', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-koral-readmore a:hover' => 'color: {{VALUE}};',
@@ -586,7 +586,7 @@ class Koral extends Module_Base {
 		$this->add_control(
 			'readmore_hover_border_color',
 			[
-				'label'     => esc_html__('Border Color', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('Border Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => [
 					'readmore_border_border!' => '',

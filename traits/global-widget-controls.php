@@ -1451,14 +1451,14 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'video_type',
 			[
-				'label' => esc_html__('Source', 'elementor'),
+				'label' => esc_html__('Source', 'pixel-gallery'),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'youtube',
 				'options' => [
-					'youtube' => esc_html__('YouTube', 'elementor'),
-					'vimeo' => esc_html__('Vimeo', 'elementor'),
-					'dailymotion' => esc_html__('Dailymotion', 'elementor'),
-					'hosted' => esc_html__('Self Hosted', 'elementor'),
+					'youtube' => esc_html__('YouTube', 'pixel-gallery'),
+					'vimeo' => esc_html__('Vimeo', 'pixel-gallery'),
+					'dailymotion' => esc_html__('Dailymotion', 'pixel-gallery'),
+					'hosted' => esc_html__('Self Hosted', 'pixel-gallery'),
 				],
 				'frontend_available' => true,
 				'condition' => [
@@ -1471,7 +1471,7 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'youtube_url',
 			[
-				'label' => esc_html__('Source Link', 'elementor'),
+				'label' => esc_html__('Source Link', 'pixel-gallery'),
 				'type' => Controls_Manager::TEXT,
 				'dynamic' => [
 					'active' => true,
@@ -1480,7 +1480,7 @@ trait Global_Widget_Controls
 						TagsModule::URL_CATEGORY,
 					],
 				],
-				'placeholder' => esc_html__('Enter your URL', 'elementor') . ' (YouTube)',
+				'placeholder' => esc_html__('Enter your URL', 'pixel-gallery') . ' (YouTube)',
 				'default' => 'https://www.youtube.com/watch?v=XHOmBV4js_E',
 				'label_block' => true,
 				'condition' => [
@@ -1495,7 +1495,7 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'vimeo_url',
 			[
-				'label' => esc_html__('Source Link', 'elementor'),
+				'label' => esc_html__('Source Link', 'pixel-gallery'),
 				'type' => Controls_Manager::TEXT,
 				'dynamic' => [
 					'active' => true,
@@ -1504,7 +1504,7 @@ trait Global_Widget_Controls
 						TagsModule::URL_CATEGORY,
 					],
 				],
-				'placeholder' => esc_html__('Enter your URL', 'elementor') . ' (Vimeo)',
+				'placeholder' => esc_html__('Enter your URL', 'pixel-gallery') . ' (Vimeo)',
 				'default' => 'https://vimeo.com/235215203',
 				'label_block' => true,
 				'condition' => [
@@ -1518,7 +1518,7 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'dailymotion_url',
 			[
-				'label' => esc_html__('Source Link', 'elementor'),
+				'label' => esc_html__('Source Link', 'pixel-gallery'),
 				'type' => Controls_Manager::TEXT,
 				'dynamic' => [
 					'active' => true,
@@ -1527,7 +1527,7 @@ trait Global_Widget_Controls
 						TagsModule::URL_CATEGORY,
 					],
 				],
-				'placeholder' => esc_html__('Enter your URL', 'elementor') . ' (Dailymotion)',
+				'placeholder' => esc_html__('Enter your URL', 'pixel-gallery') . ' (Dailymotion)',
 				'default' => 'https://www.dailymotion.com/video/x6tqhqb',
 				'label_block' => true,
 				'condition' => [
@@ -1541,7 +1541,7 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'insert_url',
 			[
-				'label' => esc_html__('External URL', 'elementor'),
+				'label' => esc_html__('External URL', 'pixel-gallery'),
 				'type' => Controls_Manager::SWITCHER,
 				'condition' => [
 					'video_type' => 'hosted',
@@ -1554,7 +1554,7 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'hosted_url',
 			[
-				'label' => esc_html__('Choose File', 'elementor'),
+				'label' => esc_html__('Choose File', 'pixel-gallery'),
 				'type' => Controls_Manager::MEDIA,
 				'dynamic' => [
 					'active' => true,
@@ -1575,7 +1575,7 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'external_url',
 			[
-				'label' => esc_html__('URL', 'elementor'),
+				'label' => esc_html__('URL', 'pixel-gallery'),
 				'type' => Controls_Manager::URL,
 				'autocomplete' => false,
 				'options' => false,
@@ -1589,7 +1589,7 @@ trait Global_Widget_Controls
 					],
 				],
 				'media_type' => 'video',
-				'placeholder' => esc_html__('Enter your URL', 'elementor'),
+				'placeholder' => esc_html__('Enter your URL', 'pixel-gallery'),
 				'condition' => [
 					'video_type' => 'hosted',
 					'insert_url' => 'yes',
@@ -1602,7 +1602,7 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'aspect_ratio',
 			[
-				'label' => esc_html__('Aspect Ratio', 'elementor'),
+				'label' => esc_html__('Aspect Ratio', 'pixel-gallery'),
 				'type' => Controls_Manager::SELECT,
 				'options' => [
 					'169' => '16:9',
@@ -1626,7 +1626,7 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'autoplay',
 			[
-				'label' => esc_html__('Autoplay', 'elementor'),
+				'label' => esc_html__('Autoplay', 'pixel-gallery'),
 				'type' => Controls_Manager::SWITCHER,
 				'frontend_available' => true,
 				'default' => 'yes',
@@ -1640,7 +1640,7 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'loop',
 			[
-				'label' => esc_html__('Loop', 'elementor'),
+				'label' => esc_html__('Loop', 'pixel-gallery'),
 				'type' => Controls_Manager::SWITCHER,
 				'condition' => [
 					'video_type!' => 'dailymotion',
@@ -1654,10 +1654,10 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'controls',
 			[
-				'label' => esc_html__('Player Controls', 'elementor'),
+				'label' => esc_html__('Player Controls', 'pixel-gallery'),
 				'type' => Controls_Manager::SWITCHER,
-				'label_off' => esc_html__('Hide', 'elementor'),
-				'label_on' => esc_html__('Show', 'elementor'),
+				'label_off' => esc_html__('Hide', 'pixel-gallery'),
+				'label_on' => esc_html__('Show', 'pixel-gallery'),
 				'default' => 'yes',
 				'condition' => [
 					'video_type!' => 'vimeo',
@@ -1671,7 +1671,7 @@ trait Global_Widget_Controls
 		$repeater->add_control(
 			'mute',
 			[
-				'label' => esc_html__('Mute', 'elementor'),
+				'label' => esc_html__('Mute', 'pixel-gallery'),
 				'type' => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 				'frontend_available' => true,

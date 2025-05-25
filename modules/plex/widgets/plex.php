@@ -331,7 +331,7 @@ class Plex extends Module_Base
 		$this->start_controls_section(
 			'section_style_meta',
 			[
-				'label'     => esc_html__('Meta', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('Meta', 'pixel-gallery'),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => [
 					'show_meta' => 'yes',
@@ -344,14 +344,14 @@ class Plex extends Module_Base
 		$this->start_controls_tab(
 			'tab_meta_normal',
 			[
-				'label' => esc_html__('Normal', 'bdthemes-pixel-gallery'),
+				'label' => esc_html__('Normal', 'pixel-gallery'),
 			]
 		);
 
 		$this->add_control(
 			'meta_color',
 			[
-				'label'     => esc_html__('Color', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-plex-meta' => 'color: {{VALUE}};',
@@ -371,7 +371,7 @@ class Plex extends Module_Base
 			Group_Control_Border::get_type(),
 			[
 				'name'        => 'meta_border',
-				'label'       => esc_html__('Border', 'bdthemes-pixel-gallery'),
+				'label'       => esc_html__('Border', 'pixel-gallery'),
 				'placeholder' => '1px',
 				'default'     => '1px',
 				'selector'    => '{{WRAPPER}} .pg-plex-meta',
@@ -382,7 +382,7 @@ class Plex extends Module_Base
 		$this->add_responsive_control(
 			'meta_radius',
 			[
-				'label'      => esc_html__('Border Radius', 'bdthemes-pixel-gallery'),
+				'label'      => esc_html__('Border Radius', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', '%'],
 				'selectors'  => [
@@ -395,7 +395,7 @@ class Plex extends Module_Base
 		$this->add_responsive_control(
 			'meta_padding',
 			[
-				'label'      => esc_html__('Padding', 'bdthemes-pixel-gallery'),
+				'label'      => esc_html__('Padding', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -407,7 +407,7 @@ class Plex extends Module_Base
 		$this->add_responsive_control(
 			'meta_margin',
 			[
-				'label'      => esc_html__('Margin', 'bdthemes-pixel-gallery'),
+				'label'      => esc_html__('Margin', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -437,14 +437,14 @@ class Plex extends Module_Base
 		$this->start_controls_tab(
 			'tab_meta_hover',
 			[
-				'label' => esc_html__('Hover', 'bdthemes-pixel-gallery'),
+				'label' => esc_html__('Hover', 'pixel-gallery'),
 			]
 		);
 
 		$this->add_control(
 			'meta_hover_color',
 			[
-				'label'     => esc_html__('Color', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-plex-meta:hover' => 'color: {{VALUE}};'
@@ -463,7 +463,7 @@ class Plex extends Module_Base
 		$this->add_control(
 			'meta_hover_border_color',
 			[
-				'label'     => esc_html__('Border Color', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('Border Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => [
 					'meta_border_border!' => '',

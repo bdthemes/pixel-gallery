@@ -324,7 +324,7 @@ class Fever extends Module_Base {
 		$this->add_control(
 			'content_heading',
 			[
-				'label' => esc_html__('C O N T E N T', 'plugin-name'),
+				'label' => esc_html__('C O N T E N T', 'pixel-gallery'),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
