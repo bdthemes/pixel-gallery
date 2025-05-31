@@ -103,7 +103,7 @@ class Walden extends Module_Base {
 		$this->add_control(
 			'show_follow',
 			[
-				'label'   => esc_html__('Show Follow', 'bdthemes-pixel-gallery'),
+				'label'   => esc_html__('Show Follow', 'pixel-gallery'),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			]
@@ -112,7 +112,7 @@ class Walden extends Module_Base {
 		$this->add_control(
 			'show_like',
 			[
-				'label'   => esc_html__('Show Like', 'bdthemes-pixel-gallery'),
+				'label'   => esc_html__('Show Like', 'pixel-gallery'),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 			]
@@ -148,10 +148,10 @@ class Walden extends Module_Base {
 		$repeater->add_control(
 			'follow',
 			[
-				'label'       => esc_html__('Follow', 'bdthemes-pixel-gallery'),
+				'label'       => esc_html__('Follow', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => esc_html__('403', 'bdthemes-pixel-gallery'),
-				'placeholder' => esc_html__('Follow Number', 'bdthemes-pixel-gallery'),
+				'default'     => esc_html__('403', 'pixel-gallery'),
+				'placeholder' => esc_html__('Follow Number', 'pixel-gallery'),
 				'condition'   => ['item_hidden' => '']
 			]
 		);
@@ -159,10 +159,10 @@ class Walden extends Module_Base {
 		$repeater->add_control(
 			'like',
 			[
-				'label'       => esc_html__('Like', 'bdthemes-pixel-gallery'),
+				'label'       => esc_html__('Like', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => esc_html__('604', 'bdthemes-pixel-gallery'),
-				'placeholder' => esc_html__('Like Number', 'bdthemes-pixel-gallery'),
+				'default'     => esc_html__('604', 'pixel-gallery'),
+				'placeholder' => esc_html__('Like Number', 'pixel-gallery'),
 				'condition'   => ['item_hidden' => '']
 			]
 		);
@@ -188,7 +188,7 @@ class Walden extends Module_Base {
 		$this->start_controls_section(
 			'pg_section_style',
 			[
-				'label'     => esc_html__('Items', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('Items', 'pixel-gallery'),
 				'tab'       => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -196,7 +196,7 @@ class Walden extends Module_Base {
 		$this->add_control(
 			'overlay_heading',
 			[
-				'label'     => esc_html__('OVERLAY', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('OVERLAY', 'pixel-gallery'),
 				'type'      => Controls_Manager::HEADING,
 			]
 		);
@@ -204,7 +204,7 @@ class Walden extends Module_Base {
 		$this->add_control(
 			'primary_overlay_color',
 			[
-				'label'     => esc_html__('Primary Color', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('Primary Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => [
 					'layout_style' => '1',
@@ -218,7 +218,7 @@ class Walden extends Module_Base {
 		$this->add_control(
 			'secondary_overlay_color',
 			[
-				'label'     => esc_html__('Secondary Color', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('Secondary Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => [
 					'layout_style' => '1',
@@ -245,7 +245,7 @@ class Walden extends Module_Base {
 		$this->start_controls_tab(
 			'tab_item_normal',
 			[
-				'label' => esc_html__('Normal', 'bdthemes-pixel-gallery'),
+				'label' => esc_html__('Normal', 'pixel-gallery'),
 			]
 		);
 
@@ -280,7 +280,7 @@ class Walden extends Module_Base {
 		$this->add_responsive_control(
 			'item_border_radius',
 			[
-				'label'      => esc_html__('Border Radius', 'bdthemes-pixel-gallery'),
+				'label'      => esc_html__('Border Radius', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -292,7 +292,7 @@ class Walden extends Module_Base {
 		$this->add_responsive_control(
 			'item_padding',
 			[
-				'label'      => esc_html__('Padding', 'bdthemes-pixel-gallery'),
+				'label'      => esc_html__('Padding', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -305,7 +305,7 @@ class Walden extends Module_Base {
 		$this->add_responsive_control(
 			'item_margin',
 			[
-				'label'      => esc_html__('Margin', 'bdthemes-pixel-gallery'),
+				'label'      => esc_html__('Margin', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
@@ -327,7 +327,7 @@ class Walden extends Module_Base {
 		$this->start_controls_tab(
 			'tab_item_hover',
 			[
-				'label' => esc_html__('Hover', 'bdthemes-pixel-gallery'),
+				'label' => esc_html__('Hover', 'pixel-gallery'),
 			]
 		);
 
@@ -345,7 +345,7 @@ class Walden extends Module_Base {
 		$this->add_control(
 			'item_hover_border_color',
 			[
-				'label'     => esc_html__('Border Color', 'bdthemes-pixel-gallery'),
+				'label'     => esc_html__('Border Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'condition' => [
 					'item_border_border!' => '',
@@ -376,7 +376,7 @@ class Walden extends Module_Base {
 		$this->start_controls_section(
 			'section_style_meta',
 			[
-				'label' => __('Meta', 'bdthemes-pixel-gallery'),
+				'label' => __('Meta', 'pixel-gallery'),
 				'tab'   => Controls_Manager::TAB_STYLE,
 				'conditions'   => [
 					'terms' => [
@@ -396,7 +396,7 @@ class Walden extends Module_Base {
 		$this->add_control(
 			'meta_color',
 			[
-				'label'     => __('Color', 'bdthemes-pixel-gallery'),
+				'label'     => __('Color', 'pixel-gallery'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-walden-grid .pg-walden-follow-btn, {{WRAPPER}} .pg-walden-grid .pg-walden-like-btn' => 'color: {{VALUE}};',
@@ -407,7 +407,7 @@ class Walden extends Module_Base {
 		$this->add_responsive_control(
 			'meta_margin',
 			[
-				'label'      => esc_html__('Margin', 'bdthemes-pixel-gallery'),
+				'label'      => esc_html__('Margin', 'pixel-gallery'),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
