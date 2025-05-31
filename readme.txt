@@ -5,11 +5,11 @@ Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
 Tested up to: 6.8.1
 Requires PHP: 7.4.0
-Stable tag: 1.6.3
+Stable tag: 1.6.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.22
-Elementor tested up to: 3.28.4
+Elementor tested up to: 3.29.0
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -228,8 +228,9 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.6.X [XXth May 2025] =
+= 1.6.4 [31th May 2025] =
 
+* Fixed: Text domain issue fixed
 * Fixed: JS error fixed in Dashboard Settings
 
 = 1.6.3 [12th May 2025] =
