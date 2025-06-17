@@ -71,7 +71,7 @@ class Aware extends Module_Base {
 		$this->add_control(
 			'layout_style',
 			[
-				'label'   => _x('Layout Style', 'pixel-gallery'),
+				'label'   => __('Layout Style', 'pixel-gallery'),
 				'type'    => Controls_Manager::SELECT,
 				'default' => '1',
 				'options' => [

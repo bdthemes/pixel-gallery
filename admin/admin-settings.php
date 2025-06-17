@@ -851,7 +851,7 @@ class PixelGallery_Admin_Settings {
         </ul>
 
         <div class="bdt-admin-alert">
-            <strong><?php esc_html_e('Note:', 'pixel-gallery'); ?></strong> <?php esc_html_e('If you have multiple addons like'); ?> <b><?php esc_html_e('Ultimate Store Kit', 'pixel-gallery'); ?></b>
+            <strong><?php esc_html_e('Note:', 'pixel-gallery'); ?></strong> <?php esc_html_e( 'If you have multiple addons like', 'pixel-gallery' ); ?> <strong><?php esc_html_e('Ultimate Store Kit', 'pixel-gallery'); ?></strong>
             <?php esc_html_e('so you need some more requirement some
       cases so make sure you added more memory for others addon too.', 'pixel-gallery'); ?>
         </div>
