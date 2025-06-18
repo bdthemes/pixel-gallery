@@ -79,12 +79,12 @@ class Walden extends Module_Base {
 		$this->add_control(
 			'layout_style',
 			[
-				'label'   => _x('Layout Style', 'pixel-gallery'),
+				'label'   => __('Layout Style', 'pixel-gallery'),
 				'type'    => Controls_Manager::SELECT,
 				'default' => '1',
 				'options' => [
-					'1'       => _x('01', 'pixel-gallery'),
-					'2'       => _x('02', 'pixel-gallery'),
+					'1'       => __('01', 'pixel-gallery'),
+					'2'       => __('02', 'pixel-gallery'),
 				],
 			]
 		);

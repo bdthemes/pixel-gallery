@@ -71,12 +71,12 @@ class Zilax extends Module_Base {
 		$this->add_control(
 			'layout_style',
 			[
-				'label'   => _x('Layout Style', 'pixel-gallery') . BDTPG_NC,
+				'label'   => __('Layout Style', 'pixel-gallery') . BDTPG_NC,
 				'type'    => Controls_Manager::SELECT,
 				'default' => '1',
 				'options' => [
-					'1'       => _x('01', 'pixel-gallery'),
-					'2'       => _x('02', 'pixel-gallery'),
+					'1'       => __('01', 'pixel-gallery'),
+					'2'       => __('02', 'pixel-gallery'),
 				],
 			]
 		);
