@@ -100,6 +100,29 @@ class Ranch extends Module_Base
 		
 		$this->register_title_tag_controls();
 		$this->register_show_meta_controls();
+
+		$this->add_control(
+			'show_meta_line',
+			[
+				'label' => esc_html__('Show Meta Line', 'pixel-gallery'),
+				'type' => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default' => 'yes',
+				'condition' => [
+					'show_meta' => 'yes',
+				],
+				'selectors_dictionary' => [
+					'yes' => 'inline-block',
+					''    => 'none',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .pg-ranch-meta span::before' => 'display: {{VALUE}};',
+				],
+				'render_type' => 'template',
+				'prefix_class' => 'pg-ranch-meta-line-',
+			]
+		);
+	
 		$this->add_control(
 			'show_social_icon',
 			[
