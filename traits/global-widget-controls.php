@@ -1772,8 +1772,10 @@ trait Global_Widget_Controls
 		 * @since 1.0.0
 		 */
 		if ($item['media_type'] !== 'video') {
+			// Sanitize the image URL to prevent XSS
+			$image_url = isset($item['image']['url']) ? esc_url($item['image']['url']) : 'javascript:void(0);';
 			return [
-				'url' => isset($item['image']['url']) ? $item['image']['url'] : 'javascript:void(0);',
+				'url' => $image_url,
 			];
 		}
 	}
@@ -1938,7 +1940,9 @@ trait Global_Widget_Controls
 
 		$thumb_url = Group_Control_Image_Size::get_attachment_image_src($item['image']['id'], 'thumbnail_size', $settings);
 		if (!$thumb_url) {
-			printf('<img src="%1$s" alt="%2$s" class="pg-%3$s-img">', $item['image']['url'], esc_html($item['title']), esc_attr($name));
+			// Sanitize the image URL to prevent XSS
+			$image_url = isset($item['image']['url']) ? esc_url($item['image']['url']) : '';
+			printf('<img src="%1$s" alt="%2$s" class="pg-%3$s-img">', $image_url, esc_html($item['title']), esc_attr($name));
 		} else {
 			print(wp_get_attachment_image(
 				$item['image']['id'],
@@ -2029,7 +2033,9 @@ trait Global_Widget_Controls
 
 		$thumb_url = Group_Control_Image_Size::get_attachment_image_src($item['poster']['id'], 'thumbnail_size', $settings);
 		if (!$thumb_url) {
-			printf('<img src="%1$s" alt="%2$s" class="pg-%3$s-img">', $item['poster']['url'], esc_html($item['title']), esc_attr($name));
+			// Sanitize the poster URL to prevent XSS
+			$poster_url = isset($item['poster']['url']) ? esc_url($item['poster']['url']) : '';
+			printf('<img src="%1$s" alt="%2$s" class="pg-%3$s-img">', $poster_url, esc_html($item['title']), esc_attr($name));
 		} else {
 			print(wp_get_attachment_image(
 				$item['poster']['id'],
