@@ -228,6 +228,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.6.X [XXth August 2025] =
+
+* Fixed: Securty improved
+
 = 1.6.8 [15th July 2025] =
 
 * Fixed: Security issue fixed (Thanks to zer0gh0st)

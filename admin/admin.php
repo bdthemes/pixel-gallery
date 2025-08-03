@@ -219,10 +219,12 @@ class Admin {
         $table_cat      = $wpdb->prefix . 'pg_template_library_cat';
         $table_post     = $wpdb->prefix . 'pg_template_library_post';
         $table_cat_post = $wpdb->prefix . 'pg_template_library_cat_post';
-
-        @$wpdb->query('DROP TABLE IF EXISTS ' . $table_cat_post);
-        @$wpdb->query('DROP TABLE IF EXISTS ' . $table_cat);
-        @$wpdb->query('DROP TABLE IF EXISTS ' . $table_post);
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+        $wpdb->query('DROP TABLE IF EXISTS ' . $table_cat_post);
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+        $wpdb->query('DROP TABLE IF EXISTS ' . $table_cat);
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+        $wpdb->query('DROP TABLE IF EXISTS ' . $table_post);
     }
 
     /**

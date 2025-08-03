@@ -677,7 +677,7 @@ class Glam extends Module_Base {
 		}
 
 		if (!empty($item['title'])) {
-			printf('<%1$s class="pg-%3$s-title" data-title="%2$s"><span>%2$s</span></%1$s>', Utils::get_valid_html_tag($settings['title_tag']), wp_kses_post($item['title']), esc_attr($name));
+			printf('<%1$s class="pg-%3$s-title" data-title="%2$s"><span>%2$s</span></%1$s>', esc_attr( Utils::get_valid_html_tag($settings['title_tag']) ), wp_kses_post($item['title']), esc_attr($name));
 		}
 	}
 
