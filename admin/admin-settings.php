@@ -869,7 +869,7 @@ class PixelGallery_Admin_Settings {
     function plugin_page() {
 
         echo '<div class="wrap pixel-gallery-dashboard">';
-        echo '<h1>' . BDTPG_TITLE . ' ' . esc_html__('Settings', 'pixel-gallery') . '</h1>';
+        echo '<h1>' . esc_html(BDTPG_TITLE . ' ' . __('Settings', 'pixel-gallery')) . '</h1>';
 
         $this->settings_api->show_navigation();
 
