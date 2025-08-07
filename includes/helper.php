@@ -200,7 +200,7 @@ if (!function_exists('pg_license_validation')) {
 }
 
 /**
- * Mask Shapes
+ * Mask Shapes 
  */
 
 function pixel_gallery_mask_shapes() {
@@ -212,4 +212,28 @@ function pixel_gallery_mask_shapes() {
 	}
 
 	return $list;
+}
+
+/**
+ * Get Element Pack mask shapes options for VISUAL_CHOICE control
+ * 
+ * @return array Options array for VISUAL_CHOICE control
+ */
+function pixel_gallery_mask_shapes_options() {
+	$options = [];
+	$shape_list = pixel_gallery_mask_shapes();
+	
+	foreach ( $shape_list as $shape_key => $shape_name ) {
+		// Skip the first item if it's a placeholder
+		if ( $shape_key === 0 ) {
+			continue;
+		}
+		
+		$options[ $shape_key ] = [
+			'title' => $shape_name,
+			'image' => BDTPG_ASSETS_URL . 'images/mask/' . $shape_key . '.svg',
+		];
+	}
+	
+	return $options;
 }
