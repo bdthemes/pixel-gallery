@@ -230,7 +230,7 @@ https://youtu.be/f70l2qE7W7o
 
 = 1.6.9 [7th August 2025] =
 
-* Updated: Securty improved
+* Updated: Security improved
 * Updated: Image Mask visible compatibility added
 
 = 1.6.8 [15th July 2025] =
