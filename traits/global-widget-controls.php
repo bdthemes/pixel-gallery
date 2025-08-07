@@ -930,9 +930,10 @@ trait Global_Widget_Controls
 				'label'          => _x('Default', 'Mask Image', 'pixel-gallery'),
 				'label_block'    => true,
 				'show_label'     => false,
-				'type'           => Controls_Manager::SELECT,
+				'type'           => Controls_Manager::VISUAL_CHOICE,
+				'columns'        => 4,
 				'default'        => 'shape-1',
-				'options'        => pixel_gallery_mask_shapes(),
+				'options'        => pixel_gallery_mask_shapes_options(),
 				'selectors'      => [
 					'{{WRAPPER}} .pg-' . $name . '-image-wrap img' => '-webkit-mask-image: url('.BDTPG_ASSETS_URL . 'images/mask/'.'{{VALUE}}.svg); mask-image: url('.BDTPG_ASSETS_URL . 'images/mask/'.'{{VALUE}}.svg);',
 					'{{WRAPPER}} .pg-' . $name . '-image-wrap:before' => 'background-image: url('.BDTPG_ASSETS_URL . 'images/mask/color-'.'{{VALUE}}.svg);',
