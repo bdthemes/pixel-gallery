@@ -228,6 +228,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.6.X [Xth August 2025] =
+
+* Added: Admin Store API Notice added
+
 = 1.6.9 [7th August 2025] =
 
 * Updated: Security improved
