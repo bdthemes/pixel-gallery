@@ -202,8 +202,18 @@ class Admin {
                 wp_enqueue_script('pg-admin', BDTPG_ADMIN_URL  . 'assets/js/pg-admin.min.js', ['jquery'], BDTPG_VER, true);
             }
 
+            
             wp_enqueue_script('jquery');
             wp_enqueue_script('jquery-form');
+            wp_enqueue_script('pg-notice', BDTPG_ADMIN_URL  . 'assets/js/pg-notice.min.js', ['jquery'], BDTPG_VER, true);
+            
+            $script_config = [
+                'ajaxurl'	=> admin_url('admin-ajax.php'),
+                'nonce'		=> wp_create_nonce('pixel-gallery'),
+            ];
+
+            wp_localize_script('pg-notice', 'PixelGalleryNoticeConfig', $script_config);
+
         }
     }
 

@@ -1,24 +1,5 @@
 jQuery(document).ready(function ($) {
 
-    jQuery('.pixel-gallery-notice.is-dismissible .notice-dismiss').on('click', function () {
-        $this = jQuery(this).parents('.pixel-gallery-notice');
-        var $id = $this.attr('id') || '';
-        var $time = $this.attr('dismissible-time') || '';
-        var $meta = $this.attr('dismissible-meta') || '';
-
-        jQuery.ajax({
-            url: ajaxurl,
-            type: 'POST',
-            data: {
-                action: 'pixel-gallery-notices',
-                id: $id,
-                meta: $meta,
-                time: $time
-            }
-        });
-
-    });
-
     if (jQuery('.wrap').hasClass('pixel-gallery-dashboard')) {
 
 
