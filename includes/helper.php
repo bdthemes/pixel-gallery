@@ -168,10 +168,13 @@ function pixel_gallery_get_category_list($post_type, $separator = ' ') {
 
     $categories  = get_the_terms(get_the_ID(), $taxonomy);
     $_categories = [];
-    if ($categories) {
+    if ($categories && !is_wp_error($categories)) {
         foreach ($categories as $category) {
-            $link                         = '<a href="' . esc_url(get_category_link($category->term_id)) . '">' . $category->name . '</a>';
-            $_categories[$category->slug] = $link;
+            // Ensure $category is an object, not an array
+            if (is_object($category) && isset($category->term_id, $category->name, $category->slug)) {
+                $link                         = '<a href="' . esc_url(get_category_link($category->term_id)) . '">' . $category->name . '</a>';
+                $_categories[$category->slug] = $link;
+            }
         }
     }
     return implode(esc_attr($separator), $_categories);
