@@ -232,6 +232,7 @@ https://youtu.be/f70l2qE7W7o
 
 * Added: Admin Store API Notice added
 * Fixed: Deprication error fixed
+* Fixed: Resolved regular notice display problem for white-label users
 
 = 1.6.9 [7th August 2025] =
 

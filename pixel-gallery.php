@@ -173,7 +173,7 @@ add_action( 'activated_plugin', 'pg_activation_redirect', 20 );
  * SDK Integration
  */
 
-if ( ! function_exists( 'dci_plugin_pixel_gallery' ) ) {
+if ( ! function_exists( 'dci_plugin_pixel_gallery' ) && ! defined( 'BDTPG_WL' ) ) {
 	function dci_plugin_pixel_gallery() {
 
 		// Include DCI SDK.
