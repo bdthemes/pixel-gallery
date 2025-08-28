@@ -1187,6 +1187,7 @@ class PixelGallery_Admin_Settings {
             [
                 'id'               => 'pg-allow-tracker',
                 'type'             => 'warning',
+                'category'         => 'critical',
                 'dismissible'      => true,
                 'dismissible-time' => WEEK_IN_SECONDS * 4,
                 'message'          => __('Please activate <strong>Usage Data Sharing</strong> features from Elementor, otherwise Widgets Analytics will not work. Please activate the settings from <strong>Elementor > Settings > General Tab >  Usage Data Sharing.</strong> Thank you.', 'pixel-gallery'),
