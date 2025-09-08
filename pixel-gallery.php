@@ -3,7 +3,7 @@
  * Plugin Name: Pixel Gallery
  * Plugin URI: https://pixelgallery.pro/
  * Description: The all-new <a href="https://pixelgallery.pro/">Pixel Gallery</a> brings incredibly advanced, and super-flexible widgets, and A to Z essential addons to the Elementor page builder for WordPress. Explore expertly-coded widgets with first-class support by experts.
- * Version: 1.6.10
+ * Version: 1.6.11
  * Author: BdThemes
  * Author URI: https://bdthemes.com/
  * Text Domain: pixel-gallery
@@ -14,7 +14,7 @@
  */
 
 // Some pre defined value for easy use
-define( 'BDTPG_VER', '1.6.10' );
+define( 'BDTPG_VER', '1.6.11' );
 define( 'BDTPG_TPL_DB_VER', '1.0.0' );
 define( 'BDTPG__FILE__', __FILE__ );
 if ( ! defined( 'BDTPG_TITLE' ) ) {
@@ -167,38 +167,3 @@ function pg_activation_redirect( $plugin ) {
 }
 
 add_action( 'activated_plugin', 'pg_activation_redirect', 20 );
-
-
-/**
- * SDK Integration
- */
-
-if ( ! function_exists( 'dci_plugin_pixel_gallery' ) && ! defined( 'BDTPG_WL' ) ) {
-	function dci_plugin_pixel_gallery() {
-
-		// Include DCI SDK.
-		require_once dirname( __FILE__ ) . '/dci/start.php';
-
-		wp_enqueue_style( 'dci-sdk-pg', plugins_url( 'dci/assets/css/dci.css', __FILE__ ), array(), '1.2.0', 'all' );
-
-		dci_dynamic_init( array(
-			'sdk_version'         => '1.2.1',
-			'product_id'          => 7,
-			'plugin_name'         => 'Pixel Gallery', // make simple, must not empty
-			'plugin_title'        => 'Love using Pixel Gallery? Congrats 🎉  ( Never miss an Important Update )',
-			'plugin_icon'         => BDTPG_ASSETS_URL . 'images/logo.svg',
-			'api_endpoint'        => 'https://analytics.bdthemes.com/wp-json/dci/v1/data-insights',
-			'slug'                => 'pixel-gallery',
-			'menu'                => array(
-				'slug' => 'pixel_gallery_options',
-			),
-			'public_key'          => 'pk_BnUlEdhDltMcn1IlZHH8V1YLDoGjvl40',
-			'is_premium'          => true,
-			'popup_notice'        => false,
-			'deactivate_feedback' => true,
-			'plugin_msg'          => '<p>Be Top-contributor by sharing non-sensitive plugin data and create an impact to the global WordPress community today! You can receive valuable emails periodically.</p>',
-		) );
-
-	}
-	add_action( 'admin_init', 'dci_plugin_pixel_gallery' );
-}
