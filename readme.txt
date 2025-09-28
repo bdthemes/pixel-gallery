@@ -228,6 +228,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.6.XX [Xth September 2025] =
+
+* Fixed: Button link issue fixed in alien widget
+
 = 1.6.11 [8th September 2025] =
 
 * Fixed: DCI Notice removed for security reason
