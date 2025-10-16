@@ -265,7 +265,7 @@ class Fabric extends Module_Base {
 					'image_border_border!' => '',
 				],
 				'selectors' => [
-					'{{WRAPPER}} pg-fabric-grid .pg-fabric-image-wrap:hover' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .pg-fabric-grid .pg-fabric-image-wrap:hover' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
