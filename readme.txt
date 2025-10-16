@@ -228,6 +228,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.6.X [XXth October 2025] =
+
+* Fixed: Read more button click issue fixed in orbit widget
+
 = 1.6.12 [28th September 2025] =
 
 * Fixed: Button link issue fixed in alien widget
