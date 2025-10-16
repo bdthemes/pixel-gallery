@@ -3,13 +3,13 @@ Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, tauhida
 Donate link: http://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
-Tested up to: 6.8.2
+Tested up to: 6.8.3
 Requires PHP: 7.4.0
-Stable tag: 1.6.12
+Stable tag: 1.6.13
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Elementor requires at least: 3.22
-Elementor tested up to: 3.32.2
+Elementor requires at least: 3.28
+Elementor tested up to: 3.32.4
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -228,7 +228,7 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.6.X [XXth October 2025] =
+= 1.6.13 [16th October 2025] =
 
 * Fixed: Read more button click issue fixed in orbit widget
 * Fixed: Image hover border color issue fixed in fabric widget
@@ -447,3 +447,7 @@ Note: we don’t provide plugin support for Adult sites.
 ### Can I use Pixel Gallery on client sites?
 
 - Yes, definitely. You can use Pixel Gallery on any website, self or client, within the allowed number of licenses provided by the package you purchase. There are no bindings to the usage.
+
+###  How can I report security bugs? 
+
+-  You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team helps validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/36087a5d-99c5-467f-b56f-6732d051a774)
