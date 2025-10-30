@@ -150,6 +150,7 @@ class Walden extends Module_Base {
 			[
 				'label'       => esc_html__('Follow', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('403', 'pixel-gallery'),
 				'placeholder' => esc_html__('Follow Number', 'pixel-gallery'),
 				'condition'   => ['item_hidden' => '']
@@ -161,6 +162,7 @@ class Walden extends Module_Base {
 			[
 				'label'       => esc_html__('Like', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('604', 'pixel-gallery'),
 				'placeholder' => esc_html__('Like Number', 'pixel-gallery'),
 				'condition'   => ['item_hidden' => '']

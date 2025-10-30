@@ -143,6 +143,7 @@ class Fluid extends Module_Base {
 			[
 				'label'   => __('Title', 'pixel-gallery'),
 				'type'    => Controls_Manager::TEXT,
+				'dynamic' => ['active' => true],
 				'default' => 'Facebook',
 			]
 		);
@@ -152,6 +153,7 @@ class Fluid extends Module_Base {
 			[
 				'label'   => __('Link', 'pixel-gallery'),
 				'type'    => Controls_Manager::TEXT,
+				'dynamic' => ['active' => true],
 				'default' => __('http://www.facebook.com/bdthemes/', 'pixel-gallery'),
 			]
 		);

@@ -113,6 +113,7 @@ class Wisdom extends Module_Base {
 			[
 				'label'       => esc_html__('Day', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('03', 'pixel-gallery'),
 				'placeholder' => esc_html__('Day Text', 'pixel-gallery'),
 				'condition'   => ['item_hidden' => '']
@@ -124,6 +125,7 @@ class Wisdom extends Module_Base {
 			[
 				'label'       => esc_html__('Month', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('March', 'pixel-gallery'),
 				'placeholder' => esc_html__('Month Text', 'pixel-gallery'),
 				'condition'   => ['item_hidden' => '']
@@ -166,6 +168,7 @@ class Wisdom extends Module_Base {
 			[
 				'label'   => __('Title', 'pixel-gallery'),
 				'type'    => Controls_Manager::TEXT,
+				'dynamic' => ['active' => true],
 				'default' => 'Facebook',
 			]
 		);
@@ -175,6 +178,7 @@ class Wisdom extends Module_Base {
 			[
 				'label'   => __('Link', 'pixel-gallery'),
 				'type'    => Controls_Manager::TEXT,
+				'dynamic' => ['active' => true],
 				'default' => __('http://www.facebook.com/bdthemes/', 'pixel-gallery'),
 			]
 		);
@@ -477,7 +481,7 @@ class Wisdom extends Module_Base {
 		$this->add_responsive_control(
 			'date_spacing',
 			[
-				'label'      => esc_html__('Spacing', 'pixel-gallery') . BDTPG_NC,
+				'label'      => esc_html__('Spacing', 'pixel-gallery'),
 				'type'       => Controls_Manager::SLIDER,
 				'selectors'  => [
 					'{{WRAPPER}} .pg-wisdom-date-wrap' => 'margin-bottom: {{SIZE}}{{UNIT}};',

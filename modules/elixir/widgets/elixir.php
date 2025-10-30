@@ -129,6 +129,7 @@ class Elixir extends Module_Base {
 			[
 				'label'       => esc_html__('Category', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('Category', 'pixel-gallery'),
 				'placeholder' => esc_html__('Category Text', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']
@@ -140,6 +141,7 @@ class Elixir extends Module_Base {
 			[
 				'label'       => esc_html__('Author Name', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('Adam Smith', 'pixel-gallery'),
 				'placeholder' => esc_html__('Author Name', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']
@@ -151,6 +153,7 @@ class Elixir extends Module_Base {
 			[
 				'label'       => esc_html__('Date', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('April 22, 2022', 'pixel-gallery'),
 				'placeholder' => esc_html__('Date Text', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']
