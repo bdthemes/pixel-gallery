@@ -5,11 +5,11 @@ Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
 Tested up to: 6.8.3
 Requires PHP: 7.4.0
-Stable tag: 1.6.13
+Stable tag: 1.7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.28
-Elementor tested up to: 3.32.4
+Elementor tested up to: 3.32.5
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -228,13 +228,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.6.X [XXth November 2025] =
+= 1.7.0 [4th November 2025] =
 
+* Added: dynamic tag support added
 * Fixed: Deprication error fixed in crop widget
-
-= 1.6.X [XXth October 2025] =
-
-* Added: dynamic tag support provided
 
 = 1.6.13 [16th October 2025] =
 
