@@ -1,5 +1,5 @@
 === Pixel Gallery Addons for Elementor - Easy Grid, Creative Gallery, Drag and Drop Grid, Custom Grid Layout, Portfolio Gallery ===
-Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, tauhidalam, maudud
+Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, tauhidalam, maudud, shmusuf, syedfarhanreza, arafatakashakku
 Donate link: http://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
