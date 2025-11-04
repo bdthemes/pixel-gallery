@@ -251,7 +251,7 @@ trait Group_Control_Query {
 		$this->add_control(
 			'posts_offset',
 			[
-				'label'   => __('Offset', 'pixel-gallery') . BDTPG_NC,
+				'label'   => __('Offset', 'pixel-gallery'),
 				'type'    => Controls_Manager::NUMBER,
 				'default' => 0,
 

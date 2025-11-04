@@ -26,7 +26,7 @@ class Module extends Pixel_Gallery_Module_Base {
 			'section_pg_in_animation_controls',
 			[
 				'tab'   => Controls_Manager::TAB_CONTENT,
-				'label' => esc_html__('Entrance Animation', 'pixel-gallery') . BDTPG_NC,
+				'label' => esc_html__('Entrance Animation', 'pixel-gallery'),
 			]
 		);
 

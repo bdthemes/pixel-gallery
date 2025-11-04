@@ -228,6 +228,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.6.X [XXth November 2025] =
+
+* Fixed: Deprication error fixed in crop widget
+
 = 1.6.X [XXth October 2025] =
 
 * Added: dynamic tag support provided

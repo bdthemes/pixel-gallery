@@ -29,6 +29,8 @@ class Crop extends Module_Base {
 	use Global_Widget_Controls;
 	use Group_Control_Query;
 
+	private $_query;
+
 	public function get_query() {
 		return $this->_query;
 	}
@@ -108,7 +110,7 @@ class Crop extends Module_Base {
 		$this->start_controls_section(
 			'section_post_query_builder',
 			[
-				'label' => __('Query', 'pixel-gallery') . BDTPG_NC,
+				'label' => __('Query', 'pixel-gallery'),
 				'tab' => Controls_Manager::TAB_CONTENT,
 				'condition' => [
 					'source' => 'dynamic',
