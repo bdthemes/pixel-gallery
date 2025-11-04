@@ -125,6 +125,7 @@ class Tour extends Module_Base {
 			[
 				'label'       => esc_html__('Price', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('$540', 'pixel-gallery'),
 				'placeholder' => esc_html__('Enter your price', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']
@@ -136,6 +137,7 @@ class Tour extends Module_Base {
 			[
 				'label'       => esc_html__('Meta Days', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('10 Days', 'pixel-gallery'),
 				'placeholder' => esc_html__('Enter your Meta Day', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']
@@ -147,6 +149,7 @@ class Tour extends Module_Base {
 			[
 				'label'       => esc_html__('Meta Member', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('10+', 'pixel-gallery'),
 				'placeholder' => esc_html__('Enter your Meta Member', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']
@@ -158,6 +161,7 @@ class Tour extends Module_Base {
 			[
 				'label'       => esc_html__('Meta Location', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('Istanbul', 'pixel-gallery'),
 				'placeholder' => esc_html__('Enter your Meta Location', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']

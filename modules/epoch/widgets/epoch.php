@@ -116,6 +116,7 @@ class Epoch extends Module_Base {
 			[
 				'label'       => esc_html__('Zoom Button', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('zoom', 'pixel-gallery'),
 				'placeholder' => esc_html__('Button Text', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']
@@ -127,6 +128,7 @@ class Epoch extends Module_Base {
 			[
 				'label'       => esc_html__('View Button', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('view', 'pixel-gallery'),
 				'placeholder' => esc_html__('Button Text', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']

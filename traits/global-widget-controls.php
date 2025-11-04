@@ -1136,6 +1136,7 @@ trait Global_Widget_Controls
 			[
 				'label'       => esc_html__('Meta', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('Meta content', 'pixel-gallery'),
 				'placeholder' => esc_html__('Enter your content', 'pixel-gallery'),
 				'label_block' => true,
@@ -1172,6 +1173,7 @@ trait Global_Widget_Controls
 			[
 				'label'       => esc_html__('Read More Text', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('Read More', 'pixel-gallery'),
 				'placeholder' => esc_html__('Read More', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']
@@ -1189,6 +1191,7 @@ trait Global_Widget_Controls
 			[
 				'label'       => esc_html__('Date', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('February 3, 2022', 'pixel-gallery'),
 				'placeholder' => esc_html__('Date Text', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']

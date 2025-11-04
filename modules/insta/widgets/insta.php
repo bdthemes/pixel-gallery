@@ -147,6 +147,7 @@ class Insta extends Module_Base {
 			[
 				'label'   => __('Title', 'pixel-gallery'),
 				'type'    => Controls_Manager::TEXT,
+				'dynamic' => ['active' => true],
 			]
 		);
 
@@ -155,6 +156,7 @@ class Insta extends Module_Base {
 			[
 				'label'   => __('Link', 'pixel-gallery'),
 				'type'    => Controls_Manager::TEXT,
+				'dynamic' => ['active' => true],
 			]
 		);
 

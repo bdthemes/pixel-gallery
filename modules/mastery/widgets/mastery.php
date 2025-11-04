@@ -109,6 +109,7 @@ class Mastery extends Module_Base
 			[
 				'label'       => esc_html__('Day', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('24', 'pixel-gallery'),
 				'placeholder' => esc_html__('Day Text', 'pixel-gallery'),
 				'condition'   => ['item_hidden' => '']
@@ -119,6 +120,7 @@ class Mastery extends Module_Base
 			[
 				'label'       => esc_html__('Month', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => ['active' => true],
 				'default'     => esc_html__('May', 'pixel-gallery'),
 				'placeholder' => esc_html__('Month Text', 'pixel-gallery'),
 				'condition'   => ['item_hidden' => '']
