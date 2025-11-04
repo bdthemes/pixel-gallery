@@ -232,9 +232,6 @@ https://youtu.be/f70l2qE7W7o
 
 * Added: dynamic tag support added
 * Fixed: Deprication error fixed in crop widget
-
-= 1.6.13 [16th October 2025] =
-
 * Fixed: Read more button click issue fixed in orbit widget
 * Fixed: Image hover border color issue fixed in fabric widget
 
