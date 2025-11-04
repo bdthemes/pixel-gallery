@@ -29,7 +29,7 @@ trait Global_Widget_Controls
 		$this->add_control(
 			'masonry',
 			[
-				'label'   => __('Masonry', 'pixel-gallery') . BDTPG_NC,
+				'label'   => __('Masonry', 'pixel-gallery'),
 				'type'    => Controls_Manager::SWITCHER,
 				'prefix_class' => 'pg-masonry--',
 				'description' => esc_html__('Note: If you enable Masonry then Repeater Column Span and Row Span will not work.', 'pixel-gallery'),
@@ -193,7 +193,7 @@ trait Global_Widget_Controls
 		$this->add_responsive_control(
             'items_align',
             [
-                'label'     => __('Item Alignment', 'pixel-gallery') . BDTPG_NC,
+                'label'     => __('Item Alignment', 'pixel-gallery'),
                 'type'      => Controls_Manager::CHOOSE,
                 'options'   => [
                     'start'    => [
@@ -800,7 +800,7 @@ trait Global_Widget_Controls
 		$this->start_controls_section(
 			'pg_section_style_clip_path',
 			[
-				'label'     => esc_html__('Mask', 'pixel-gallery') . BDTPG_NC,
+				'label'     => esc_html__('Mask', 'pixel-gallery'),
 				'tab'       => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -1700,7 +1700,7 @@ trait Global_Widget_Controls
 		$this->add_control(
 			'justified_gallery',
 			[
-				'label'       => esc_html__('Justified Gallery', 'pixel-gallery') . BDTPG_NC . BDTPG_PC,
+				'label'       => esc_html__('Justified Gallery', 'pixel-gallery') . BDTPG_PC,
 				'type'        => Controls_Manager::SWITCHER,
 				'description' => esc_html__('Note: If you enable Justified Gallery then Grid, Masonry, and Column Span/Row Span settings will not work.', 'pixel-gallery'),
 				'separator'   => 'before',

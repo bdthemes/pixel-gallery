@@ -101,7 +101,7 @@ class Craze extends Module_Base {
 		$this->add_control(
 			'content_align',
 			[
-				'label'   => __('Content Align', 'pixel-gallery') . BDTPG_NC,
+				'label'   => __('Content Align', 'pixel-gallery'),
 				'type'    => Controls_Manager::CHOOSE,
 				'options' => [
 					'left'   => [
@@ -301,7 +301,7 @@ class Craze extends Module_Base {
 		$this->add_control(
 			'glassmorphism_effect',
 			[
-				'label' => esc_html__('Glassmorphism', 'pixel-gallery') . BDTPG_NC,
+				'label' => esc_html__('Glassmorphism', 'pixel-gallery'),
 				'type'  => Controls_Manager::SWITCHER,
 				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'pixel-gallery'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
 
