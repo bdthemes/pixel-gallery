@@ -258,7 +258,7 @@ class PixelGallery_Admin_Settings {
     // Redirect to Pixel Gallery Pro pricing page
     public function pg_redirect_to_get_pro() {
         if (isset($_GET['page']) && $_GET['page'] === self::PAGE_ID . '_get_pro') {
-            wp_redirect('https://pixelgallery.pro/pricing/?utm_source=PixelGallery&utm_medium=PluginPage&utm_campaign=30%OffOnPixelGallery&coupon=FREETOPRO');
+            wp_redirect('https://bdthemes.com/deals/?utm_source=WordPress_org&utm_medium=bfcm_cta&utm_campaign=pixel_gallery');
             exit;
         }
     }
@@ -320,7 +320,7 @@ class PixelGallery_Admin_Settings {
             add_submenu_page(
                 self::PAGE_ID,
                 BDTPG_TITLE,
-                esc_html__('Upgrade For 30% Off!', 'pixel-gallery'),
+                esc_html__('Black Friday Limited Offer Up To 87%', 'pixel-gallery'),
                 'manage_options',
                 self::PAGE_ID . '_get_pro',
                 [$this, 'display_page']
