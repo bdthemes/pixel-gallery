@@ -118,7 +118,7 @@ class Admin {
         if ( true !== _is_pg_pro_activated() ) {
             $row_meta = [
                 'settings' => '<a href="'.admin_url( 'admin.php?page=pixel_gallery_options' ) .'" aria-label="' . esc_attr(__('Go to settings', 'pixel-gallery')) . '" >' . __('Settings', 'pixel-gallery') . '</b></a>',
-                'gopro' => '<a href="https://pixelgallery.pro/pricing/?utm_source=PixelGallery&utm_medium=PluginPage&utm_campaign=30%OffOnPixelGallery&coupon=FREETOPRO" aria-label="' . esc_attr(__('Go get the pro version', 'pixel-gallery')) . '" target="_blank" title="When you purchase through this link you will get 30% discount!" class="pg-go-pro">' . __('Upgrade For 30% Off!', 'pixel-gallery') . '</a>',
+                'gopro' => '<a href="https://bdthemes.com/deals/?utm_source=WordPress_org&utm_medium=bfcm_cta&utm_campaign=pixel_gallery" aria-label="' . esc_attr(__('Go get the pro version', 'pixel-gallery')) . '" target="_blank" title="When you purchase through this link you will get 87% discount!" class="pg-go-pro">' . __('Black Friday Limited Offer Up To 87%', 'pixel-gallery') . '</a>',
             ];
         } else {
             $row_meta = [
