@@ -430,10 +430,10 @@ class Notices {
 			}
 
 			// Notice ID.
-			$notice_id    = 'bdt-admin-notice-' . $notice['id'];
+			$notice_id    = 'bdt-admin-biggopti-' . $notice['id'];
 			$notice['id'] = $notice_id;
 			if (!isset($notice['id'])) {
-				$notice_id    = 'bdt-admin-notice-' . $notice['id'];
+				$notice_id    = 'bdt-admin-biggopti-' . $notice['id'];
 				$notice['id'] = $notice_id;
 			} else {
 				$notice_id = $notice['id'];
