@@ -35,14 +35,14 @@ class Admin {
 
         // register_activation_hook(BDTPG__FILE__, 'install_and_activate');
 
-        add_action('admin_init', [$this, 'admin_notice_styles']);
+        add_action('admin_init', [$this, 'admin_biggopti_styles']);
 
         add_filter('plugin_action_links_' . BDTPG_PBNAME, [$this, 'plugin_action_links']);
         
     }
 
-    public function admin_notice_styles(){
-		wp_enqueue_style('pg-admin-notice', BDTPG_ADMIN_URL . 'assets/css/pg-admin-notice.css', [], BDTPG_VER);
+    public function admin_biggopti_styles(){
+		wp_enqueue_style('pg-admin-biggopti', BDTPG_ADMIN_URL . 'assets/css/pg-admin-notice.css', [], BDTPG_VER);
 	}
 
 
@@ -205,14 +205,14 @@ class Admin {
             
             wp_enqueue_script('jquery');
             wp_enqueue_script('jquery-form');
-            wp_enqueue_script('pg-notice', BDTPG_ADMIN_URL  . 'assets/js/pg-notice.min.js', ['jquery'], BDTPG_VER, true);
+            wp_enqueue_script('pg-biggopti', BDTPG_ADMIN_URL  . 'assets/js/pg-notice.min.js', ['jquery'], BDTPG_VER, true);
             
             $script_config = [
                 'ajaxurl'	=> admin_url('admin-ajax.php'),
                 'nonce'		=> wp_create_nonce('pixel-gallery'),
             ];
 
-            wp_localize_script('pg-notice', 'PixelGalleryNoticeConfig', $script_config);
+            wp_localize_script('pg-biggopti', 'PixelGalleryBiggoptiConfig', $script_config);
 
         }
     }

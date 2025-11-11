@@ -99,7 +99,7 @@ function pixel_gallery_load_plugin() {
 	// Element pack widget and assets loader
 	require_once ( BDTPG_PATH . 'loader.php' );
 
-	// Notice class
+	// Biggopti class
 	require_once ( BDTPG_ADMIN_PATH . 'admin-notice.php' );
 }
 
@@ -151,7 +151,7 @@ if ( ! function_exists( '_is_elementor_installed' ) ) {
 }
 
 /**
- * Added notice after install or upgrade to v6
+ * Added biggopti after install or upgrade to v6
  *
  * @param string $plugin
  * @return void

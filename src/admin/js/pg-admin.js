@@ -116,24 +116,9 @@ jQuery(document).ready(function ($) {
 
     }
 
-    jQuery('.pixel-gallery-notice.notice-error img').css({
+    jQuery('.pixel-gallery-biggopti.biggopti-error img').css({
         'margin-right': '8px',
         'vertical-align': 'middle'
     });
-
-    // Button Color
-window.CSS.registerProperty({
-    name: '--primaryColor',
-    syntax: '<color>',
-      inherits: false,
-      initialValue: '#AA00FF',
-    });
-    
-    window.CSS.registerProperty({
-    name: '--secondaryColor',
-    syntax: '<color>',
-      inherits: false,
-      initialValue: '#FF2661',
-});
 
 });

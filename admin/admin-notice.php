@@ -3,11 +3,11 @@
 namespace PixelGallery;
 
 /**
- * Notices class
+ * Biggopties class
  */
-class Notices {
+class Biggopties {
 
-	private static $notices = [];
+	private static $biggopties = [];
 
 	private static $instance;
 
@@ -20,29 +20,28 @@ class Notices {
 
 	public function __construct() {
 
-		add_action('admin_notices', [$this, 'show_notices']);
-		add_action('wp_ajax_pixel-gallery-notices', [$this, 'dismiss']);
+		add_action('admin_notices', [$this, 'show_biggopties']);
+		add_action('wp_ajax_pixel-gallery-biggopties', [$this, 'dismiss']);
 
-		// AJAX endpoint to fetch API notices on demand (after page load)
-		add_action('wp_ajax_pg_fetch_api_notices', [$this, 'ajax_fetch_api_notices']);
+		// AJAX endpoint to fetch API biggopties on demand (after page load)
+		add_action('wp_ajax_pg_fetch_api_biggopties', [$this, 'ajax_fetch_api_biggopties']);
 
 	}
 
 	/**
-	 * Get Remote Notices Data from API
+	 * Get Remote Biggopties Data from API
 	 *
 	 * @return array|mixed
 	 */
-	private function get_api_notices_data() {
-
+	private function get_api_biggopties_data() {
 		// 6-hour transient cache for API response
-		$transient_key = 'pg_api_notices_pixel_gallery';
+		$transient_key = 'pg_api_biggopties_pixel_gallery';
 		$cached = get_transient($transient_key);
 		if ($cached !== false && is_array($cached)) {
 			return $cached;
 		}
 
-		// API endpoint for notices - you can change this to your actual endpoint
+		// API endpoint for biggopties - you can change this to your actual endpoint
 		$api_url = 'https://store.bdthemes.com/api/notices/api-data-records';
 
 		$response = wp_remote_get($api_url, [
@@ -61,12 +60,12 @@ class Notices {
 
 		$response_body = wp_remote_retrieve_body($response);
 
-		$notices = json_decode($response_body);
+		$biggopties = json_decode($response_body);
 		
-		if( isset($notices->api) && isset($notices->api->{'pixel-gallery'}) ) {
-			$data = $notices->api->{'pixel-gallery'};
+		if( isset($biggopties->api) && isset($biggopties->api->{'pixel-gallery'}) ) {
+			$data = $biggopties->api->{'pixel-gallery'};
 			if (is_array($data)) {
-				$ttl = apply_filters('pg_api_notices_cache_ttl', 6 * HOUR_IN_SECONDS);
+				$ttl = apply_filters('pg_api_biggopties_cache_ttl', 6 * HOUR_IN_SECONDS);
 				set_transient($transient_key, $data, $ttl);
 				return $data;
 			}
@@ -76,12 +75,12 @@ class Notices {
 	}
 
 	/**
-	 * Check if a notice should be shown based on its enabled status and date range.
+	 * Check if a biggopti should be shown based on its enabled status and date range.
 	 *
-	 * @param object $notice The notice data from the API.
-	 * @return bool True if the notice should be shown, false otherwise.
+	 * @param object $biggopti The biggopti data from the API.
+	 * @return bool True if the biggopti should be shown, false otherwise.
 	 */
-	private function should_show_notice($notice) {
+	private function should_show_biggopti($biggopti) {
 		// Development override - set to true to bypass date checks for testing
 		$development_mode = false; // Set to true to bypass date checks
 		
@@ -89,27 +88,27 @@ class Notices {
 			return true;
 		}
 		
-		// Check if the notice is enabled
-		if (!isset($notice->is_enabled) || !$notice->is_enabled) {
+		// Check if the biggopti is enabled
+		if (!isset($biggopti->is_enabled) || !$biggopti->is_enabled) {
 			return false;
 		}
 
 		// Check plugin compatibility
-		if (!$this->is_notice_compatible_with_plugin($notice)) {
+		if (!$this->is_biggopti_compatible_with_plugin($biggopti)) {
 			return false;
 		}
 
-		// Check if the notice has a start date and end date
-		if (!isset($notice->start_date) || !isset($notice->end_date)) {
+		// Check if the biggopti has a start date and end date
+		if (!isset($biggopti->start_date) || !isset($biggopti->end_date)) {
 			return false;
 		}
 
-		// Get timezone from notice or default to UTC
-		$timezone = isset($notice->timezone) ? $notice->timezone : 'UTC';
+		// Get timezone from biggopti or default to UTC
+		$timezone = isset($biggopti->timezone) ? $biggopti->timezone : 'UTC';
 		
 		// Create DateTime objects with proper timezone (using global namespace)
-		$start_date = new \DateTime($notice->start_date, new \DateTimeZone($timezone));
-		$end_date = new \DateTime($notice->end_date, new \DateTimeZone($timezone));
+		$start_date = new \DateTime($biggopti->start_date, new \DateTimeZone($timezone));
+		$end_date = new \DateTime($biggopti->end_date, new \DateTimeZone($timezone));
 		$current_date = new \DateTime('now', new \DateTimeZone($timezone));
 
 		// Convert to timestamps for comparison
@@ -122,9 +121,9 @@ class Notices {
 			return false;
 		}
 
-		// Check if notice should be visible after a certain time
-		if (isset($notice->visible_after) && $notice->visible_after > 0) {
-			$visible_after_timestamp = $start_timestamp + $notice->visible_after;
+		// Check if biggopti should be visible after a certain time
+		if (isset($biggopti->visible_after) && $biggopti->visible_after > 0) {
+			$visible_after_timestamp = $start_timestamp + $biggopti->visible_after;
 			if ($current_timestamp < $visible_after_timestamp) {
 				return false;
 			}
@@ -134,12 +133,12 @@ class Notices {
 	}
 
 	/**
-	 * Check if a notice is compatible with the current plugin installation
+	 * Check if a biggopti is compatible with the current plugin installation
 	 *
-	 * @param object $notice The notice data from the API.
-	 * @return bool True if the notice should be shown, false otherwise.
+	 * @param object $biggopti The biggopti data from the API.
+	 * @return bool True if the biggopti should be shown, false otherwise.
 	 */
-	private function is_notice_compatible_with_plugin($notice) {
+	private function is_biggopti_compatible_with_plugin($biggopti) {
 		// Get current plugin info
 		$current_plugin_slug = $this->get_current_plugin_slug();
 		$is_pro_active = function_exists('_is_pg_pro_activated') ? _is_pg_pro_activated() : false;
@@ -147,8 +146,8 @@ class Notices {
 		$is_pro_plugin = $current_plugin_slug === 'pixel-gallery-pro';
 		
 		// Get client targets, default to ['both'] if not set or not an array
-		$client_targets = (isset($notice->client_targets) && is_array($notice->client_targets))
-		? $notice->client_targets
+		$client_targets = (isset($biggopti->client_targets) && is_array($biggopti->client_targets))
+		? $biggopti->client_targets
 		: ['both'];
 
 		// Determine if this is targeted at Pro users
@@ -172,7 +171,7 @@ class Notices {
 			
 			switch ($target) {
 				case 'pro':
-					// Pro-only notices: show only if pro is active
+					// Pro-only biggopties: show only if pro is active
 					if ($is_pro_active) {
 						return true;
 					}
@@ -205,29 +204,29 @@ class Notices {
 	}
 
 	/**
-	 * Render API notice HTML
+	 * Render API biggopti HTML
 	 *
-	 * @param object $notice
+	 * @param object $biggopti
 	 * @return string
 	 */
-	private function render_api_notice($notice) {
+	private function render_api_biggopti($biggopti) {
 		ob_start();
 		
 		// Add custom CSS if provided
-		if (isset($notice->custom_css) && !empty($notice->custom_css)) {
-			echo '<style>' . wp_kses_post($notice->custom_css) . '</style>';
+		if (isset($biggopti->custom_css) && !empty($biggopti->custom_css)) {
+			echo '<style>' . wp_kses_post($biggopti->custom_css) . '</style>';
 		}
 		
 		// Prepare background styles
 		$background_style = '';
-		$wrapper_classes = 'bdt-notice-wrapper';
+		$wrapper_classes = 'bdt-biggopti-wrapper';
 		
-		if (isset($notice->background_color) && !empty($notice->background_color)) {
-			$background_style .= 'background-color: ' . esc_attr($notice->background_color) . ';';
+		if (isset($biggopti->background_color) && !empty($biggopti->background_color)) {
+			$background_style .= 'background-color: ' . esc_attr($biggopti->background_color) . ';';
 		}
 		
-		if (isset($notice->image) && !empty($notice->image)) {
-			$background_style .= 'background-image: url(' . esc_url($notice->image) . ');';
+		if (isset($biggopti->image) && !empty($biggopti->image)) {
+			$background_style .= 'background-image: url(' . esc_url($biggopti->image) . ');';
 			$wrapper_classes .= ' has-background-image';
 		}
 		
@@ -235,54 +234,54 @@ class Notices {
 		<div class="<?php echo esc_attr($wrapper_classes); ?>" <?php echo $background_style ? 'style="' . $background_style . '"' : ''; ?>>
 			
 			
-			<?php $title = (isset($notice->title) && !empty($notice->title)) ? $notice->title : ''; ?>
+			<?php $title = (isset($biggopti->title) && !empty($biggopti->title)) ? $biggopti->title : ''; ?>
 
-			<div class="bdt-api-notice-content">
+			<div class="bdt-api-biggopti-content">
 				<div class="bdt-plugin-logo-wrapper">
 					<img height="auto" width="40" src="<?php echo esc_url(BDTPG_ASSETS_URL); ?>images/logo.svg" alt="Pixel Gallery Logo">
 				</div>
 
-				<div class="bdt-notice-content">
-					<div class="bdt-notice-content-inner">
-						<?php if (isset($notice->logo) && !empty($notice->logo)) : ?>
-							<div class="bdt-notice-logo-wrapper">
-								<img width="100" src="<?php echo esc_url($notice->logo); ?>" alt="Logo">
+				<div class="bdt-biggopti-content">
+					<div class="bdt-biggopti-content-inner">
+						<?php if (isset($biggopti->logo) && !empty($biggopti->logo)) : ?>
+							<div class="bdt-biggopti-logo-wrapper">
+								<img width="100" src="<?php echo esc_url($biggopti->logo); ?>" alt="Logo">
 							</div>
 						<?php endif; ?>
-						<div class="bdt-notice-title-description">
+						<div class="bdt-biggopti-title-description">
 							<?php if (isset($title) && !empty($title)) : ?>
-								<h2 class="bdt-notice-title"><?php echo wp_kses_post($title); ?></h2>
+								<h2 class="bdt-biggopti-title"><?php echo wp_kses_post($title); ?></h2>
 							<?php endif; ?>
 		
-							<?php if (isset($notice->content) && !empty($notice->content)) : ?>
-								<div class="bdt-notice-html-content">
-									<?php echo wp_kses_post($notice->content); ?>
+							<?php if (isset($biggopti->content) && !empty($biggopti->content)) : ?>
+								<div class="bdt-biggopti-html-content">
+									<?php echo wp_kses_post($biggopti->content); ?>
 								</div>
 							<?php endif; ?>
 						</div>
 					</div>
 
-					<div class="bdt-notice-content-right">
+					<div class="bdt-biggopti-content-right">
 						<?php 
 						// Only show countdown if it's enabled, has an end date, and the end date is in the future
-						$show_countdown = isset($notice->show_countdown) && $notice->show_countdown && isset($notice->end_date);
+						$show_countdown = isset($biggopti->show_countdown) && $biggopti->show_countdown && isset($biggopti->end_date);
 						if ($show_countdown) {
-							$end_timestamp = strtotime($notice->end_date);
+							$end_timestamp = strtotime($biggopti->end_date);
 							$current_timestamp = current_time('timestamp');
 							$show_countdown = $end_timestamp > $current_timestamp;
 						}
 						?>
 						<?php if ($show_countdown) : ?>
-							<div class="bdt-notice-countdown" data-end-date="<?php echo esc_attr($notice->end_date); ?>" data-timezone="<?php echo esc_attr($notice->timezone ? $notice->timezone : 'UTC'); ?>">
+							<div class="bdt-biggopti-countdown" data-end-date="<?php echo esc_attr($biggopti->end_date); ?>" data-timezone="<?php echo esc_attr($biggopti->timezone ? $biggopti->timezone : 'UTC'); ?>">
 								<div class="countdown-timer">Loading...</div>
 							</div>
 						<?php endif; ?>
 		
-						<?php if (isset($notice->link) && !empty($notice->link)) : ?>
-							<div class="bdt-notice-btn">
-								<a href="<?php echo esc_url($notice->link); ?>" target="_blank">
-									<div class="nm-notice-btn">
-										<?php echo isset($notice->button_text) ? esc_html($notice->button_text) : 'Read More'; ?>
+						<?php if (isset($biggopti->link) && !empty($biggopti->link)) : ?>
+							<div class="bdt-biggopti-btn">
+								<a href="<?php echo esc_url($biggopti->link); ?>" target="_blank">
+									<div class="nm-biggopti-btn">
+										<?php echo isset($biggopti->button_text) ? esc_html($biggopti->button_text) : 'Read More'; ?>
 										<span class="dashicons dashicons-arrow-right-alt"></span>
 									</div>
 								</a>
@@ -296,16 +295,16 @@ class Notices {
 		return ob_get_clean();
 	}
 
-	public static function add_notice($args = []) {
+	public static function add_biggopti($args = []) {
 		if (is_array($args)) {
-			self::$notices[] = $args;
+			self::$biggopties[] = $args;
 		}
 	}
 
 	/**
-	 * AJAX: Build and return API notices HTML for dynamic injection
+	 * AJAX: Build and return API biggopties HTML for dynamic injection
 	 */
-	public function ajax_fetch_api_notices() {
+	public function ajax_fetch_api_biggopties() {
 		$nonce = isset($_POST['_wpnonce']) ? sanitize_text_field($_POST['_wpnonce']) : '';
 		if (!wp_verify_nonce($nonce, 'pixel-gallery')) {
 			wp_send_json_error([ 'message' => 'invalid_nonce' ]);
@@ -315,44 +314,45 @@ class Notices {
 			wp_send_json_error([ 'message' => 'forbidden' ]);
 		}
 
-		$notices = $this->get_api_notices_data();
-		$grouped_notices = [];
+		$biggopties = $this->get_api_biggopties_data();
 
-		if (is_array($notices)) {
-			foreach ($notices as $index => $notice) {
-				if ($this->should_show_notice($notice)) {
-					$notice_class = isset($notice->notice_class) ? $notice->notice_class : 'default-' . $index;
-					if (!isset($grouped_notices[$notice_class])) {
-						$grouped_notices[$notice_class] = $notice;
+		$grouped_biggopties = [];
+
+		if (is_array($biggopties)) {
+			foreach ($biggopties as $index => $biggopti) {
+				if ($this->should_show_biggopti($biggopti)) {
+					$notice_class = isset($biggopti->notice_class) ? $biggopti->notice_class : 'default-' . $index;
+					if (!isset($grouped_biggopties[$notice_class])) {
+						$grouped_biggopties[$notice_class] = $biggopti;
 					}
 				}
 			}
 		}
 
-		// Build notices using the same pipeline as synchronous rendering
-		foreach ($grouped_notices as $notice_class => $notice) {
-			$notice_id = isset($notice->id) ? $notice_class : $notice->id;
+		// Build biggopties using the same pipeline as synchronous rendering
+		foreach ($grouped_biggopties as $notice_class => $biggopti) {
+			$biggopti_id = isset($biggopti->id) ? $notice_class : $biggopti->id;
 
-			self::add_notice([
-				'id' => 'api-notice-' . $notice_id,
-				'type' => isset($notice->type) ? $notice->type : 'info',
-				'category' => isset($notice->category) ? $notice->category : 'regular',
+			self::add_biggopti([
+				'id' => 'api-biggopti-' . $biggopti_id,
+				'type' => isset($biggopti->type) ? $biggopti->type : 'info',
+				'category' => isset($biggopti->category) ? $biggopti->category : 'regular',
 				'dismissible' => true,
-				'html_message' => $this->render_api_notice($notice),
+				'html_message' => $this->render_api_biggopti($biggopti),
 				'dismissible-meta' => 'transient',
-				'dismissible-time' => isset($notice->end_date) ? max((new \DateTime($notice->end_date, new \DateTimeZone('UTC')))->getTimestamp() - time(), 0) : WEEK_IN_SECONDS,
+				'dismissible-time' => isset($biggopti->end_date) ? max((new \DateTime($biggopti->end_date, new \DateTimeZone('UTC')))->getTimestamp() - time(), 0) : WEEK_IN_SECONDS,
 			]);
 		}
 
 		ob_start();
-		$this->show_notices();
+		$this->show_biggopties();
 		$markup = ob_get_clean();
 
 		wp_send_json_success([ 'html' => $markup ]);
 	}
 
 	/**
-	 * Dismiss Notice.
+	 * Dismiss Biggopti.
 	 */
 	public function dismiss() {
 		$nonce = (isset($_POST['_wpnonce'])) ? sanitize_text_field($_POST['_wpnonce']) : '';
@@ -372,7 +372,7 @@ class Notices {
 		 * Valid inputs?
 		 */
 		if (!empty($id)) {
-			// Handle regular notices
+			// Handle regular biggopties
 			if ('user' === $meta) {
 				update_user_meta(get_current_user_id(), $id, true);
 			} else {
@@ -386,9 +386,9 @@ class Notices {
 	}
 
 	/**
-	 * Notice Types
+	 * Biggopti Types
 	 */
-	public function show_notices() {
+	public function show_biggopties() {
 
 		$defaults = [
 			'id'               => '',
@@ -397,7 +397,7 @@ class Notices {
 			'show_if'          => true,
 			'title'            => '',
 			'message'          => '',
-			'class'            => 'pixel-gallery-notice',
+			'class'            => 'pixel-gallery-biggopti',
 			'dismissible'      => false,
 			'dismissible-meta' => 'transient',
 			'dismissible-time' => WEEK_IN_SECONDS,
@@ -405,98 +405,97 @@ class Notices {
 			'action_link'      => '',
 		];
 
-		foreach (self::$notices as $key => $notice) {
+		foreach (self::$biggopties as $key => $biggopti) {
 
-			$notice = wp_parse_args($notice, $defaults);
+			$biggopti = wp_parse_args($biggopti, $defaults);
 
-			// Check if notice is for White Label
-			if (defined('BDTPG_WL') && $notice['category'] === 'regular') {
+			// Check if biggopti is for White Label
+			if (defined('BDTPG_WL') && $biggopti['category'] === 'regular') {
 				continue;
 			}
 
-			$classes = ['notice'];
+			$classes = ['biggopti'];
 
-			$classes[] = $notice['class'];
-			if (isset($notice['type'])) {
-				$classes[] = 'notice-' . $notice['type'];
+			$classes[] = $biggopti['class'];
+			if (isset($biggopti['type'])) {
+				$classes[] = 'biggopti-' . $biggopti['type'];
 			}
 
-			// Is notice dismissible?
-			if (true === $notice['dismissible']) {
+			// Is biggopti dismissible?
+			if (true === $biggopti['dismissible']) {
 				$classes[] = 'is-dismissible';
 
 				// Dismissable time.
-				$notice['data'] = ' dismissible-time=' . esc_attr($notice['dismissible-time']) . ' ';
+				$biggopti['data'] = ' dismissible-time=' . esc_attr($biggopti['dismissible-time']) . ' ';
 			}
 
-			// Notice ID.
-			$notice_id    = 'bdt-admin-notice-' . $notice['id'];
-			$notice['id'] = $notice_id;
-			if (!isset($notice['id'])) {
-				$notice_id    = 'bdt-admin-notice-' . $notice['id'];
-				$notice['id'] = $notice_id;
+			// Biggopti ID.
+			$biggopti_id    = 'bdt-admin-biggopti-' . $biggopti['id'];
+			$biggopti['id'] = $biggopti_id;
+			if (!isset($biggopti['id'])) {
+				$biggopti_id    = 'bdt-admin-biggopti-' . $biggopti['id'];
+				$biggopti['id'] = $biggopti_id;
 			} else {
-				$notice_id = $notice['id'];
+				$biggopti_id = $biggopti['id'];
 			}
 
-			$notice['classes'] = implode(' ', $classes);
+			$biggopti['classes'] = implode(' ', $classes);
 
 			// User meta.
-			$notice['data'] .= ' dismissible-meta=' . esc_attr($notice['dismissible-meta']) . ' ';
-			if ('user' === $notice['dismissible-meta']) {
-				$expired = get_user_meta(get_current_user_id(), $notice_id, true);
-			} elseif ('transient' === $notice['dismissible-meta']) {
-				$expired = get_transient($notice_id);
+			$biggopti['data'] .= ' dismissible-meta=' . esc_attr($biggopti['dismissible-meta']) . ' ';
+			if ('user' === $biggopti['dismissible-meta']) {
+				$expired = get_user_meta(get_current_user_id(), $biggopti_id, true);
+			} elseif ('transient' === $biggopti['dismissible-meta']) {
+				$expired = get_transient($biggopti_id);
 			}
 
-			// Notices visible after transient expire.
-			if (isset($notice['show_if'])) {
+			// Biggopties visible after transient expire.
+			if (isset($biggopti['show_if'])) {
 
-				if (true === $notice['show_if']) {
+				if (true === $biggopti['show_if']) {
 
 					// Is transient expired?
 					if (false === $expired || empty($expired)) {
-						self::notice_layout($notice);
+						self::biggopti_layout($biggopti);
 					}
 				}
 			} else {
 
-				// No transient notices.
-				self::notice_layout($notice);
+				// No transient biggopties.
+				self::biggopti_layout($biggopti);
 			}
 		}
 	}
 
 	/**
-	 * New Notice Layout
-	 * @param  array $notice Notice notice_layout.
+	 * New Biggopti Layout
+	 * @param  array $biggopti Biggopti biggopti_layout.
 	 * @return void
 	 * @since 6.11.3
 	 */
 
-	public static function notice_layout($notice = []) {
+	public static function biggopti_layout($biggopti = []) {
 
-		if( isset($notice['html_message']) && ! empty($notice['html_message']) ) {
-			self::new_notice_layout($notice);
+		if( isset($biggopti['html_message']) && ! empty($biggopti['html_message']) ) {
+			self::new_biggopti_layout($biggopti);
 			return;
 		}
 
 	?>
-		<div id="<?php echo esc_attr($notice['id']); ?>" class="<?php echo esc_attr($notice['classes']); ?>" <?php echo esc_attr($notice['data']); ?>>
-			<div class="bdt-notice-wrapper">
-				<div class="bdt-notice-icon-wrapper">
+		<div id="<?php echo esc_attr($biggopti['id']); ?>" class="<?php echo esc_attr($biggopti['classes']); ?>" <?php echo esc_attr($biggopti['data']); ?>>
+			<div class="bdt-biggopti-wrapper">
+				<div class="bdt-biggopti-icon-wrapper">
 					<img height="25" width="25" src="<?php echo esc_url (BDTPG_ASSETS_URL ); ?>images/logo.svg">
 				</div>
 
-				<div class="bdt-notice-content">
-					<?php if (isset($notice['title']) && !empty($notice['title'])) : ?>
-						<h2 class="bdt-notice-title"><?php echo wp_kses_post($notice['title']); ?></h2>
+				<div class="bdt-biggopti-content">
+					<?php if (isset($biggopti['title']) && !empty($biggopti['title'])) : ?>
+						<h2 class="bdt-biggopti-title"><?php echo wp_kses_post($biggopti['title']); ?></h2>
 					<?php endif; ?>
 
-					<p class="bdt-notice-text"><?php echo wp_kses_post($notice['message']); ?></p>
-
-					<?php if (isset($notice['action_link']) && !empty($notice['action_link'])) : ?>
-						<div class="bdt-notice-btn">
+					<p class="bdt-biggopti-text"><?php echo wp_kses_post($biggopti['message']); ?></p>
+					<?php if (isset($biggopti['action_link']) && !empty($biggopti['action_link'])) : ?>
+						<div class="bdt-biggopti-btn">
 							<a href="#">Renew Now</a>
 						</div>
 					<?php endif; ?>
@@ -506,11 +505,11 @@ class Notices {
 <?php
 	}
 
-	public static function new_notice_layout( $notice = [] ) {
+	public static function new_biggopti_layout( $biggopti = [] ) {
 		?>
-		<div id="<?php echo esc_attr( $notice['id'] ); ?>" class="<?php echo esc_attr( $notice['classes'] ); ?>" <?php echo esc_attr( $notice['data'] ); ?>>	
+		<div id="<?php echo esc_attr( $biggopti['id'] ); ?>" class="<?php echo esc_attr( $biggopti['classes'] ); ?>" <?php echo esc_attr( $biggopti['data'] ); ?>>	
 			<?php 
-				echo wp_kses_post( $notice['html_message'] );
+				echo wp_kses_post( $biggopti['html_message'] );
 			?>
 		</div>
 		
@@ -518,4 +517,4 @@ class Notices {
 	}
 }
 
-Notices::get_instance();
+Biggopties::get_instance();

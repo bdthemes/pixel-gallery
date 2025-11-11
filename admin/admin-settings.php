@@ -1,6 +1,6 @@
 <?php
 
-use PixelGallery\Notices;
+use PixelGallery\Biggopties;
 use PixelGallery\Utils;
 use PixelGallery\Admin\ModuleService;
 use Elementor\Modules\Usage\Module;
@@ -32,7 +32,7 @@ class PixelGallery_Admin_Settings {
         }
 
         if (!Tracker::is_allow_track()) {
-            add_action('admin_notices', [$this, 'allow_tracker_activate_notice'], 10, 3);
+            add_action('admin_notices', [$this, 'allow_tracker_activate_biggopti'], 10, 3);
         }
     }
 
@@ -1177,13 +1177,13 @@ class PixelGallery_Admin_Settings {
     /**
      *
      * Allow Tracker deactivated warning
-     * If Allow Tracker disable in elementor then this notice will be show
+     * If Allow Tracker disable in elementor then this biggopti will be show
      *
      * @access public
      */
 
-    public function allow_tracker_activate_notice() {
-        Notices::add_notice(
+    public function allow_tracker_activate_biggopti() {
+        Biggopties::add_biggopti(
             [
                 'id'               => 'pg-allow-tracker',
                 'type'             => 'warning',
