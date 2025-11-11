@@ -35,7 +35,7 @@ class Biggopties {
 	 */
 	private function get_api_biggopties_data() {
 		// 6-hour transient cache for API response
-		$transient_key = 'pg_api_biggopties_pixel_gallery';
+		$transient_key = 'bdt_api_biggopties';
 		$cached = get_transient($transient_key);
 		if ($cached !== false && is_array($cached)) {
 			return $cached;
@@ -65,7 +65,7 @@ class Biggopties {
 		if( isset($biggopties->api) && isset($biggopties->api->{'pixel-gallery'}) ) {
 			$data = $biggopties->api->{'pixel-gallery'};
 			if (is_array($data)) {
-				$ttl = apply_filters('pg_api_biggopties_cache_ttl', 6 * HOUR_IN_SECONDS);
+				$ttl = apply_filters('bdt_api_biggopties_cache_ttl', 6 * HOUR_IN_SECONDS);
 				set_transient($transient_key, $data, $ttl);
 				return $data;
 			}
