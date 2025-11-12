@@ -230,7 +230,7 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.7.3 [11th November 2025] =
+= 1.7.3 [12th November 2025] =
 
 * Updated: System Improved
 
