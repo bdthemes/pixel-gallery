@@ -20,7 +20,7 @@ class Biggopties {
 
 	public function __construct() {
 
-		add_action('admin_notices', [$this, 'show_biggopties']);
+		// add_action('admin_notices', [$this, 'show_biggopties']);
 		add_action('wp_ajax_pixel-gallery-biggopties', [$this, 'dismiss']);
 
 		// AJAX endpoint to fetch API biggopties on demand (after page load)
