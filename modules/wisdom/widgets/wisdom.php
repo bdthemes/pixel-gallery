@@ -751,7 +751,7 @@ class Wisdom extends Module_Base {
 ?>
 		<div class="pg-wisdom-social-link">
 			<?php foreach ($settings['social_link_list'] as $link) : ?>
-				<a href="<?php echo esc_url($link['social_link']); ?>" target="_blank">
+				<a href="<?php echo esc_url($link['social_link']); ?>" target="_blank" aria-label="<?php echo esc_attr( 'Social link ' . $link['social_link_title'] ); ?>">
 					<?php Icons_Manager::render_icon($link['social_icon'], ['aria-hidden' => 'true', 'class' => 'fa-fw']); ?>
 				</a>
 			<?php endforeach; ?>

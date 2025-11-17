@@ -1174,6 +1174,7 @@ trait Global_Widget_Controls
 				'label'       => esc_html__('Read More Text', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => ['active' => true],
+				'label_block' => true,
 				'default'     => esc_html__('Read More', 'pixel-gallery'),
 				'placeholder' => esc_html__('Read More', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']
@@ -1872,8 +1873,11 @@ trait Global_Widget_Controls
 	?>
 		<?php if ($link && !empty($item['readmore_text'])) : ?>
 			<div class="pg-<?php echo esc_attr($name); ?>-readmore">
-				<a <?php $this->print_render_attribute_string('link' . $index); ?>>
-					<?php echo esc_html($item['readmore_text']); ?>
+				<a 
+					<?php echo $this->print_render_attribute_string( 'link' . $index ); ?>
+					aria-label="<?php echo esc_attr( $item['readmore_text'] . ' Button' ); ?>"
+				>
+					<?php echo esc_html( $item['readmore_text'] ); ?>
 				</a>
 			</div>
 		<?php endif; ?>
@@ -1905,7 +1909,10 @@ trait Global_Widget_Controls
 	?>
 		<?php if ($link && !empty($item['readmore_text'])) : ?>
 			<div class="pg-<?php echo esc_attr($name); ?>-readmore">
-				<a <?php $this->print_render_attribute_string('link' . $index); ?>>
+				<a 
+					<?php $this->print_render_attribute_string('link' . $index); ?>
+					aria-label="<?php echo esc_attr( $item['readmore_text'] . ' Button' ); ?>"
+				>
 					<span><?php echo esc_html($item['readmore_text']); ?></span>
 				</a>
 			</div>
@@ -1931,8 +1938,11 @@ trait Global_Widget_Controls
 	?>
 		<?php if ($link) : ?>
 			<div class="pg-<?php echo esc_attr($name); ?>-readmore">
-				<a <?php $this->print_render_attribute_string('link' . $index); ?>>
-					<i class="pg-icon-arrow-right"></i>
+				<a 
+					<?php echo $this->print_render_attribute_string( 'link' . $index ); ?>
+					aria-label="<?php echo esc_attr__( 'Read More Button', 'pixel-gallery' ); ?>"
+				>
+					<i class="pg-icon-arrow-right" aria-hidden="true"></i>
 				</a>
 			</div>
 		<?php endif; ?>
