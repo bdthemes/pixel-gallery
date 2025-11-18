@@ -1889,6 +1889,7 @@ trait Global_Widget_Controls
 		$link = $this->get_link_url($item);
 		if ($link) {
 			$this->add_link_attributes('link' . $index, $link, true);
+			$this->add_render_attribute('link' . $index, 'aria-label', esc_attr( $item['readmore_text'] . ' Button' ));
 
 			/**
 			 * If the Video Added then No need Image Lightbox
@@ -1909,10 +1910,7 @@ trait Global_Widget_Controls
 	?>
 		<?php if ($link && !empty($item['readmore_text'])) : ?>
 			<div class="pg-<?php echo esc_attr($name); ?>-readmore">
-				<a 
-					<?php $this->print_render_attribute_string('link' . $index); ?>
-					aria-label="<?php echo esc_attr( $item['readmore_text'] . ' Button' ); ?>"
-				>
+				<a <?php $this->print_render_attribute_string('link' . $index); ?>>
 					<span><?php echo esc_html($item['readmore_text']); ?></span>
 				</a>
 			</div>
@@ -1925,6 +1923,8 @@ trait Global_Widget_Controls
 		$link = $this->get_link_url($item);
 		if ($link) {
 			$this->add_link_attributes('link' . $index, $link, true);
+			$this->add_render_attribute('link' . $index, 'aria-label', esc_attr__( 'Read More Button', 'pixel-gallery' ));
+			
 			if ('custom' !== $settings['link_to'] && $item['media_type'] !== 'video') {
 				$this->add_lightbox_data_attributes('link' . $index, $item['image']['id'], $settings['open_lightbox'], '', true);
 				$this->add_render_attribute(
@@ -1938,10 +1938,7 @@ trait Global_Widget_Controls
 	?>
 		<?php if ($link) : ?>
 			<div class="pg-<?php echo esc_attr($name); ?>-readmore">
-				<a 
-					<?php echo $this->print_render_attribute_string( 'link' . $index ); ?>
-					aria-label="<?php echo esc_attr__( 'Read More Button', 'pixel-gallery' ); ?>"
-				>
+				<a <?php $this->print_render_attribute_string('link' . $index); ?>>
 					<i class="pg-icon-arrow-right" aria-hidden="true"></i>
 				</a>
 			</div>

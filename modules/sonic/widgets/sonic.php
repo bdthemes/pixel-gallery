@@ -516,6 +516,8 @@ class Sonic extends Module_Base
 		$link = $this->get_link_url($item);
 		if ($link) {
 			$this->add_link_attributes('link' . $index, $link, true);
+			$this->add_render_attribute('link' . $index, 'aria-label', esc_attr__( 'Read More Button', 'pixel-gallery' ));
+			
 			if ('custom' !== $settings['link_to']) {
 				$this->add_lightbox_data_attributes('link' . $index, $item['image']['id'], $settings['open_lightbox'], '', true);
 				$this->add_render_attribute(
@@ -529,16 +531,10 @@ class Sonic extends Module_Base
 ?>
 		<?php if ($link) : ?>
 			<div class="pg-sonic-readmore">
-				<a 
-					<?php $this->print_render_attribute_string('link' . $index); ?>
-					aria-label="<?php echo esc_attr__( 'Read More Button', 'pixel-gallery' ); ?>"
-				>
+				<a <?php $this->print_render_attribute_string('link' . $index); ?>>
 					<i class="pg-icon-search" aria-hidden="true"></i>
 				</a>
-				<a 
-					<?php $this->print_render_attribute_string('link' . $index); ?>
-					aria-label="<?php echo esc_attr__( 'Read More Button', 'pixel-gallery' ); ?>"
-				>
+				<a <?php $this->print_render_attribute_string('link' . $index); ?>>
 					<i class="pg-icon-link" aria-hidden="true"></i>
 				</a>
 			</div>
