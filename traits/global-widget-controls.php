@@ -1852,7 +1852,9 @@ trait Global_Widget_Controls
 		$settings   = $this->get_settings_for_display();
 		$link = $this->get_link_url($item);
 		if ($link) {
+			
 			$this->add_link_attributes('link' . $index, $link, true);
+			$this->add_render_attribute('link' . $index, 'aria-label', esc_attr( $item['readmore_text'] . ' Button' ));
 
 			/**
 			 * If the Video Added then No need Image Lightbox
@@ -1873,11 +1875,8 @@ trait Global_Widget_Controls
 	?>
 		<?php if ($link && !empty($item['readmore_text'])) : ?>
 			<div class="pg-<?php echo esc_attr($name); ?>-readmore">
-				<a 
-					<?php echo $this->print_render_attribute_string( 'link' . $index ); ?>
-					aria-label="<?php echo esc_attr( $item['readmore_text'] . ' Button' ); ?>"
-				>
-					<?php echo esc_html( $item['readmore_text'] ); ?>
+				<a <?php $this->print_render_attribute_string('link' . $index); ?>>
+					<?php echo esc_html($item['readmore_text']); ?>
 				</a>
 			</div>
 		<?php endif; ?>
