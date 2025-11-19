@@ -230,6 +230,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.7.X [XXth November 2025] =
+
+* Added: New style control for creating multiple style options in the Verse widget
+
 = 1.7.4 [13th November 2025] =
 
 * Updated: Notice design improved

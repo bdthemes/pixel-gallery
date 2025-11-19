@@ -76,6 +76,21 @@ class Verse extends Module_Base {
 			]
 		);
 
+		$this->add_control(
+			'verse_layout_style',
+			[
+				'label'   => esc_html__('Style', 'pixel-gallery'),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'left',
+				'options' => [
+					'left'   => esc_html__('Slide To Right', 'pixel-gallery'),
+					'right'  => esc_html__('Slide To Left', 'pixel-gallery'),
+					'bottom' => esc_html__('Slide To Bottom', 'pixel-gallery'),
+					'top' 	 => esc_html__('Slide To Top', 'pixel-gallery'),
+				],
+			]
+		);
+
 		//Global Grid Controls
 		$this->register_grid_controls('verse');
 		$this->register_global_height_controls('verse');
@@ -521,7 +536,14 @@ class Verse extends Module_Base {
 		foreach ($settings['items'] as $index => $item) :
 
 			$attr_name = 'grid-item' . $index;
-			$this->add_render_attribute($attr_name, 'class', 'pg-verse-item pg-item elementor-repeater-item-' . esc_attr($item['_id']), true);
+			
+			// Add effect class based on hover effect setting
+			$effect_class = '';
+			if (isset($settings['verse_layout_style']) && $settings['verse_layout_style'] !== 'left') {
+				$effect_class = ' pg-verse-effect-' . $settings['verse_layout_style'];
+			}
+			
+			$this->add_render_attribute($attr_name, 'class', 'pg-verse-item pg-item elementor-repeater-item-' . esc_attr($item['_id']) . $effect_class, true);
 
 			/**
 			 * Render Video Inject Here

@@ -99,6 +99,8 @@
 .pg-verse-readmore a:hover {
     padding: 14px 45px;
 	background-color: #0D3B54;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
 }
 .pg-verse-readmore a span{
     transition: all 300ms ease;
@@ -124,12 +126,73 @@
     transform: translateX(-50%) rotate(45deg);
 }
 .pg-verse-readmore a::after {
-    left: 30px;
+    left: 24px;
     width: 0px;
-    height: 1px;
+    height: 2px;
     background-color:#fff;
 }
 .pg-verse-readmore a:hover::after {
     width: 20px;
     transition-delay: 200ms;
+}
+
+.pg-verse-item.pg-verse-effect-right {
+    .pg-verse-image-wrap::before {
+        left: auto;
+        right: 0;
+    }
+    .pg-verse-title,
+    .pg-verse-text,
+    .pg-verse-readmore {
+        transform: translateX(60px);
+    }
+    &:hover .pg-verse-title,
+    &:hover .pg-verse-text,
+    &:hover .pg-verse-readmore {
+        transform: translateX(0);
+    }
+}
+
+.pg-verse-item.pg-verse-effect-bottom {
+    .pg-verse-image-wrap::before {
+        width: 100%;
+        height: 0;
+    }
+    &:hover .pg-verse-image-wrap::before {
+        width: 100%;
+        height: 100%;
+    }
+    .pg-verse-title,
+    .pg-verse-text,
+    .pg-verse-readmore {
+        transform: translateY(-60px);
+    }
+    &:hover .pg-verse-title,
+    &:hover .pg-verse-text,
+    &:hover .pg-verse-readmore {
+        transform: translateY(0);
+    }
+}
+
+.pg-verse-item.pg-verse-effect-top {
+    .pg-verse-image-wrap::before {
+        top: auto;
+        bottom: 0;
+        width: 100%;
+        height: 0;
+    }
+    &:hover .pg-verse-image-wrap::before {
+        width: 100%;
+        height: 100%;
+    }
+    .pg-verse-title,
+    .pg-verse-text,
+    .pg-verse-readmore {
+        transform: translateY(60px);
+    }
+    &:hover .pg-verse-title,
+    &:hover .pg-verse-text,
+    &:hover .pg-verse-readmore {
+        transform: translateY(0);
+    }
 }

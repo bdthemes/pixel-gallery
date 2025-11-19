@@ -1174,6 +1174,7 @@ trait Global_Widget_Controls
 				'label'       => esc_html__('Read More Text', 'pixel-gallery'),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => ['active' => true],
+				'label_block' => true,
 				'default'     => esc_html__('Read More', 'pixel-gallery'),
 				'placeholder' => esc_html__('Read More', 'pixel-gallery'),
 				'condition' => ['item_hidden' => '']
