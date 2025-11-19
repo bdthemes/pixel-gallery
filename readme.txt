@@ -233,6 +233,7 @@ https://youtu.be/f70l2qE7W7o
 = 1.7.X [XXth November 2025] =
 
 * Added: New style control for creating multiple style options in the Verse widget
+* Improved: Added aria-label attribute to links for better accessibility
 
 = 1.7.4 [13th November 2025] =
 
