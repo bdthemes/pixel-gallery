@@ -5,11 +5,11 @@ Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
 Tested up to: 6.8.3
 Requires PHP: 7.4.0
-Stable tag: 1.7.4
+Stable tag: 1.7.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.28
-Elementor tested up to: 3.33.0
+Elementor tested up to: 3.33.1
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -230,10 +230,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 1.7.X [XXth November 2025] =
+= 1.7.5 [19th November 2025] =
 
 * Added: New style control for creating multiple style options in the Verse widget
-* Improved: Added aria-label attribute to links for better accessibility
+* Added: Added aria-label attribute to links for better accessibility
 
 = 1.7.4 [13th November 2025] =
 
