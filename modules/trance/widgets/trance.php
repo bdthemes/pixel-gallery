@@ -72,6 +72,21 @@ class Trance extends Module_Base {
             ]
         );
 
+		$this->add_control(
+			'trance_select_design',
+			[
+				'label'   => esc_html__( 'Style', 'pixel-gallery' ),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'default',
+				'options' => [
+					'default' 		=> esc_html__( 'Slide Right', 'pixel-gallery' ),
+					'slide-left' 	=> esc_html__( 'Slide Left', 'pixel-gallery' ),
+					'slide-top' 	=> esc_html__( 'Slide Top', 'pixel-gallery' ),
+					'slide-bottom'  => esc_html__( 'Slide Bottom', 'pixel-gallery' ),
+				],
+			]
+		);
+
 		//Global
 		$this->register_grid_controls('trance');
 		$this->register_global_height_controls('trance');
@@ -83,7 +98,7 @@ class Trance extends Module_Base {
 		
 		$this->register_title_tag_controls();
 		$this->register_show_meta_controls();
-		$this->register_alignment_controls('trance');
+		$this->register_content_alignment_controls('trance');
 		$this->register_thumbnail_size_controls();
 
 		//Global Lightbox Controls
@@ -414,6 +429,10 @@ class Trance extends Module_Base {
 	public function render() {
 		$settings   = $this->get_settings_for_display();
 		$this->add_render_attribute('grid', 'class', 'pg-trance-grid pg-grid');
+
+		if ( 'default' !== $settings['trance_select_design'] ) {
+			$this->add_render_attribute( 'grid', 'class', 'pg-trance-design-' . $settings['trance_select_design'] );
+		}
 
 		/**
 		 * Render Justified Gallery Attributes
