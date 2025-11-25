@@ -230,6 +230,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.7.X [XXth November 2025] =
+
+* Added: New style control for creating multiple style options in the trance widget
+
 = 1.7.6 [20th November 2025] =
 
 * Fixed: Notice duplicate issue fixed
