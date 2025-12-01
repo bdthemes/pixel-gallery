@@ -351,6 +351,7 @@ class Alien extends Module_Base {
 		$link = $this->get_link_url($item);
 		if ($link) {
 			$this->add_link_attributes('link' . $index, $link, true);
+			$this->add_render_attribute('link' . $index, 'aria-label', esc_attr( $item['readmore_text'] . ' Button' ));
 
 			/**
 			 * If the Video Added then No need Image Lightbox
