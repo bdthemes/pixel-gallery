@@ -229,6 +229,9 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+= 1.7.X [XXth December 2025] =
+
+* Added: Added aria-label attribute to links for better accessibility
 
 = 1.7.7 [27th November 2025] =
 
