@@ -3,9 +3,9 @@ Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, tauhida
 Donate link: http://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
-Tested up to: 6.8.3
+Tested up to: 6.9
 Requires PHP: 7.4.0
-Stable tag: 1.7.7
+Stable tag: 1.7.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.28
@@ -229,9 +229,11 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
-= 1.7.X [XXth December 2025] =
+
+= 1.7.8 [2nd December 2025] =
 
 * Added: Added aria-label attribute to links for better accessibility
+* Updated: Made compatible with WordPress version 6.9
 
 = 1.7.7 [27th November 2025] =
 
