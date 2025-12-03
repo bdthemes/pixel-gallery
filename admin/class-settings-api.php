@@ -90,10 +90,10 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
             foreach ((array) $wp_settings_sections[$page] as $section) {
                 if ($section['id'] == 'pixel_gallery_api_settings') {
-                    $section_class = ' bdt-child-width-1-3@xl';
+                    $section_class = ' bdt-grid-small bdt-child-width-1-3@xl';
                 } elseif ($section['id'] == 'pixel_gallery_other_settings') {
                     $data_settings = $matched_height;
-                    $section_class = ' bdt-child-width-1-3@xl';
+                    $section_class = ' bdt-grid-small bdt-child-width-1-3@xl';
                 } else {
                     $section_class = ' bdt-grid-small bdt-child-width-1-4@xl';
                 }
@@ -107,7 +107,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
                 if (!isset($wp_settings_fields) || !isset($wp_settings_fields[$page]) || !isset($wp_settings_fields[$page][$section['id']])) {
                     continue;
                 }
-                echo '<div class="pg-options bdt-grid bdt-child-width-1-1 bdt-child-width-1-2@m bdt-child-width-1-3@l' . esc_attr($section_class) . '" role="presentation" bdt-grid="masonry: true" ' . esc_attr($data_settings) . '>';
+                echo '<div class="pg-options" role="presentation" ' . esc_attr($data_settings) . '>';
 
                 echo '<p class="pg-no-result bdt-text-center bdt-width-1-1 bdt-margin-small-top bdt-h4">'.esc_html__('Ops! Your Searched widget not found! Do you have any idea? If yes, ', 'pixel-gallery').'<a href="https://feedback.elementpack.pro/b/3v2gg80n/feature-requests/idea/new" target="_blank">'.esc_html__('Submit here', 'pixel-gallery').'</a></p>';
 
@@ -429,27 +429,30 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
             $html = '';
 
-            $html .= '<div class="pg-option-item-inner">';
-            $html .= '<div class="bdt-grid bdt-grid-collapse bdt-flex bdt-flex-middle">';
+			$html .= '<div class="pg-option-item-inner">';
+			$html .= '<div class="bdt-grid bdt-grid-collapse bdt-flex bdt-flex-middle">';
 
-            $html .= '<div class="bdt-width-expand bdt-flex-inline bdt-flex-middle">';
-
-            $html .= '<i class="pg-icon-' . esc_attr($args['id']) . '" aria-hidden="true"></i>';
-
-            $html  .= sprintf('<label for="bdt_pg_%1$s[%2$s]">', $args['section'], $args['id']);
-            $html .= '<span scope="row" class="pg-option-label">' . $args['name'] . $widget_using_status;
-            $html  .= '</label>';
+			$html .= '<div class="bdt-width-expand bdt-flex-inline bdt-flex-middle">';
 
 
-            if ($args['demo_url']) {
-                $html .= '<a href=' . $args['demo_url'] . ' target="_blank" class="pg-option-demo" bdt-tooltip="View ' . $args['name'] . ' Widget Demo"><i class="pg-icon-preview" aria-hidden="true"></i></a>';
-            }
-            if ($args['video_url']) {
-                $html .= '<a href=' . $args['video_url'] . ' target="_blank" class="pg-option-video" bdt-tooltip="View ' . $args['name'] . ' Video Tutorial"><i class="pg-icon-tutorial" aria-hidden="true"></i></a>';
-            }
-            $html .= '</div>';
+			$html .= '<i class="pg-icon-' . esc_attr($args['id']) . '" aria-hidden="true"></i>';
+			$html .= '<div class="pg-option-label-wrap">';
+			$html .= sprintf('<label for="bdt_upk_%1$s[%2$s]">', $args['section'], $args['id']);
+			$html .= '<span scope="row" class="pg-option-label">' . $args['name'] . '</span>';
+			$html .= '</label>';
 
-            $html .= '<div class="bdt-width-auto">';
+			$html .= '<div class="pg-option-links">';
+			if ($args['demo_url']) {
+				$html .= '<a href=' . $args['demo_url'] . ' target="_blank" class="pg-option-demo" title="' . esc_html__('View ' . $args['name'] . ' Widget Demo', 'bdthemes-element-pack') . '">' . esc_html__('Demo', 'bdthemes-element-pack') . '<i class="pg-icon-preview" aria-hidden="true"></i></a>';
+			}
+			if ($args['video_url']) {
+				$html .= '<a href=' . $args['video_url'] . ' target="_blank" class="pg-option-video" title="View ' . $args['name'] . ' Video Tutorial">Video<i class="pg-icon-tutorial" aria-hidden="true"></i></a>';
+			}
+			$html .= '</div>';
+			$html .= '</div>';
+			$html .= '</div>';
+
+			$html .= '<div class="bdt-width-auto">';
 
 
 
@@ -811,15 +814,19 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
             $count = 1;
 
-            foreach ($this->settings_sections as $tab) {
-                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="%2$s">%3$s</a></li>', $tab['id'], $count++, $tab['title']);
-            }
+            // Get all sections including manually created ones
+			$all_sections = $this->get_all_sections();
+
+            foreach ($all_sections as $tab) {
+				$icon = isset($tab['icon']) ? $tab['icon'] : 'dashicons dashicons-admin-generic';
+				$html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="%2$s"><i class="%4$s"></i>%3$s</a></li>', $tab['id'], $count++, $tab['title'], $icon);
+			}
 
             if (true !== _is_pg_pro_activated()) {
                 $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="5"><span></span><span></span><span></span><span></span>%2$s</a></li>', 'pixel_gallery_get_pro', esc_html__('Get Pro', 'pixel-gallery'));
             }
 
-            if ((true == _is_pg_pro_activated()) && !defined('BDTUPK_LO')) {
+            if ((true == _is_pg_pro_activated()) && !defined('BDTPG_LO')) {
                 $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="4">%2$s</a></li>', 'pixel_gallery_license_settings', esc_html__('License', 'pixel-gallery'));
             }
 
@@ -845,6 +852,62 @@ if (!class_exists('PixelGallery_Settings_API')) :
 				),
 			) );
         }
+
+        /**
+		 * Get all sections including manually created content pages
+		 */
+		private function get_all_sections() {
+			// Start with the settings sections that have forms
+			$all_sections = $this->settings_sections;
+			
+			// Add manually created content sections that don't have settings forms
+			$content_only_sections = [
+				[
+					'id' => 'pixel_gallery_extra_options',
+					'title' => esc_html__('Extra Options', 'pixel-gallery'),
+					'icon' => 'dashicons dashicons-smiley',
+				],
+				[
+					'id' => 'pixel_gallery_analytics_system_req',
+					'title' => esc_html__('System Status', 'pixel-gallery'),
+					'icon' => 'dashicons dashicons-chart-bar',
+				],
+				[
+					'id' => 'pixel_gallery_other_plugins',
+					'title' => esc_html__('Other Plugins', 'pixel-gallery'),
+					'icon' => 'dashicons dashicons-admin-plugins',
+				],
+				// [
+				// 	'id' => 'pixel_gallery_affiliate',
+				// 	'title' => esc_html__('Get Up to 60%', 'pixel-gallery'),
+				// 	'icon' => 'dashicons dashicons-money-alt',
+				// ],
+			];
+
+            if (true == _is_pg_pro_activated()) {
+                $content_only_sections[] = [
+                    'id' => 'pixel_gallery_rollback_version',
+                    'title' => esc_html__('Rollback Version', 'pixel-gallery'),
+                    'icon' => 'dashicons dashicons-update',
+                ];
+            }
+			
+			// Check if each content section exists in settings sections, if not add it
+			foreach ($content_only_sections as $content_section) {
+				$exists = false;
+				foreach ($all_sections as $existing_section) {
+					if ($existing_section['id'] === $content_section['id']) {
+						$exists = true;
+						break;
+					}
+				}
+				if (!$exists) {
+					$all_sections[] = $content_section;
+				}
+			}
+			
+			return $all_sections;
+		}
 
 
 
@@ -998,36 +1061,11 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
                             ?>
 
-
-
-
-                            <div class="pixel-gallery-footer-info bdt-container-xlarge">
-
-                                <div class="bdt-grid ">
-
-                                    <div class="bdt-width-auto@s pg-setting-save-btn">
-
-                                        <?php if (isset($this->settings_fields[$form['id']])) : ?>
-                                            <button class="bdt-button bdt-button-primary pixel-gallery-settings-save-btn" type="submit"><?php esc_html_e('Save Settings', 'pixel-gallery'); ?></button>
-
-                                        <?php endif; ?>
-
-                                    </div>
-
-                                    <div class="bdt-width-expand@s bdt-text-right">
-                                        <p class="">
-                                            Pixel Gallery plugin made with love by <a target="_blank" href="https://bdthemes.com">BdThemes</a> Team.
-                                            <br>All rights reserved by <a target="_blank" href="https://bdthemes.com">BdThemes.com</a>.
-                                        </p>
-                                    </div>
-                                </div>
-
-                            </div>
-
                         </form>
                     </div>
                 </div>
-<?php }
+            <?php 
+            }
         }
     }
 
