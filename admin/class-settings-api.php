@@ -808,9 +808,10 @@ if (!class_exists('PixelGallery_Settings_API')) :
         function show_navigation() {
 
             $html = '<div class="bdt-dashboard-navigation">';
-            $html .= '<ul class="bdt-tab bdt-flex-column" bdt-tab="animation: bdt-animation-slide-bottom-small;connect: .bdt-tab-container;">';
+			$html .= '<ul class="bdt-tab bdt-flex-column" bdt-tab="animation: bdt-animation-slide-bottom-small;connect: .bdt-tab-container;">';
 
-            $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="0">%2$s</a></li>', 'pixel_gallery_welcome', esc_html__('Dashboard', 'pixel-gallery'));
+            // Dashboard - always first
+			$html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="0"><i class="dashicons dashicons-admin-home"></i>%2$s</a></li>', 'pixel_gallery_welcome', esc_html__('Dashboard', 'pixel-gallery'));
 
             $count = 1;
 
@@ -827,30 +828,33 @@ if (!class_exists('PixelGallery_Settings_API')) :
             }
 
             if ((true == _is_pg_pro_activated()) && !defined('BDTPG_LO')) {
-                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="4">%2$s</a></li>', 'pixel_gallery_license_settings', esc_html__('License', 'pixel-gallery'));
+                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="4"><i class="dashicons dashicons-admin-network"></i>%2$s</a></li>', 'pixel_gallery_license_settings', esc_html__('License', 'pixel-gallery'));
             }
 
             $html .= '</ul>';
             $html .= '</div>';
 
-            echo wp_kses( $html, array(
+            echo wp_kses($html, array(
 				'div' => array(
 					'class' => true,
 				),
-				'ul'  => array(
-					'class'   => true,
+				'ul' => array(
+					'class' => true,
 					'bdt-tab' => true,
 				),
-				'li'  => array(
+				'li' => array(
 					'class' => true,
 				),
-				'a'   => array(
-					'href'           => true,
-					'class'          => true,
-					'id'             => true,
+				'a' => array(
+					'href' => true,
+					'class' => true,
+					'id' => true,
 					'data-tab-index' => true,
 				),
-			) );
+				'i' => array(
+					'class' => true,
+				)
+			));
         }
 
         /**
