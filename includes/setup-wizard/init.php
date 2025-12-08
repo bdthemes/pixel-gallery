@@ -211,14 +211,14 @@ class Setup_Wizard {
 
 	// Enqueue necessary scripts
 	public function enqueue_scripts() {
-		wp_register_script( 'bdt-setup-wizard', plugins_url( 'assets/js/setup-wizard.js', __FILE__ ), array( 'jquery' ), '1.0.0', true );
-		wp_register_style( 'bdt-setup-wizard', plugins_url( 'assets/css/setup-wizard.css', __FILE__ ), array(), '1.0.0' );
+		wp_register_script( 'pg-setup-wizard', plugins_url( 'assets/js/setup-wizard.js', __FILE__ ), array( 'jquery' ), '1.0.0', true );
+		wp_register_style( 'pg-setup-wizard', plugins_url( 'assets/css/setup-wizard.css', __FILE__ ), array(), '1.0.0' );
 
-		wp_enqueue_script( 'bdt-setup-wizard' );
-		wp_enqueue_style( 'bdt-setup-wizard' );
+		wp_enqueue_script( 'pg-setup-wizard' );
+		wp_enqueue_style( 'pg-setup-wizard' );
 
 		wp_localize_script(
-			'bdt-setup-wizard',
+			'pg-setup-wizard',
 			'BDT_SetupWizard',
 			array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
@@ -231,7 +231,7 @@ class Setup_Wizard {
 	public static function get_widget_map() {
 		$arr_obj = ModuleService::get_widget_settings(
 			function ( $settings ) {
-				$core_widgets = $settings['settings_fields']['element_pack_active_modules'];
+				$core_widgets = $settings['settings_fields']['pixel_gallery_active_modules'];
 				return $core_widgets;
 			}
 		);
@@ -386,7 +386,7 @@ class Setup_Wizard {
         );
         
         // Get current active modules
-        $active_modules = get_option('element_pack_active_modules', array());
+        $active_modules = get_option('pixel_gallery_active_modules', array());
         
         // Make sure $active_modules is an array
         if (!is_array($active_modules)) {
@@ -407,7 +407,7 @@ class Setup_Wizard {
         
         // Update the option if changes were made
         if ($modified) {
-            update_option('element_pack_active_modules', $active_modules);
+            update_option('pixel_gallery_active_modules', $active_modules);
         }
     }
 }

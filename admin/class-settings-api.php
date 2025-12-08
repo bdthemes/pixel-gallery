@@ -437,7 +437,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
 			$html .= '<i class="pg-icon-' . esc_attr($args['id']) . '" aria-hidden="true"></i>';
 			$html .= '<div class="pg-option-label-wrap">';
-			$html .= sprintf('<label for="bdt_upk_%1$s[%2$s]">', $args['section'], $args['id']);
+			$html .= sprintf('<label for="bdt_pg_%1$s[%2$s]">', $args['section'], $args['id']);
 			$html .= '<span scope="row" class="pg-option-label">' . $args['name'] . '</span>';
 			$html .= '</label>';
 
@@ -808,7 +808,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
         function show_navigation() {
 
             $html = '<div class="bdt-dashboard-navigation">';
-            $html .= '<ul class="bdt-tab" bdt-tab="animation: bdt-animation-slide-bottom-small;connect: .bdt-tab-container;">';
+            $html .= '<ul class="bdt-tab bdt-flex-column" bdt-tab="animation: bdt-animation-slide-bottom-small;connect: .bdt-tab-container;">';
 
             $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="0">%2$s</a></li>', 'pixel_gallery_welcome', esc_html__('Dashboard', 'pixel-gallery'));
 
@@ -953,8 +953,8 @@ if (!class_exists('PixelGallery_Settings_API')) :
          *
          * This function displays every sections in a different form
          */
-        function show_forms() {
-?>
+        function old_show_forms() {
+            ?>
 
             <?php $i = 0;
             foreach ($this->settings_sections as $form) {
@@ -1067,6 +1067,163 @@ if (!class_exists('PixelGallery_Settings_API')) :
             <?php 
             }
         }
+
+        /**
+		 * Show the section settings forms
+		 *
+		 * This function displays every sections in a different form
+		 */
+		function show_forms() {
+			?>
+
+			<?php $i = 0;
+			foreach ($this->settings_sections as $form) {
+				$i++; ?>
+				<div id="<?php echo esc_attr($form['id']); ?>_page" class="pg-option-page">
+
+					<div bdt-filter="target: .pg-options" class="pg-options-parent" id="pg-options-parent-<?php echo esc_attr($i); ?>">
+
+
+						<?php if ($form['id'] == 'pixel_gallery_active_modules' or $form['id'] == 'pixel_gallery_elementor_extend'): ?>
+
+							<div class="bdt-widget-filter-wrapper bdt-flex bdt-flex-column bdt-flex-wrap"
+								bdt-sticky="end: !.pg-dashboard-container; offset: 115; animation: bdt-animation-slide-top-small; duration: 300">
+
+								<!-- Filter Shape Elements -->
+								<div class="pg-filter-elements">
+									<span class="pg-filter-element pg-filter-circle"></span>
+									<span class="pg-filter-element pg-filter-dots"></span>
+									<span class="pg-filter-element pg-filter-wave"></span>
+									<span class="pg-filter-element pg-filter-hexagon"></span>
+									<span class="pg-filter-element pg-filter-zigzag"></span>
+								</div>
+
+								<div class="bdt-widget-filter-header">
+
+									<div class="bdt-flex bdt-flex-wrap">
+
+										<div class="bdt-width-expand@l pg-widget-filter-nav bdt-visible@l">
+											<div class="bdt-flex-inline bdt-flex-middle">
+
+												<div>
+													<ul
+														class="bdt-subnav bdt-subnav-pill pg-widget-filter bdt-widget-type-content bdt-flex-inline">
+														<li class="pg-widget-all bdt-active" bdt-filter-control="*"><a
+																href="#"><?php esc_html_e('All', 'pixel-gallery'); ?></a></li>
+														<li class="pg-widget-free"
+															bdt-filter-control="filter: [data-widget-type='free']; group: data-content-type">
+															<a href="#"><?php esc_html_e('Free', 'pixel-gallery'); ?></a>
+														</li>
+														<li class="pg-widget-pro"
+															bdt-filter-control="filter: [data-widget-type='pro']; group: data-content-type">
+															<a href="#"><?php esc_html_e('Pro', 'pixel-gallery'); ?></a>
+														</li>
+
+													</ul>
+												</div>
+
+												<?php if ($form['id'] == 'pixel_gallery_active_modules' or $form['id'] == 'pixel_gallery_third_party_widget'): ?>
+
+
+													<?php if ($form['id'] != 'pixel_gallery_elementor_extend' or $form['id'] == 'pixel_gallery_third_party_widget'): ?>
+
+														<div>
+															<ul
+																class="bdt-subnav bdt-subnav-pill pg-widget-filter pg-used-unused-widgets bdt-flex-inline ">
+																<li class="pg-widget--"
+																	bdt-filter-control="filter: [data-content-type*='pg-used']; group: data-content-type">
+																	<a href="#"><?php esc_html_e('Used', 'pixel-gallery'); ?>
+																		<span class="bdt-badge pg-used-widget"></span>
+																	</a>
+																</li>
+																<li class="pg-widget--"
+																	bdt-filter-control="filter: [data-content-type*='pg-unused']; group: data-content-type">
+																	<a href="#"
+																		bdt-tooltip="<?php esc_html_e('Don\'t need unused widget? Click on the Deactivate All button.', 'pixel-gallery'); ?>"><?php esc_html_e('Unused', 'pixel-gallery'); ?>
+																		<span class="bdt-badge pg-unused-widget bdt-danger"></span>
+																	</a>
+																</li>
+															</ul>
+
+														</div>
+													<?php endif; ?>
+
+												<?php endif; ?>
+											</div>
+										</div>
+
+
+										<div class="bdt-width-auto@l bdt-search-active-wrap bdt-flex bdt-flex-middle bdt-flex-between">
+											<div class="bdt-widget-search">
+												<input data-id="pg-options-parent-<?php echo esc_attr($i); ?>" onkeyup="filterSearch(this);"
+													bdt-filter-control="" class="bdt-search-input bdt-flex-middle" type="search"
+													placeholder="<?php esc_html_e('Search widget...', 'pixel-gallery'); ?>"
+													autofocus>
+											</div>
+
+											<div>
+												<ul class="bdt-subnav bdt-subnav-pill pg-widget-onoff">
+													<li>
+														<a href="#" class="pg-active-all-widget">
+															<?php esc_html_e('Activate All', 'pixel-gallery'); ?>
+														</a>
+													</li>
+													<li>
+														<a href="#" class="pg-deactive-all-widget">
+															<?php esc_html_e('Deactivate All', 'pixel-gallery'); ?>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+
+									<?php if ($form['id'] == 'pixel_gallery_active_modules'): ?>
+										<div class="pg-content-type-filter bdt-margin-top">
+											<div class="bdt-flex bdt-flex-wrap bdt-flex-middle bdt-visible@l">
+												<div class="pg-filter-by-text bdt-visible@xl">
+													<?php esc_html_e('Filter By: ', 'pixel-gallery'); ?>
+												</div>
+												<ul class="bdt-nav xbdt-subnav-pill xbdt-dropdown-nav pg-widget-filter pg-widget-content-type bdt-flex bdt-flex-wrap ">
+													<li class="pg-widget-new" bdt-filter-control="filter: [data-content-type*='new']; group: data-widget-type"><a href="#"><?php esc_html_e('New', 'pixel-gallery'); ?></a></li>
+                                                    <li class="pg-widget-grid" bdt-filter-control="filter: [data-content-type*='grid']; group: data-widget-type"><a href="#"><?php esc_html_e('Grid', 'pixel-gallery'); ?></a></li>
+                                                    <li class="pg-widget-custom" bdt-filter-control="filter: [data-content-type*='custom']; group: data-widget-type"><a href="#"><?php esc_html_e('Custom', 'pixel-gallery'); ?></a></li>
+                                                    <li class="pg-widget-others" bdt-filter-control="filter: [data-content-type*='others']; group: data-widget-type"><a href="#"><?php esc_html_e('Others', 'pixel-gallery'); ?></a></li>
+												</ul>
+											</div>
+										</div>
+									<?php endif; ?>
+
+								</div>
+
+							</div>
+
+						<?php endif; ?>
+
+						<form class="settings-save" method="post" action="admin-ajax.php?action=pixel_gallery_settings_save">
+							<input type="hidden" name="id" value="<?php echo esc_attr($form['id']); ?>">
+
+							<?php
+
+							if (!current_user_can('manage_options')) {
+								return;
+							}
+
+							wp_nonce_field('pixel-gallery-settings-save-nonce');
+
+							do_action('wsa_form_top_' . $form['id'], $form);
+
+							$this->do_settings_sections($form['id']);
+
+							do_action('wsa_form_bottom_' . $form['id'], $form);
+
+							?>
+
+						</form>
+					</div>
+				</div>
+			<?php }
+		}
     }
 
 endif;

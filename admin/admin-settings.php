@@ -1774,7 +1774,7 @@ class PixelGallery_Admin_Settings {
 				});
 
 				// Also listen for navigation menu clicks (from show_navigation())
-				$(document).on('click', '.bdt-tab a, .bdt-subnav a, .pg-dashboard-nav a, [href*="#ultimate_post_kit"]', function() {
+				$(document).on('click', '.bdt-tab a, .bdt-subnav a, .pg-dashboard-nav a, [href*="#pixel_gallery"]', function() {
 					setTimeout(toggleSaveButton, 100);
 				});
 
@@ -3901,8 +3901,8 @@ class PixelGallery_Admin_Settings {
 		// Define plugin slugs to fetch data for (same as integration view)
 		$plugin_slugs = array(
 			'bdthemes-element-pack-lite',
-			'bdthemes-prime-slider-lite',
-			'pixel-gallery',
+			'bdthemes-prime-slider-lite/bdthemes-prime-slider.php',
+			'ultimate-post-kit',
 			'ultimate-store-kit',
 			'zoloblocks',
 			'live-copy-paste',
@@ -3966,29 +3966,29 @@ class PixelGallery_Admin_Settings {
 				
 				// Custom icon URLs for specific plugins that might not be on WordPress.org
 				$custom_icons = [
-					'bdthemes-element-pack-lite' => [
-						'https://ps.w.org/bdthemes-element-pack-lite/assets/icon-256x256.png',
-						'https://ps.w.org/bdthemes-element-pack-lite/assets/icon-128x128.png',
-					],
-					'live-copy-paste' => [
-						'https://ps.w.org/live-copy-paste/assets/icon-256x256.png',
-						'https://ps.w.org/live-copy-paste/assets/icon-128x128.png',
-					],
-					'spin-wheel' => [
-						'https://ps.w.org/spin-wheel/assets/icon-256x256.png',
-						'https://ps.w.org/spin-wheel/assets/icon-128x128.png',
-					],
-					'ai-image' => [
-						'https://ps.w.org/ai-image/assets/icon-256x256.png',
-						'https://ps.w.org/ai-image/assets/icon-128x128.png',
-					],
-					'smart-admin-assistant' => [
-						'https://ps.w.org/smart-admin-assistant/assets/icon-256x256.png',
-						'https://ps.w.org/smart-admin-assistant/assets/icon-128x128.png',
-					],
-					'website-accessibility' => [
-						'https://ps.w.org/website-accessibility/assets/icon-256x256.png',
-						'https://ps.w.org/website-accessibility/assets/icon-128x128.png',
+					// 'bdthemes-element-pack-lite' => [
+					// 	'https://ps.w.org/bdthemes-element-pack-lite/assets/icon-256x256.png',
+					// 	'https://ps.w.org/bdthemes-element-pack-lite/assets/icon-128x128.png',
+					// ],
+					// 'live-copy-paste' => [
+					// 	'https://ps.w.org/live-copy-paste/assets/icon-256x256.png',
+					// 	'https://ps.w.org/live-copy-paste/assets/icon-128x128.png',
+					// ],
+					// 'spin-wheel' => [
+					// 	'https://ps.w.org/spin-wheel/assets/icon-256x256.png',
+					// 	'https://ps.w.org/spin-wheel/assets/icon-128x128.png',
+					// ],
+					// 'ai-image' => [
+					// 	'https://ps.w.org/ai-image/assets/icon-256x256.png',
+					// 	'https://ps.w.org/ai-image/assets/icon-128x128.png',
+					// ],
+					// 'smart-admin-assistant' => [
+					// 	'https://ps.w.org/smart-admin-assistant/assets/icon-256x256.png',
+					// 	'https://ps.w.org/smart-admin-assistant/assets/icon-128x128.png',
+					// ],
+					'ar-viewer' => [
+						'https://ps.w.org/ar-viewer/assets/icon-256x256.gif',
+						'https://ps.w.org/ar-viewer/assets/icon-128x128.gif',
 					],
 				];
 				
@@ -3998,7 +3998,7 @@ class PixelGallery_Admin_Settings {
 				}
 				
 				return [
-					"https://ps.w.org/{$plugin_slug_clean}/assets/icon-256x256.gif",  // Try GIF first
+					// "https://ps.w.org/{$plugin_slug_clean}/assets/icon-256x256.gif",  // Try GIF first
 					"https://ps.w.org/{$plugin_slug_clean}/assets/icon-256x256.png",  // Then PNG
 					"https://ps.w.org/{$plugin_slug_clean}/assets/icon-128x128.gif",  // Medium GIF
 					"https://ps.w.org/{$plugin_slug_clean}/assets/icon-128x128.png",  // Medium PNG
@@ -4021,7 +4021,9 @@ class PixelGallery_Admin_Settings {
 					
 					if (empty($logo_url) || !filter_var($logo_url, FILTER_VALIDATE_URL)) {
 						// Generate fallback URLs for WordPress.org
-						$actual_slug = str_replace('.php', '', basename($plugin_slug));
+						// Extract the directory name from the file path format
+						// For 'plugin-name/plugin-file.php', use dirname to get 'plugin-name'
+						$actual_slug = (strpos($plugin_slug, '/') !== false) ? dirname($plugin_slug) : $plugin_slug;
 						$fallback_urls = get_plugin_fallback_urls($actual_slug);
 						$logo_url = $fallback_urls[0];
 					}

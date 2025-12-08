@@ -63,22 +63,26 @@ function get_plugin_fallback_urls_ep($plugin_slug) {
     
     // Custom icon URLs for specific plugins that might not be on WordPress.org
     $custom_icons = [
-        'live-copy-paste' => [
-            'https://ps.w.org/live-copy-paste/assets/icon-256x256.png',
-            'https://ps.w.org/live-copy-paste/assets/icon-128x128.png',
+        'ar-viewer' => [
+            'https://ps.w.org/ar-viewer/assets/icon-256x256.gif',
+            'https://ps.w.org/ar-viewer/assets/icon-128x128.gif',
         ],
-        'spin-wheel' => [
-            'https://ps.w.org/spin-wheel/assets/icon-256x256.png',
-            'https://ps.w.org/spin-wheel/assets/icon-128x128.png',
+        'bdthemes-prime-slider-lite' => [
+            'https://ps.w.org/bdthemes-prime-slider-lite/assets/icon-256x256.png',
+            'https://ps.w.org/bdthemes-prime-slider-lite/assets/icon-128x128.png',
         ],
-        'ai-image' => [
-            'https://ps.w.org/ai-image/assets/icon-256x256.png',
-            'https://ps.w.org/ai-image/assets/icon-128x128.png',
-        ],
-        'smart-admin-assistant' => [
-            'https://ps.w.org/smart-admin-assistant/assets/icon-256x256.png',
-            'https://ps.w.org/smart-admin-assistant/assets/icon-128x128.png',
-        ]
+        // 'spin-wheel' => [
+        //     'https://ps.w.org/spin-wheel/assets/icon-256x256.png',
+        //     'https://ps.w.org/spin-wheel/assets/icon-128x128.png',
+        // ],
+        // 'ai-image' => [
+        //     'https://ps.w.org/ai-image/assets/icon-256x256.png',
+        //     'https://ps.w.org/ai-image/assets/icon-128x128.png',
+        // ],
+        // 'smart-admin-assistant' => [
+        //     'https://ps.w.org/smart-admin-assistant/assets/icon-256x256.png',
+        //     'https://ps.w.org/smart-admin-assistant/assets/icon-128x128.png',
+        // ]
     ];
     
     // Return custom icons if available, otherwise use default WordPress.org URLs
@@ -87,7 +91,7 @@ function get_plugin_fallback_urls_ep($plugin_slug) {
     }
     
     return [
-        "https://ps.w.org/{$plugin_slug_clean}/assets/icon-256x256.gif",  // Try GIF first
+        // "https://ps.w.org/{$plugin_slug_clean}/assets/icon-256x256.gif",  // Try GIF first
         "https://ps.w.org/{$plugin_slug_clean}/assets/icon-256x256.png",  // Then PNG
         "https://ps.w.org/{$plugin_slug_clean}/assets/icon-128x128.gif",  // Medium GIF
         "https://ps.w.org/{$plugin_slug_clean}/assets/icon-128x128.png",  // Medium PNG
@@ -96,8 +100,8 @@ function get_plugin_fallback_urls_ep($plugin_slug) {
 
 // Define plugin slugs to fetch data for
 $plugin_slugs = array(
-    'pixel-gallery',
-    'bdthemes-prime-slider-lite',
+    'bdthemes-element-pack-lite',
+    'bdthemes-prime-slider-lite/bdthemes-prime-slider.php',
     'ultimate-post-kit',
     'ultimate-store-kit',
     'zoloblocks',
@@ -106,6 +110,8 @@ $plugin_slugs = array(
     'ai-image',
     'dark-reader',
     'ar-viewer',
+    'smart-admin-assistant',
+	'website-accessibility',
 
     // Add more plugin slugs here as needed
 );
@@ -143,8 +149,9 @@ $pg_plugins = Plugin_Integration_Helper::build_plugin_data($plugin_slugs);
                                 echo '<div class="default-plugin-icon" style="display:none;">📦</div>';
                             } else {
                                 // Generate fallback URLs for WordPress.org
-                                // Extract the actual plugin slug from the file path format
-                                $actual_slug = str_replace('.php', '', basename($plugin_slug));
+                                // Extract the directory name from the file path format
+                                // For 'plugin-name/plugin-file.php', use dirname to get 'plugin-name'
+                                $actual_slug = (strpos($plugin_slug, '/') !== false) ? dirname($plugin_slug) : $plugin_slug;
                                 $fallback_urls = get_plugin_fallback_urls_ep($actual_slug);
                                 
                                 echo '<img src="' . esc_url($fallback_urls[0]) . '" alt="' . esc_attr($plugin_name) . '" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';">';

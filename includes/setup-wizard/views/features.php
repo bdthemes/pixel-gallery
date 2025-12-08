@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 $widget_map     = \PixelGallery\Includes\Setup_Wizard::get_widget_map();
-$active_modules = get_option( 'element_pack_active_modules', array() );
+$active_modules = get_option( 'pixel_gallery_active_modules', array() );
 
 
 ?>
@@ -21,7 +21,7 @@ $active_modules = get_option( 'element_pack_active_modules', array() );
 	<p>You may enable the widgets and extensions you need for your current project while keeping others turned off.</p> -->
 	<form method="post" action="admin-ajax.php?action=element_pack_settings_save" id="pg_setup_wizard_modules">
 		<input type="hidden" name="_wp_http_referer" value="/wp-admin/admin.php?page=element_pack_options">
-		<input type="hidden" name="id" value="element_pack_active_modules">
+		<input type="hidden" name="id" value="pixel_gallery_active_modules">
 		<input type="hidden" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( 'pixel-gallery-settings-save-nonce' ) ); ?>">
 		<input type="hidden" name="action" value="element_pack_settings_save">
 
@@ -32,12 +32,8 @@ $active_modules = get_option( 'element_pack_active_modules', array() );
 					<select id="category-select">
 						<option value="all"><?php esc_html_e('All', 'pixel-gallery'); ?></option>
 						<option value="new"><?php esc_html_e('New', 'pixel-gallery'); ?></option>
-						<option value="post"><?php esc_html_e('Post', 'pixel-gallery'); ?></option>
+						<option value="grid"><?php esc_html_e('Grid', 'pixel-gallery'); ?></option>
 						<option value="custom"><?php esc_html_e('Custom', 'pixel-gallery'); ?></option>
-						<option value="gallery"><?php esc_html_e('Gallery', 'pixel-gallery'); ?></option>
-						<option value="slider"><?php esc_html_e('Slider', 'pixel-gallery'); ?></option>
-						<option value="carousel"><?php esc_html_e('Carousel', 'pixel-gallery'); ?></option>
-						<option value="template-builder"><?php esc_html_e('Template Builder', 'pixel-gallery'); ?></option>
 						<option value="others"><?php esc_html_e('Others', 'pixel-gallery'); ?></option>
 					</select>
 				</div>
@@ -67,8 +63,8 @@ $active_modules = get_option( 'element_pack_active_modules', array() );
 							<div class="widget-item-clickable bdt-flex bdt-flex-middle bdt-flex-between">
 								<span class="bdt-flex bdt-text-left"><?php echo esc_html( $widget['label'] ); ?></span>
 								<label class="switch">
-									<input type="hidden" name="element_pack_active_modules[<?php echo esc_attr( $widget['name'] ); ?>]" value="off">
-									<input type="checkbox" name="element_pack_active_modules[<?php echo esc_attr( $widget['name'] ); ?>]" <?php echo esc_html( $is_checked ); ?> value="on" class="checkbox" id="bdt_pg_element_pack_active_modules[<?php echo esc_attr( $widget['name'] ); ?>]">
+									<input type="hidden" name="pixel_gallery_active_modules[<?php echo esc_attr( $widget['name'] ); ?>]" value="off">
+									<input type="checkbox" name="pixel_gallery_active_modules[<?php echo esc_attr( $widget['name'] ); ?>]" <?php echo esc_html( $is_checked ); ?> value="on" class="checkbox" id="bdt_pg_pixel_gallery_active_modules[<?php echo esc_attr( $widget['name'] ); ?>]">
 									<span class="slider"></span>
 								</label>
 							</div>
