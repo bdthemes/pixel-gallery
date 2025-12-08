@@ -93,6 +93,9 @@ function pixel_gallery_load_plugin() {
 		return;
 	}
 
+	// Setup wizard init file
+	require_once( dirname( __FILE__ ) . '/includes/setup-wizard/init.php' );
+
 	// Widgets filters here
 	require_once ( BDTPG_INC_PATH . 'pixel-gallery-filters.php' );
 

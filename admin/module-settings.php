@@ -659,26 +659,15 @@ class ModuleService {
 
             'pixel_gallery_other_settings'   => [
                 [
-                    'name'  => 'minified_asset_manager_group_start',
-                    'label' => esc_html__('Asset Manager', 'pixel-gallery'),
-                    'desc'  => __('If you want to combine your JS and css and load in a single file so enable it. When you enable it all widgets css and JS will combine in a single file.', 'pixel-gallery'),
-                    'type'  => 'start_group',
-                ],
-
-                [
-                    'name'      => 'asset-manager',
-                    'label'     => esc_html__('Asset Manager', 'pixel-gallery'),
-                    'type'      => 'checkbox',
-                    'default'   => 'off',
-                    'widget_type' => 'free',
-                    'demo_url'  => 'https://www.elementpack.pro/knowledge-base/how-to-use-element-pack-asset-manager/',
-                    'video_url' => 'https://youtu.be/nytQFZv_CSs',
-                ],
-
-                [
-                    'name' => 'minified_asset_manager_group_end',
-                    'type' => 'end_group',
-                ],
+					'name'        => 'asset-manager',
+					'label'       => esc_html__('Asset Manager', 'bdthemes-element-pack'),
+					'tooltip'  => __('If you want to combine your JS and css and load in a single file so enable it. When you enable it all widgets css and JS will combine in a single file.', 'bdthemes-element-pack'),
+					'type'        => 'checkbox',
+					'default'     => 'off',
+					'widget_type' => 'free',
+					'demo_url'    => 'https://bdthemes.com/knowledge-base/asset-manager/',
+					'video_url'   => 'https://youtu.be/nytQFZv_CSs',
+				],
             ]
         ];
 
