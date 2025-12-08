@@ -71,7 +71,7 @@ class Zilax extends Module_Base {
 		$this->add_control(
 			'layout_style',
 			[
-				'label'   => __('Layout Style', 'pixel-gallery') . BDTPG_NC,
+				'label'   => __('Layout Style', 'pixel-gallery'),
 				'type'    => Controls_Manager::SELECT,
 				'default' => '1',
 				'options' => [
@@ -87,6 +87,20 @@ class Zilax extends Module_Base {
 		$this->register_title_tag_controls();
 		$this->register_show_meta_controls();
 		$this->register_show_date_controls();
+		$this->add_control(
+			'zilax_separator',
+			[
+				'type'        => Controls_Manager::TEXT,
+				'description' => esc_html__( 'Enter the separator between meta and date', 'pixel-gallery' ),
+				'label'       => esc_html__( 'Separator', 'pixel-gallery' ) . BDTPG_NC,
+				'default'     => '//',
+				'condition'   => [
+					'show_meta' => 'yes',
+					'show_date' => 'yes',
+				],
+				'separator'   => 'after',
+			]
+		);
 		$this->register_alignment_controls('zilax');
 		$this->register_thumbnail_size_controls();
 
@@ -381,13 +395,23 @@ class Zilax extends Module_Base {
 					<?php $this->render_image_wrap($item, 'zilax'); ?>
 					<div class="pg-zilax-content">
 						<?php $this->render_title($item, 'zilax'); ?>
+
+						<?php if ( 'yes' === $settings['show_meta'] || 'yes' === $settings['show_date'] ) : ?>
 						<div class="pg-zilax-meta-wrap">
 							<?php $this->render_meta($item, 'zilax'); ?>
-							<div class="pg-zilax-separator">
-								<span>//</span>
-							</div>
+
+							<?php if ( ! empty( trim( $settings['zilax_separator'] ) ) 
+								&& 'yes' === $settings['show_meta'] 
+								&& 'yes' === $settings['show_date'] ) : ?>
+								<span class="pg-zilax-separator">
+									<?php echo esc_html( trim( $settings['zilax_separator'] ) ); ?>
+								</span>
+							<?php endif; ?>
+
 							<?php $this->render_date($item, 'zilax'); ?>
 						</div>
+						<?php endif; ?>
+
 						<?php if ('none' !== $settings['link_to'] && $settings['link_target'] == 'only_button') : ?>
 							<?php $this->render_readmore_icon($item, $index, $id, 'zilax'); ?>
 						<?php endif; ?>
