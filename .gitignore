@@ -4,4 +4,5 @@ pixel-gallery.zip
 .idea
 LICENSE
 *.zip
+!includes/setup-wizard/assets/templates/*.zip
 pixel-gallery

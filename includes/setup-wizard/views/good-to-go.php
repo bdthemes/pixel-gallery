@@ -57,7 +57,7 @@ $templates      = json_decode( file_get_contents( $templates_path ), true );
         <h3><?php esc_html_e( 'Helpful Resources', 'pixel-gallery' ); ?></h3>
         
         <div class="bdt-resources-grid">
-            <a href="https://bdthemes.com/all-knowledge-base-of-element-pack/" target="_blank" class="bdt-resource-item">
+            <a href="https://bdthemes.com/all-knowledge-base-of-pixel-gallery/" target="_blank" class="bdt-resource-item">
                 <div class="resource-icon">
                     <i class="dashicons dashicons-book"></i>
                 </div>
@@ -73,7 +73,7 @@ $templates      = json_decode( file_get_contents( $templates_path ), true );
                 <p><?php esc_html_e( 'Contact our customer support team', 'pixel-gallery' ); ?></p>
             </a>
             
-            <a href="https://www.youtube.com/watch?v=97wb3JwAoPM&list=PLP0S85GEw7DOJf_cbgUIL20qqwqb5x8KA" target="_blank" class="bdt-resource-item">
+            <a href="https://www.youtube.com/playlist?list=PLP0S85GEw7DPv5T-Ara11Zvplmk4ty0jy" target="_blank" class="bdt-resource-item">
                 <div class="resource-icon">
                     <i class="dashicons dashicons-video-alt3"></i>
                 </div>
@@ -92,7 +92,7 @@ $templates      = json_decode( file_get_contents( $templates_path ), true );
 		</div>
 	
 		<div class="bdt-next-steps">
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=element_pack_options' ) ); ?>" class="bdt-button bdt-button-primary">
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=pixel_gallery_options' ) ); ?>" class="bdt-button bdt-button-primary">
 				<i class="dashicons dashicons-dashboard"></i>
 				<?php esc_html_e( 'Go to Pixel Gallery Dashboard', 'pixel-gallery' ); ?>
 			</a>

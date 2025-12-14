@@ -1036,11 +1036,11 @@ class PixelGallery_Admin_Settings {
 						<p><?php esc_html_e('Don\'t need more plugins. This pro addon helps you build complex or professional websites—visually stunning, functional and customizable.', 'pixel-gallery'); ?>
 						</p>
 						<ul>
-							<li><?php esc_html_e('Dynamic Content and Integrations', 'pixel-gallery'); ?></li>
-							<li><?php esc_html_e('Live Copy Paste', 'pixel-gallery'); ?></li>
-							<li><?php esc_html_e('Template Builder', 'pixel-gallery'); ?></li>
-							<li><?php esc_html_e('Custom Meta Fields - Category Image, Audio Link, Video Link', 'pixel-gallery'); ?></li>
-							<li><?php esc_html_e('Powerful Widgets and Advanced Extensions', 'pixel-gallery'); ?>
+							<li><?php esc_html_e('Asset Manager', 'pixel-gallery'); ?></li>
+							<li><?php esc_html_e('Entrance Animation', 'pixel-gallery'); ?></li>
+							<li><?php esc_html_e('Custom CSS & JS', 'pixel-gallery'); ?></li>
+							<li><?php esc_html_e('White Label Branding', 'pixel-gallery'); ?></li>
+							<li><?php esc_html_e('Powerful Gallery Widgets and Advanced Extensions', 'pixel-gallery'); ?>
 							</li>
 						</ul>
 						<div class="pg-dashboard-compare-section-buttons">
@@ -1107,7 +1107,7 @@ class PixelGallery_Admin_Settings {
 						target="_blank"><?php esc_html_e('Request Your Features', 'pixel-gallery'); ?></a>
 				</div>
 
-				<a href="https://www.youtube.com/watch?v=zNeoRz94cPw&list=PLP0S85GEw7DNBnZCb4RtJzlf38GCJ7z1b" target="_blank"
+				<a href="https://www.youtube.com/playlist?list=PLP0S85GEw7DPv5T-Ara11Zvplmk4ty0jy" target="_blank"
 					class="pg-dashboard-item pg-dashboard-footer-item pg-dashboard-video-tutorial bdt-card bdt-card-body bdt-card-small">
 					<span class="pg-dashboard-footer-item-icon">
 						<i class="dashicons dashicons-video-alt3"></i>

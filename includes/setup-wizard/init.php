@@ -188,7 +188,7 @@ class Setup_Wizard {
 	// Keep the admin_menu method for reference but not hooked
 	public function admin_menu() {
 		add_submenu_page(
-			'element_pack_options',
+			'pixel_gallery_options',
 			esc_html__( 'Setup Wizard', 'pixel-gallery' ),
 			esc_html__( 'Setup Wizard', 'pixel-gallery' ),
 			'manage_options',
@@ -211,6 +211,12 @@ class Setup_Wizard {
 
 	// Enqueue necessary scripts
 	public function enqueue_scripts() {
+
+        $direction_suffix = is_rtl() ? '.rtl' : '';
+
+        wp_enqueue_style('bdt-uikit', BDTPG_ADMIN_URL . 'assets/css/bdt-uikit' . $direction_suffix . '.css', [], '3.17.0');
+		wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit.min.js', ['jquery'], '3.17.0');
+
 		wp_register_script( 'pg-setup-wizard', plugins_url( 'assets/js/setup-wizard.js', __FILE__ ), array( 'jquery' ), '1.0.0', true );
 		wp_register_style( 'pg-setup-wizard', plugins_url( 'assets/css/setup-wizard.css', __FILE__ ), array(), '1.0.0' );
 
