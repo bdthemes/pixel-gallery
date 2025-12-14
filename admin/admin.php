@@ -98,7 +98,7 @@ class Admin {
         if (BDTPG_PBNAME === $plugin_file) {
             $row_meta = [
                 'docs'  => '<a href="https://bdthemes.com/contact/" aria-label="' . esc_attr(__('Go for Get Support', 'pixel-gallery')) . '" target="_blank">' . __('Get Support', 'pixel-gallery') . '</a>',
-                'video' => '<a href="https://www.youtube.com/playlist?list=PLP0S85GEw7DOJf_cbgUIL20qqwqb5x8KA" aria-label="' . esc_attr(__('View Pixel Gallery Video Tutorials', 'pixel-gallery')) . '" target="_blank">' . __('Video Tutorials', 'pixel-gallery') . '</a>',
+                'video' => '<a href="https://www.youtube.com/playlist?list=PLP0S85GEw7DPv5T-Ara11Zvplmk4ty0jy" aria-label="' . esc_attr(__('View Pixel Gallery Video Tutorials', 'pixel-gallery')) . '" target="_blank">' . __('Video Tutorials', 'pixel-gallery') . '</a>',
             ];
 
             $plugin_meta = array_merge($plugin_meta, $row_meta);
