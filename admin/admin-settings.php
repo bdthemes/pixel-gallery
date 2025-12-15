@@ -737,6 +737,15 @@ class PixelGallery_Admin_Settings {
             58
         );
 
+		add_submenu_page(
+			self::PAGE_ID,
+			esc_html__('Dashboard', 'pixel-gallery'),
+			esc_html__('Dashboard', 'pixel-gallery'),
+			'manage_options',
+			self::PAGE_ID,
+			[$this, 'plugin_page'],
+		);
+
         add_submenu_page(
             self::PAGE_ID,
             BDTPG_TITLE,
