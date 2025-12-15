@@ -35,7 +35,7 @@ msgid "Extensions"
 msgstr ""
 
 #: admin/admin-settings.php:276 admin/admin-settings.php:325
-msgid "Other Settings"
+msgid "Special Features"
 msgstr ""
 
 #: admin/admin-settings.php:287

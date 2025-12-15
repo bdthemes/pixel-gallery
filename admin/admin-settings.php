@@ -752,7 +752,7 @@ class PixelGallery_Admin_Settings {
             esc_html__('Core Widgets', 'pixel-gallery'),
             'manage_options',
             self::PAGE_ID . '#pixel_gallery_active_modules',
-            [$this, 'display_page']
+            [$this, 'plugin_page']
         );
 
         add_submenu_page(
@@ -761,7 +761,7 @@ class PixelGallery_Admin_Settings {
             esc_html__('Extensions', 'pixel-gallery'),
             'manage_options',
             self::PAGE_ID . '#pixel_gallery_elementor_extend',
-            [$this, 'display_page']
+            [$this, 'plugin_page']
         );
 
         if (!defined('BDTPG_LO')) {
@@ -771,7 +771,7 @@ class PixelGallery_Admin_Settings {
                 esc_html__('Special Features', 'pixel-gallery'),
                 'manage_options',
                 self::PAGE_ID . '#pixel_gallery_other_settings',
-                [$this, 'display_page']
+                [$this, 'plugin_page']
             );
         }
 
@@ -819,8 +819,8 @@ class PixelGallery_Admin_Settings {
                 BDTPG_TITLE,
                 esc_html__('Black Friday Limited Offer Up To 87%', 'pixel-gallery'),
                 'manage_options',
-                self::PAGE_ID . '_get_pro',
-                [$this, 'display_page']
+                self::PAGE_ID . '#pixel_gallery_get_pro',
+                [$this, 'plugin_page']
             );
         }
     }
@@ -855,7 +855,7 @@ class PixelGallery_Admin_Settings {
             ],
             [
                 'id'    => 'pixel_gallery_other_settings',
-                'title' => esc_html__('Other Settings', 'pixel-gallery'),
+                'title' => esc_html__('Special Features', 'pixel-gallery'),
             ],
         ];
 
@@ -1588,6 +1588,25 @@ class PixelGallery_Admin_Settings {
                     if (window.location.hash) {
                         var hash = window.location.hash.substring(1);
                         bdtUIkit.tab($tab).show(jQuery('#bdt-' + hash).data('tab-index'));
+                        
+                        // Update admin menu to match the active tab
+                        updateAdminMenuHighlight(hash);
+                    }
+                }
+
+                function updateAdminMenuHighlight(hash) {
+                    // Special case for Dashboard/Welcome tab
+                    if (hash === 'pixel_gallery_welcome' || !hash) {
+                        var dashboardMenuItem = jQuery('.toplevel_page_pixel_gallery_options > ul > li > a[href$="pixel_gallery_options"]').parent();
+                        dashboardMenuItem.siblings().removeClass('current');
+                        dashboardMenuItem.addClass('current');
+                    } else {
+                        // Update the corresponding admin menu item
+                        var adminMenuItem = jQuery('.toplevel_page_pixel_gallery_options > ul > li > a[href*="' + hash + '"]');
+                        if (adminMenuItem.length) {
+                            adminMenuItem.parent().siblings().removeClass('current');
+                            adminMenuItem.parent().addClass('current');
+                        }
                     }
                 }
 
@@ -1606,6 +1625,15 @@ class PixelGallery_Admin_Settings {
                 jQuery('.toplevel_page_pixel_gallery_options > ul > li > a ').on('click', function(event) {
                     jQuery(this).parent().siblings().removeClass('current');
                     jQuery(this).parent().addClass('current');
+                });
+
+                // Handle navigation tab clicks to sync with admin menu
+                jQuery('.bdt-dashboard-navigation a').on('click', function(e) {
+                    var href = jQuery(this).attr('href');
+                    if (href && href.startsWith('#')) {
+                        var hash = href.substring(1);
+                        updateAdminMenuHighlight(hash);
+                    }
                 });
 
                 jQuery('#pixel_gallery_active_modules_page a.pg-active-all-widget').on('click', function(e) {
