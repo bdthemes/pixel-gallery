@@ -17,6 +17,18 @@
 define( 'BDTPG_VER', '1.7.9' );
 define( 'BDTPG_TPL_DB_VER', '1.0.0' );
 define( 'BDTPG__FILE__', __FILE__ );
+
+// Load white label configuration if it exists (before defining BDTPG_TITLE)
+if ( ! defined( 'BDTPG_WL' ) ) {
+    if ( get_option( 'pg_white_label_enabled' ) ) {
+        define( 'BDTPG_WL', true );
+		$white_label_config = dirname( __FILE__ ) . '/admin/white-label/white-label-config.php';
+		if ( file_exists( $white_label_config ) ) {
+			require_once( $white_label_config );
+		}
+	}
+}
+
 if ( ! defined( 'BDTPG_TITLE' ) ) {
 	define( 'BDTPG_TITLE', 'Pixel Gallery' );
 }
@@ -101,6 +113,10 @@ function pixel_gallery_load_plugin() {
 
 	// Element pack widget and assets loader
 	require_once ( BDTPG_PATH . 'loader.php' );
+
+	// Initialize custom CSS/JS injection on frontend
+	add_action( 'wp_head', 'pg_inject_header_custom_code', 999 );
+	add_action( 'wp_footer', 'pg_inject_footer_custom_code', 999 );
 
 	// Biggopti class
 	require_once ( BDTPG_ADMIN_PATH . 'admin-notice.php' );
