@@ -145,7 +145,7 @@ class Admin {
         $links = array_merge($links, [
             sprintf(
                 '<a href="%s">%s</a>',
-                pixel_gallery_dashboard_link('#license'),
+                pixel_gallery_dashboard_link('#pixel_gallery_license_settings'),
                 esc_html__('License', 'pixel-gallery')
             )
         ]);
