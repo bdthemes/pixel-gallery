@@ -824,11 +824,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
 			}
 
             if (true !== _is_pg_pro_activated()) {
-                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="5"><span></span><span></span><span></span><span></span>%2$s</a></li>', 'pixel_gallery_get_pro', esc_html__('Get Pro', 'pixel-gallery'));
-            }
-
-            if ((true == _is_pg_pro_activated()) && !defined('BDTPG_LO')) {
-                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="4"><i class="dashicons dashicons-admin-network"></i>%2$s</a></li>', 'pixel_gallery_license_settings', esc_html__('License', 'pixel-gallery'));
+                $html .= sprintf('<li><a href="#%1$s" class="bdt-tab-item" id="bdt-%1$s" data-tab-index="%2$s"><span></span><span></span><span></span><span></span>%3$s</a></li>', 'pixel_gallery_get_pro', $count++, esc_html__('Get Pro', 'pixel-gallery'));
             }
 
             $html .= '</ul>';
@@ -895,6 +891,15 @@ if (!class_exists('PixelGallery_Settings_API')) :
                     'icon' => 'dashicons dashicons-update',
                 ];
             }
+
+			// Add License section if pro is activated and license is not hidden
+			if ((true == _is_pg_pro_activated()) && !defined('BDTPG_LO')) {
+				$content_only_sections[] = [
+					'id' => 'pixel_gallery_license_settings',
+					'title' => esc_html__('License', 'pixel-gallery'),
+					'icon' => 'dashicons dashicons-admin-network',
+				];
+			}
 			
 			// Check if each content section exists in settings sections, if not add it
 			foreach ($content_only_sections as $content_section) {
