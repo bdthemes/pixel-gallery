@@ -230,6 +230,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.7.X [XXth December 2025] =
+
+* Added: Glassmorphism control for styling the date in the panda widget
+
 = 1.7.9 [11th December 2025] =
 
 * Fixed: Separator display issue fixed in zilax widget
