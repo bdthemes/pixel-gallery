@@ -295,7 +295,7 @@ class Panda extends Module_Base
 		$this->add_control(
 			'glassmorphism_effect',
 			[
-				'label' => esc_html__('Glassmorphism', 'pixel-gallery') . BDTPG_NC,
+				'label' => esc_html__('Glassmorphism', 'pixel-gallery'),
 				'type'  => Controls_Manager::SWITCHER,
 				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'pixel-gallery'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
 
@@ -416,6 +416,59 @@ class Panda extends Module_Base
 				'condition' => [
 					'show_date' => 'yes',
 				]
+			]
+		);
+
+		$this->add_control(
+			'date_glassmorphism_effect',
+			[
+				'label' => esc_html__('Glassmorphism', 'pixel-gallery') . BDTPG_NC,
+				'type'  => Controls_Manager::SWITCHER,
+			]
+		);
+
+		$this->add_control(
+			'date_important_note',
+			[
+				'type' => Controls_Manager::RAW_HTML,
+				'raw'  => sprintf(
+					esc_html__(
+						'⚠️ Note: This feature won\'t work in the Firefox browser until you enable browser compatibility so please %1$slearn more here%2$s.',
+						'pixel-gallery'
+					),
+					'<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank" rel="noopener noreferrer">',
+					'</a>'
+				),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
+				'condition'       => [
+					'date_glassmorphism_effect' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
+			'date_glassmorphism_blur_level',
+			[
+				'label'     => esc_html__( 'Blur Level', 'pixel-gallery' ),
+				'type'      => Controls_Manager::SLIDER,
+				'range'     => [
+					'px' => [
+						'min'  => 0,
+						'max'  => 50,
+						'step' => 1,
+					],
+				],
+				'default'   => [
+					'size' => 5,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .pg-panda-' => sprintf(
+						'backdrop-filter: blur({{SIZE}}px); -webkit-backdrop-filter: blur({{SIZE}}px);'
+					),
+				],
+				'condition' => [
+					'date_glassmorphism_effect' => 'yes',
+				],
 			]
 		);
 
