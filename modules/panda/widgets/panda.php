@@ -462,9 +462,7 @@ class Panda extends Module_Base
 					'size' => 5,
 				],
 				'selectors' => [
-					'{{WRAPPER}} .pg-panda-' => sprintf(
-						'backdrop-filter: blur({{SIZE}}px); -webkit-backdrop-filter: blur({{SIZE}}px);'
-					),
+					'{{WRAPPER}} .pg-panda-item .pg-panda-date' => 'backdrop-filter: blur({{SIZE}}px); -webkit-backdrop-filter: blur({{SIZE}}px);',
 				],
 				'condition' => [
 					'date_glassmorphism_effect' => 'yes',
