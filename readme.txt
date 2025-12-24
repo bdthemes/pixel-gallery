@@ -233,6 +233,7 @@ https://youtu.be/f70l2qE7W7o
 = 1.7.X [XXth December 2025] =
 
 * Added: Glassmorphism control for styling the date in the panda widget
+* Added: Button alignment control added in the alien widget
 
 = 1.7.9 [11th December 2025] =
 

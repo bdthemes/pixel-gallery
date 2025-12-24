@@ -21,6 +21,16 @@ class ModuleService {
         $settings_fields = [
             'pixel_gallery_active_modules' => [
                 [
+                    'name'         => 'draggable-gallery',
+                    'label'        => esc_html__('Draggable Gallery', 'pixel-gallery'),
+                    'type'         => 'checkbox',
+                    'default'      => 'on',
+                    'widget_type'  => 'pro',
+                    'content_type' => 'custom new',
+                    'demo_url'     => 'https://pixelgallery.pro/demo/draggable-gallery/',
+                    'video_url'    => 'https://youtu.be/2g6YB1oRug8',
+                ],
+                [
                     'name'         => 'alien',
                     'label'        => esc_html__('Alien', 'pixel-gallery'),
                     'type'         => 'checkbox',
