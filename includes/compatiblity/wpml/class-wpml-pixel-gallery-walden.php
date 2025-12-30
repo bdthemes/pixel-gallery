@@ -6,10 +6,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class WPML_Pixel_Gallery_Alien
- * Handles translation of repeater items in the Alien widget
+ * Class WPML_Pixel_Gallery_Walden
+ * Handles translation of repeater items in the Walden widget
  */
-class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
+class WPML_Pixel_Gallery_Walden extends WPML_Module_With_Items {
 
     /**
      * @return string
@@ -24,8 +24,8 @@ class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
     public function get_fields() {
         return array(
             'title',
-            'meta',
-            'readmore_text',
+            'follow',
+            'like',
             'link' => ['url'],
         );
     }
@@ -38,10 +38,10 @@ class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
         switch ( $field ) {
             case 'title':
                 return esc_html__( 'Title', 'pixel-gallery' );
-            case 'meta':
-                return esc_html__( 'Meta', 'pixel-gallery' );
-            case 'readmore_text':
-                return esc_html__( 'Read More', 'pixel-gallery' );
+            case 'follow':
+                return esc_html__( 'Follow', 'pixel-gallery' );
+            case 'like':
+                return esc_html__( 'Like', 'pixel-gallery' );
             case 'link':
                 return esc_html__( 'Custom URL', 'pixel-gallery' );
             default:
@@ -56,10 +56,8 @@ class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
     protected function get_editor_type( $field ) {
         switch ( $field ) {
             case 'title':
-                return 'LINE';
-            case 'meta':
-                return 'LINE';
-            case 'readmore_text':
+            case 'follow':
+            case 'like':
                 return 'LINE';
             case 'link':
                 return 'LINK';
@@ -68,3 +66,4 @@ class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
         }
     }
 }
+

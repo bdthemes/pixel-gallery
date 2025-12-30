@@ -6,10 +6,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class WPML_Pixel_Gallery_Alien
- * Handles translation of repeater items in the Alien widget
+ * Class WPML_Pixel_Gallery_Mastery
+ * Handles translation of repeater items in the Mastery widget
  */
-class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
+class WPML_Pixel_Gallery_Mastery extends WPML_Module_With_Items {
 
     /**
      * @return string
@@ -25,8 +25,13 @@ class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
         return array(
             'title',
             'meta',
+            'date_day',
+            'date_month',
             'readmore_text',
             'link' => ['url'],
+            'youtube_url',
+            'vimeo_url',
+            'dailymotion_url',
         );
     }
 
@@ -40,10 +45,20 @@ class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
                 return esc_html__( 'Title', 'pixel-gallery' );
             case 'meta':
                 return esc_html__( 'Meta', 'pixel-gallery' );
+            case 'date_day':
+                return esc_html__( 'Day', 'pixel-gallery' );
+            case 'date_month':
+                return esc_html__( 'Month', 'pixel-gallery' );
             case 'readmore_text':
                 return esc_html__( 'Read More', 'pixel-gallery' );
             case 'link':
                 return esc_html__( 'Custom URL', 'pixel-gallery' );
+            case 'youtube_url':
+                return esc_html__( 'YouTube Link', 'pixel-gallery' );
+            case 'vimeo_url':
+                return esc_html__( 'Vimeo Link', 'pixel-gallery' );
+            case 'dailymotion_url':
+                return esc_html__( 'Dailymotion Link', 'pixel-gallery' );
             default:
                 return '';
         }
@@ -56,10 +71,13 @@ class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
     protected function get_editor_type( $field ) {
         switch ( $field ) {
             case 'title':
-                return 'LINE';
             case 'meta':
-                return 'LINE';
+            case 'date_day':
+            case 'date_month':
             case 'readmore_text':
+            case 'youtube_url':
+            case 'vimeo_url':
+            case 'dailymotion_url':
                 return 'LINE';
             case 'link':
                 return 'LINK';
@@ -68,3 +86,4 @@ class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
         }
     }
 }
+

@@ -6,10 +6,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class WPML_Pixel_Gallery_Alien
- * Handles translation of repeater items in the Alien widget
+ * Class WPML_Pixel_Gallery_Humble
+ * Handles translation of repeater items in the Humble widget
  */
-class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
+class WPML_Pixel_Gallery_Humble extends WPML_Module_With_Items {
 
     /**
      * @return string
@@ -27,6 +27,9 @@ class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
             'meta',
             'readmore_text',
             'link' => ['url'],
+            'youtube_url',
+            'vimeo_url',
+            'dailymotion_url',
         );
     }
 
@@ -44,6 +47,12 @@ class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
                 return esc_html__( 'Read More', 'pixel-gallery' );
             case 'link':
                 return esc_html__( 'Custom URL', 'pixel-gallery' );
+            case 'youtube_url':
+                return esc_html__( 'YouTube Link', 'pixel-gallery' );
+            case 'vimeo_url':
+                return esc_html__( 'Vimeo Link', 'pixel-gallery' );
+            case 'dailymotion_url':
+                return esc_html__( 'Dailymotion Link', 'pixel-gallery' );
             default:
                 return '';
         }
@@ -56,10 +65,11 @@ class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
     protected function get_editor_type( $field ) {
         switch ( $field ) {
             case 'title':
-                return 'LINE';
             case 'meta':
-                return 'LINE';
             case 'readmore_text':
+            case 'youtube_url':
+            case 'vimeo_url':
+            case 'dailymotion_url':
                 return 'LINE';
             case 'link':
                 return 'LINK';
@@ -68,3 +78,4 @@ class WPML_Pixel_Gallery_Alien extends WPML_Module_With_Items {
         }
     }
 }
+

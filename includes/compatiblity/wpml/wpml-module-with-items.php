@@ -47,7 +47,7 @@ abstract class WPML_Module_With_Items implements IWPML_Page_Builders_Module {
 			foreach ( $this->get_fields() as $key => $field ) {
 				if ( ! is_array( $field ) ) {
 
-					if ( ! isset( $item[ $field ] ) ) {
+					if ( ! array_key_exists( $field, $item ) ) {
 						continue;
 					}
 
@@ -60,7 +60,7 @@ abstract class WPML_Module_With_Items implements IWPML_Page_Builders_Module {
 				} else {
 					foreach ( $field as $inner_field ) {
 
-						if ( ! isset( $item[ $key ][ $inner_field ] ) ) {
+						if ( ! isset( $item[ $key ] ) || ! array_key_exists( $inner_field, $item[ $key ] ) ) {
 							continue;
 						}
 
@@ -102,7 +102,7 @@ abstract class WPML_Module_With_Items implements IWPML_Page_Builders_Module {
 
 				if ( ! is_array( $field ) ) {
 
-					if ( ! isset( $item[ $field ] ) ) {
+					if ( ! array_key_exists( $field, $item ) ) {
 						continue;
 					}
 
@@ -130,7 +130,7 @@ abstract class WPML_Module_With_Items implements IWPML_Page_Builders_Module {
 
 						if (
 							! isset( $item[ $field_key ] )
-							|| ! isset( $item[ $field_key ][ $inner_field ] )
+							|| ! array_key_exists( $inner_field, $item[ $field_key ] )
 						) {
 							continue;
 						}
