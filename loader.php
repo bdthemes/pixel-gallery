@@ -2,6 +2,8 @@
 
 namespace PixelGallery;
 
+use Pixel_Gallery\Includes\Pixel_Gallery_WPML;
+
 use Elementor\Plugin;
 
 if (!defined('ABSPATH')) {
@@ -120,6 +122,10 @@ class Pixel_Gallery_Loader {
         require_once BDTPG_PATH . 'traits/global-widget-controls.php';
         require_once BDTPG_PATH . 'traits/global-terms-query-controls.php';
         // require_once BDTPG_PATH . 'traits/global-mask-controls.php';
+
+
+        // wpml compatibility class for wpml support
+		require_once BDTPG_PATH . 'includes/class-elements-wpml-compatibility.php';
 
 
         // All modules loading from here
@@ -328,6 +334,10 @@ class Pixel_Gallery_Loader {
         die();
     }
 
+    // Load WPML compatibility instance
+    public function wpml_compatiblity() {
+        return Pixel_Gallery_WPML::get_instance();
+    }
 
     /**
      * initialize the category
@@ -400,6 +410,8 @@ class Pixel_Gallery_Loader {
 
         // Finally hooked up all things here
         $this->setup_hooks();
+
+        $this->wpml_compatiblity()->init();
 
         add_action('init', [$this, 'init']);
     }

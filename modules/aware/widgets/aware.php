@@ -75,11 +75,11 @@ class Aware extends Module_Base {
 				'type'    => Controls_Manager::SELECT,
 				'default' => '1',
 				'options' => [
-					'1'	=> '01',
-					'2'	=> '02',
-					'3'	=> '03',
-					'4'	=> '04',
-					'5'	=> '05',
+					'1'	=> esc_html__('01', 'pixel-gallery'),
+					'2'	=> esc_html__('02', 'pixel-gallery'),
+					'3'	=> esc_html__('03', 'pixel-gallery'),
+					'4'	=> esc_html__('04', 'pixel-gallery'),
+					'5'	=> esc_html__('05', 'pixel-gallery'),
 				],
 			]
 		);
@@ -97,12 +97,12 @@ class Aware extends Module_Base {
 				'tablet_default' => '2',
 				'mobile_default' => '1',
 				'options'        => [
-					'1' => '1',
-					'2' => '2',
-					'3' => '3',
-					'4' => '4',
-					'5' => '5',
-					'6' => '6',
+					'1' => esc_html__('1', 'pixel-gallery'),
+					'2' => esc_html__('2', 'pixel-gallery'),
+					'3' => esc_html__('3', 'pixel-gallery'),
+					'4' => esc_html__('4', 'pixel-gallery'),
+					'5' => esc_html__('5', 'pixel-gallery'),
+					'6' => esc_html__('6', 'pixel-gallery'),
 				],
 				'selectors'      => [
 					'{{WRAPPER}} .pg-aware-grid' => 'columns: {{SIZE}}; display: block;'
