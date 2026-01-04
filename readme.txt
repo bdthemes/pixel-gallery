@@ -230,6 +230,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 1.7.11 [4th January 2026] =
+
+* Fixed: Mask color shape not found issue fixed
+
 = 1.7.10 [18th December 2025] =
 
 * Added: Glassmorphism control for styling the date in the panda widget
