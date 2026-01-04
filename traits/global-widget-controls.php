@@ -936,7 +936,7 @@ trait Global_Widget_Controls
 				'options'        => pixel_gallery_mask_shapes_options(),
 				'selectors'      => [
 					'{{WRAPPER}} .pg-' . $name . '-image-wrap img' => '-webkit-mask-image: url('.BDTPG_ASSETS_URL . 'images/mask/'.'{{VALUE}}.svg); mask-image: url('.BDTPG_ASSETS_URL . 'images/mask/'.'{{VALUE}}.svg);',
-					'{{WRAPPER}} .pg-' . $name . '-image-wrap:before' => 'background-image: url('.BDTPG_ASSETS_URL . 'images/mask/color-'.'{{VALUE}}.svg);',
+					// '{{WRAPPER}} .pg-' . $name . '-image-wrap:before' => 'background-image: url('.BDTPG_ASSETS_URL . 'images/mask/color-'.'{{VALUE}}.svg);',
 				],
 				'condition'      => [
 					'image_mask_shape'   => 'default',
