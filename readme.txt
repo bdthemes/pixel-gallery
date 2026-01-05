@@ -9,7 +9,7 @@ Stable tag: 2.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.28
-Elementor tested up to: 3.33.5
+Elementor tested up to: 3.34.0
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -229,6 +229,16 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 2.0.0 [XX January 2026] =
+
+* Added: Draggable widget added
+* Added: WPML multi-language support added
+* Added: White Label feature added
+* Added: Custom CSS & JS feature added
+* Added: Setup wizard/onboarding feature added
+* Added: Rollback version feature added in admin dashboard
+* Updated: Admin dashboard updated
 
 = 1.7.11 [4th January 2026] =
 

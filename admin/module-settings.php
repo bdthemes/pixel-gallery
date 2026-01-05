@@ -21,16 +21,6 @@ class ModuleService {
         $settings_fields = [
             'pixel_gallery_active_modules' => [
                 [
-                    'name'         => 'draggable-gallery',
-                    'label'        => esc_html__('Draggable Gallery', 'pixel-gallery'),
-                    'type'         => 'checkbox',
-                    'default'      => 'on',
-                    'widget_type'  => 'pro',
-                    'content_type' => 'custom new',
-                    'demo_url'     => 'https://pixelgallery.pro/demo/draggable-gallery/',
-                    'video_url'    => 'https://youtu.be/2g6YB1oRug8',
-                ],
-                [
                     'name'         => 'alien',
                     'label'        => esc_html__('Alien', 'pixel-gallery'),
                     'type'         => 'checkbox',
@@ -119,6 +109,16 @@ class ModuleService {
                     'content_type' => 'custom',
                     'demo_url'     => 'https://pixelgallery.pro/demo/doodle/',
                     'video_url'    => 'https://youtu.be/T9QmOd9o550',
+                ],
+                [
+                    'name'         => 'draggable',
+                    'label'        => esc_html__('Draggable', 'pixel-gallery'),
+                    'type'         => 'checkbox',
+                    'default'      => 'off',
+                    'widget_type'  => 'pro',
+                    'content_type' => 'custom new',
+                    'demo_url'     => 'https://pixelgallery.pro/demo/draggable/',
+                    'video_url'    => '',
                 ],
                 [
                     'name'         => 'dream',
