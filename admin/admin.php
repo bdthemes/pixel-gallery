@@ -42,7 +42,7 @@ class Admin {
     }
 
     public function admin_biggopti_styles(){
-		wp_enqueue_style('pg-admin-biggopti', BDTPG_ADMIN_URL . 'assets/css/pg-admin-notice.css', [], BDTPG_VER);
+		wp_enqueue_style('pg-admin-biggopti', BDTPG_ADMIN_URL . 'assets/css/pg-admin-biggopti.css', [], BDTPG_VER);
 	}
 
 
@@ -205,7 +205,7 @@ class Admin {
             
             wp_enqueue_script('jquery');
             wp_enqueue_script('jquery-form');
-            wp_enqueue_script('pg-biggopti', BDTPG_ADMIN_URL  . 'assets/js/pg-notice.min.js', ['jquery'], BDTPG_VER, true);
+            wp_enqueue_script('pg-biggopti', BDTPG_ADMIN_URL  . 'assets/js/pg-biggopti.min.js', ['jquery'], BDTPG_VER, true);
             
             $script_config = [
                 'ajaxurl'	=> admin_url('admin-ajax.php'),
