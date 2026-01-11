@@ -82,7 +82,7 @@ module.exports = function (grunt) {
 					{
 						expand: true,
 						cwd: 'src/less/',
-						src: 'admin-notice.less',
+						src: 'admin-biggopti.less',
 						dest: 'admin/assets/css/',
 						ext: '.css',
 						rename: function (dest, src) {

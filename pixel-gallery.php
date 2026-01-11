@@ -119,7 +119,7 @@ function pixel_gallery_load_plugin() {
 	add_action( 'wp_footer', 'pg_inject_footer_custom_code', 999 );
 
 	// Biggopti class
-	require_once ( BDTPG_ADMIN_PATH . 'admin-notice.php' );
+	require_once ( BDTPG_ADMIN_PATH . 'admin-biggopti.php' );
 }
 
 add_action( 'plugins_loaded', 'pixel_gallery_load_plugin', 9 );
