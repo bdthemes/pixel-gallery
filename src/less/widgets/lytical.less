@@ -1,123 +1,130 @@
 .pg-lytical-grid {
-	display: grid;
+  display: grid;
 }
 
 .pg-lytical-item {
-	position: relative;
-	overflow: hidden;
-	&:hover {
-		.pg-lytical-img {
-			transform: translateY(-20px);
+  position: relative;
+  overflow: hidden;
+  &:hover {
+    .pg-lytical-img {
+      transform: translateY(-20px);
+    }
 
-		}
-		
-		.pg-lytical-img,
-		.pg-lytical-image-wrap:before {
-			clip-path: polygon(21% 0, 100% 0%, 100% 100%, 21% 100%);
-		}
+    .pg-lytical-img,
+    .pg-lytical-image-wrap:before {
+      clip-path: polygon(21% 0, 100% 0%, 100% 100%, 21% 100%);
 
-		.pg-lytical-title {
-			opacity: 1;
-			transform: translateY(-50%);
-			transition-delay: .3s;
-		}
+      [dir="rtl"] & {
+        clip-path: polygon(0% 0, 79% 0%, 79% 100%, 0% 100%);
+      }
+    }
 
-		.pg-lytical-readmore,
-		.pg-lytical-meta {
-			opacity: 1;
-			transform: translateY(0);
-		}
+    .pg-lytical-title {
+      opacity: 1;
+      transform: translateY(-50%);
+      transition-delay: 0.3s;
+    }
 
-		.pg-lytical-meta {
-			transition-delay: .4s;
-		}
+    .pg-lytical-readmore,
+    .pg-lytical-meta {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-		.pg-lytical-readmore {
-			transition-delay: .5s;
-		}
-	}
+    .pg-lytical-meta {
+      transition-delay: 0.4s;
+    }
+
+    .pg-lytical-readmore {
+      transition-delay: 0.5s;
+    }
+  }
 }
 
 .pg-lytical-image-wrap {
-	position: relative;
-	height: 100%;
-	width: 100%;
+  position: relative;
+  block-size: 100%;
+  inline-size: 100%;
 
-	&::before {
-		position: absolute;
-		content: '';
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 100%;
-		z-index: 1;
-		clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
-		transition: all .3s ease-in-out;
-		background: linear-gradient(353deg, rgba(13, 59, 84, 0.2), transparent);
-	}
-	img {
-		width: 100%;
-		height: 120%;
-		object-fit: cover;
-		// position: absolute;
-		right: 0;
-		clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
-		transition: all .3s ease-in-out;
-	}
+  &::before {
+    position: absolute;
+    content: "";
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    block-size: 100%;
+    z-index: 1;
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+    transition: all 0.3s ease-in-out;
+    background: linear-gradient(353deg, rgba(13, 59, 84, 0.2), transparent);
+  }
+  img {
+    inline-size: 100%;
+    block-size: 120%;
+    object-fit: cover;
+    // position: absolute;
+    inset-inline-end: 0;
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+    transition: all 0.3s ease-in-out;
+
+    [dir="rtl"] & {
+      inset-inline-end: auto;
+      inset-inline-start: 0;
+    }
+  }
 }
 
-
 .pg-lytical-title {
-	position: absolute;
-	top: 50%;
-	margin: 0;
-	transform: translateY(-10%);
-	font-size: 24px;
-	font-weight: 700;
-	z-index: 1;
-	line-height: 1.5;
-	opacity: 0;
-	color: rgba(13, 59, 84, 0.8);
-	background: #ffffff;
-	padding: 5px;
-	border-radius: 3px;
-	transition: all .3s ease;
+  position: absolute;
+  inset-block-start: 50%;
+  margin: 0;
+  transform: translateY(-10%);
+  font-size: 24px;
+  font-weight: 700;
+  z-index: 1;
+  line-height: 1.5;
+  opacity: 0;
+  color: rgba(13, 59, 84, 0.8);
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 3px;
+  transition: all 0.3s ease;
 }
 
 .pg-lytical-content-wrap {
-	position: absolute;
-	bottom: 0;
-	left: 22%;
-	right: 2%;
-	margin: 20px;
-	z-index: 1;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-start: 22%;
+  inset-inline-end: 2%;
+  margin: 20px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .pg-lytical-readmore,
 .pg-lytical-meta {
-	opacity: 0;
-	transform: translateY(20px);
-	transition: all .3s ease-in-out;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease-in-out;
 }
 
 .pg-lytical-meta {
-	font-size: 14px;
-	text-transform: capitalize;
-	color: #eee;
-	font-weight: 700;
+  font-size: 14px;
+  text-transform: capitalize;
+  color: #eee;
+  font-weight: 700;
 }
 
 .pg-lytical-readmore {
-	a {
-		font-size: 12px;
-		text-transform: uppercase;
-		color: #ffffff;
-		font-weight: 700;
-		&:hover{
-			color: #0D3B54;
-		}
-	}
+  a {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #ffffff;
+    font-weight: 700;
+    &:hover {
+      color: #0d3b54;
+    }
+  }
 }
