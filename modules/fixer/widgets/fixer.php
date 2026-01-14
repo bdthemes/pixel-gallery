@@ -362,7 +362,7 @@ class Fixer extends Module_Base {
 			[
 				'label' => esc_html__('Content Position', 'pixel-gallery') . BDTPG_NC,
 				'type'      => Controls_Manager::CHOOSE,
-				'default'   => 'left',
+				// 'default'   => 'left',
 				'options'   => [
 					'left'    => [
 						'title' => __('Left', 'pixel-gallery'),
