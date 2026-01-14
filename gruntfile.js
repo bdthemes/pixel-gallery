@@ -143,50 +143,50 @@ module.exports = function (grunt) {
 			},
 		},
 
-		rtlcss: {
-			siteRTL: {
-				// task options
-				options: {
-					// rtlcss options
-					opts: {
-						clean: true,
-					},
-					// rtlcss plugins
-					plugins: [],
-					// save unmodified files
-					saveUnmodified: true,
-					useCalc: true,
-				},
-				expand: true,
-				cwd: 'assets/css/',
-				dest: 'assets/css/',
-				src: ['**/*.css', '!**/*.rtl.css'],
-				ext: '.rtl.css',
-			},
-			adminRTL: {
-				// task options
-				options: {
-					// rtlcss options
-					opts: {
-						clean: true,
-					},
-					// rtlcss plugins
-					plugins: [],
-					// save unmodified files
-					saveUnmodified: true,
-				},
-				expand: true,
-				cwd: 'admin/assets/css/',
-				dest: 'admin/assets/css/',
-				src: ['**/*.css', '!**/*.rtl.css'],
-				ext: '.rtl.css',
-			},
-		},
+		// rtlcss: {
+		// 	siteRTL: {
+		// 		// task options
+		// 		options: {
+		// 			// rtlcss options
+		// 			opts: {
+		// 				clean: true,
+		// 			},
+		// 			// rtlcss plugins
+		// 			plugins: [],
+		// 			// save unmodified files
+		// 			saveUnmodified: true,
+		// 			useCalc: true,
+		// 		},
+		// 		expand: true,
+		// 		cwd: 'assets/css/',
+		// 		dest: 'assets/css/',
+		// 		src: ['**/*.css', '!**/*.rtl.css'],
+		// 		ext: '.rtl.css',
+		// 	},
+		// 	adminRTL: {
+		// 		// task options
+		// 		options: {
+		// 			// rtlcss options
+		// 			opts: {
+		// 				clean: true,
+		// 			},
+		// 			// rtlcss plugins
+		// 			plugins: [],
+		// 			// save unmodified files
+		// 			saveUnmodified: true,
+		// 		},
+		// 		expand: true,
+		// 		cwd: 'admin/assets/css/',
+		// 		dest: 'admin/assets/css/',
+		// 		src: ['**/*.css', '!**/*.rtl.css'],
+		// 		ext: '.rtl.css',
+		// 	},
+		// },
 
 		watch: {
 			styles: {
 				files: ['src/less/**/*.less'], // which files to watch
-				tasks: ['less', 'rtlcss'],
+				tasks: ['less'],
 				options: {
 					nospawn: true,
 				},
@@ -202,13 +202,13 @@ module.exports = function (grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-terser');
-	grunt.loadNpmTasks('grunt-rtlcss');
+	// grunt.loadNpmTasks('grunt-rtlcss');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 
 	if (process.env.NODE_ENV === 'development') {
-		grunt.registerTask('default', ['less', 'concat', 'terser', 'rtlcss', 'copy', 'watch']);
+		grunt.registerTask('default', ['less', 'concat', 'terser', 'copy', 'watch']);
 	} else {
-		grunt.registerTask('default', ['less', 'concat', 'terser', 'rtlcss', 'copy']);
+		grunt.registerTask('default', ['less', 'concat', 'terser', 'copy']);
 	}
 };
