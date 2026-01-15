@@ -505,6 +505,11 @@
           font-size: 9px;
           inset-inline-start: -20px;
           inset-block-start: 4px;
+
+          // RTL adjustments
+          [dir="rtl"] & {
+            transform: rotate(45deg); // mirror rotation
+          }
         }
 
         &[data-content-type~="new"] > .pg-option-item-inner:before {
@@ -873,6 +878,10 @@
 
   input[type="checkbox"]:checked + .switch::after {
     transform: translateX(18px);
+
+    [dir="rtl"] & {
+      transform: translateX(-18px);
+    }
   }
 
   input[type="checkbox"]:checked + .switch {
@@ -1293,6 +1302,7 @@
       .pg-dashboard-compare-section-buttons {
         display: flex;
         align-items: center;
+		gap: 15px;
       }
 
       .bdt-button {
