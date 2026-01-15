@@ -10,88 +10,92 @@ use Elementor\Tracker;
  * Pixel Gallery Admin Settings Class
  */
 
-class PixelGallery_Admin_Settings {
+class PixelGallery_Admin_Settings
+{
 
-    public static $modules_list  = null;
-    public static $modules_names = null;
+	public static $modules_list = null;
+	public static $modules_names = null;
 
-    public static $modules_list_only_widgets  = null;
-    public static $modules_names_only_widgets = null;
+	public static $modules_list_only_widgets = null;
+	public static $modules_names_only_widgets = null;
 
 
-    const PAGE_ID = 'pixel_gallery_options';
+	const PAGE_ID = 'pixel_gallery_options';
 
-    private $settings_api;
+	private $settings_api;
 
-    public  $responseObj;
-    public  $licenseMessage;
-    public  $showMessage  = false;
-    private $is_activated = false;
+	public $responseObj;
+	public $licenseMessage;
+	public $showMessage = false;
+	private $is_activated = false;
 
-    /**
+	/**
 	 * Rollback version instance
 	 * 
 	 * @var Rollback_Version
 	 */
 	public $rollback_version;
 
-    function __construct() {
-        $this->settings_api = new PixelGallery_Settings_API;
+	function __construct()
+	{
+		$this->settings_api = new PixelGallery_Settings_API;
 
-        if (!defined('BDTPG_HIDE')) {
-            add_action('admin_init', [$this, 'admin_init']);
-            add_action('admin_menu', [$this, 'admin_menu'], 201);
-        }
+		if (!defined('BDTPG_HIDE')) {
+			add_action('admin_init', [$this, 'admin_init']);
+			add_action('admin_menu', [$this, 'admin_menu'], 201);
+		}
 
-        if (!Tracker::is_allow_track()) {
-            add_action('admin_notices', [$this, 'allow_tracker_activate_biggopti'], 10, 3);
-        }
+		if (!Tracker::is_allow_track()) {
+			add_action('admin_notices', [$this, 'allow_tracker_activate_biggopti'], 10, 3);
+		}
 
-        // Handle white label access link
+		// Handle white label access link
 		$this->handle_white_label_access();
-		
+
 		// Add custom CSS/JS functionality
 		$this->init_custom_code_functionality();
-		
+
 		// White label settings (admin only)
-		add_action( 'wp_ajax_pg_save_white_label', [ $this, 'save_white_label_ajax' ] );
-		add_action( 'wp_ajax_pg_revoke_white_label_token', [ $this, 'revoke_white_label_token_ajax' ] );
-		add_action( 'admin_head', [ $this, 'inject_white_label_icon_css' ] );
-		
+		add_action('wp_ajax_pg_save_white_label', [$this, 'save_white_label_ajax']);
+		add_action('wp_ajax_pg_revoke_white_label_token', [$this, 'revoke_white_label_token_ajax']);
+		add_action('admin_head', [$this, 'inject_white_label_icon_css']);
+
 		// Plugin installation (admin only)
 		add_action('wp_ajax_pg_install_plugin', [$this, 'install_plugin_ajax']);
-		
-		
+
+
 
 		if (_is_pg_pro_activated()) {
 			// Initialize rollback version functionality
 			add_action('admin_init', [$this, 'rollback_init']);
 		}
-    }
+	}
 
-    public function rollback_init() {
-		if ( class_exists('\PixelGalleryPro\Rollback_Version') ) {
+	public function rollback_init()
+	{
+		if (class_exists('\PixelGalleryPro\Rollback_Version')) {
 			$this->rollback_version = new \PixelGalleryPro\Rollback_Version();
 		}
 	}
 
-	
-	
-	
-		/**
+
+
+
+	/**
 	 * Initialize Custom Code Functionality
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function init_custom_code_functionality() {
+	public function init_custom_code_functionality()
+	{
 		// AJAX handler for saving custom code (admin only)
-		add_action( 'wp_ajax_pg_save_custom_code', [ $this, 'save_custom_code_ajax' ] );
-		
-		
+		add_action('wp_ajax_pg_save_custom_code', [$this, 'save_custom_code_ajax']);
+
+
 		// Admin scripts (admin only)
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_custom_code_scripts' ] );
-		
+		add_action('admin_enqueue_scripts', [$this, 'enqueue_custom_code_scripts']);
+
 		// Frontend injection is now handled by global functions in the main plugin file
 		self::init_frontend_injection();
 	}
@@ -102,7 +106,8 @@ class PixelGallery_Admin_Settings {
 	 * @access public static
 	 * @return void
 	 */
-	public static function init_frontend_injection() {
+	public static function init_frontend_injection()
+	{
 		// Frontend hooks are now registered in the main plugin file
 		// This method is kept for backwards compatibility but does nothing
 	}
@@ -113,42 +118,43 @@ class PixelGallery_Admin_Settings {
 	 * @access public
 	 * @return void
 	 */
-	public function enqueue_custom_code_scripts( $hook ) {
-		if ( $hook !== 'toplevel_page_pixel_gallery_options' ) {
+	public function enqueue_custom_code_scripts($hook)
+	{
+		if ($hook !== 'toplevel_page_pixel_gallery_options') {
 			return;
 		}
 
 		// Enqueue WordPress built-in CodeMirror 
-		wp_enqueue_code_editor( array( 'type' => 'text/css' ) );
-		wp_enqueue_code_editor( array( 'type' => 'application/javascript' ) );
-		
+		wp_enqueue_code_editor(array('type' => 'text/css'));
+		wp_enqueue_code_editor(array('type' => 'application/javascript'));
+
 		// Enqueue WordPress media library scripts
 		wp_enqueue_media();
-		
+
 		// Enqueue the admin script if it exists
 		$admin_script_path = BDTPG_ASSETS_PATH . 'js/pg-admin.js';
-		if ( file_exists( $admin_script_path ) ) {
-			wp_enqueue_script( 
-				'pg-admin-script', 
-				BDTPG_ASSETS_URL . 'js/pg-admin.js', 
-				[ 'jquery', 'media-upload', 'media-views', 'code-editor' ], 
-				BDTPG_VER, 
-				true 
+		if (file_exists($admin_script_path)) {
+			wp_enqueue_script(
+				'pg-admin-script',
+				BDTPG_ASSETS_URL . 'js/pg-admin.js',
+				['jquery', 'media-upload', 'media-views', 'code-editor'],
+				BDTPG_VER,
+				true
 			);
-			
+
 			// Localize script with AJAX data
-			wp_localize_script( 'pg-admin-script', 'pg_admin_ajax', [
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( 'pg_custom_code_nonce' ),
-				'white_label_nonce' => wp_create_nonce( 'pg_white_label_nonce' )
-			] );
+			wp_localize_script('pg-admin-script', 'pg_admin_ajax', [
+				'ajax_url' => admin_url('admin-ajax.php'),
+				'nonce' => wp_create_nonce('pg_custom_code_nonce'),
+				'white_label_nonce' => wp_create_nonce('pg_white_label_nonce')
+			]);
 		} else {
 			// Fallback: localize to jquery if the admin script doesn't exist
-			wp_localize_script( 'jquery', 'pg_admin_ajax', [
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( 'pg_custom_code_nonce' ),
-				'white_label_nonce' => wp_create_nonce( 'pg_white_label_nonce' )
-			] );
+			wp_localize_script('jquery', 'pg_admin_ajax', [
+				'ajax_url' => admin_url('admin-ajax.php'),
+				'nonce' => wp_create_nonce('pg_custom_code_nonce'),
+				'white_label_nonce' => wp_create_nonce('pg_white_label_nonce')
+			]);
 		}
 	}
 
@@ -158,8 +164,9 @@ class PixelGallery_Admin_Settings {
 	 * @access public
 	 * @return void
 	 */
-	public function save_white_label_ajax() {
-		
+	public function save_white_label_ajax()
+	{
+
 		// Check nonce and permissions
 		if (!wp_verify_nonce($_POST['nonce'], 'pg_white_label_nonce')) {
 			wp_send_json_error(['message' => __('Security check failed', 'pixel-gallery')]);
@@ -183,7 +190,7 @@ class PixelGallery_Admin_Settings {
 		$white_label_icon_id = isset($_POST['pg_white_label_icon_id']) ? absint($_POST['pg_white_label_icon_id']) : 0;
 		$white_label_logo = isset($_POST['pg_white_label_logo']) ? esc_url_raw($_POST['pg_white_label_logo']) : '';
 		$pg_white_label_logo_id = isset($_POST['pg_white_label_logo_id']) ? absint($_POST['pg_white_label_logo_id']) : 0;
-		
+
 		// Save settings
 		update_option('pg_white_label_enabled', $white_label_enabled);
 		update_option('pg_white_label_hide_license', $hide_license);
@@ -219,55 +226,56 @@ class PixelGallery_Admin_Settings {
 	 * @access private
 	 * @return bool
 	 */
-	private function send_white_label_access_email() {
-		
+	private function send_white_label_access_email()
+	{
+
 		$license_email = self::get_license_email();
-		$admin_email = get_bloginfo( 'admin_email' );
+		$admin_email = get_bloginfo('admin_email');
 		$license_key = self::get_license_key();
-		$site_name = get_bloginfo( 'name' );
-		$site_url = get_bloginfo( 'url' );
-		
+		$site_name = get_bloginfo('name');
+		$site_url = get_bloginfo('url');
+
 		// Generate secure access token with additional entropy
-		$access_token = wp_hash( $license_key . time() . wp_salt() . wp_generate_password( 32, false ) );
-		
+		$access_token = wp_hash($license_key . time() . wp_salt() . wp_generate_password(32, false));
+
 		// Store access token in database with no expiration
 		$token_data = [
 			'token' => $access_token,
 			'license_key' => $license_key,
-			'created_at' => current_time( 'timestamp' ),
+			'created_at' => current_time('timestamp'),
 			'user_id' => get_current_user_id()
 		];
-		
-		update_option( 'pg_white_label_access_token', $token_data );
-		
+
+		update_option('pg_white_label_access_token', $token_data);
+
 		// Generate access URL using token instead of license key for security
 		// Add white_label_tab=1 parameter to automatically switch to White Label tab
-		$access_url = admin_url( 'admin.php?page=pixel_gallery_options&pg_wl=1&token=' . $access_token . '&white_label_tab=1#pixel_gallery_extra_options' );
-		
+		$access_url = admin_url('admin.php?page=pixel_gallery_options&pg_wl=1&token=' . $access_token . '&white_label_tab=1#pixel_gallery_extra_options');
+
 		// Email subject
-		$subject = sprintf( '[%s] Pixel Gallery White Label Access Instructions', $site_name );
-		
+		$subject = sprintf('[%s] Pixel Gallery White Label Access Instructions', $site_name);
+
 		// Email message
-		$message = $this->get_white_label_email_template( $site_name, $site_url, $access_url, $license_key );
-		
+		$message = $this->get_white_label_email_template($site_name, $site_url, $access_url, $license_key);
+
 		// Email headers
 		$headers = [
 			'Content-Type: text/html; charset=UTF-8',
 			'From: ' . $site_name . ' <' . $admin_email . '>'
 		];
-		
+
 		$email_sent = false;
-		
+
 		// Send to license email
-		if ( ! empty( $license_email ) && is_email( $license_email ) ) {
-			$email_sent = wp_mail( $license_email, $subject, $message, $headers );
-			
+		if (!empty($license_email) && is_email($license_email)) {
+			$email_sent = wp_mail($license_email, $subject, $message, $headers);
+
 			// If on localhost or email failed, save email content for manual access
-			if ( ! $email_sent || $this->is_localhost() ) {
-				$this->save_email_content_for_localhost( $access_url, $message, $license_email );
+			if (!$email_sent || $this->is_localhost()) {
+				$this->save_email_content_for_localhost($access_url, $message, $license_email);
 			}
 		}
-		
+
 		return $email_sent;
 	}
 
@@ -277,10 +285,11 @@ class PixelGallery_Admin_Settings {
 	 * @access private
 	 * @return bool
 	 */
-	private function is_localhost() {
+	private function is_localhost()
+	{
 		$server_name = $_SERVER['SERVER_NAME'] ?? '';
 		$server_addr = $_SERVER['SERVER_ADDR'] ?? '';
-		
+
 		$localhost_indicators = [
 			'localhost',
 			'127.0.0.1',
@@ -289,14 +298,16 @@ class PixelGallery_Admin_Settings {
 			'.test',
 			'.dev'
 		];
-		
-		foreach ( $localhost_indicators as $indicator ) {
-			if ( strpos( $server_name, $indicator ) !== false || 
-				 strpos( $server_addr, $indicator ) !== false ) {
+
+		foreach ($localhost_indicators as $indicator) {
+			if (
+				strpos($server_name, $indicator) !== false ||
+				strpos($server_addr, $indicator) !== false
+			) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -309,16 +320,17 @@ class PixelGallery_Admin_Settings {
 	 * @param string $recipient_email
 	 * @return void
 	 */
-	private function save_email_content_for_localhost( $access_url, $email_content, $recipient_email ) {
+	private function save_email_content_for_localhost($access_url, $email_content, $recipient_email)
+	{
 		$email_data = [
 			'access_url' => $access_url,
 			'email_content' => $email_content,
 			'recipient_email' => $recipient_email,
 			'message' => 'Email functionality not available on localhost. Use the access URL below:'
 		];
-		
+
 		// Save for admin notice display
-		update_option( 'pg_localhost_email_data', $email_data );
+		update_option('pg_localhost_email_data', $email_data);
 	}
 
 	/**
@@ -331,26 +343,73 @@ class PixelGallery_Admin_Settings {
 	 * @param string $license_key
 	 * @return string
 	 */
-	private function get_white_label_email_template( $site_name, $site_url, $access_url, $license_key ) {
-		$masked_license = substr( $license_key, 0, 8 ) . '****-****-****-' . substr( $license_key, -4 );
-		
+	private function get_white_label_email_template($site_name, $site_url, $access_url, $license_key)
+	{
+		$masked_license = substr($license_key, 0, 8) . '****-****-****-' . substr($license_key, -4);
+
 		ob_start();
 		?>
 		<!DOCTYPE html>
 		<html>
+
 		<head>
 			<meta charset="UTF-8">
 			<title>Pixel Gallery White Label Access</title>
 			<style>
-				body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-				.container { max-width: 600px; margin: 0 auto; padding: 20px; }
-				.header { background: #2196F3; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
-				.content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-				.access-link { background: #2196F3; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 20px 0; }
-				.warning { background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin: 20px 0; }
-				.footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666; }
+				body {
+					font-family: Arial, sans-serif;
+					line-height: 1.6;
+					color: #333;
+				}
+
+				.container {
+					max-width: 600px;
+					margin: 0 auto;
+					padding: 20px;
+				}
+
+				.header {
+					background: #2196F3;
+					color: white;
+					padding: 20px;
+					text-align: center;
+					border-radius: 8px 8px 0 0;
+				}
+
+				.content {
+					background: #f9f9f9;
+					padding: 30px;
+					border-radius: 0 0 8px 8px;
+				}
+
+				.access-link {
+					background: #2196F3;
+					color: white;
+					padding: 15px 25px;
+					text-decoration: none;
+					border-radius: 5px;
+					display: inline-block;
+					margin: 20px 0;
+				}
+
+				.warning {
+					background: #fff3cd;
+					border: 1px solid #ffeaa7;
+					padding: 15px;
+					border-radius: 5px;
+					margin: 20px 0;
+				}
+
+				.footer {
+					margin-top: 30px;
+					padding-top: 20px;
+					border-top: 1px solid #ddd;
+					font-size: 12px;
+					color: #666;
+				}
 			</style>
 		</head>
+
 		<body>
 			<div class="container">
 				<div class="header">
@@ -358,36 +417,41 @@ class PixelGallery_Admin_Settings {
 				</div>
 				<div class="content">
 					<h2>Important: Save This Email!</h2>
-					
+
 					<p>Hello,</p>
-					
-					<p>You have successfully enabled <strong>BDTPG_HIDE mode</strong> for Pixel Gallery Pro on <strong><?php echo esc_html( $site_name ); ?></strong>.</p>
-					
+
+					<p>You have successfully enabled <strong>BDTPG_HIDE mode</strong> for Pixel Gallery Pro on
+						<strong><?php echo esc_html($site_name); ?></strong>.</p>
+
 					<div class="warning">
 						<h3>⚠️ IMPORTANT</h3>
-						<p>The plugin interface is hidden from your WordPress admin. Use below link to modify white label settings.</p>
+						<p>The plugin interface is hidden from your WordPress admin. Use below link to modify white label
+							settings.</p>
 
 						<p style="text-align: center;">
-							<a href="<?php echo esc_url( $access_url ); ?>" class="access-link">Access White Label Settings</a>
+							<a href="<?php echo esc_url($access_url); ?>" class="access-link">Access White Label Settings</a>
 						</p>
-					</div>					
-					
+					</div>
+
 					<p><strong>Direct Link:</strong><br>
-					<a href="<?php echo esc_url( $access_url ); ?>"><?php echo esc_html( $access_url ); ?></a></p>
-					
-					
+						<a href="<?php echo esc_url($access_url); ?>"><?php echo esc_html($access_url); ?></a>
+					</p>
+
+
 					<h3>🔧 What You Can Do</h3>
 					<p>Using the access link above, you can:</p>
 					<ul>
 						<li>Disable BDTPG_HIDE mode</li>
 						<li>Modify white label settings</li>
 					</ul>
-					
-					<p>Need help? <a href="https://bdthemes.com/support/" target="_blank">Contact support</a> with your license key.</p>
-					
+
+					<p>Need help? <a href="https://bdthemes.com/support/" target="_blank">Contact support</a> with your license
+						key.</p>
+
 				</div>
 			</div>
 		</body>
+
 		</html>
 		<?php
 		return ob_get_clean();
@@ -399,42 +463,43 @@ class PixelGallery_Admin_Settings {
 	 * @access private
 	 * @return void
 	 */
-	private function handle_white_label_access() {
+	private function handle_white_label_access()
+	{
 		// Check if this is a white label access request
-		if ( ! isset( $_GET['pg_wl'] ) || ! isset( $_GET['token'] ) ) {
+		if (!isset($_GET['pg_wl']) || !isset($_GET['token'])) {
 			return;
 		}
 
 		// Check user capability
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'You do not have sufficient permissions to access this page.' );
+		if (!current_user_can('manage_options')) {
+			wp_die('You do not have sufficient permissions to access this page.');
 		}
 
-		$pg_wl = sanitize_text_field( $_GET['pg_wl'] );
-		$access_token = sanitize_text_field( $_GET['token'] );
+		$pg_wl = sanitize_text_field($_GET['pg_wl']);
+		$access_token = sanitize_text_field($_GET['token']);
 
 		// Check if pg_wl is set to 1
-		if ( $pg_wl !== '1' ) {
-			$this->show_access_error( 'Invalid access parameter. Please use the correct link from your email.' );
+		if ($pg_wl !== '1') {
+			$this->show_access_error('Invalid access parameter. Please use the correct link from your email.');
 			return;
 		}
 
 		// Validate the access token
-		if ( ! $this->validate_white_label_access_token( $access_token ) ) {
-			$this->show_access_error( 'Invalid or expired access token. Please use the correct access link from your email.' );
+		if (!$this->validate_white_label_access_token($access_token)) {
+			$this->show_access_error('Invalid or expired access token. Please use the correct access link from your email.');
 			return;
 		}
 
 		// Valid access - temporarily allow access by setting a flag
 		add_action('admin_init', [$this, 'admin_init']);
-        add_action('admin_menu', [$this, 'admin_menu'], 201);
+		add_action('admin_menu', [$this, 'admin_menu'], 201);
 
 		// Add success notice
-		add_action( 'admin_notices', function() {
+		add_action('admin_notices', function () {
 			echo '<div class="notice notice-success is-dismissible">';
 			echo '<p><strong>✅ White Label Access Granted!</strong> You can now modify white label settings.</p>';
 			echo '</div>';
-		} );
+		});
 	}
 
 	/**
@@ -444,14 +509,15 @@ class PixelGallery_Admin_Settings {
 	 * @param string $message
 	 * @return void
 	 */
-	private function show_access_error( $message ) {
-		wp_die( 
+	private function show_access_error($message)
+	{
+		wp_die(
 			'<h1>🔒 Pixel Gallery White Label Access</h1>' .
-			'<p><strong>Access Denied:</strong> ' . esc_html( $message ) . '</p>' .
+			'<p><strong>Access Denied:</strong> ' . esc_html($message) . '</p>' .
 			'<p>If you need assistance, please contact support with your license information.</p>' .
 			'<p><a href="' . admin_url() . '" class="button button-primary">← Return to Dashboard</a></p>',
 			'Access Denied',
-			[ 'response' => 403 ]
+			['response' => 403]
 		);
 	}
 
@@ -461,15 +527,16 @@ class PixelGallery_Admin_Settings {
 	 * @access public
 	 * @return void
 	 */
-	public function inject_white_label_icon_css() {
+	public function inject_white_label_icon_css()
+	{
 		$white_label_enabled = get_option('pg_white_label_enabled', false);
 		$white_label_icon = get_option('pg_white_label_icon', '');
-		
+
 		// Only inject CSS when white label is enabled AND a custom icon is set
-		if ( $white_label_enabled && ! empty( $white_label_icon ) ) {
+		if ($white_label_enabled && !empty($white_label_icon)) {
 			echo '<style type="text/css">';
 			echo '#toplevel_page_pixel_gallery_options .wp-menu-image {';
-			echo 'background-image: url(' . esc_url( $white_label_icon ) . ') !important;';
+			echo 'background-image: url(' . esc_url($white_label_icon) . ') !important;';
 			echo 'background-size: 20px 20px !important;';
 			echo 'background-repeat: no-repeat !important;';
 			echo 'background-position: center !important;';
@@ -486,256 +553,267 @@ class PixelGallery_Admin_Settings {
 		// This allows WordPress's original icon to display naturally
 	}
 
-    /**
-     * Get used widgets.
-     *
-     * @access public
-     * @return array
-     * @since 6.0.0
-     *
-     */
-    public static function get_used_widgets() {
+	/**
+	 * Get used widgets.
+	 *
+	 * @access public
+	 * @return array
+	 * @since 6.0.0
+	 *
+	 */
+	public static function get_used_widgets()
+	{
 
-        $used_widgets = array();
+		$used_widgets = array();
 
-        if (class_exists('Elementor\Modules\Usage\Module')) {
-            $module     = Module::instance();
- 			
- 			$old_error_level = error_reporting();
- 			error_reporting(E_ALL & ~E_WARNING); // Suppress warnings
- 			$elements = $module->get_formatted_usage('raw');
- 			error_reporting($old_error_level); // Restore
+		if (class_exists('Elementor\Modules\Usage\Module')) {
+			$module = Module::instance();
 
-            $pg_widgets = self::get_pg_widgets_names();
+			$old_error_level = error_reporting();
+			error_reporting(E_ALL & ~E_WARNING); // Suppress warnings
+			$elements = $module->get_formatted_usage('raw');
+			error_reporting($old_error_level); // Restore
 
-            if (is_array($elements) || is_object($elements)) {
-                foreach ($elements as $post_type => $data) {
-                    foreach ($data['elements'] as $element => $count) {
-                        if (in_array($element, $pg_widgets, true)) {
-                            if (isset($used_widgets[$element])) {
-                                $used_widgets[$element] += $count;
-                            } else {
-                                $used_widgets[$element] = $count;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+			$pg_widgets = self::get_pg_widgets_names();
 
-        return $used_widgets;
-    }
+			if (is_array($elements) || is_object($elements)) {
+				foreach ($elements as $post_type => $data) {
+					foreach ($data['elements'] as $element => $count) {
+						if (in_array($element, $pg_widgets, true)) {
+							if (isset($used_widgets[$element])) {
+								$used_widgets[$element] += $count;
+							} else {
+								$used_widgets[$element] = $count;
+							}
+						}
+					}
+				}
+			}
+		}
 
-    /**
-     * Get used separate widgets.
-     *
-     * @access public
-     * @return array
-     * @since 6.0.0
-     *
-     */
+		return $used_widgets;
+	}
 
-    public static function get_used_only_widgets() {
+	/**
+	 * Get used separate widgets.
+	 *
+	 * @access public
+	 * @return array
+	 * @since 6.0.0
+	 *
+	 */
 
-        $used_widgets = array();
+	public static function get_used_only_widgets()
+	{
 
-        if (class_exists('Elementor\Modules\Usage\Module')) {
-            $module     = Module::instance();
-            
-            $old_error_level = error_reporting();
- 			error_reporting(E_ALL & ~E_WARNING); // Suppress warnings
- 			$elements = $module->get_formatted_usage('raw');
- 			error_reporting($old_error_level); // Restore
-            
-            $pg_widgets = self::get_pg_only_widgets();
+		$used_widgets = array();
 
-            if (is_array($elements) || is_object($elements)) {
-                foreach ($elements as $post_type => $data) {
-                    foreach ($data['elements'] as $element => $count) {
-                        if (in_array($element, $pg_widgets, true)) {
-                            if (isset($used_widgets[$element])) {
-                                $used_widgets[$element] += $count;
-                            } else {
-                                $used_widgets[$element] = $count;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+		if (class_exists('Elementor\Modules\Usage\Module')) {
+			$module = Module::instance();
 
-        return $used_widgets;
-    }
+			$old_error_level = error_reporting();
+			error_reporting(E_ALL & ~E_WARNING); // Suppress warnings
+			$elements = $module->get_formatted_usage('raw');
+			error_reporting($old_error_level); // Restore
 
-    /**
-     * Get unused widgets.
-     *
-     * @access public
-     * @return array
-     * @since 6.0.0
-     *
-     */
+			$pg_widgets = self::get_pg_only_widgets();
 
-    public static function get_unused_widgets() {
+			if (is_array($elements) || is_object($elements)) {
+				foreach ($elements as $post_type => $data) {
+					foreach ($data['elements'] as $element => $count) {
+						if (in_array($element, $pg_widgets, true)) {
+							if (isset($used_widgets[$element])) {
+								$used_widgets[$element] += $count;
+							} else {
+								$used_widgets[$element] = $count;
+							}
+						}
+					}
+				}
+			}
+		}
 
-        if (!current_user_can('install_plugins')) {
-            die();
-        }
+		return $used_widgets;
+	}
 
-        $pg_widgets = self::get_pg_widgets_names();
+	/**
+	 * Get unused widgets.
+	 *
+	 * @access public
+	 * @return array
+	 * @since 6.0.0
+	 *
+	 */
 
-        $used_widgets = self::get_used_widgets();
+	public static function get_unused_widgets()
+	{
 
-        $unused_widgets = array_diff($pg_widgets, array_keys($used_widgets));
+		if (!current_user_can('install_plugins')) {
+			die();
+		}
 
-        return $unused_widgets;
-    }
+		$pg_widgets = self::get_pg_widgets_names();
 
-    /**
-     * Get unused separate widgets.
-     *
-     * @access public
-     * @return array
-     * @since 6.0.0
-     *
-     */
+		$used_widgets = self::get_used_widgets();
 
-    public static function get_unused_only_widgets() {
+		$unused_widgets = array_diff($pg_widgets, array_keys($used_widgets));
 
-        if (!current_user_can('install_plugins')) {
-            die();
-        }
+		return $unused_widgets;
+	}
 
-        $pg_widgets = self::get_pg_only_widgets();
+	/**
+	 * Get unused separate widgets.
+	 *
+	 * @access public
+	 * @return array
+	 * @since 6.0.0
+	 *
+	 */
 
-        $used_widgets = self::get_used_only_widgets();
+	public static function get_unused_only_widgets()
+	{
 
-        $unused_widgets = array_diff($pg_widgets, array_keys($used_widgets));
+		if (!current_user_can('install_plugins')) {
+			die();
+		}
 
-        return $unused_widgets;
-    }
+		$pg_widgets = self::get_pg_only_widgets();
 
-    /**
-     * Get widgets name
-     *
-     * @access public
-     * @return array
-     * @since 6.0.0
-     *
-     */
+		$used_widgets = self::get_used_only_widgets();
 
-    public static function get_pg_widgets_names() {
-        $names = self::$modules_names;
+		$unused_widgets = array_diff($pg_widgets, array_keys($used_widgets));
 
-        if (null === $names) {
-            $names = array_map(
-                function ($item) {
-                    return isset($item['name']) ? 'pg-' . str_replace('_', '-', $item['name']) : 'none';
-                },
-                self::$modules_list
-            );
-        }
+		return $unused_widgets;
+	}
 
-        return $names;
-    }
+	/**
+	 * Get widgets name
+	 *
+	 * @access public
+	 * @return array
+	 * @since 6.0.0
+	 *
+	 */
 
-    /**
-     * Get separate widgets name
-     *
-     * @access public
-     * @return array
-     * @since 6.0.0
-     *
-     */
+	public static function get_pg_widgets_names()
+	{
+		$names = self::$modules_names;
 
-    public static function get_pg_only_widgets() {
-        $names = self::$modules_names_only_widgets;
+		if (null === $names) {
+			$names = array_map(
+				function ($item) {
+					return isset($item['name']) ? 'pg-' . str_replace('_', '-', $item['name']) : 'none';
+				},
+				self::$modules_list
+			);
+		}
 
-        if (null === $names) {
-            $names = array_map(
-                function ($item) {
-                    return isset($item['name']) ? 'bdt-' . str_replace('_', '-', $item['name']) : 'none';
-                },
-                self::$modules_list_only_widgets
-            );
-        }
+		return $names;
+	}
 
-        return $names;
-    }
+	/**
+	 * Get separate widgets name
+	 *
+	 * @access public
+	 * @return array
+	 * @since 6.0.0
+	 *
+	 */
+
+	public static function get_pg_only_widgets()
+	{
+		$names = self::$modules_names_only_widgets;
+
+		if (null === $names) {
+			$names = array_map(
+				function ($item) {
+					return isset($item['name']) ? 'bdt-' . str_replace('_', '-', $item['name']) : 'none';
+				},
+				self::$modules_list_only_widgets
+			);
+		}
+
+		return $names;
+	}
 
 
 
-    /**
-     * Get URL with page id
-     *
-     * @access public
-     *
-     */
+	/**
+	 * Get URL with page id
+	 *
+	 * @access public
+	 *
+	 */
 
-    public static function get_url() {
-        return admin_url('admin.php?page=' . self::PAGE_ID);
-    }
+	public static function get_url()
+	{
+		return admin_url('admin.php?page=' . self::PAGE_ID);
+	}
 
-    /**
-     * Init settings API
-     *
-     * @access public
-     *
-     */
+	/**
+	 * Init settings API
+	 *
+	 * @access public
+	 *
+	 */
 
-    public function admin_init() {
+	public function admin_init()
+	{
 
-        //set the settings
-        $this->settings_api->set_sections($this->get_settings_sections());
-        $this->settings_api->set_fields($this->pixel_gallery_admin_settings());
+		//set the settings
+		$this->settings_api->set_sections($this->get_settings_sections());
+		$this->settings_api->set_fields($this->pixel_gallery_admin_settings());
 
-        //initialize settings
-        $this->settings_api->admin_init();
-        $this->pg_redirect_to_get_pro();
+		//initialize settings
+		$this->settings_api->admin_init();
+		$this->pg_redirect_to_get_pro();
 
-        if ( _is_pg_pro_activated() ) {
-            $this->bdt_redirect_to_renew_link();
-        }
-    }
+		if (_is_pg_pro_activated()) {
+			$this->bdt_redirect_to_renew_link();
+		}
+	}
 
-    /**
-     * Add Plugin Menus
-     *
-     * @access public
-     *
-     */
+	/**
+	 * Add Plugin Menus
+	 *
+	 * @access public
+	 *
+	 */
 
-    // Redirect to Pixel Gallery Pro pricing page
-    public function pg_redirect_to_get_pro() {
-        if (isset($_GET['page']) && $_GET['page'] === self::PAGE_ID . '_get_pro') {
-            wp_redirect('https://bdthemes.com/deals/?utm_source=WordPress_org&utm_medium=bfcm_cta&utm_campaign=pixel_gallery');
-            exit;
-        }
-    }
+	// Redirect to Pixel Gallery Pro pricing page
+	public function pg_redirect_to_get_pro()
+	{
+		if (isset($_GET['page']) && $_GET['page'] === self::PAGE_ID . '_get_pro') {
+			wp_redirect('https://bdthemes.com/deals/?utm_source=WordPress_org&utm_medium=bfcm_cta&utm_campaign=pixel_gallery');
+			exit;
+		}
+	}
 
-     /**
-     * Redirect to license renewal page
-     *
-     * @access public
-     *
-     */
-    public function bdt_redirect_to_renew_link() {
-        if (isset($_GET['page']) && $_GET['page'] === self::PAGE_ID . '_license_renew') {
-            wp_redirect('https://account.bdthemes.com/');
-            exit;
-        }
-    }
+	/**
+	 * Redirect to license renewal page
+	 *
+	 * @access public
+	 *
+	 */
+	public function bdt_redirect_to_renew_link()
+	{
+		if (isset($_GET['page']) && $_GET['page'] === self::PAGE_ID . '_license_renew') {
+			wp_redirect('https://account.bdthemes.com/');
+			exit;
+		}
+	}
 
-    public function admin_menu() {
-        add_menu_page(
-            BDTPG_TITLE . ' ' . esc_html__('Dashboard', 'pixel-gallery'),
-            BDTPG_TITLE,
-            'manage_options',
-            self::PAGE_ID,
-            [$this, 'plugin_page'],
-            $this->pixel_gallery_icon(),
-            58
-        );
+	public function admin_menu()
+	{
+		add_menu_page(
+			BDTPG_TITLE . ' ' . esc_html__('Dashboard', 'pixel-gallery'),
+			BDTPG_TITLE,
+			'manage_options',
+			self::PAGE_ID,
+			[$this, 'plugin_page'],
+			$this->pixel_gallery_icon(),
+			58
+		);
 
 		add_submenu_page(
 			self::PAGE_ID,
@@ -746,36 +824,36 @@ class PixelGallery_Admin_Settings {
 			[$this, 'plugin_page'],
 		);
 
-        add_submenu_page(
-            self::PAGE_ID,
-            BDTPG_TITLE,
-            esc_html__('Core Widgets', 'pixel-gallery'),
-            'manage_options',
-            self::PAGE_ID . '#pixel_gallery_active_modules',
-            [$this, 'plugin_page']
-        );
+		add_submenu_page(
+			self::PAGE_ID,
+			BDTPG_TITLE,
+			esc_html__('Core Widgets', 'pixel-gallery'),
+			'manage_options',
+			self::PAGE_ID . '#pixel_gallery_active_modules',
+			[$this, 'plugin_page']
+		);
 
-        add_submenu_page(
-            self::PAGE_ID,
-            BDTPG_TITLE,
-            esc_html__('Extensions', 'pixel-gallery'),
-            'manage_options',
-            self::PAGE_ID . '#pixel_gallery_elementor_extend',
-            [$this, 'plugin_page']
-        );
+		add_submenu_page(
+			self::PAGE_ID,
+			BDTPG_TITLE,
+			esc_html__('Extensions', 'pixel-gallery'),
+			'manage_options',
+			self::PAGE_ID . '#pixel_gallery_elementor_extend',
+			[$this, 'plugin_page']
+		);
 
-        if (!defined('BDTPG_LO')) {
-            add_submenu_page(
-                self::PAGE_ID,
-                BDTPG_TITLE,
-                esc_html__('Special Features', 'pixel-gallery'),
-                'manage_options',
-                self::PAGE_ID . '#pixel_gallery_other_settings',
-                [$this, 'plugin_page']
-            );
-        }
+		if (!defined('BDTPG_LO')) {
+			add_submenu_page(
+				self::PAGE_ID,
+				BDTPG_TITLE,
+				esc_html__('Special Features', 'pixel-gallery'),
+				'manage_options',
+				self::PAGE_ID . '#pixel_gallery_other_settings',
+				[$this, 'plugin_page']
+			);
+		}
 
-        add_submenu_page(
+		add_submenu_page(
 			self::PAGE_ID,
 			BDTPG_TITLE,
 			esc_html__('Extra Options', 'pixel-gallery'),
@@ -783,7 +861,7 @@ class PixelGallery_Admin_Settings {
 			self::PAGE_ID . '#pixel_gallery_extra_options',
 			[$this, 'plugin_page']
 		);
-		
+
 		add_submenu_page(
 			self::PAGE_ID,
 			BDTPG_TITLE,
@@ -792,7 +870,7 @@ class PixelGallery_Admin_Settings {
 			self::PAGE_ID . '#pixel_gallery_analytics_system_req',
 			[$this, 'plugin_page']
 		);
-		
+
 		add_submenu_page(
 			self::PAGE_ID,
 			BDTPG_TITLE,
@@ -802,7 +880,7 @@ class PixelGallery_Admin_Settings {
 			[$this, 'plugin_page']
 		);
 
-        if (true == _is_pg_pro_activated()) {
+		if (true == _is_pg_pro_activated()) {
 			add_submenu_page(
 				self::PAGE_ID,
 				BDTPG_TITLE,
@@ -811,211 +889,248 @@ class PixelGallery_Admin_Settings {
 				self::PAGE_ID . '#pixel_gallery_rollback_version',
 				[$this, 'plugin_page']
 			);
-        }
+		}
 
-        if (true !== _is_pg_pro_activated()) {
-            add_submenu_page(
-                self::PAGE_ID,
-                BDTPG_TITLE,
-                esc_html__('Black Friday Limited Offer Up To 87%', 'pixel-gallery'),
-                'manage_options',
-                self::PAGE_ID . '#pixel_gallery_get_pro',
-                [$this, 'plugin_page']
-            );
-        }
-    }
+		if (true !== _is_pg_pro_activated()) {
+			add_submenu_page(
+				self::PAGE_ID,
+				BDTPG_TITLE,
+				esc_html__('Black Friday Limited Offer Up To 87%', 'pixel-gallery'),
+				'manage_options',
+				self::PAGE_ID . '#pixel_gallery_get_pro',
+				[$this, 'plugin_page']
+			);
+		}
+	}
 
-    /**
-     * Get SVG Icons of Pixel Gallery
-     *
-     * @access public
-     * @return string
-     */
+	/**
+	 * Get SVG Icons of Pixel Gallery
+	 *
+	 * @access public
+	 * @return string
+	 */
 
-    public function pixel_gallery_icon() {
-        return 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNS4zLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA1MDIuMiA1MDEuOCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTAyLjIgNTAxLjg7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxnPg0KCTxyZWN0IHg9Ijg4LjkiIHk9Ijk5IiBjbGFzcz0ic3QwIiB3aWR0aD0iMzQuMSIgaGVpZ2h0PSIzNC4xIi8+DQoJPHJlY3QgeD0iNTQuMiIgeT0iNTgiIGNsYXNzPSJzdDAiIHdpZHRoPSIyMS43IiBoZWlnaHQ9IjIxLjciLz4NCgk8cmVjdCB4PSI3MS40IiB5PSIyLjQiIGNsYXNzPSJzdDAiIHdpZHRoPSI5LjkiIGhlaWdodD0iOS45Ii8+DQoJPHJlY3QgeD0iOTkuNyIgeT0iMzUuNCIgY2xhc3M9InN0MCIgd2lkdGg9IjE0LjgiIGhlaWdodD0iMTQuOCIvPg0KCTxyZWN0IHg9Ijk4LjciIHk9IjE5NC4zIiBjbGFzcz0ic3QwIiB3aWR0aD0iMTQuOCIgaGVpZ2h0PSIxNC44Ii8+DQoJPHJlY3QgeD0iMTgyLjkiIHk9IjEyLjgiIGNsYXNzPSJzdDAiIHdpZHRoPSIxMi4zIiBoZWlnaHQ9IjEyLjMiLz4NCgk8cmVjdCB4PSIxNDEuMSIgeT0iMTQzLjYiIGNsYXNzPSJzdDAiIHdpZHRoPSI2MC40IiBoZWlnaHQ9IjYwLjQiLz4NCgk8cmVjdCB4PSIxNDMuMiIgeT0iNDYuNiIgY2xhc3M9InN0MCIgd2lkdGg9IjM1LjMiIGhlaWdodD0iMzUuMyIvPg0KCTxyZWN0IHg9IjU5LjciIHk9IjE1MS4xIiBjbGFzcz0ic3QwIiB3aWR0aD0iMjIiIGhlaWdodD0iMjIiLz4NCgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMzk4LjIsNjIuNGMtMzMtMzIuNS03My40LTQ4LjgtMTIxLjMtNDguOGgtNDMuNnYzMi4yaC0yOS42djcyLjNoNzMuMmMxNy4xLDAsMzEuMyw2LjEsNDIuNiwxOC4yDQoJCWMxMS4xLDEyLjEsMTYuNywyNi45LDE2LjcsNDQuNnMtNS42LDMyLjUtMTYuNyw0NC42Yy0xMS4xLDEyLjEtMjUuMywxOC4yLTQyLjYsMTguMmgtNzMuMmwwLDBoLTYxLjV2NjQuOUg5Mi4zdjE5My4xaDExMS42VjM0OC4zDQoJCWg3My4yYzQ3LjksMCw4OC40LTE2LjMsMTIxLjMtNDguOHM0OS41LTcyLjEsNDkuNS0xMTguNUM0NDcuNywxMzQuNCw0MzEuMiw5NSwzOTguMiw2Mi40eiIvPg0KCTxyZWN0IHg9Ijc2LjIiIHk9IjI0My4zIiBjbGFzcz0ic3QwIiB3aWR0aD0iNDQuNSIgaGVpZ2h0PSI0NC41Ii8+DQo8L2c+DQo8L3N2Zz4NCg==';
-    }
+	public function pixel_gallery_icon()
+	{
+		return 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNS4zLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA1MDIuMiA1MDEuOCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTAyLjIgNTAxLjg7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxnPg0KCTxyZWN0IHg9Ijg4LjkiIHk9Ijk5IiBjbGFzcz0ic3QwIiB3aWR0aD0iMzQuMSIgaGVpZ2h0PSIzNC4xIi8+DQoJPHJlY3QgeD0iNTQuMiIgeT0iNTgiIGNsYXNzPSJzdDAiIHdpZHRoPSIyMS43IiBoZWlnaHQ9IjIxLjciLz4NCgk8cmVjdCB4PSI3MS40IiB5PSIyLjQiIGNsYXNzPSJzdDAiIHdpZHRoPSI5LjkiIGhlaWdodD0iOS45Ii8+DQoJPHJlY3QgeD0iOTkuNyIgeT0iMzUuNCIgY2xhc3M9InN0MCIgd2lkdGg9IjE0LjgiIGhlaWdodD0iMTQuOCIvPg0KCTxyZWN0IHg9Ijk4LjciIHk9IjE5NC4zIiBjbGFzcz0ic3QwIiB3aWR0aD0iMTQuOCIgaGVpZ2h0PSIxNC44Ii8+DQoJPHJlY3QgeD0iMTgyLjkiIHk9IjEyLjgiIGNsYXNzPSJzdDAiIHdpZHRoPSIxMi4zIiBoZWlnaHQ9IjEyLjMiLz4NCgk8cmVjdCB4PSIxNDEuMSIgeT0iMTQzLjYiIGNsYXNzPSJzdDAiIHdpZHRoPSI2MC40IiBoZWlnaHQ9IjYwLjQiLz4NCgk8cmVjdCB4PSIxNDMuMiIgeT0iNDYuNiIgY2xhc3M9InN0MCIgd2lkdGg9IjM1LjMiIGhlaWdodD0iMzUuMyIvPg0KCTxyZWN0IHg9IjU5LjciIHk9IjE1MS4xIiBjbGFzcz0ic3QwIiB3aWR0aD0iMjIiIGhlaWdodD0iMjIiLz4NCgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMzk4LjIsNjIuNGMtMzMtMzIuNS03My40LTQ4LjgtMTIxLjMtNDguOGgtNDMuNnYzMi4yaC0yOS42djcyLjNoNzMuMmMxNy4xLDAsMzEuMyw2LjEsNDIuNiwxOC4yDQoJCWMxMS4xLDEyLjEsMTYuNywyNi45LDE2LjcsNDQuNnMtNS42LDMyLjUtMTYuNyw0NC42Yy0xMS4xLDEyLjEtMjUuMywxOC4yLTQyLjYsMTguMmgtNzMuMmwwLDBoLTYxLjV2NjQuOUg5Mi4zdjE5My4xaDExMS42VjM0OC4zDQoJCWg3My4yYzQ3LjksMCw4OC40LTE2LjMsMTIxLjMtNDguOHM0OS41LTcyLjEsNDkuNS0xMTguNUM0NDcuNywxMzQuNCw0MzEuMiw5NSwzOTguMiw2Mi40eiIvPg0KCTxyZWN0IHg9Ijc2LjIiIHk9IjI0My4zIiBjbGFzcz0ic3QwIiB3aWR0aD0iNDQuNSIgaGVpZ2h0PSI0NC41Ii8+DQo8L2c+DQo8L3N2Zz4NCg==';
+	}
 
-    /**
-     * Get SVG Icons of Pixel Gallery
-     *
-     * @access public
-     * @return array
-     */
+	/**
+	 * Get SVG Icons of Pixel Gallery
+	 *
+	 * @access public
+	 * @return array
+	 */
 
-    public function get_settings_sections() {
-        $sections = [
-            [
-                'id'    => 'pixel_gallery_active_modules',
-                'title' => esc_html__('Core Widgets', 'pixel-gallery')
-            ],
-            [
-                'id'    => 'pixel_gallery_elementor_extend',
-                'title' => esc_html__('Extensions', 'pixel-gallery')
-            ],
-            [
-                'id'    => 'pixel_gallery_other_settings',
-                'title' => esc_html__('Special Features', 'pixel-gallery'),
-            ],
-        ];
+	public function get_settings_sections()
+	{
+		$sections = [
+			[
+				'id' => 'pixel_gallery_active_modules',
+				'title' => esc_html__('Core Widgets', 'pixel-gallery')
+			],
+			[
+				'id' => 'pixel_gallery_elementor_extend',
+				'title' => esc_html__('Extensions', 'pixel-gallery')
+			],
+			[
+				'id' => 'pixel_gallery_other_settings',
+				'title' => esc_html__('Special Features', 'pixel-gallery'),
+			],
+		];
 
-        return $sections;
-    }
+		return $sections;
+	}
 
-    /**
-     * Merge Admin Settings
-     *
-     * @access protected
-     * @return array
-     */
+	/**
+	 * Merge Admin Settings
+	 *
+	 * @access protected
+	 * @return array
+	 */
 
-    protected function pixel_gallery_admin_settings() {
+	protected function pixel_gallery_admin_settings()
+	{
 
-        return ModuleService::get_widget_settings(function ($settings) {
-            $settings_fields    = $settings['settings_fields'];
+		return ModuleService::get_widget_settings(function ($settings) {
+			$settings_fields = $settings['settings_fields'];
 
-            self::$modules_list = $settings_fields['pixel_gallery_active_modules'];
-            self::$modules_list_only_widgets  = $settings_fields['pixel_gallery_active_modules'];
+			self::$modules_list = $settings_fields['pixel_gallery_active_modules'];
+			self::$modules_list_only_widgets = $settings_fields['pixel_gallery_active_modules'];
 
-            return $settings_fields;
-        });
-    }
+			return $settings_fields;
+		});
+	}
 
-    /**
-     * Get Welcome Panel
-     *
-     * @access public
-     * @return void
-     */
-
-    public function old_pixel_gallery_welcome() {
-        ?>
-
-        <div class="pg-dashboard-panel" bdt-scrollspy="target: > div > div > .bdt-card; cls: bdt-animation-slide-bottom-small; delay: 300">
-
-            <div class="bdt-grid bdt-grid-medium" bdt-grid bdt-height-match="target: > div > .bdt-card">
-                <div class="bdt-width-1-2@m bdt-width-1-4@l">
-                    <div class="pg-widget-status bdt-card bdt-card-body">
-
-                        <?php
-                        $used_widgets    = count(self::get_used_widgets());
-                        $un_used_widgets = count(self::get_unused_widgets());
-                        ?>
-                        <div class="pg-count-canvas-wrap">
-                            <h1 class="pg-feature-title"><?php echo esc_html__('All Widgets', 'pixel-gallery'); ?></h1>
-                            <div class="bdt-flex bdt-flex-between bdt-flex-middle">
-                                <div class="pg-count-wrap">
-                                    <div class="pg-widget-count"><?php echo esc_html__('Used:', 'pixel-gallery'); ?> <b><?php echo esc_html__($used_widgets, 'pixel-gallery'); ?></b></div>
-                                    <div class="pg-widget-count"><?php echo esc_html__('Unused:', 'pixel-gallery'); ?> <b><?php echo esc_html__($un_used_widgets, 'pixel-gallery'); ?></b></div>
-                                    <div class="pg-widget-count"><?php echo esc_html__('Total:', 'pixel-gallery'); ?> <b><?php echo esc_html__($used_widgets + $un_used_widgets, 'pixel-gallery'); ?></b>
-                                    </div>
-                                </div>
-
-                                <div class="pg-canvas-wrap">
-                                    <canvas id="bdt-db-total-status" style="height: 100px; width: 100px;" data-label="Total Widgets Status - (<?php echo esc_html__($used_widgets + $un_used_widgets, 'pixel-gallery'); ?>)" data-labels="<?php echo esc_attr('Used, Unused'); ?>" data-value="<?php echo esc_attr($used_widgets) . ',' . esc_attr($un_used_widgets); ?>" data-bg="#FFD166, #fff4d9" data-bg-hover="#0673e1, #e71522"></canvas>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="bdt-width-1-2@m bdt-width-1-4@l">
-                    <div class="pg-widget-status bdt-card bdt-card-body">
-
-                        <div class="pg-count-canvas-wrap">
-                            <h1 class="pg-feature-title"><?php echo esc_html_e('Active', 'pixel-gallery'); ?></h1>
-                            <div class="bdt-flex bdt-flex-between bdt-flex-middle">
-                                <div class="pg-count-wrap">
-                                    <div class="pg-widget-count"><?php esc_html_e('Core: ', 'pixel-gallery'); ?><b id="bdt-total-widgets-status-core"></b></div>
-                                    <div class="pg-widget-count"><?php esc_html_e('Total:', 'pixel-gallery'); ?> <b id="bdt-total-widgets-status-heading"></b></div>
-                                </div>
-
-                                <div class="pg-canvas-wrap">
-                                    <canvas id="bdt-total-widgets-status" style="height: 100px; width: 100px;" data-labels="Total Active, Total Widgets" data-bg="#0680d6, #E6F9FF" data-bg-hover="#0673e1, #b6f9e8">
-                                    </canvas>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="bdt-width-1-1@m bdt-width-1-2@l">
-                    <div class="pg-elementor-addons bdt-card bdt-card-body">
-                        <a target="_blank" rel="" href="https://www.elementpack.pro/elements-demo/"></a>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <div class="bdt-grid bdt-grid-medium" bdt-grid bdt-height-match="target: > div > .bdt-card">
-                <div class="bdt-width-2-5@m pg-support-section">
-                    <div class="pg-support-content bdt-card bdt-card-body">
-                        <h1 class="pg-feature-title">Support And Feedback</h1>
-                        <p>Feeling like to consult with an expert? Take live Chat support immediately from <a href="https://pixelgallery.com" target="_blank" rel="">PixelGallery</a>. We are always
-                            ready to help
-                            you 24/7.</p>
-                        <p><strong>Or if you’re facing technical issues with our plugin, then please create a support
-                                ticket</strong></p>
-                        <a class="bdt-button bdt-btn-blue bdt-margin-small-top bdt-margin-small-right" target="_blank" rel="" href="https://bdthemes.com/all-knowledge-base-of-pixel-gallery/">Knowledge
-                            Base</a>
-                        <a class="bdt-button bdt-btn-grey bdt-margin-small-top" target="_blank" href="https://bdthemes.com/support/">Get Support</a>
-                    </div>
-                </div>
-
-                <div class="bdt-width-3-5@m">
-                    <div class="bdt-card bdt-card-body pg-system-requirement">
-                        <h1 class="pg-feature-title bdt-margin-small-bottom">System Requirement</h1>
-                        <?php $this->pixel_gallery_system_requirement(); ?>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bdt-grid bdt-grid-medium" bdt-grid bdt-height-match="target: > div > .bdt-card">
-                <div class="bdt-width-1-2@m pg-support-section">
-                    <div class="bdt-card bdt-card-body pg-feedback-bg">
-                        <h1 class="pg-feature-title">Missing Any Feature?</h1>
-                        <p style="max-width: 520px;">Are you in need of a feature that’s not available in our plugin?
-                            Feel free to do a feature request from here,</p>
-                        <a class="bdt-button bdt-btn-yellow bdt-margin-small-top" target="_blank" rel="" href="https://feedback.bdthemes.com/b/6vr2250l/feature-requests/">Request Feature</a>
-                    </div>
-                </div>
-
-                <div class="bdt-width-1-2@m">
-                    <div class="bdt-card bdt-card-body pg-tryaddon-bg">
-                        <h1 class="pg-feature-title">Try Our Others Addons</h1>
-                        <p style="max-width: 520px;">
-                            <b>Element Pack, Prime Slider, Pixel Gallery & Ultimate Store Kit</b> addons for <b>Elementor</b> is the best slider &
-                            blogs plugin for WordPress.
-                        </p>
-                        <div class="bdt-others-plugins-link">
-                            <a class="bdt-button bdt-btn-ep bdt-margin-small-right" target="_blank" href="https://wordpress.org/plugins/bdthemes-element-pack-lite/" bdt-tooltip="Element Pack Lite provides more than 50+ essential elements for everyday applications to simplify the whole web building process. It's Free! Download it.">Element pack</a>
-                            <a class="bdt-button bdt-btn-ps bdt-margin-small-right" target="_blank" href="https://wordpress.org/plugins/bdthemes-prime-slider-lite/" bdt-tooltip="The revolutionary slider builder addon for Elementor with next-gen superb interface. It's Free! Download it.">Prime Slider</a>
-                            <a class="bdt-button bdt-btn-pg bdt-margin-small-right" target="_blank" rel="" href="https://wordpress.org/plugins/pixel-gallery/" bdt-tooltip="Best blogging addon for building quality blogging website with fine-tuned features and widgets. It's Free! Download it.">Pixel Gallery</a>
-                            <a class="bdt-button bdt-btn-usk bdt-margin-small-right" target="_blank" rel="" href="https://wordpress.org/plugins/ultimate-store-kit/" bdt-tooltip="The only eCommmerce addon for answering all your online store design problems in one package. It's Free! Download it.">Ultimate Store Kit</a>
-                            <a class="bdt-button bdt-btn-live-copy bdt-margin-small-right" target="_blank" rel="" href="https://wordpress.org/plugins/live-copy-paste/" bdt-tooltip="Superfast cross-domain copy-paste mechanism for WordPress websites with true UI copy experience. It's Free! Download it.">Live Copy Paste</a>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-
-        <?php
-    }
-
-    /**
+	/**
 	 * Get Welcome Panel
 	 *
 	 * @access public
 	 * @return void
 	 */
 
-	public function pixel_gallery_welcome() {
+	public function old_pixel_gallery_welcome()
+	{
+		?>
+
+		<div class="pg-dashboard-panel"
+			bdt-scrollspy="target: > div > div > .bdt-card; cls: bdt-animation-slide-bottom-small; delay: 300">
+
+			<div class="bdt-grid bdt-grid-medium" bdt-grid bdt-height-match="target: > div > .bdt-card">
+				<div class="bdt-width-1-2@m bdt-width-1-4@l">
+					<div class="pg-widget-status bdt-card bdt-card-body">
+
+						<?php
+						$used_widgets = count(self::get_used_widgets());
+						$un_used_widgets = count(self::get_unused_widgets());
+						?>
+						<div class="pg-count-canvas-wrap">
+							<h1 class="pg-feature-title"><?php echo esc_html__('All Widgets', 'pixel-gallery'); ?></h1>
+							<div class="bdt-flex bdt-flex-between bdt-flex-middle">
+								<div class="pg-count-wrap">
+									<div class="pg-widget-count"><?php echo esc_html__('Used:', 'pixel-gallery'); ?>
+										<b><?php echo esc_html__($used_widgets, 'pixel-gallery'); ?></b></div>
+									<div class="pg-widget-count"><?php echo esc_html__('Unused:', 'pixel-gallery'); ?>
+										<b><?php echo esc_html__($un_used_widgets, 'pixel-gallery'); ?></b></div>
+									<div class="pg-widget-count"><?php echo esc_html__('Total:', 'pixel-gallery'); ?>
+										<b><?php echo esc_html__($used_widgets + $un_used_widgets, 'pixel-gallery'); ?></b>
+									</div>
+								</div>
+
+								<div class="pg-canvas-wrap">
+									<canvas id="bdt-db-total-status" style="height: 100px; width: 100px;"
+										data-label="Total Widgets Status - (<?php echo esc_html__($used_widgets + $un_used_widgets, 'pixel-gallery'); ?>)"
+										data-labels="<?php echo esc_attr('Used, Unused'); ?>"
+										data-value="<?php echo esc_attr($used_widgets) . ',' . esc_attr($un_used_widgets); ?>"
+										data-bg="#FFD166, #fff4d9" data-bg-hover="#0673e1, #e71522"></canvas>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="bdt-width-1-2@m bdt-width-1-4@l">
+					<div class="pg-widget-status bdt-card bdt-card-body">
+
+						<div class="pg-count-canvas-wrap">
+							<h1 class="pg-feature-title"><?php echo esc_html_e('Active', 'pixel-gallery'); ?></h1>
+							<div class="bdt-flex bdt-flex-between bdt-flex-middle">
+								<div class="pg-count-wrap">
+									<div class="pg-widget-count"><?php esc_html_e('Core: ', 'pixel-gallery'); ?><b
+											id="bdt-total-widgets-status-core"></b></div>
+									<div class="pg-widget-count"><?php esc_html_e('Total:', 'pixel-gallery'); ?> <b
+											id="bdt-total-widgets-status-heading"></b></div>
+								</div>
+
+								<div class="pg-canvas-wrap">
+									<canvas id="bdt-total-widgets-status" style="height: 100px; width: 100px;"
+										data-labels="Total Active, Total Widgets" data-bg="#0680d6, #E6F9FF"
+										data-bg-hover="#0673e1, #b6f9e8">
+									</canvas>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="bdt-width-1-1@m bdt-width-1-2@l">
+					<div class="pg-elementor-addons bdt-card bdt-card-body">
+						<a target="_blank" rel="" href="https://www.elementpack.pro/elements-demo/"></a>
+					</div>
+				</div>
+
+			</div>
+
+
+			<div class="bdt-grid bdt-grid-medium" bdt-grid bdt-height-match="target: > div > .bdt-card">
+				<div class="bdt-width-2-5@m pg-support-section">
+					<div class="pg-support-content bdt-card bdt-card-body">
+						<h1 class="pg-feature-title">Support And Feedback</h1>
+						<p>Feeling like to consult with an expert? Take live Chat support immediately from <a
+								href="https://pixelgallery.com" target="_blank" rel="">PixelGallery</a>. We are always
+							ready to help
+							you 24/7.</p>
+						<p><strong>Or if you’re facing technical issues with our plugin, then please create a support
+								ticket</strong></p>
+						<a class="bdt-button bdt-btn-blue bdt-margin-small-top bdt-margin-small-right" target="_blank" rel=""
+							href="https://bdthemes.com/all-knowledge-base-of-pixel-gallery/">Knowledge
+							Base</a>
+						<a class="bdt-button bdt-btn-grey bdt-margin-small-top" target="_blank"
+							href="https://bdthemes.com/support/">Get Support</a>
+					</div>
+				</div>
+
+				<div class="bdt-width-3-5@m">
+					<div class="bdt-card bdt-card-body pg-system-requirement">
+						<h1 class="pg-feature-title bdt-margin-small-bottom">System Requirement</h1>
+						<?php $this->pixel_gallery_system_requirement(); ?>
+					</div>
+				</div>
+			</div>
+
+			<div class="bdt-grid bdt-grid-medium" bdt-grid bdt-height-match="target: > div > .bdt-card">
+				<div class="bdt-width-1-2@m pg-support-section">
+					<div class="bdt-card bdt-card-body pg-feedback-bg">
+						<h1 class="pg-feature-title">Missing Any Feature?</h1>
+						<p style="max-width: 520px;">Are you in need of a feature that’s not available in our plugin?
+							Feel free to do a feature request from here,</p>
+						<a class="bdt-button bdt-btn-yellow bdt-margin-small-top" target="_blank" rel=""
+							href="https://feedback.bdthemes.com/b/6vr2250l/feature-requests/">Request Feature</a>
+					</div>
+				</div>
+
+				<div class="bdt-width-1-2@m">
+					<div class="bdt-card bdt-card-body pg-tryaddon-bg">
+						<h1 class="pg-feature-title">Try Our Others Addons</h1>
+						<p style="max-width: 520px;">
+							<b>Element Pack, Prime Slider, Pixel Gallery & Ultimate Store Kit</b> addons for <b>Elementor</b> is
+							the best slider &
+							blogs plugin for WordPress.
+						</p>
+						<div class="bdt-others-plugins-link">
+							<a class="bdt-button bdt-btn-ep bdt-margin-small-right" target="_blank"
+								href="https://wordpress.org/plugins/bdthemes-element-pack-lite/"
+								bdt-tooltip="Element Pack Lite provides more than 50+ essential elements for everyday applications to simplify the whole web building process. It's Free! Download it.">Element
+								pack</a>
+							<a class="bdt-button bdt-btn-ps bdt-margin-small-right" target="_blank"
+								href="https://wordpress.org/plugins/bdthemes-prime-slider-lite/"
+								bdt-tooltip="The revolutionary slider builder addon for Elementor with next-gen superb interface. It's Free! Download it.">Prime
+								Slider</a>
+							<a class="bdt-button bdt-btn-pg bdt-margin-small-right" target="_blank" rel=""
+								href="https://wordpress.org/plugins/pixel-gallery/"
+								bdt-tooltip="Best blogging addon for building quality blogging website with fine-tuned features and widgets. It's Free! Download it.">Pixel
+								Gallery</a>
+							<a class="bdt-button bdt-btn-usk bdt-margin-small-right" target="_blank" rel=""
+								href="https://wordpress.org/plugins/ultimate-store-kit/"
+								bdt-tooltip="The only eCommmerce addon for answering all your online store design problems in one package. It's Free! Download it.">Ultimate
+								Store Kit</a>
+							<a class="bdt-button bdt-btn-live-copy bdt-margin-small-right" target="_blank" rel=""
+								href="https://wordpress.org/plugins/live-copy-paste/"
+								bdt-tooltip="Superfast cross-domain copy-paste mechanism for WordPress websites with true UI copy experience. It's Free! Download it.">Live
+								Copy Paste</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+		<?php
+	}
+
+	/**
+	 * Get Welcome Panel
+	 *
+	 * @access public
+	 * @return void
+	 */
+
+	public function pixel_gallery_welcome()
+	{
 
 		?>
 
@@ -1053,8 +1168,7 @@ class PixelGallery_Admin_Settings {
 							</li>
 						</ul>
 						<div class="pg-dashboard-compare-section-buttons">
-							<a href="https://pixelgallery.pro/pricing/"
-								class="bdt-button bdt-welcome-button bdt-margin-small-right"
+							<a href="https://pixelgallery.pro/pricing/" class="bdt-button bdt-welcome-button"
 								target="_blank"><?php esc_html_e('Compare Free Vs Pro', 'pixel-gallery'); ?></a>
 							<a href="https://store.bdthemes.com/pixel-gallery?utm_source=PixelGallery&utm_medium=PluginPage&utm_campaign=PixelGallery&coupon=FREETOPRO"
 								class="bdt-button bdt-dashboard-sec-btn"
@@ -1072,8 +1186,7 @@ class PixelGallery_Admin_Settings {
 						</h1>
 						<p><?php esc_html_e('Build your wordpress websites of any niche—not from scratch and in a single click.', 'pixel-gallery'); ?>
 						</p>
-						<a href="https://pixelgallery.pro/"
-							class="bdt-button bdt-dashboard-sec-btn bdt-margin-small-top"
+						<a href="https://pixelgallery.pro/" class="bdt-button bdt-dashboard-sec-btn bdt-margin-small-top"
 							target="_blank"><?php esc_html_e('View Templates', 'pixel-gallery'); ?></a>
 					</div>
 
@@ -1158,209 +1271,215 @@ class PixelGallery_Admin_Settings {
 		<?php
 	}
 
-    /**
-     * Get Pro
-     *
-     * @access public
-     * @return void
-     */
+	/**
+	 * Get Pro
+	 *
+	 * @access public
+	 * @return void
+	 */
 
-    function pixel_gallery_get_pro() {
-    ?>
-        <div class="pg-dashboard-panel" bdt-scrollspy="target: > div > div > .bdt-card; cls: bdt-animation-slide-bottom-small; delay: 300">
+	function pixel_gallery_get_pro()
+	{
+		?>
+		<div class="pg-dashboard-panel"
+			bdt-scrollspy="target: > div > div > .bdt-card; cls: bdt-animation-slide-bottom-small; delay: 300">
 
-            <div class="bdt-grid" bdt-grid bdt-height-match="target: > div > .bdt-card" style="max-width: 800px; margin-left: auto; margin-right: auto;">
-                <div class="bdt-width-1-1@m pg-comparision bdt-text-center">
-                    <div class="bdt-flex bdt-flex-between bdt-flex-middle">
-                        <div class="bdt-text-left">
-                            <h1 class="bdt-text-bold">WHY GO WITH PRO?</h1>
-                            <h2>Just Compare With Pixel Gallery Free Vs Pro</h2>
-                        </div>
-                        <?php if (true !== _is_pg_pro_activated()) : ?>
-                            <div class="pg-purchase-button">
-                                <a href="https://pixelgallery.pro/pricing/" target="_blank">Purchase Now</a>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                    
-                    <div>
+			<div class="bdt-grid" bdt-grid bdt-height-match="target: > div > .bdt-card"
+				style="max-width: 800px; margin-left: auto; margin-right: auto;">
+				<div class="bdt-width-1-1@m pg-comparision bdt-text-center">
+					<div class="bdt-flex bdt-flex-between bdt-flex-middle">
+						<div class="bdt-text-left">
+							<h1 class="bdt-text-bold">WHY GO WITH PRO?</h1>
+							<h2>Just Compare With Pixel Gallery Free Vs Pro</h2>
+						</div>
+						<?php if (true !== _is_pg_pro_activated()): ?>
+							<div class="pg-purchase-button">
+								<a href="https://pixelgallery.pro/pricing/" target="_blank">Purchase Now</a>
+							</div>
+						<?php endif; ?>
+					</div>
 
-                        <ul class="bdt-list bdt-list-divider bdt-text-left bdt-text-normal" style="font-size: 15px;">
+					<div>
 
-
-                            <li class="bdt-text-bold">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Features</div>
-                                    <div class="bdt-width-auto@m">Free</div>
-                                    <div class="bdt-width-auto@m">Pro</div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m"><span bdt-tooltip="pos: top-left; title: Lite have 35+ Widgets but Pro have 100+ core widgets">Core Widgets</span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Theme Compatibility</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Dynamic Content & Custom Fields Capabilities</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Proper Documentation</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Updates & Support</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Ready Made Pages</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Ready Made Blocks</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Elementor Extended Widgets</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Rooten Theme Pro Features</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-no"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="bdt-grid">
-                                    <div class="bdt-width-expand@m">Priority Support</div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-no"></span></div>
-                                    <div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
-                                </div>
-                            </li>
-
-                        </ul>
+						<ul class="bdt-list bdt-list-divider bdt-text-left bdt-text-normal" style="font-size: 15px;">
 
 
-                        <div class="pg-more-features bdt-card bdt-card-body bdt-margin-medium-top bdt-padding-large">
-                            <ul class="bdt-list bdt-list-divider bdt-text-left" style="font-size: 15px;">
-                                <li>
-                                    <div class="bdt-grid bdt-grid-small">
-                                        <div class="bdt-width-1-3@m">
-                                            <span class="dashicons dashicons-heart"></span> Incredibly Advanced
-                                        </div>
-                                        <div class="bdt-width-1-3@m">
-                                            <span class="dashicons dashicons-heart"></span> Refund or Cancel Anytime
-                                        </div>
-                                        <div class="bdt-width-1-3@m">
-                                            <span class="dashicons dashicons-heart"></span> Dynamic Content
-                                        </div>
-                                    </div>
-                                </li>
+							<li class="bdt-text-bold">
+								<div class="bdt-grid">
+									<div class="bdt-width-expand@m">Features</div>
+									<div class="bdt-width-auto@m">Free</div>
+									<div class="bdt-width-auto@m">Pro</div>
+								</div>
+							</li>
+							<li class="">
+								<div class="bdt-grid">
+									<div class="bdt-width-expand@m"><span
+											bdt-tooltip="pos: top-left; title: Lite have 35+ Widgets but Pro have 100+ core widgets">Core
+											Widgets</span></div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+								</div>
+							</li>
+							<li class="">
+								<div class="bdt-grid">
+									<div class="bdt-width-expand@m">Theme Compatibility</div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+								</div>
+							</li>
+							<li class="">
+								<div class="bdt-grid">
+									<div class="bdt-width-expand@m">Dynamic Content & Custom Fields Capabilities</div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+								</div>
+							</li>
+							<li class="">
+								<div class="bdt-grid">
+									<div class="bdt-width-expand@m">Proper Documentation</div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+								</div>
+							</li>
+							<li class="">
+								<div class="bdt-grid">
+									<div class="bdt-width-expand@m">Updates & Support</div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+								</div>
+							</li>
+							<li class="">
+								<div class="bdt-grid">
+									<div class="bdt-width-expand@m">Ready Made Pages</div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+								</div>
+							</li>
+							<li class="">
+								<div class="bdt-grid">
+									<div class="bdt-width-expand@m">Ready Made Blocks</div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+								</div>
+							</li>
+							<li class="">
+								<div class="bdt-grid">
+									<div class="bdt-width-expand@m">Elementor Extended Widgets</div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+								</div>
+							</li>
+							<li class="">
+								<div class="bdt-grid">
+									<div class="bdt-width-expand@m">Rooten Theme Pro Features</div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-no"></span></div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+								</div>
+							</li>
+							<li class="">
+								<div class="bdt-grid">
+									<div class="bdt-width-expand@m">Priority Support</div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-no"></span></div>
+									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
+								</div>
+							</li>
 
-                                <li>
-                                    <div class="bdt-grid bdt-grid-small">
-                                        <div class="bdt-width-1-3@m">
-                                            <span class="dashicons dashicons-heart"></span> Super-Flexible Widgets
-                                        </div>
-                                        <div class="bdt-width-1-3@m">
-                                            <span class="dashicons dashicons-heart"></span> 24/7 Premium Support
-                                        </div>
-                                        <div class="bdt-width-1-3@m">
-                                            <span class="dashicons dashicons-heart"></span> Third Party Plugins
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="bdt-grid bdt-grid-small">
-                                        <div class="bdt-width-1-3@m">
-                                            <span class="dashicons dashicons-heart"></span> Special Discount!
-                                        </div>
-                                        <div class="bdt-width-1-3@m">
-                                            <span class="dashicons dashicons-heart"></span> Custom Field Integration
-                                        </div>
-                                        <div class="bdt-width-1-3@m">
-                                            <span class="dashicons dashicons-heart"></span> With Live Chat Support
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="bdt-grid bdt-grid-small">
-                                        <div class="bdt-width-1-3@m">
-                                            <span class="dashicons dashicons-heart"></span> Trusted Payment Methods
-                                        </div>
-                                        <div class="bdt-width-1-3@m">
-                                            <span class="dashicons dashicons-heart"></span> Interactive Effects
-                                        </div>
-                                        <div class="bdt-width-1-3@m">
-                                            <span class="dashicons dashicons-heart"></span> Video Tutorial
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <!-- <div class="pg-dashboard-divider"></div> -->
-
-                            <?php if (true !== _is_pg_pro_activated()) : ?>
-                                <div class="pg-purchase-button bdt-margin-medium-top">
-                                    <a href="https://pixelgallery.pro/pricing/" target="_blank">Purchase Now</a>
-                                </div>
-                            <?php endif; ?>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    <?php
-    }
+						</ul>
 
 
-    /**
+						<div class="pg-more-features bdt-card bdt-card-body bdt-margin-medium-top bdt-padding-large">
+							<ul class="bdt-list bdt-list-divider bdt-text-left" style="font-size: 15px;">
+								<li>
+									<div class="bdt-grid bdt-grid-small">
+										<div class="bdt-width-1-3@m">
+											<span class="dashicons dashicons-heart"></span> Incredibly Advanced
+										</div>
+										<div class="bdt-width-1-3@m">
+											<span class="dashicons dashicons-heart"></span> Refund or Cancel Anytime
+										</div>
+										<div class="bdt-width-1-3@m">
+											<span class="dashicons dashicons-heart"></span> Dynamic Content
+										</div>
+									</div>
+								</li>
+
+								<li>
+									<div class="bdt-grid bdt-grid-small">
+										<div class="bdt-width-1-3@m">
+											<span class="dashicons dashicons-heart"></span> Super-Flexible Widgets
+										</div>
+										<div class="bdt-width-1-3@m">
+											<span class="dashicons dashicons-heart"></span> 24/7 Premium Support
+										</div>
+										<div class="bdt-width-1-3@m">
+											<span class="dashicons dashicons-heart"></span> Third Party Plugins
+										</div>
+									</div>
+								</li>
+
+								<li>
+									<div class="bdt-grid bdt-grid-small">
+										<div class="bdt-width-1-3@m">
+											<span class="dashicons dashicons-heart"></span> Special Discount!
+										</div>
+										<div class="bdt-width-1-3@m">
+											<span class="dashicons dashicons-heart"></span> Custom Field Integration
+										</div>
+										<div class="bdt-width-1-3@m">
+											<span class="dashicons dashicons-heart"></span> With Live Chat Support
+										</div>
+									</div>
+								</li>
+
+								<li>
+									<div class="bdt-grid bdt-grid-small">
+										<div class="bdt-width-1-3@m">
+											<span class="dashicons dashicons-heart"></span> Trusted Payment Methods
+										</div>
+										<div class="bdt-width-1-3@m">
+											<span class="dashicons dashicons-heart"></span> Interactive Effects
+										</div>
+										<div class="bdt-width-1-3@m">
+											<span class="dashicons dashicons-heart"></span> Video Tutorial
+										</div>
+									</div>
+								</li>
+							</ul>
+
+							<!-- <div class="pg-dashboard-divider"></div> -->
+
+							<?php if (true !== _is_pg_pro_activated()): ?>
+								<div class="pg-purchase-button bdt-margin-medium-top">
+									<a href="https://pixelgallery.pro/pricing/" target="_blank">Purchase Now</a>
+								</div>
+							<?php endif; ?>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<?php
+	}
+
+
+	/**
 	 * Display Plugin Page
 	 *
 	 * @access public
 	 * @return void
 	 */
 
-	public function plugin_page() {
+	public function plugin_page()
+	{
 
 		?>
 
 		<div class="wrap pixel-gallery-dashboard">
 			<h1></h1> <!-- don't remove this div, it's used for the notice container -->
-		
+
 			<div class="pg-dashboard-wrapper bdt-margin-top">
 				<div class="pg-dashboard-header bdt-flex bdt-flex-wrap bdt-flex-between bdt-flex-middle"
 					bdt-sticky="offset: 32; animation: bdt-animation-slide-top-small; duration: 300">
@@ -1376,24 +1495,24 @@ class PixelGallery_Admin_Settings {
 						</div>
 
 						<div class="pg-logo">
-							<?php 
-							$white_label_enabled = get_option( 'pg_white_label_enabled', false );
-							$white_label_logo 	 = get_option( 'pg_white_label_logo', '' );
-							$white_label_title 	 = get_option( 'pg_white_label_title', '' );
+							<?php
+							$white_label_enabled = get_option('pg_white_label_enabled', false);
+							$white_label_logo = get_option('pg_white_label_logo', '');
+							$white_label_title = get_option('pg_white_label_title', '');
 
 							if ($white_label_enabled && !empty($white_label_logo)) {
 
 								$alt_text = !empty($white_label_title) ? $white_label_title . ' Logo' : 'Custom Logo';
 								echo '<img src="' . esc_url($white_label_logo) . '" alt="' . esc_attr($alt_text) . '" style="max-height: 40px;">';
 							} else {
-								echo '<img src="' . BDTPG_URL  . 'assets/images/logo-with-text.svg" alt="Pixel Gallery Logo">';
+								echo '<img src="' . BDTPG_URL . 'assets/images/logo-with-text.svg" alt="Pixel Gallery Logo">';
 							}
 							?>
 						</div>
 					</div>
 
 					<div class="pg-dashboard-new-page-wrapper bdt-flex bdt-flex-wrap bdt-flex-middle">
-						
+
 
 						<!-- Always render save button, JavaScript will control visibility -->
 						<div class="pg-dashboard-save-btn" style="display: none;">
@@ -1404,10 +1523,12 @@ class PixelGallery_Admin_Settings {
 
 						<!-- Custom Code Save Button Section -->
 						<div class="pg-code-save-section" style="display: none;">
-							<button type="button" id="pg-save-custom-code" class="bdt-button bdt-button-primary pixel-gallery-custom-code-save-btn">
+							<button type="button" id="pg-save-custom-code"
+								class="bdt-button bdt-button-primary pixel-gallery-custom-code-save-btn">
 								<?php esc_html_e('Save Custom Code', 'pixel-gallery'); ?>
 							</button>
-							<button type="button" id="pg-reset-custom-code" class="bdt-button bdt-button-primary pixel-gallery-custom-code-reset-btn">
+							<button type="button" id="pg-reset-custom-code"
+								class="bdt-button bdt-button-primary pixel-gallery-custom-code-reset-btn">
 								<?php esc_html_e('Reset Code', 'pixel-gallery'); ?>
 							</button>
 						</div>
@@ -1415,16 +1536,17 @@ class PixelGallery_Admin_Settings {
 						<!--  White Label Save Button Section -->
 						<?php if (self::is_white_label_license()): ?>
 							<div class="pg-white-label-save-section" style="display: none;">
-								<button type="button" 
-										id="pg-save-white-label" 
-										class="bdt-button bdt-button-primary pixel-gallery-white-label-save-btn">
-										<?php esc_html_e('Save White Label Settings', 'pixel-gallery'); ?>
+								<button type="button" id="pg-save-white-label"
+									class="bdt-button bdt-button-primary pixel-gallery-white-label-save-btn">
+									<?php esc_html_e('Save White Label Settings', 'pixel-gallery'); ?>
 								</button>
 							</div>
 						<?php endif; ?>
 
 						<div class="pg-dashboard-new-page">
-							<a class="bdt-flex bdt-flex-middle" href="<?php echo esc_url(admin_url('post-new.php?post_type=page')); ?>" class=""><i class="dashicons dashicons-admin-page"></i>
+							<a class="bdt-flex bdt-flex-middle"
+								href="<?php echo esc_url(admin_url('post-new.php?post_type=page')); ?>" class=""><i
+									class="dashicons dashicons-admin-page"></i>
 								<?php echo esc_html__('Create New Page', 'pixel-gallery') ?>
 							</a>
 						</div>
@@ -1433,7 +1555,8 @@ class PixelGallery_Admin_Settings {
 
 				<div class="pg-dashboard-container bdt-flex">
 					<div class="pg-dashboard-nav-container-wrapper">
-						<div class="pg-dashboard-nav-container-inner" bdt-sticky="end: !.pg-dashboard-container; offset: 115; animation: bdt-animation-slide-top-small; duration: 300">
+						<div class="pg-dashboard-nav-container-inner"
+							bdt-sticky="end: !.pg-dashboard-container; offset: 115; animation: bdt-animation-slide-top-small; duration: 300">
 
 							<!-- Navigation Shape Elements -->
 							<div class="pg-nav-elements">
@@ -1446,7 +1569,7 @@ class PixelGallery_Admin_Settings {
 								<span class="pg-nav-element pg-nav-wave"></span>
 							</div>
 
-						<?php $this->settings_api->show_navigation(); ?>
+							<?php $this->settings_api->show_navigation(); ?>
 						</div>
 					</div>
 
@@ -1474,27 +1597,27 @@ class PixelGallery_Admin_Settings {
 							<?php //$this->pixel_gallery_affiliate_content(); ?>
 						</div> -->
 
-						<?php if (true == _is_pg_pro_activated()) : ?>
+						<?php if (true == _is_pg_pro_activated()): ?>
 							<div id="pixel_gallery_rollback_version_page" class="pg-option-page group">
 								<?php $this->pg_rollback_version_content(); ?>
 							</div>
 						<?php endif; ?>
 
-                        <?php if (_is_pg_pro_activated() !== true) : ?>
-                            <div id="pixel_gallery_get_pro" class="pg-option-page group">
-                                <?php $this->pixel_gallery_get_pro(); ?>
-                            </div>
-                        <?php endif; ?>
+						<?php if (_is_pg_pro_activated() !== true): ?>
+							<div id="pixel_gallery_get_pro" class="pg-option-page group">
+								<?php $this->pixel_gallery_get_pro(); ?>
+							</div>
+						<?php endif; ?>
 
-                        <div id="pixel_gallery_license_settings_page" class="pg-option-page group">
+						<div id="pixel_gallery_license_settings_page" class="pg-option-page group">
 
-                            <?php
-                            if (_is_pg_pro_activated() == true) {
-                                apply_filters('pg_license_page', '');
-                            }
+							<?php
+							if (_is_pg_pro_activated() == true) {
+								apply_filters('pg_license_page', '');
+							}
 
-                            ?>
-                        </div>
+							?>
+						</div>
 
 					</div>
 				</div>
@@ -1513,172 +1636,173 @@ class PixelGallery_Admin_Settings {
 	}
 
 
-    /**
-     * Tabbable JavaScript codes & Initiate Color Picker
-     *
-     * This code uses localstorage for displaying active tabs
-     */
-    function script() {
-    	?>
-        <script>
-            jQuery(document).ready(function() {
-                jQuery('.pg-no-result').removeClass('bdt-animation-shake');
-            });
+	/**
+	 * Tabbable JavaScript codes & Initiate Color Picker
+	 *
+	 * This code uses localstorage for displaying active tabs
+	 */
+	function script()
+	{
+		?>
+		<script>
+			jQuery(document).ready(function () {
+				jQuery('.pg-no-result').removeClass('bdt-animation-shake');
+			});
 
-            function filterSearch(e) {
-                var parentID = '#' + jQuery(e).data('id');
-                var search = jQuery(parentID).find('.bdt-search-input').val().toLowerCase();
+			function filterSearch(e) {
+				var parentID = '#' + jQuery(e).data('id');
+				var search = jQuery(parentID).find('.bdt-search-input').val().toLowerCase();
 
-                jQuery(".pg-options .pg-option-item").filter(function() {
-                    jQuery(this).toggle(jQuery(this).attr('data-widget-name').toLowerCase().indexOf(search) > -1)
-                });
+				jQuery(".pg-options .pg-option-item").filter(function () {
+					jQuery(this).toggle(jQuery(this).attr('data-widget-name').toLowerCase().indexOf(search) > -1)
+				});
 
-                if (!search) {
-                    jQuery(parentID).find('.bdt-search-input').attr('bdt-filter-control', "");
-                    jQuery(parentID).find('.pg-widget-all').trigger('click');
-                } else {
-                    jQuery(parentID).find('.bdt-search-input').attr('bdt-filter-control', "filter: [data-widget-name*='" + search + "']");
-                    jQuery(parentID).find('.bdt-search-input').removeClass('bdt-active'); // Thanks to Bar-Rabbas
-                    jQuery(parentID).find('.bdt-search-input').trigger('click');
-                }
-            }
+				if (!search) {
+					jQuery(parentID).find('.bdt-search-input').attr('bdt-filter-control', "");
+					jQuery(parentID).find('.pg-widget-all').trigger('click');
+				} else {
+					jQuery(parentID).find('.bdt-search-input').attr('bdt-filter-control', "filter: [data-widget-name*='" + search + "']");
+					jQuery(parentID).find('.bdt-search-input').removeClass('bdt-active'); // Thanks to Bar-Rabbas
+					jQuery(parentID).find('.bdt-search-input').trigger('click');
+				}
+			}
 
-            jQuery('.pg-options-parent').each(function(e, item) {
-                var eachItem = '#' + jQuery(item).attr('id');
-                jQuery(eachItem).on("beforeFilter", function() {
-                    jQuery(eachItem).find('.pg-no-result').removeClass('bdt-animation-shake');
-                });
+			jQuery('.pg-options-parent').each(function (e, item) {
+				var eachItem = '#' + jQuery(item).attr('id');
+				jQuery(eachItem).on("beforeFilter", function () {
+					jQuery(eachItem).find('.pg-no-result').removeClass('bdt-animation-shake');
+				});
 
-                jQuery(eachItem).on("afterFilter", function() {
+				jQuery(eachItem).on("afterFilter", function () {
 
-                    var isElementVisible = false;
-                    var i = 0;
+					var isElementVisible = false;
+					var i = 0;
 
-                    if (jQuery(eachItem).closest(".pg-options-parent").eq(i).is(":visible")) {} else {
-                        isElementVisible = true;
-                    }
+					if (jQuery(eachItem).closest(".pg-options-parent").eq(i).is(":visible")) { } else {
+						isElementVisible = true;
+					}
 
-                    while (!isElementVisible && i < jQuery(eachItem).find(".pg-option-item").length) {
-                        if (jQuery(eachItem).find(".pg-option-item").eq(i).is(":visible")) {
-                            isElementVisible = true;
-                        }
-                        i++;
-                    }
+					while (!isElementVisible && i < jQuery(eachItem).find(".pg-option-item").length) {
+						if (jQuery(eachItem).find(".pg-option-item").eq(i).is(":visible")) {
+							isElementVisible = true;
+						}
+						i++;
+					}
 
-                    if (isElementVisible === false) {
-                        jQuery(eachItem).find('.pg-no-result').addClass('bdt-animation-shake');
-                    }
-                });
-
-
-            });
+					if (isElementVisible === false) {
+						jQuery(eachItem).find('.pg-no-result').addClass('bdt-animation-shake');
+					}
+				});
 
 
-            jQuery('.pg-widget-filter-nav li a').on('click', function(e) {
-                jQuery(this).closest('.bdt-widget-filter-wrapper').find('.bdt-search-input').val('');
-                jQuery(this).closest('.bdt-widget-filter-wrapper').find('.bdt-search-input').val('').attr('bdt-filter-control', '');
-            });
+			});
 
 
-            jQuery(document).ready(function($) {
-                'use strict';
+			jQuery('.pg-widget-filter-nav li a').on('click', function (e) {
+				jQuery(this).closest('.bdt-widget-filter-wrapper').find('.bdt-search-input').val('');
+				jQuery(this).closest('.bdt-widget-filter-wrapper').find('.bdt-search-input').val('').attr('bdt-filter-control', '');
+			});
 
-                function hashHandler() {
-                    var $tab = jQuery('.pixel-gallery-dashboard .bdt-tab');
-                    if (window.location.hash) {
-                        var hash = window.location.hash.substring(1);
-                        bdtUIkit.tab($tab).show(jQuery('#bdt-' + hash).data('tab-index'));
-                        
-                        // Update admin menu to match the active tab
-                        updateAdminMenuHighlight(hash);
-                    }
-                }
 
-                function updateAdminMenuHighlight(hash) {
-                    // Special case for Dashboard/Welcome tab
-                    if (hash === 'pixel_gallery_welcome' || !hash) {
-                        var dashboardMenuItem = jQuery('.toplevel_page_pixel_gallery_options > ul > li > a[href$="pixel_gallery_options"]').parent();
-                        dashboardMenuItem.siblings().removeClass('current');
-                        dashboardMenuItem.addClass('current');
-                    } else {
-                        // Update the corresponding admin menu item
-                        var adminMenuItem = jQuery('.toplevel_page_pixel_gallery_options > ul > li > a[href*="' + hash + '"]');
-                        if (adminMenuItem.length) {
-                            adminMenuItem.parent().siblings().removeClass('current');
-                            adminMenuItem.parent().addClass('current');
-                        }
-                    }
-                }
+			jQuery(document).ready(function ($) {
+				'use strict';
 
-                function onWindowLoad() {
-                    hashHandler();
-                }
+				function hashHandler() {
+					var $tab = jQuery('.pixel-gallery-dashboard .bdt-tab');
+					if (window.location.hash) {
+						var hash = window.location.hash.substring(1);
+						bdtUIkit.tab($tab).show(jQuery('#bdt-' + hash).data('tab-index'));
 
-                if (document.readyState === 'complete') {
+						// Update admin menu to match the active tab
+						updateAdminMenuHighlight(hash);
+					}
+				}
+
+				function updateAdminMenuHighlight(hash) {
+					// Special case for Dashboard/Welcome tab
+					if (hash === 'pixel_gallery_welcome' || !hash) {
+						var dashboardMenuItem = jQuery('.toplevel_page_pixel_gallery_options > ul > li > a[href$="pixel_gallery_options"]').parent();
+						dashboardMenuItem.siblings().removeClass('current');
+						dashboardMenuItem.addClass('current');
+					} else {
+						// Update the corresponding admin menu item
+						var adminMenuItem = jQuery('.toplevel_page_pixel_gallery_options > ul > li > a[href*="' + hash + '"]');
+						if (adminMenuItem.length) {
+							adminMenuItem.parent().siblings().removeClass('current');
+							adminMenuItem.parent().addClass('current');
+						}
+					}
+				}
+
+				function onWindowLoad() {
+					hashHandler();
+				}
+
+				if (document.readyState === 'complete') {
 					onWindowLoad();
 				} else {
 					jQuery(window).on('load', onWindowLoad);
 				}
 
-                window.addEventListener("hashchange", hashHandler, true);
+				window.addEventListener("hashchange", hashHandler, true);
 
-                jQuery('.toplevel_page_pixel_gallery_options > ul > li > a ').on('click', function(event) {
-                    jQuery(this).parent().siblings().removeClass('current');
-                    jQuery(this).parent().addClass('current');
-                });
+				jQuery('.toplevel_page_pixel_gallery_options > ul > li > a ').on('click', function (event) {
+					jQuery(this).parent().siblings().removeClass('current');
+					jQuery(this).parent().addClass('current');
+				});
 
-                // Handle navigation tab clicks to sync with admin menu
-                jQuery('.bdt-dashboard-navigation a').on('click', function(e) {
-                    var href = jQuery(this).attr('href');
-                    if (href && href.startsWith('#')) {
-                        var hash = href.substring(1);
-                        updateAdminMenuHighlight(hash);
-                    }
-                });
+				// Handle navigation tab clicks to sync with admin menu
+				jQuery('.bdt-dashboard-navigation a').on('click', function (e) {
+					var href = jQuery(this).attr('href');
+					if (href && href.startsWith('#')) {
+						var hash = href.substring(1);
+						updateAdminMenuHighlight(hash);
+					}
+				});
 
-                jQuery('#pixel_gallery_active_modules_page a.pg-active-all-widget').on('click', function(e) {
-                    e.preventDefault();
+				jQuery('#pixel_gallery_active_modules_page a.pg-active-all-widget').on('click', function (e) {
+					e.preventDefault();
 
-                    jQuery('#pixel_gallery_active_modules_page .pg-option-item:not(.pg-pro-inactive) .checkbox:visible').each(function() {
-                        jQuery(this).attr('checked', 'checked').prop("checked", true);
-                    });
+					jQuery('#pixel_gallery_active_modules_page .pg-option-item:not(.pg-pro-inactive) .checkbox:visible').each(function () {
+						jQuery(this).attr('checked', 'checked').prop("checked", true);
+					});
 
-                    jQuery(this).addClass('bdt-active');
-                    jQuery('a.pg-deactive-all-widget').removeClass('bdt-active');
-                });
+					jQuery(this).addClass('bdt-active');
+					jQuery('a.pg-deactive-all-widget').removeClass('bdt-active');
+				});
 
-                jQuery('#pixel_gallery_active_modules_page a.pg-deactive-all-widget').on('click', function(e) {
-                    e.preventDefault();
-                    jQuery('#pixel_gallery_active_modules_page .pg-option-item:not(.pg-pro-inactive) .checkbox:visible').each(function() {
-                        jQuery(this).removeAttr('checked');
-                    });
+				jQuery('#pixel_gallery_active_modules_page a.pg-deactive-all-widget').on('click', function (e) {
+					e.preventDefault();
+					jQuery('#pixel_gallery_active_modules_page .pg-option-item:not(.pg-pro-inactive) .checkbox:visible').each(function () {
+						jQuery(this).removeAttr('checked');
+					});
 
-                    jQuery(this).addClass('bdt-active');
-                    jQuery('a.pg-active-all-widget').removeClass('bdt-active');
-                });
+					jQuery(this).addClass('bdt-active');
+					jQuery('a.pg-active-all-widget').removeClass('bdt-active');
+				});
 
-                jQuery('#pixel_gallery_elementor_extend_page a.pg-active-all-widget').on('click', function(e) {
-                    e.preventDefault();
+				jQuery('#pixel_gallery_elementor_extend_page a.pg-active-all-widget').on('click', function (e) {
+					e.preventDefault();
 
-                    jQuery('#pixel_gallery_elementor_extend_page .checkbox:visible').each(function() {
-                        jQuery(this).attr('checked', 'checked').prop("checked", true);
-                    });
+					jQuery('#pixel_gallery_elementor_extend_page .checkbox:visible').each(function () {
+						jQuery(this).attr('checked', 'checked').prop("checked", true);
+					});
 
-                    jQuery(this).addClass('bdt-active');
-                    jQuery('a.pg-deactive-all-widget').removeClass('bdt-active');
-                });
+					jQuery(this).addClass('bdt-active');
+					jQuery('a.pg-deactive-all-widget').removeClass('bdt-active');
+				});
 
-                jQuery('#pixel_gallery_elementor_extend_page a.pg-deactive-all-widget').on('click', function(e) {
-                    e.preventDefault();
-                    jQuery('#pixel_gallery_elementor_extend_page .checkbox:visible').each(function() {
-                        jQuery(this).removeAttr('checked');
-                    });
+				jQuery('#pixel_gallery_elementor_extend_page a.pg-deactive-all-widget').on('click', function (e) {
+					e.preventDefault();
+					jQuery('#pixel_gallery_elementor_extend_page .checkbox:visible').each(function () {
+						jQuery(this).removeAttr('checked');
+					});
 
-                    jQuery(this).addClass('bdt-active');
-                    jQuery('a.pg-active-all-widget').removeClass('bdt-active');
-                });
+					jQuery(this).addClass('bdt-active');
+					jQuery('a.pg-active-all-widget').removeClass('bdt-active');
+				});
 
-                // Activate/Deactivate all widgets functionality
+				// Activate/Deactivate all widgets functionality
 				$('#pixel_gallery_active_modules_page a.pg-active-all-widget').on('click', function (e) {
 					e.preventDefault();
 
@@ -1688,9 +1812,9 @@ class PixelGallery_Admin_Settings {
 
 					$(this).addClass('bdt-active');
 					$('#pixel_gallery_active_modules_page a.pg-deactive-all-widget').removeClass('bdt-active');
-					
+
 					// Ensure save button remains visible
-					setTimeout(function() {
+					setTimeout(function () {
 						$('.pg-dashboard-save-btn').show();
 					}, 100);
 				});
@@ -1704,9 +1828,9 @@ class PixelGallery_Admin_Settings {
 
 					$(this).addClass('bdt-active');
 					$('#pixel_gallery_active_modules_page a.pg-active-all-widget').removeClass('bdt-active');
-					
+
 					// Ensure save button remains visible
-					setTimeout(function() {
+					setTimeout(function () {
 						$('.pg-dashboard-save-btn').show();
 					}, 100);
 				});
@@ -1720,9 +1844,9 @@ class PixelGallery_Admin_Settings {
 
 					$(this).addClass('bdt-active');
 					$('#pixel_gallery_elementor_extend_page a.pg-deactive-all-widget').removeClass('bdt-active');
-					
+
 					// Ensure save button remains visible
-					setTimeout(function() {
+					setTimeout(function () {
 						$('.pg-dashboard-save-btn').show();
 					}, 100);
 				});
@@ -1736,34 +1860,34 @@ class PixelGallery_Admin_Settings {
 
 					$(this).addClass('bdt-active');
 					$('#pixel_gallery_elementor_extend_page a.pg-active-all-widget').removeClass('bdt-active');
-					
+
 					// Ensure save button remains visible
-					setTimeout(function() {
+					setTimeout(function () {
 						$('.pg-dashboard-save-btn').show();
 					}, 100);
 				});
 
-                jQuery('#pixel_gallery_active_modules_page .pg-pro-inactive .checkbox').each(function() {
-                    jQuery(this).removeAttr('checked');
-                    jQuery(this).attr("disabled", true);
-                });
+				jQuery('#pixel_gallery_active_modules_page .pg-pro-inactive .checkbox').each(function () {
+					jQuery(this).removeAttr('checked');
+					jQuery(this).attr("disabled", true);
+				});
 
-            });
+			});
 
-            jQuery(document).ready(function ($) {
-                const getProLink = $('a[href="admin.php?page=pixel_gallery_options_get_pro"]');
-                if (getProLink.length) {
-                    getProLink.attr('target', '_blank');
-                }
-            });
+			jQuery(document).ready(function ($) {
+				const getProLink = $('a[href="admin.php?page=pixel_gallery_options_get_pro"]');
+				if (getProLink.length) {
+					getProLink.attr('target', '_blank');
+				}
+			});
 
-            // License Renew Redirect
-            jQuery(document).ready(function ($) {
-                const renewalLink = $('a[href="admin.php?page=pixel_gallery_options_license_renew"]');
-                if (renewalLink.length) {
-                    renewalLink.attr('target', '_blank');
-                }
-            });
+			// License Renew Redirect
+			jQuery(document).ready(function ($) {
+				const renewalLink = $('a[href="admin.php?page=pixel_gallery_options_license_renew"]');
+				if (renewalLink.length) {
+					renewalLink.attr('target', '_blank');
+				}
+			});
 
 			// Dynamic Save Button Control
 			jQuery(document).ready(function ($) {
@@ -1778,7 +1902,7 @@ class PixelGallery_Admin_Settings {
 				function toggleSaveButton() {
 					const currentHash = window.location.hash.substring(1);
 					const saveButton = $('.pg-dashboard-save-btn');
-					
+
 					// Check if current page should have save button
 					if (pagesWithSave.includes(currentHash)) {
 						saveButton.fadeIn(200);
@@ -1791,7 +1915,7 @@ class PixelGallery_Admin_Settings {
 				function forceSaveButtonVisible() {
 					const currentHash = window.location.hash.substring(1);
 					const saveButton = $('.pg-dashboard-save-btn');
-					
+
 					if (pagesWithSave.includes(currentHash)) {
 						saveButton.show();
 					}
@@ -1801,32 +1925,32 @@ class PixelGallery_Admin_Settings {
 				toggleSaveButton();
 
 				// Listen for hash changes
-				$(window).on('hashchange', function() {
+				$(window).on('hashchange', function () {
 					toggleSaveButton();
 				});
 
 				// Listen for tab clicks
-				$('.bdt-dashboard-navigation a').on('click', function() {
+				$('.bdt-dashboard-navigation a').on('click', function () {
 					setTimeout(toggleSaveButton, 100);
 				});
 
 				// Also listen for navigation menu clicks (from show_navigation())
-				$(document).on('click', '.bdt-tab a, .bdt-subnav a, .pg-dashboard-nav a, [href*="#pixel_gallery"]', function() {
+				$(document).on('click', '.bdt-tab a, .bdt-subnav a, .pg-dashboard-nav a, [href*="#pixel_gallery"]', function () {
 					setTimeout(toggleSaveButton, 100);
 				});
 
 				// Listen for bulk active/deactive button clicks to maintain save button visibility
-				$(document).on('click', '.pg-active-all-widget, .pg-deactive-all-widget', function() {
+				$(document).on('click', '.pg-active-all-widget, .pg-deactive-all-widget', function () {
 					setTimeout(forceSaveButtonVisible, 50);
 				});
 
 				// Listen for individual checkbox changes to maintain save button visibility
-				$(document).on('change', '#pixel_gallery_elementor_extend_page .checkbox, #pixel_gallery_active_modules_page .checkbox', function() {
+				$(document).on('change', '#pixel_gallery_elementor_extend_page .checkbox, #pixel_gallery_active_modules_page .checkbox', function () {
 					setTimeout(forceSaveButtonVisible, 50);
 				});
 
 				// Update URL when navigation items are clicked
-				$(document).on('click', '.bdt-tab a, .bdt-subnav a, .pg-dashboard-nav a', function(e) {
+				$(document).on('click', '.bdt-tab a, .bdt-subnav a, .pg-dashboard-nav a', function (e) {
 					const href = $(this).attr('href');
 					if (href && href.includes('#')) {
 						const hash = href.substring(href.indexOf('#'));
@@ -1835,7 +1959,7 @@ class PixelGallery_Admin_Settings {
 							const currentUrl = window.location.href.split('#')[0];
 							const newUrl = currentUrl + hash;
 							window.history.pushState(null, null, newUrl);
-							
+
 							// Trigger hash change event for other listeners
 							$(window).trigger('hashchange');
 						}
@@ -1843,39 +1967,39 @@ class PixelGallery_Admin_Settings {
 				});
 
 				// Handle save button click
-				$(document).on('click', '.pixel-gallery-settings-save-btn', function(e) {
+				$(document).on('click', '.pixel-gallery-settings-save-btn', function (e) {
 					e.preventDefault();
-					
+
 					// Find the active form in the current tab
 					const currentHash = window.location.hash.substring(1);
 					let targetForm = null;
-					
+
 					// Look for forms in the active tab content
 					if (currentHash) {
 						// Try to find form in the specific tab page
 						targetForm = $('#' + currentHash + '_page form.settings-save');
-						
+
 						// If not found, try without _page suffix
 						if (!targetForm || targetForm.length === 0) {
 							targetForm = $('#' + currentHash + ' form.settings-save');
 						}
-						
+
 						// Try to find any form in the active tab content
 						if (!targetForm || targetForm.length === 0) {
 							targetForm = $('#' + currentHash + '_page form');
 						}
 					}
-					
+
 					// Fallback to any visible form with settings-save class
 					if (!targetForm || targetForm.length === 0) {
 						targetForm = $('form.settings-save:visible').first();
 					}
-					
+
 					// Last fallback - any visible form
 					if (!targetForm || targetForm.length === 0) {
 						targetForm = $('.bdt-switcher .group:visible form').first();
 					}
-					
+
 					if (targetForm && targetForm.length > 0) {
 						// Show loading notification
 						// bdtUIkit.notification({
@@ -1918,11 +2042,11 @@ class PixelGallery_Admin_Settings {
 						ajax_url: '<?php echo admin_url('admin-ajax.php'); ?>',
 						white_label_nonce: '<?php echo wp_create_nonce('pg_white_label_nonce'); ?>'
 					};
-				}				
-				
+				}
+
 				// Initialize CodeMirror editors for custom code
 				var codeMirrorEditors = {};
-				
+
 				function initializeCodeMirrorEditors() {
 					// CSS Editor 1
 					if (document.getElementById('pg-custom-css')) {
@@ -1939,7 +2063,7 @@ class PixelGallery_Admin_Settings {
 							}
 						});
 					}
-					
+
 					// JavaScript Editor 1
 					if (document.getElementById('pg-custom-js')) {
 						codeMirrorEditors['pg-custom-js'] = wp.codeEditor.initialize('pg-custom-js', {
@@ -1955,7 +2079,7 @@ class PixelGallery_Admin_Settings {
 							}
 						});
 					}
-					
+
 					// CSS Editor 2
 					if (document.getElementById('pg-custom-css-2')) {
 						codeMirrorEditors['pg-custom-css-2'] = wp.codeEditor.initialize('pg-custom-css-2', {
@@ -1971,7 +2095,7 @@ class PixelGallery_Admin_Settings {
 							}
 						});
 					}
-					
+
 					// JavaScript Editor 2
 					if (document.getElementById('pg-custom-js-2')) {
 						codeMirrorEditors['pg-custom-js-2'] = wp.codeEditor.initialize('pg-custom-js-2', {
@@ -1987,89 +2111,89 @@ class PixelGallery_Admin_Settings {
 							}
 						});
 					}
-					
+
 					// Refresh all editors after a short delay to ensure proper rendering
-					setTimeout(function() {
+					setTimeout(function () {
 						refreshAllCodeMirrorEditors();
 					}, 100);
 				}
-				
+
 				// Function to refresh all CodeMirror editors
 				function refreshAllCodeMirrorEditors() {
-					Object.keys(codeMirrorEditors).forEach(function(editorKey) {
+					Object.keys(codeMirrorEditors).forEach(function (editorKey) {
 						if (codeMirrorEditors[editorKey] && codeMirrorEditors[editorKey].codemirror) {
 							codeMirrorEditors[editorKey].codemirror.refresh();
 						}
 					});
 				}
-				
+
 				// Function to refresh editors when tab becomes visible
 				function refreshEditorsOnTabShow() {
 					// Listen for tab changes (UIkit tab switching)
 					if (typeof bdtUIkit !== 'undefined' && bdtUIkit.tab) {
 						// When tab becomes active, refresh editors
-						bdtUIkit.util.on(document, 'shown', '.bdt-tab', function() {
-							setTimeout(function() {
+						bdtUIkit.util.on(document, 'shown', '.bdt-tab', function () {
+							setTimeout(function () {
 								refreshAllCodeMirrorEditors();
 							}, 50);
 						});
 					}
-					
+
 					// Also listen for direct tab clicks
-					$('.bdt-tab a').on('click', function() {
-						setTimeout(function() {
+					$('.bdt-tab a').on('click', function () {
+						setTimeout(function () {
 							refreshAllCodeMirrorEditors();
 						}, 100);
 					});
-					
+
 					// Listen for switcher changes (UIkit switcher)
 					if (typeof bdtUIkit !== 'undefined' && bdtUIkit.switcher) {
-						bdtUIkit.util.on(document, 'shown', '.bdt-switcher', function() {
-							setTimeout(function() {
+						bdtUIkit.util.on(document, 'shown', '.bdt-switcher', function () {
+							setTimeout(function () {
 								refreshAllCodeMirrorEditors();
 							}, 50);
 						});
 					}
 				}
-				
+
 				// Initialize editors when page loads - with delay for better rendering
-				setTimeout(function() {
+				setTimeout(function () {
 					initializeCodeMirrorEditors();
 				}, 100);
-				
+
 				// Setup tab switching handlers
-				setTimeout(function() {
+				setTimeout(function () {
 					refreshEditorsOnTabShow();
 				}, 100);
-				
+
 				// Handle window resize events
-				$(window).on('resize', function() {
-					setTimeout(function() {
+				$(window).on('resize', function () {
+					setTimeout(function () {
 						refreshAllCodeMirrorEditors();
 					}, 100);
 				});
-				
+
 				// Handle page visibility changes (when switching browser tabs)
-				document.addEventListener('visibilitychange', function() {
+				document.addEventListener('visibilitychange', function () {
 					if (!document.hidden) {
-						setTimeout(function() {
+						setTimeout(function () {
 							refreshAllCodeMirrorEditors();
 						}, 200);
 					}
 				});
-				
+
 				// Force refresh when clicking on the Custom CSS & JS tab specifically
-				$('a[href="#"]').on('click', function() {
+				$('a[href="#"]').on('click', function () {
 					var tabText = $(this).text().trim();
 					if (tabText === 'Custom CSS & JS') {
-						setTimeout(function() {
+						setTimeout(function () {
 							refreshAllCodeMirrorEditors();
 						}, 150);
 					}
 				});
 
 				//Toggle white label fields visibility
-				$('#pg-white-label-enabled').on('change', function() {
+				$('#pg-white-label-enabled').on('change', function () {
 					if ($(this).is(':checked')) {
 						$('.pg-white-label-fields').slideDown(300);
 					} else {
@@ -2079,16 +2203,16 @@ class PixelGallery_Admin_Settings {
 
 				//WordPress Media Library Integration for Icon Upload
 				var mediaUploader;
-				
-				$('#pg-upload-icon').on('click', function(e) {
+
+				$('#pg-upload-icon').on('click', function (e) {
 					e.preventDefault();
-					
+
 					// If the uploader object has already been created, reopen the dialog
 					if (mediaUploader) {
 						mediaUploader.open();
 						return;
 					}
-					
+
 					// Create the media frame
 					mediaUploader = wp.media.frames.file_frame = wp.media({
 						title: 'Select Icon',
@@ -2100,32 +2224,32 @@ class PixelGallery_Admin_Settings {
 						},
 						multiple: false
 					});
-					
+
 					// When an image is selected, run a callback
-					mediaUploader.on('select', function() {
+					mediaUploader.on('select', function () {
 						var attachment = mediaUploader.state().get('selection').first().toJSON();
-						
+
 						// Set the hidden inputs
 						$('#pg-white-label-icon').val(attachment.url);
 						$('#pg-white-label-icon-id').val(attachment.id);
-						
+
 						// Update preview
 						$('#pg-icon-preview-img').attr('src', attachment.url);
 						$('.pg-icon-preview-container').show();
 					});
-					
+
 					// Open the uploader dialog
 					mediaUploader.open();
 				});
-				
+
 				//Remove icon functionality
-				$('#pg-remove-icon').on('click', function(e) {
+				$('#pg-remove-icon').on('click', function (e) {
 					e.preventDefault();
-					
+
 					// Clear the hidden inputs
 					$('#pg-white-label-icon').val('');
 					$('#pg-white-label-icon-id').val('');
-					
+
 					// Hide preview
 					$('.pg-icon-preview-container').hide();
 					$('#pg-icon-preview-img').attr('src', '');
@@ -2134,7 +2258,7 @@ class PixelGallery_Admin_Settings {
 				// WordPress Media Library Integration for Logo Upload
 				var logoUploader;
 
-				$('#pg-upload-logo').on('click', function(e) {
+				$('#pg-upload-logo').on('click', function (e) {
 					e.preventDefault();
 
 					// If the uploader object has already been created, reopen the dialog
@@ -2156,7 +2280,7 @@ class PixelGallery_Admin_Settings {
 					});
 
 					// When an image is selected, run a callback
-					logoUploader.on('select', function() {
+					logoUploader.on('select', function () {
 						var attachment = logoUploader.state().get('selection').first().toJSON();
 
 						// Set the hidden inputs
@@ -2173,7 +2297,7 @@ class PixelGallery_Admin_Settings {
 				});
 
 				// Remove logo functionality
-				$('#pg-remove-logo').on('click', function(e) {
+				$('#pg-remove-logo').on('click', function (e) {
 					e.preventDefault();
 
 					// Clear the hidden inputs
@@ -2186,7 +2310,7 @@ class PixelGallery_Admin_Settings {
 				});
 
 				//BDTPG_HIDE Warning when checkbox is enabled
-				$('#pg-white-label-bdtpg-hide').on('change', function() {
+				$('#pg-white-label-bdtpg-hide').on('change', function () {
 					if ($(this).is(':checked')) {
 						// Show warning modal/alert
 						var warningMessage = '⚠️ WARNING: ADVANCED FEATURE\n\n' +
@@ -2197,13 +2321,13 @@ class PixelGallery_Admin_Settings {
 							'• Is intended for client/agency use only\n\n' +
 							'An email with access instructions will be sent if you proceed.\n\n' +
 							'Are you sure you want to enable this advanced mode?';
-						
+
 						if (!confirm(warningMessage)) {
 							// User cancelled, uncheck the box
 							$(this).prop('checked', false);
 							return false;
 						}
-						
+
 						// Show additional info message
 						if ($('#pg-bdtpg-hide-info').length === 0) {
 							$(this).closest('.pg-option-item').after(
@@ -2220,14 +2344,14 @@ class PixelGallery_Admin_Settings {
 				});
 
 				// Save white label settings with confirmation
-				$('#pg-save-white-label').on('click', function(e) {
+				$('#pg-save-white-label').on('click', function (e) {
 					e.preventDefault();
-					
+
 					// Check if button is disabled (no license or no white label eligible license)
 					if ($(this).prop('disabled')) {
 						var buttonText = $(this).text().trim();
 						var alertMessage = '';
-						
+
 						if (buttonText.includes('License Not Activated')) {
 							alertMessage = '<div class="bdt-alert bdt-alert-danger" bdt-alert>' +
 								'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
@@ -2239,15 +2363,15 @@ class PixelGallery_Admin_Settings {
 								'<p><strong>Eligible License Required</strong><br>White Label functionality is available for Agency, Extended, Developer, AppSumo Lifetime, and other eligible license holders. Please upgrade your license to access these features.</p>' +
 								'</div>';
 						}
-						
+
 						$('#pg-white-label-message').html(alertMessage).show();
 						return false;
 					}
-					
+
 					// Check if white label mode is being enabled
 					var whiteLabelEnabled = $('#pg-white-label-enabled').is(':checked');
 					var bdtpgHideEnabled = $('#pg-white-label-bdtpg-hide').is(':checked');
-					
+
 					// Only show confirmation dialog if white label is enabled AND BDTPG_HIDE is enabled
 					if (whiteLabelEnabled && bdtpgHideEnabled) {
 						var confirmMessage = '🔒 FINAL CONFIRMATION\n\n' +
@@ -2259,19 +2383,19 @@ class PixelGallery_Admin_Settings {
 							'Email will be sent to:\n' +
 							'• License email: <?php echo esc_js(self::get_license_email()); ?>\n' +
 							'Are you absolutely sure you want to proceed?';
-						
+
 						if (!confirm(confirmMessage)) {
 							return false;
 						}
 					}
-					
+
 					var $button = $(this);
 					var originalText = $button.html();
-					
+
 					// Show loading state
 					$button.html('Saving...');
 					$button.prop('disabled', true);
-					
+
 					// Collect form data
 					var formData = {
 						action: 'pg_save_white_label',
@@ -2285,15 +2409,15 @@ class PixelGallery_Admin_Settings {
 						pg_white_label_hide_license: $('#pg-white-label-hide-license').is(':checked') ? 1 : 0,
 						pg_white_label_bdtpg_hide: $('#pg-white-label-bdtpg-hide').is(':checked') ? 1 : 0
 					};
-					
+
 					// Send AJAX request
 					$.post(pg_admin_ajax.ajax_url, formData)
-						.done(function(response) {
+						.done(function (response) {
 							if (response.success) {
 								// Show success message with countdown
 								var countdown = 2;
 								var successMessage = response.data.message;
-								
+
 								// Add email notification info if BDTPG_HIDE was enabled
 								if (response.data.bdtpg_hide && response.data.email_sent) {
 									successMessage += '<br><br><strong>📧 Access Email Sent!</strong><br>Check your email for the access link to modify these settings in the future.';
@@ -2303,19 +2427,19 @@ class PixelGallery_Admin_Settings {
 								} else if (response.data.bdtpg_hide && !response.data.email_sent) {
 									successMessage += '<br><br><strong>⚠️ Email Notice:</strong><br>There was an issue sending the access email. Please check your email settings or contact support.';
 								}
-								
+
 								$('#pg-white-label-message').html(
 									'<div class="bdt-alert bdt-alert-success" bdt-alert>' +
 									'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
 									'<p>' + successMessage + ' <span id="pg-reload-countdown">Reloading in ' + countdown + ' seconds...</span></p>' +
 									'</div>'
 								).show();
-								
+
 								// Update button text
 								$button.html('Reloading...');
-								
+
 								// Countdown timer
-								var countdownInterval = setInterval(function() {
+								var countdownInterval = setInterval(function () {
 									countdown--;
 									if (countdown > 0) {
 										$('#pg-reload-countdown').text('Reloading in ' + countdown + ' seconds...');
@@ -2324,9 +2448,9 @@ class PixelGallery_Admin_Settings {
 										clearInterval(countdownInterval);
 									}
 								}, 1000);
-								
+
 								// Check if BDTPG_HIDE is enabled and redirect accordingly
-								setTimeout(function() {
+								setTimeout(function () {
 									if (response.data.bdtpg_hide) {
 										// Redirect to admin dashboard if BDTPG_HIDE is enabled
 										window.location.href = '<?php echo admin_url('index.php'); ?>';
@@ -2343,13 +2467,13 @@ class PixelGallery_Admin_Settings {
 									'<p>Error: ' + (response.data.message || 'Unknown error occurred') + '</p>' +
 									'</div>'
 								).show();
-								
+
 								// Restore button state for error case
 								$button.html(originalText);
 								$button.prop('disabled', false);
 							}
 						})
-						.fail(function(xhr, status, error) {
+						.fail(function (xhr, status, error) {
 							// Show error message
 							$('#pg-white-label-message').html(
 								'<div class="bdt-alert bdt-alert-danger" bdt-alert>' +
@@ -2357,7 +2481,7 @@ class PixelGallery_Admin_Settings {
 								'<p>Error: Failed to save settings. Please try again. (' + status + ')</p>' +
 								'</div>'
 							).show();
-							
+
 							// Restore button state for failure case
 							$button.html(originalText);
 							$button.prop('disabled', false);
@@ -2365,12 +2489,12 @@ class PixelGallery_Admin_Settings {
 				});
 
 				// Save custom code functionality (updated for CodeMirror)
-				$('#pg-save-custom-code').on('click', function(e) {
+				$('#pg-save-custom-code').on('click', function (e) {
 					e.preventDefault();
-					
+
 					var $button = $(this);
 					var originalText = $button.html();
-					
+
 					// Check if pg_admin_ajax is available
 					if (typeof pg_admin_ajax === 'undefined') {
 						$('#pg-custom-code-message').html(
@@ -2381,15 +2505,15 @@ class PixelGallery_Admin_Settings {
 						).show();
 						return;
 					}
-					
+
 					// Prevent multiple simultaneous saves
 					if ($button.prop('disabled') || $button.hasClass('pg-saving')) {
 						return;
 					}
-					
+
 					// Mark as saving
 					$button.addClass('pg-saving');
-					
+
 					// Get content from CodeMirror editors
 					function getCodeMirrorContent(elementId) {
 						if (codeMirrorEditors[elementId] && codeMirrorEditors[elementId].codemirror) {
@@ -2399,17 +2523,17 @@ class PixelGallery_Admin_Settings {
 							return $('#' + elementId).val() || '';
 						}
 					}
-					
+
 					var cssContent = getCodeMirrorContent('pg-custom-css');
 					var jsContent = getCodeMirrorContent('pg-custom-js');
 					var css2Content = getCodeMirrorContent('pg-custom-css-2');
 					var js2Content = getCodeMirrorContent('pg-custom-js-2');
-					
+
 					// Show loading state
 					$button.prop('disabled', true);
-					
+
 					// Timeout safeguard - if AJAX doesn't complete in 30 seconds, restore button
-					var timeoutId = setTimeout(function() {
+					var timeoutId = setTimeout(function () {
 						$button.removeClass('pg-saving');
 						$button.html(originalText);
 						$button.prop('disabled', false);
@@ -2420,7 +2544,7 @@ class PixelGallery_Admin_Settings {
 							'</div>'
 						).show();
 					}, 30000);
-					
+
 					// Collect form data
 					var formData = {
 						action: 'pg_save_custom_code',
@@ -2431,8 +2555,8 @@ class PixelGallery_Admin_Settings {
 						custom_js_2: js2Content,
 						excluded_pages: $('#pg-excluded-pages').val() || []
 					};
-					
-					
+
+
 					// Verify we have some content before sending (optional check)
 					var totalContentLength = cssContent.length + jsContent.length + css2Content.length + js2Content.length;
 					if (totalContentLength === 0) {
@@ -2444,31 +2568,31 @@ class PixelGallery_Admin_Settings {
 							return;
 						}
 					}
-					
+
 					// Send AJAX request
 					$.post(pg_admin_ajax.ajax_url, formData)
-						.done(function(response) {
+						.done(function (response) {
 							console.log('AJAX Response:', response); // Debug log
-							
+
 							if (response && response.success) {
 								// Show success message
 								var successMessage = response.data.message;
 								if (response.data.excluded_count) {
 									successMessage += ' (' + response.data.excluded_count + ' pages excluded)';
 								}
-								
+
 								$('#pg-custom-code-message').html(
 									'<div class="bdt-alert bdt-alert-success" bdt-alert>' +
 									'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
 									'<p>' + successMessage + '</p>' +
 									'</div>'
 								).show();
-								
+
 								// Auto-hide message after 5 seconds
-								setTimeout(function() {
+								setTimeout(function () {
 									$('#pg-custom-code-message').fadeOut();
 								}, 5000);
-								
+
 							} else {
 								// Show error message
 								var errorMessage = 'Unknown error occurred';
@@ -2477,7 +2601,7 @@ class PixelGallery_Admin_Settings {
 								} else if (response && response.message) {
 									errorMessage = response.message;
 								}
-								
+
 								$('#pg-custom-code-message').html(
 									'<div class="bdt-alert bdt-alert-danger" bdt-alert>' +
 									'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
@@ -2486,9 +2610,9 @@ class PixelGallery_Admin_Settings {
 								).show();
 							}
 						})
-						.fail(function(xhr, status, error) {
+						.fail(function (xhr, status, error) {
 							console.log('AJAX Error:', xhr, status, error); // Debug log
-							
+
 							// Try to parse error response
 							var errorMessage = 'Failed to save custom code. Please try again.';
 							try {
@@ -2501,7 +2625,7 @@ class PixelGallery_Admin_Settings {
 							} catch (e) {
 								// Use default error message
 							}
-							
+
 							// Show error message
 							$('#pg-custom-code-message').html(
 								'<div class="bdt-alert bdt-alert-danger" bdt-alert>' +
@@ -2510,11 +2634,11 @@ class PixelGallery_Admin_Settings {
 								'</div>'
 							).show();
 						})
-						.always(function() {
-							
+						.always(function () {
+
 							// Clear the timeout since AJAX completed
 							clearTimeout(timeoutId);
-							
+
 							try {
 								$button.removeClass('pg-saving');
 								$button.html(originalText);
@@ -2527,9 +2651,9 @@ class PixelGallery_Admin_Settings {
 				});
 
 				// Reset custom code functionality (updated for CodeMirror)
-				$('#pg-reset-custom-code').on('click', function(e) {
+				$('#pg-reset-custom-code').on('click', function (e) {
 					e.preventDefault();
-					
+
 					if (confirm('Are you sure you want to reset all custom code? This will clear all code.')) {
 						var $button = $(this);
 						var originalText = $button.html();
@@ -2543,16 +2667,16 @@ class PixelGallery_Admin_Settings {
 								$('#' + elementId).val('');
 							}
 						}
-						
+
 						// Clear all editors
 						clearCodeMirrorEditor('pg-custom-css');
 						clearCodeMirrorEditor('pg-custom-js');
 						clearCodeMirrorEditor('pg-custom-css-2');
 						clearCodeMirrorEditor('pg-custom-js-2');
-						
+
 						// Clear exclusions
 						$('#pg-excluded-pages').val([]).trigger('change');
-						
+
 						// Show clearing message
 						$('#pg-custom-code-message').html(
 							'<div class="bdt-alert bdt-alert-primary" bdt-alert>' +
@@ -2580,7 +2704,7 @@ class PixelGallery_Admin_Settings {
 							type: 'POST',
 							data: formData,
 							timeout: 30000,
-							success: function(response) {
+							success: function (response) {
 								if (response.success) {
 									// Show success message
 									$('#pg-custom-code-message').html(
@@ -2591,7 +2715,7 @@ class PixelGallery_Admin_Settings {
 									).show();
 
 									// Auto-hide message after 5 seconds
-									setTimeout(function() {
+									setTimeout(function () {
 										$('#pg-custom-code-message').fadeOut();
 									}, 5000);
 								} else {
@@ -2607,7 +2731,7 @@ class PixelGallery_Admin_Settings {
 								// Restore button
 								$button.prop('disabled', false).html(originalText);
 							},
-							error: function(xhr, status, error) {
+							error: function (xhr, status, error) {
 								// Show error message
 								$('#pg-custom-code-message').html(
 									'<div class="bdt-alert bdt-alert-danger" bdt-alert>' +
@@ -2621,7 +2745,7 @@ class PixelGallery_Admin_Settings {
 							}
 						});
 					}
-				});				
+				});
 			});
 
 			// Chart.js initialization for system status canvas charts
@@ -2691,7 +2815,7 @@ class PixelGallery_Admin_Settings {
 								cutout: '60%'
 							}
 						});
-						
+
 						// Store in our instance storage
 						if (!window.pgChartInstances) window.pgChartInstances = {};
 						window.pgChartInstances[canvasId] = newChart;
@@ -2708,7 +2832,7 @@ class PixelGallery_Admin_Settings {
 					jQuery('#bdt-total-widgets-status-core').text(coreCount);
 					jQuery('#bdt-total-widgets-status-extensions').text(extensionsCount);
 					jQuery('#bdt-total-widgets-status-heading').text(coreCount + extensionsCount);
-					
+
 					jQuery('#bdt-total-widgets-status').attr('data-value', [coreCount, extensionsCount].join(','));
 				}
 
@@ -2718,19 +2842,19 @@ class PixelGallery_Admin_Settings {
 					if (window.pgChartInstances && Object.keys(window.pgChartInstances).length >= 4) {
 						return;
 					}
-					
+
 					// Update total status first
 					updateTotalStatus();
-					
+
 					// Create all charts
 					var chartCanvases = [
 						'bdt-db-total-status',
-						'bdt-db-only-widget-status', 
+						'bdt-db-only-widget-status',
 						'bdt-total-widgets-status'
 					];
 
 					var successfulCharts = 0;
-					chartCanvases.forEach(function(canvasId) {
+					chartCanvases.forEach(function (canvasId) {
 						var canvas = document.getElementById(canvasId);
 						if (canvas && canvas.offsetParent !== null) { // Check if canvas is visible
 							createChart(canvasId);
@@ -2749,14 +2873,14 @@ class PixelGallery_Admin_Settings {
 				}
 
 				// Initialize charts when DOM is ready
-				jQuery(document).ready(function() {
+				jQuery(document).ready(function () {
 					// Only initialize if we're on the system status tab
 					setTimeout(checkAndInitIfOnSystemStatus, 500);
 				});
 
 				// Add click handler for System Status tab to create/refresh charts
-				jQuery(document).on('click', 'a[href="#pixel_gallery_analytics_system_req"], a[href*="pixel_gallery_analytics_system_req"]', function() {
-					setTimeout(function() {
+				jQuery(document).on('click', 'a[href="#pixel_gallery_analytics_system_req"], a[href*="pixel_gallery_analytics_system_req"]', function () {
+					setTimeout(function () {
 						// Always recreate charts when tab is clicked to ensure they're visible
 						initAllCharts();
 					}, 200);
@@ -2767,19 +2891,19 @@ class PixelGallery_Admin_Settings {
 			setTimeout(initPixelGalleryCharts, 1000);
 
 			// Handle plugin installation via AJAX
-			jQuery(document).on('click', '.pg-install-plugin', function(e) {
+			jQuery(document).on('click', '.pg-install-plugin', function (e) {
 				e.preventDefault();
-				
+
 				var $button = jQuery(this);
 				var pluginSlug = $button.data('plugin-slug');
 				var nonce = $button.data('nonce');
 				var originalText = $button.text();
-				
+
 				// Disable button and show loading state
 				$button.prop('disabled', true)
-					   .text('<?php echo esc_js(__('Installing...', 'pixel-gallery')); ?>')
-					   .addClass('bdt-installing');
-				
+					.text('<?php echo esc_js(__('Installing...', 'pixel-gallery')); ?>')
+					.addClass('bdt-installing');
+
 				// Perform AJAX request
 				jQuery.ajax({
 					url: '<?php echo admin_url('admin-ajax.php'); ?>',
@@ -2789,13 +2913,13 @@ class PixelGallery_Admin_Settings {
 						plugin_slug: pluginSlug,
 						nonce: nonce
 					},
-					success: function(response) {
+					success: function (response) {
 						if (response.success) {
 							// Show success message
 							$button.text('<?php echo esc_js(__('Installed!', 'pixel-gallery')); ?>')
-								   .removeClass('bdt-installing')
-								   .addClass('bdt-installed');
-							
+								.removeClass('bdt-installing')
+								.addClass('bdt-installed');
+
 							// Show success notification
 							if (typeof bdtUIkit !== 'undefined' && bdtUIkit.notification) {
 								bdtUIkit.notification({
@@ -2803,18 +2927,18 @@ class PixelGallery_Admin_Settings {
 									status: 'success'
 								});
 							}
-							
+
 							// Reload the page after 2 seconds to update button states
-							setTimeout(function() {
+							setTimeout(function () {
 								window.location.reload();
 							}, 2000);
-							
+
 						} else {
 							// Show error message
 							$button.prop('disabled', false)
-								   .text(originalText)
-								   .removeClass('bdt-installing');
-							
+								.text(originalText)
+								.removeClass('bdt-installing');
+
 							// Show error notification
 							if (typeof bdtUIkit !== 'undefined' && bdtUIkit.notification) {
 								bdtUIkit.notification({
@@ -2824,12 +2948,12 @@ class PixelGallery_Admin_Settings {
 							}
 						}
 					},
-					error: function() {
+					error: function () {
 						// Handle network/server errors
 						$button.prop('disabled', false)
-							   .text(originalText)
-							   .removeClass('bdt-installing');
-						
+							.text(originalText)
+							.removeClass('bdt-installing');
+
 						// Show error notification
 						if (typeof bdtUIkit !== 'undefined' && bdtUIkit.notification) {
 							bdtUIkit.notification({
@@ -2843,13 +2967,13 @@ class PixelGallery_Admin_Settings {
 
 			// Show/hide white label & custom code save button based on active tab
 			function toggleWhiteLabelSaveButton() {
-				
+
 				// Check if we're on the extra options page
 				if (window.location.hash === '#pixel_gallery_extra_options') {
 					// Target specifically the tabs within the Extra Options section
 					var extraOptionsTabs = jQuery('.pg-extra-options-tabs .bdt-tab li.bdt-active');
 					var activeTab = extraOptionsTabs.index();
-					
+
 					if (activeTab === 1) { // White Label tab is the second tab (index 1)
 						jQuery('.pg-white-label-save-section').show();
 						jQuery('.pg-code-save-section').hide();
@@ -2864,13 +2988,13 @@ class PixelGallery_Admin_Settings {
 			}
 
 			// Wait for jQuery to be ready
-			jQuery(document).ready(function($) {
-				
+			jQuery(document).ready(function ($) {
+
 				// Check if we should automatically switch to White Label tab
 				var urlParams = new URLSearchParams(window.location.search);
 				if (urlParams.get('white_label_tab') === '1') {
 					// Wait a bit for UIkit to be ready, then switch to White Label tab
-					setTimeout(function() {
+					setTimeout(function () {
 						// Use UIkit's API to switch to the second tab (index 1)
 						var tabElement = document.querySelector('.pg-extra-options-tabs [bdt-tab]');
 						if (tabElement && typeof UIkit !== 'undefined') {
@@ -2882,44 +3006,44 @@ class PixelGallery_Admin_Settings {
 								whiteLabelTab.find('a')[0].click(); // Use native click
 							}
 						}
-						
+
 						// Check button visibility after tab switch
-						setTimeout(function() {
+						setTimeout(function () {
 							toggleWhiteLabelSaveButton();
 						}, 300);
 					}, 800);
 				} else {
 					toggleWhiteLabelSaveButton();
 				}
-				
+
 				// Check on hash change (when navigating to extra options page)
-				$(window).on('hashchange', function() {
+				$(window).on('hashchange', function () {
 					toggleWhiteLabelSaveButton();
 				});
 
 				// Listen for UIkit tab changes using multiple methods
-				$(document).on('click', '.bdt-tab li a', function() {
-					setTimeout(function() {
+				$(document).on('click', '.bdt-tab li a', function () {
+					setTimeout(function () {
 						toggleWhiteLabelSaveButton();
 					}, 200);
 				});
 
 				// Listen for UIkit's internal tab change events
-				$(document).on('shown', '[bdt-tab]', function() {
-					setTimeout(function() {
+				$(document).on('shown', '[bdt-tab]', function () {
+					setTimeout(function () {
 						toggleWhiteLabelSaveButton();
 					}, 200);
 				});
 
 				// Also listen for the specific tab content changes
-				$(document).on('show', '#pg-extra-options-tab-content > div', function() {
-					setTimeout(function() {
+				$(document).on('show', '#pg-extra-options-tab-content > div', function () {
+					setTimeout(function () {
 						toggleWhiteLabelSaveButton();
 					}, 200);
 				});
 
 				// Alternative: Check periodically for tab changes
-				setInterval(function() {
+				setInterval(function () {
 					if (window.location.hash === '#pixel_gallery_extra_options') {
 						var currentActiveTab = $('.bdt-tab li.bdt-active').index();
 						if (typeof window.lastActiveTab === 'undefined') {
@@ -2931,88 +3055,92 @@ class PixelGallery_Admin_Settings {
 					}
 				}, 500);
 			});
-			
-        </script>
-    	<?php
-    }
 
-    /**
-     * Display Footer
-     *
-     * @access public
-     * @return void
-     */
+		</script>
+		<?php
+	}
 
-    function footer_info() {
-    ?>
+	/**
+	 * Display Footer
+	 *
+	 * @access public
+	 * @return void
+	 */
 
-        <div class="pixel-gallery-footer-info bdt-margin-medium-top">
+	function footer_info()
+	{
+		?>
 
-            <div class="bdt-grid ">
+		<div class="pixel-gallery-footer-info bdt-margin-medium-top">
 
-                <div class="bdt-width-auto@s pg-setting-save-btn">
+			<div class="bdt-grid ">
 
-
-
-                </div>
-
-                <div class="bdt-width-expand@s bdt-text-right">
-                    <p class="">
-                        Pixel Gallery plugin made with love by <a target="_blank" href="https://bdthemes.com">BdThemes</a> Team.
-                        <br>All rights reserved by <a target="_blank" href="https://bdthemes.com">BdThemes.com</a>.
-                    </p>
-                </div>
-            </div>
-
-        </div>
-
-<?php
-    }
-
-    /**
-     *
-     * Allow Tracker deactivated warning
-     * If Allow Tracker disable in elementor then this biggopti will be show
-     *
-     * @access public
-     */
-
-    public function allow_tracker_activate_biggopti() {
-        Biggopties::add_biggopti(
-            [
-                'id'               => 'pg-allow-tracker',
-                'type'             => 'warning',
-                'category'         => 'critical',
-                'dismissible'      => true,
-                'dismissible-time' => WEEK_IN_SECONDS * 4,
-                'message'          => __('Please activate <strong>Usage Data Sharing</strong> features from Elementor, otherwise Widgets Analytics will not work. Please activate the settings from <strong>Elementor > Settings > General Tab >  Usage Data Sharing.</strong> Thank you.', 'pixel-gallery'),
-            ]
-        );
-    }
-
-    /**
-     * Get all the pages
-     *
-     * @return array page names with key value pairs
-     */
-    function get_pages() {
-        $pages         = get_pages();
-        $pages_options = [];
-        if ($pages) {
-            foreach ($pages as $page) {
-                $pages_options[$page->ID] = $page->post_title;
-            }
-        }
-
-        return $pages_options;
-    }
+				<div class="bdt-width-auto@s pg-setting-save-btn">
 
 
-    /**
+
+				</div>
+
+				<div class="bdt-width-expand@s bdt-text-right">
+					<p class="">
+						Pixel Gallery plugin made with love by <a target="_blank" href="https://bdthemes.com">BdThemes</a> Team.
+						<br>All rights reserved by <a target="_blank" href="https://bdthemes.com">BdThemes.com</a>.
+					</p>
+				</div>
+			</div>
+
+		</div>
+
+		<?php
+	}
+
+	/**
+	 *
+	 * Allow Tracker deactivated warning
+	 * If Allow Tracker disable in elementor then this biggopti will be show
+	 *
+	 * @access public
+	 */
+
+	public function allow_tracker_activate_biggopti()
+	{
+		Biggopties::add_biggopti(
+			[
+				'id' => 'pg-allow-tracker',
+				'type' => 'warning',
+				'category' => 'critical',
+				'dismissible' => true,
+				'dismissible-time' => WEEK_IN_SECONDS * 4,
+				'message' => __('Please activate <strong>Usage Data Sharing</strong> features from Elementor, otherwise Widgets Analytics will not work. Please activate the settings from <strong>Elementor > Settings > General Tab >  Usage Data Sharing.</strong> Thank you.', 'pixel-gallery'),
+			]
+		);
+	}
+
+	/**
+	 * Get all the pages
+	 *
+	 * @return array page names with key value pairs
+	 */
+	function get_pages()
+	{
+		$pages = get_pages();
+		$pages_options = [];
+		if ($pages) {
+			foreach ($pages as $page) {
+				$pages_options[$page->ID] = $page->post_title;
+			}
+		}
+
+		return $pages_options;
+	}
+
+
+	/**
 	 * Widgets Status
 	 */
 
-	public function pixel_gallery_widgets_status() {
+	public function pixel_gallery_widgets_status()
+	{
 		$track_nw_msg = '';
 		if (!Tracker::is_allow_track()) {
 			$track_nw = esc_html__('This feature is not working because the Elementor Usage Data Sharing feature is Not Enabled.', 'pixel-gallery');
@@ -3105,7 +3233,7 @@ class PixelGallery_Admin_Settings {
 							<h1 class="pg-feature-title"><?php esc_html_e('Active', 'pixel-gallery'); ?></h1>
 							<div class="bdt-flex bdt-flex-between bdt-flex-middle">
 								<div class="pg-count-wrap">
-									<div class="pg-widget-count"><?php esc_html_e('Core:', 'pixel-gallery'); ?> 
+									<div class="pg-widget-count"><?php esc_html_e('Core:', 'pixel-gallery'); ?>
 										<b id="bdt-total-widgets-status-core">0</b>
 									</div>
 									<div class="pg-widget-count"><?php esc_html_e('Extensions:', 'pixel-gallery'); ?>
@@ -3118,8 +3246,7 @@ class PixelGallery_Admin_Settings {
 								<div class="pg-canvas-wrap">
 									<canvas id="bdt-total-widgets-status" style="height: 100px; width: 100px;"
 										data-label="Total Active Widgets Status"
-										data-labels="<?php echo esc_attr('Core, Extensions'); ?>"
-										data-value="0,0,0"
+										data-labels="<?php echo esc_attr('Core, Extensions'); ?>" data-value="0,0,0"
 										data-bg="#0680d6, #B0EBFF" data-bg-hover="#0673e1, #B0EBFF">
 									</canvas>
 								</div>
@@ -3135,14 +3262,15 @@ class PixelGallery_Admin_Settings {
 			<div class="bdt-border-rounded bdt-box-shadow-small bdt-alert-warning" bdt-alert>
 				<a href class="bdt-alert-close" bdt-close></a>
 				<div class="bdt-text-default">
-				<?php
+					<?php
 					printf(
 						esc_html__('To view widgets analytics, Elementor %1$sUsage Data Sharing%2$s feature by Elementor needs to be activated. Please activate the feature to get widget analytics instantly ', 'pixel-gallery'),
-						'<b>', '</b>'
+						'<b>',
+						'</b>'
 					);
 
 					echo ' <a href="' . esc_url(admin_url('admin.php?page=elementor-settings')) . '">' . esc_html__('from here.', 'pixel-gallery') . '</a>';
-				?>
+					?>
 				</div>
 			</div>
 		<?php endif; ?>
@@ -3150,14 +3278,15 @@ class PixelGallery_Admin_Settings {
 		<?php
 	}
 
-    /**
+	/**
 	 * Display System Requirement
 	 *
 	 * @access public
 	 * @return void
 	 */
 
-	public function pixel_gallery_system_requirement() {
+	public function pixel_gallery_system_requirement()
+	{
 		$php_version = phpversion();
 		$max_execution_time = ini_get('max_execution_time');
 		$memory_limit = ini_get('memory_limit');
@@ -3312,14 +3441,15 @@ class PixelGallery_Admin_Settings {
 		<?php
 	}
 
-    /**
+	/**
 	 * Display Analytics and System Requirements
 	 *
 	 * @access public
 	 * @return void
 	 */
 
-	public function pixel_gallery_analytics_system_req_content() {
+	public function pixel_gallery_analytics_system_req_content()
+	{
 		?>
 		<div class="pg-dashboard-panel"
 			bdt-scrollspy="target: > div > div > .bdt-card; cls: bdt-animation-slide-bottom-small; delay: 300">
@@ -3344,7 +3474,7 @@ class PixelGallery_Admin_Settings {
 		<?php
 	}
 
-    /**
+	/**
 	 * Extra Options Start Here
 	 */
 
@@ -3354,30 +3484,37 @@ class PixelGallery_Admin_Settings {
 	 * @access public
 	 * @return void
 	 */
-	public function render_custom_css_js_section() {
+	public function render_custom_css_js_section()
+	{
 		?>
 		<div class="pg-custom-code-section">
 			<!-- Header Section -->
 			<div class="pg-code-section-header">
 				<h2 class="pg-section-title"><?php esc_html_e('Header Code Injection', 'pixel-gallery'); ?></h2>
-				<p class="pg-section-description"><?php esc_html_e('Code added here will be injected into the &lt;head&gt; section of your website.', 'pixel-gallery'); ?></p>
+				<p class="pg-section-description">
+					<?php esc_html_e('Code added here will be injected into the &lt;head&gt; section of your website.', 'pixel-gallery'); ?>
+				</p>
 			</div>
 			<div class="pg-code-row bdt-grid bdt-grid-small" bdt-grid>
 				<div class="bdt-width-1-2@m">
 					<div class="pg-code-editor-wrapper">
 						<h3 class="pg-code-editor-title"><?php esc_html_e('CSS', 'pixel-gallery'); ?></h3>
-						<p class="pg-code-editor-description"><?php esc_html_e('Enter raw CSS code without &lt;style&gt; tags.', 'pixel-gallery'); ?></p>
+						<p class="pg-code-editor-description">
+							<?php esc_html_e('Enter raw CSS code without &lt;style&gt; tags.', 'pixel-gallery'); ?></p>
 						<div class="pg-codemirror-editor-container">
-							<textarea id="pg-custom-css" name="pg_custom_css" class="pg-code-editor" data-mode="css" placeholder=".example {&#10;    background: red;&#10;    border-radius: 5px;&#10;    padding: 15px;&#10;}&#10;&#10;"><?php echo esc_textarea(get_option('pg_custom_css', '')); ?></textarea>
+							<textarea id="pg-custom-css" name="pg_custom_css" class="pg-code-editor" data-mode="css"
+								placeholder=".example {&#10;    background: red;&#10;    border-radius: 5px;&#10;    padding: 15px;&#10;}&#10;&#10;"><?php echo esc_textarea(get_option('pg_custom_css', '')); ?></textarea>
 						</div>
 					</div>
 				</div>
 				<div class="bdt-width-1-2@m">
 					<div class="pg-code-editor-wrapper">
 						<h3 class="pg-code-editor-title"><?php esc_html_e('JS', 'pixel-gallery'); ?></h3>
-						<p class="pg-code-editor-description"><?php esc_html_e('Enter raw JavaScript code without &lt;script&gt; tags.', 'pixel-gallery'); ?></p>
+						<p class="pg-code-editor-description">
+							<?php esc_html_e('Enter raw JavaScript code without &lt;script&gt; tags.', 'pixel-gallery'); ?></p>
 						<div class="pg-codemirror-editor-container">
-							<textarea id="pg-custom-js" name="pg_custom_js" class="pg-code-editor" data-mode="javascript" placeholder="alert('Hello, Pixel Gallery!');"><?php echo esc_textarea(get_option('pg_custom_js', '')); ?></textarea>
+							<textarea id="pg-custom-js" name="pg_custom_js" class="pg-code-editor" data-mode="javascript"
+								placeholder="alert('Hello, Pixel Gallery!');"><?php echo esc_textarea(get_option('pg_custom_js', '')); ?></textarea>
 						</div>
 					</div>
 				</div>
@@ -3386,24 +3523,30 @@ class PixelGallery_Admin_Settings {
 			<!-- Footer Section -->
 			<div class="pg-code-section-header bdt-margin-medium-top">
 				<h2 class="pg-section-title"><?php esc_html_e('Footer Code Injection', 'pixel-gallery'); ?></h2>
-				<p class="pg-section-description"><?php esc_html_e('Code added here will be injected before the closing &lt;/body&gt; tag of your website.', 'pixel-gallery'); ?></p>
+				<p class="pg-section-description">
+					<?php esc_html_e('Code added here will be injected before the closing &lt;/body&gt; tag of your website.', 'pixel-gallery'); ?>
+				</p>
 			</div>
 			<div class="pg-code-row bdt-grid bdt-grid-small bdt-margin-small-top" bdt-grid>
 				<div class="bdt-width-1-2@m">
 					<div class="pg-code-editor-wrapper">
 						<h3 class="pg-code-editor-title"><?php esc_html_e('CSS', 'pixel-gallery'); ?></h3>
-						<p class="pg-code-editor-description"><?php esc_html_e('Enter raw CSS code without &lt;style&gt; tags.', 'pixel-gallery'); ?></p>
+						<p class="pg-code-editor-description">
+							<?php esc_html_e('Enter raw CSS code without &lt;style&gt; tags.', 'pixel-gallery'); ?></p>
 						<div class="pg-codemirror-editor-container">
-							<textarea id="pg-custom-css-2" name="pg_custom_css_2" class="pg-code-editor" data-mode="css" placeholder=".example {&#10;    background: green;&#10;}&#10;&#10;"><?php echo esc_textarea(get_option('pg_custom_css_2', '')); ?></textarea>
+							<textarea id="pg-custom-css-2" name="pg_custom_css_2" class="pg-code-editor" data-mode="css"
+								placeholder=".example {&#10;    background: green;&#10;}&#10;&#10;"><?php echo esc_textarea(get_option('pg_custom_css_2', '')); ?></textarea>
 						</div>
 					</div>
 				</div>
 				<div class="bdt-width-1-2@m">
 					<div class="pg-code-editor-wrapper">
 						<h3 class="pg-code-editor-title"><?php esc_html_e('JS', 'pixel-gallery'); ?></h3>
-						<p class="pg-code-editor-description"><?php esc_html_e('Enter raw JavaScript code without &lt;script&gt; tags.', 'pixel-gallery'); ?></p>
+						<p class="pg-code-editor-description">
+							<?php esc_html_e('Enter raw JavaScript code without &lt;script&gt; tags.', 'pixel-gallery'); ?></p>
 						<div class="pg-codemirror-editor-container">
-							<textarea id="pg-custom-js-2" name="pg_custom_js_2" class="pg-code-editor" data-mode="javascript" placeholder="console.log('Hello, Pixel Gallery!');"><?php echo esc_textarea(get_option('pg_custom_js_2', '')); ?></textarea>
+							<textarea id="pg-custom-js-2" name="pg_custom_js_2" class="pg-code-editor" data-mode="javascript"
+								placeholder="console.log('Hello, Pixel Gallery!');"><?php echo esc_textarea(get_option('pg_custom_js_2', '')); ?></textarea>
 						</div>
 					</div>
 				</div>
@@ -3412,7 +3555,9 @@ class PixelGallery_Admin_Settings {
 			<!-- Page Exclusion Section -->
 			<div class="pg-code-section-header bdt-margin-medium-top">
 				<h2 class="pg-section-title"><?php esc_html_e('Page & Post Exclusion Settings', 'pixel-gallery'); ?></h2>
-				<p class="pg-section-description"><?php esc_html_e('Select pages and posts where you don\'t want any custom code to be injected. This applies to all sections above.', 'pixel-gallery'); ?></p>
+				<p class="pg-section-description">
+					<?php esc_html_e('Select pages and posts where you don\'t want any custom code to be injected. This applies to all sections above.', 'pixel-gallery'); ?>
+				</p>
 			</div>
 			<div class="pg-page-exclusion-wrapper">
 				<label for="pg-excluded-pages" class="pg-exclusion-label">
@@ -3425,14 +3570,14 @@ class PixelGallery_Admin_Settings {
 					if (!is_array($excluded_pages)) {
 						$excluded_pages = array();
 					}
-					
+
 					// Get all published pages
 					$pages = get_pages(array(
 						'sort_order' => 'ASC',
 						'sort_column' => 'post_title',
 						'post_status' => 'publish'
 					));
-					
+
 					// Get recent posts (last 50)
 					$posts = get_posts(array(
 						'numberposts' => 50,
@@ -3441,7 +3586,7 @@ class PixelGallery_Admin_Settings {
 						'orderby' => 'date',
 						'order' => 'DESC'
 					));
-					
+
 					// Display pages first
 					if (!empty($pages)) {
 						echo '<optgroup label="' . esc_attr__('Pages', 'pixel-gallery') . '">';
@@ -3451,7 +3596,7 @@ class PixelGallery_Admin_Settings {
 						}
 						echo '</optgroup>';
 					}
-					
+
 					// Then display posts
 					if (!empty($posts)) {
 						echo '<optgroup label="' . esc_attr__('Recent Posts', 'pixel-gallery') . '">';
@@ -3480,11 +3625,12 @@ class PixelGallery_Admin_Settings {
 		<?php
 	}
 
-    /**
+	/**
 	 * Extra Options Start Here
 	 */
 
-	public function pixel_gallery_extra_options() {
+	public function pixel_gallery_extra_options()
+	{
 		?>
 		<div class="pg-dashboard-panel"
 			bdt-scrollspy="target: > div > div > .bdt-card; cls: bdt-animation-slide-bottom-small; delay: 300">
@@ -3494,8 +3640,7 @@ class PixelGallery_Admin_Settings {
 
 					<div class="pg-extra-options-tabs">
 						<ul class="bdt-tab" bdt-tab="connect: #pg-extra-options-tab-content; animation: bdt-animation-fade">
-							<li class="bdt-active"><a
-									href="#"><?php esc_html_e('Custom CSS & JS', 'pixel-gallery'); ?></a></li>
+							<li class="bdt-active"><a href="#"><?php esc_html_e('Custom CSS & JS', 'pixel-gallery'); ?></a></li>
 							<li><a href="#"><?php esc_html_e('White Label', 'pixel-gallery'); ?></a></li>
 						</ul>
 
@@ -3504,7 +3649,7 @@ class PixelGallery_Admin_Settings {
 							<div>
 								<?php $this->render_custom_css_js_section(); ?>
 							</div>
-							
+
 							<!-- White Label Tab -->
 							<div>
 								<?php $this->render_white_label_section(); ?>
@@ -3517,34 +3662,37 @@ class PixelGallery_Admin_Settings {
 		<?php
 	}
 
-    /**
+	/**
 	 * Check if current license supports white label features
 	 * Now includes other_param checking for AppSumo WL flag
 	 * 
 	 * @access public static
 	 * @return bool
 	 */
-	public static function is_white_label_license() {
+	public static function is_white_label_license()
+	{
 		// Check if pro version is activated first
 		if (!function_exists('_is_pg_pro_activated') || !_is_pg_pro_activated()) {
 			return false;
 		}
-		
+
 		// Since PixelGalleryPro\Base doesn't exist, return false for now
 		// This should be replaced with actual pro license checking logic when available
 		$license_info = PixelGalleryPro\Base\Pixel_Gallery_Base::GetRegisterInfo();
-		
+
 		// Security: Validate license info structure
-		if (empty($license_info) || 
-			!is_object($license_info) || 
-			empty($license_info->license_title) || 
-			empty($license_info->is_valid)) {
+		if (
+			empty($license_info) ||
+			!is_object($license_info) ||
+			empty($license_info->license_title) ||
+			empty($license_info->is_valid)
+		) {
 			return false;
 		}
-		
+
 		// Sanitize license title to prevent any potential issues
 		$license_title = sanitize_text_field(strtolower($license_info->license_title));
-		
+
 		// Check for other_param WL flag FIRST (for AppSumo and other special licenses)
 		if (!empty($license_info->other_param)) {
 			// Check if other_param contains WL flag
@@ -3558,11 +3706,11 @@ class PixelGallery_Admin_Settings {
 				}
 			}
 		}
-		
+
 		// Check standard license types (but NOT AppSumo - AppSumo requires WL flag)
 		$allowed_types = self::get_white_label_allowed_license_types();
 		$allowed_hashes = array_values($allowed_types);
-		
+
 		// Split license title into words and check each word
 		$words = preg_split('/\s+/', $license_title, -1, PREG_SPLIT_NO_EMPTY);
 		foreach ($words as $word) {
@@ -3570,14 +3718,14 @@ class PixelGallery_Admin_Settings {
 			if (empty($word) || strlen($word) > 50) { // Prevent extremely long strings
 				continue;
 			}
-			
+
 			// Use SHA-256 for enhanced security
 			$hash = hash('sha256', $word);
 			if (in_array($hash, $allowed_hashes, true)) { // Strict comparison
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -3587,30 +3735,32 @@ class PixelGallery_Admin_Settings {
 	 * @access public
 	 * @return void
 	 */
-	public function render_white_label_section() {
+	public function render_white_label_section()
+	{
 		//// Safely check if helper functions exist
 		$is_pro_installed = function_exists('_is_pg_pro_installed') ? _is_pg_pro_installed() : false;
 		$is_pro_activated = function_exists('_is_pg_pro_activated') ? _is_pg_pro_activated() : false;
-	
+
 		// Define plugin slug (adjust if needed)
 		$plugin_slug = 'pixel-gallery-pro/pixel-gallery-pro.php';
-	
+
 		// Case 1: Pro not installed
-		if ( ! $is_pro_installed ) : ?>
+		if (!$is_pro_installed): ?>
 			<div class="bdt-alert bdt-alert-danger bdt-margin-medium-top" bdt-alert>
-				<p><?php esc_html_e( 'Pixel Gallery Pro is not installed. Please install it to access White Label functionality.', 'pixel-gallery' ); ?></p>
+				<p><?php esc_html_e('Pixel Gallery Pro is not installed. Please install it to access White Label functionality.', 'pixel-gallery'); ?>
+				</p>
 				<div class="bdt-margin-small-top">
 					<a href="https://pixelgallery.pro/pricing/" target="_blank" class="bdt-button bdt-btn-blue">
-						<?php esc_html_e( 'Get Pro', 'pixel-gallery' ); ?>
+						<?php esc_html_e('Get Pro', 'pixel-gallery'); ?>
 					</a>
 				</div>
 			</div>
 			<?php
 			return;
 		endif;
-	
+
 		// Case 2: Installed but not active
-		if ( $is_pro_installed && ! $is_pro_activated ) :
+		if ($is_pro_installed && !$is_pro_activated):
 			// Generate secure activation link
 			$activate_url = wp_nonce_url(
 				add_query_arg(
@@ -3618,16 +3768,17 @@ class PixelGallery_Admin_Settings {
 						'action' => 'activate',
 						'plugin' => $plugin_slug,
 					),
-					admin_url( 'plugins.php' )
+					admin_url('plugins.php')
 				),
 				'activate-plugin_' . $plugin_slug
 			);
 			?>
 			<div class="bdt-alert bdt-alert-warning bdt-margin-medium-top" bdt-alert>
-				<p><?php esc_html_e( 'Pixel Gallery Pro is installed but not activated. Please activate it to access White Label functionality.', 'pixel-gallery' ); ?></p>
+				<p><?php esc_html_e('Pixel Gallery Pro is installed but not activated. Please activate it to access White Label functionality.', 'pixel-gallery'); ?>
+				</p>
 				<div class="bdt-margin-small-top">
-					<a href="<?php echo esc_url( $activate_url ); ?>" class="bdt-button bdt-btn-blue">
-						<?php esc_html_e( 'Activate Pro', 'pixel-gallery' ); ?>
+					<a href="<?php echo esc_url($activate_url); ?>" class="bdt-button bdt-btn-blue">
+						<?php esc_html_e('Activate Pro', 'pixel-gallery'); ?>
 					</a>
 				</div>
 			</div>
@@ -3637,23 +3788,26 @@ class PixelGallery_Admin_Settings {
 		?>
 		<div class="pg-white-label-section">
 			<h1 class="pg-feature-title"><?php esc_html_e('White Label Settings', 'pixel-gallery'); ?></h1>
-			<p><?php esc_html_e('Enable white label mode to hide Pixel Gallery branding from the admin interface and widgets.', 'pixel-gallery'); ?></p>
+			<p><?php esc_html_e('Enable white label mode to hide Pixel Gallery branding from the admin interface and widgets.', 'pixel-gallery'); ?>
+			</p>
 
-			<?php 
+			<?php
 
 			$is_license_active = false;
-			if ( function_exists( 'pg_license_validation' ) && true === pg_license_validation() ) {
+			if (function_exists('pg_license_validation') && true === pg_license_validation()) {
 				$is_license_active = true;
 			}
 			$is_white_label_eligible = self::is_white_label_license();
-			
+
 			// Show appropriate notices based on license status
 			if (!$is_license_active): ?>
 				<div class="bdt-alert bdt-alert-danger bdt-margin-medium-top" bdt-alert>
 					<p><strong><?php esc_html_e('License Not Activated', 'pixel-gallery'); ?></strong></p>
-					<p><?php esc_html_e('You need to activate your Pixel Gallery license to access White Label functionality. Please activate your license first.', 'pixel-gallery'); ?></p>
+					<p><?php esc_html_e('You need to activate your Pixel Gallery license to access White Label functionality. Please activate your license first.', 'pixel-gallery'); ?>
+					</p>
 					<div class="bdt-margin-small-top">
-						<a href="<?php echo esc_url(admin_url('admin.php?page=pixel_gallery_options#pixel_gallery_license_settings')); ?>" class="bdt-button bdt-btn-blue bdt-margin-small-right">
+						<a href="<?php echo esc_url(admin_url('admin.php?page=pixel_gallery_options#pixel_gallery_license_settings')); ?>"
+							class="bdt-button bdt-btn-blue bdt-margin-small-right">
 							<?php esc_html_e('Activate License', 'pixel-gallery'); ?>
 						</a>
 						<a href="https://pixelgallery.pro/pricing/" target="_blank" class="bdt-button bdt-btn-blue">
@@ -3664,19 +3818,23 @@ class PixelGallery_Admin_Settings {
 			<?php elseif ($is_license_active && !$is_white_label_eligible): ?>
 				<div class="bdt-alert bdt-alert-warning bdt-margin-medium-top" bdt-alert>
 					<p><strong><?php esc_html_e('Eligible License Required', 'pixel-gallery'); ?></strong></p>
-					<p><?php esc_html_e('White Label functionality is available for Agency, Extended, Developer, AppSumo Lifetime, and other eligible license holders. Some licenses may include special white label permissions.', 'pixel-gallery'); ?></p>
-					<a href="https://pixelgallery.pro/pricing/" target="_blank" class="bdt-button bdt-btn-blue bdt-margin-small-top">
+					<p><?php esc_html_e('White Label functionality is available for Agency, Extended, Developer, AppSumo Lifetime, and other eligible license holders. Some licenses may include special white label permissions.', 'pixel-gallery'); ?>
+					</p>
+					<a href="https://pixelgallery.pro/pricing/" target="_blank"
+						class="bdt-button bdt-btn-blue bdt-margin-small-top">
 						<?php esc_html_e('Upgrade License', 'pixel-gallery'); ?>
 					</a>
 				</div>
 			<?php endif; ?>
 
-			<div class="pg-white-label-options <?php echo (!$is_license_active || !$is_white_label_eligible) ? 'pg-white-label-locked' : ''; ?>">
+			<div
+				class="pg-white-label-options <?php echo (!$is_license_active || !$is_white_label_eligible) ? 'pg-white-label-locked' : ''; ?>">
 				<div class="pg-option-item ">
 					<div class="pg-option-item-inner bdt-card">
 						<div class="bdt-flex bdt-flex-between bdt-flex-middle">
 							<div>
-								<h3 class="pg-option-title"><?php esc_html_e('Enable White Label Mode', 'pixel-gallery'); ?></h3>
+								<h3 class="pg-option-title"><?php esc_html_e('Enable White Label Mode', 'pixel-gallery'); ?>
+								</h3>
 								<p class="pg-option-description">
 									<?php if ($is_license_active && $is_white_label_eligible): ?>
 										<?php esc_html_e('When enabled, Pixel Gallery branding will be hidden from the admin interface and widgets.', 'pixel-gallery'); ?>
@@ -3694,11 +3852,7 @@ class PixelGallery_Admin_Settings {
 								$white_label_enabled = (bool) $white_label_enabled;
 								?>
 								<label class="switch">
-									<input type="checkbox" 
-										   id="pg-white-label-enabled" 
-										   name="pg_white_label_enabled" 
-										   <?php checked($white_label_enabled, true); ?>
-										   <?php disabled(!$is_license_active || !$is_white_label_eligible); ?>>
+									<input type="checkbox" id="pg-white-label-enabled" name="pg_white_label_enabled" <?php checked($white_label_enabled, true); ?> 		<?php disabled(!$is_license_active || !$is_white_label_eligible); ?>>
 									<span class="slider"></span>
 								</label>
 							</div>
@@ -3707,51 +3861,59 @@ class PixelGallery_Admin_Settings {
 				</div>
 
 				<!-- White Label Title Field (conditional) -->
-				<div class="pg-option-item pg-white-label-fields" style="<?php echo ($white_label_enabled && $is_license_active && $is_white_label_eligible) ? '' : 'display: none;'; ?>">
+				<div class="pg-option-item pg-white-label-fields"
+					style="<?php echo ($white_label_enabled && $is_license_active && $is_white_label_eligible) ? '' : 'display: none;'; ?>">
 					<div class="pg-option-item-inner bdt-card">
 						<div class="pg-white-label-title-section bdt-margin-medium-bottom">
 							<h3 class="pg-option-title"><?php esc_html_e('White Label Title', 'pixel-gallery'); ?></h3>
-							<p class="pg-option-description"><?php esc_html_e('Enter a custom title to replace "Pixel Gallery" branding throughout the plugin.', 'pixel-gallery'); ?></p>
+							<p class="pg-option-description">
+								<?php esc_html_e('Enter a custom title to replace "Pixel Gallery" branding throughout the plugin.', 'pixel-gallery'); ?>
+							</p>
 							<div class="pg-white-label-input-wrapper bdt-margin-small-top">
-								<input type="text" 
-									   id="pg-white-label-title" 
-									   name="pg_white_label_title" 
-									   class="pg-white-label-input" 
-									   placeholder="<?php esc_attr_e('Enter your custom title...', 'pixel-gallery'); ?>"
-									   value="<?php echo esc_attr(get_option('pg_white_label_title', '')); ?>"
-									   <?php disabled(!$is_license_active || !$is_white_label_eligible); ?>>
+								<input type="text" id="pg-white-label-title" name="pg_white_label_title"
+									class="pg-white-label-input"
+									placeholder="<?php esc_attr_e('Enter your custom title...', 'pixel-gallery'); ?>"
+									value="<?php echo esc_attr(get_option('pg_white_label_title', '')); ?>" <?php disabled(!$is_license_active || !$is_white_label_eligible); ?>>
 							</div>
 						</div>
 
 						<hr class="bdt-divider-small">
-						
+
 						<!-- White Label Title Icon Field -->
 						<div class="pg-white-label-icon-section bdt-margin-medium-top">
 							<h3 class="pg-option-title"><?php esc_html_e('White Label Title Icon', 'pixel-gallery'); ?></h3>
-							<p class="pg-option-description"><?php esc_html_e('Upload a custom icon to replace the Pixel Gallery menu icon. Supports JPG, PNG, and SVG formats.', 'pixel-gallery'); ?></p>
-							
+							<p class="pg-option-description">
+								<?php esc_html_e('Upload a custom icon to replace the Pixel Gallery menu icon. Supports JPG, PNG, and SVG formats.', 'pixel-gallery'); ?>
+							</p>
+
 							<div class="pg-icon-upload-wrapper bdt-margin-small-top">
-								<?php 
+								<?php
 								$icon_url = get_option('pg_white_label_icon', '');
 								$icon_id = get_option('pg_white_label_icon_id', '');
 								?>
 								<div class="pg-icon-preview-container" style="<?php echo $icon_url ? '' : 'display: none;'; ?>">
 									<div class="pg-icon-preview">
-										<img id="pg-icon-preview-img" src="<?php echo esc_url($icon_url); ?>" alt="Icon Preview" style="max-width: 64px; max-height: 64px; border: 1px solid #ddd; border-radius: 4px; padding: 8px; background: #fff;">
+										<img id="pg-icon-preview-img" src="<?php echo esc_url($icon_url); ?>" alt="Icon Preview"
+											style="max-width: 64px; max-height: 64px; border: 1px solid #ddd; border-radius: 4px; padding: 8px; background: #fff;">
 									</div>
-									<button type="button" id="pg-remove-icon" class="bdt-button bdt-btn-grey bdt-flex bdt-flex-middle bdt-margin-small-top" style="padding: 8px 12px; font-size: 12px;">
+									<button type="button" id="pg-remove-icon"
+										class="bdt-button bdt-btn-grey bdt-flex bdt-flex-middle bdt-margin-small-top"
+										style="padding: 8px 12px; font-size: 12px;">
 										<span class="dashicons dashicons-trash"></span>
 										<?php esc_html_e('Remove', 'pixel-gallery'); ?>
 									</button>
 								</div>
-								
+
 								<div class="pg-icon-upload-container">
-									<button type="button" id="pg-upload-icon" class="bdt-button bdt-btn-blue bdt-margin-small-top" <?php disabled(!$is_license_active || !$is_white_label_eligible); ?>>
+									<button type="button" id="pg-upload-icon"
+										class="bdt-button bdt-btn-blue bdt-margin-small-top" <?php disabled(!$is_license_active || !$is_white_label_eligible); ?>>
 										<span class="dashicons dashicons-cloud-upload"></span>
 										<?php esc_html_e('Upload Icon', 'pixel-gallery'); ?>
 									</button>
-									<input type="hidden" id="pg-white-label-icon" name="pg_white_label_icon" value="<?php echo esc_attr($icon_url); ?>">
-									<input type="hidden" id="pg-white-label-icon-id" name="pg_white_label_icon_id" value="<?php echo esc_attr($icon_id); ?>">
+									<input type="hidden" id="pg-white-label-icon" name="pg_white_label_icon"
+										value="<?php echo esc_attr($icon_url); ?>">
+									<input type="hidden" id="pg-white-label-icon-id" name="pg_white_label_icon_id"
+										value="<?php echo esc_attr($icon_id); ?>">
 								</div>
 							</div>
 
@@ -3763,29 +3925,39 @@ class PixelGallery_Admin_Settings {
 						<!-- White Label Plugin Logo Field -->
 						<div class="pg-white-label-logo-section bdt-margin-medium-top">
 							<h3 class="pg-option-title"><?php esc_html_e('Plugin Logo', 'pixel-gallery'); ?></h3>
-							<p class="pg-option-description"><?php esc_html_e('Upload a custom logo to replace the Pixel Gallery logo in the admin header. Supports JPG, PNG, and SVG formats.', 'pixel-gallery'); ?></p>
+							<p class="pg-option-description">
+								<?php esc_html_e('Upload a custom logo to replace the Pixel Gallery logo in the admin header. Supports JPG, PNG, and SVG formats.', 'pixel-gallery'); ?>
+							</p>
 							<div class="pg-logo-upload-wrapper-inner">
 								<div class="pg-logo-upload-wrapper bdt-margin-small-top">
-									<?php 
+									<?php
 									$logo_url = get_option('pg_white_label_logo', '');
 									$logo_id = get_option('pg_white_label_logo_id', '');
 									?>
-									<div class="pg-logo-preview-container" style="<?php echo $logo_url ? '' : 'display: none;'; ?>">
+									<div class="pg-logo-preview-container"
+										style="<?php echo $logo_url ? '' : 'display: none;'; ?>">
 										<div class="pg-logo-preview">
-											<img id="pg-logo-preview-img" src="<?php echo esc_url($logo_url); ?>" alt="Logo Preview" style="max-width: 200px; max-height: 64px; border: 1px solid #ddd; border-radius: 4px; padding: 8px; background: #fff;">
+											<img id="pg-logo-preview-img" src="<?php echo esc_url($logo_url); ?>"
+												alt="Logo Preview"
+												style="max-width: 200px; max-height: 64px; border: 1px solid #ddd; border-radius: 4px; padding: 8px; background: #fff;">
 										</div>
-										<button type="button" id="pg-remove-logo" class="bdt-button bdt-btn-grey bdt-flex bdt-flex-middle bdt-margin-small-top" style="padding: 8px 12px; font-size: 12px;">
+										<button type="button" id="pg-remove-logo"
+											class="bdt-button bdt-btn-grey bdt-flex bdt-flex-middle bdt-margin-small-top"
+											style="padding: 8px 12px; font-size: 12px;">
 											<span class="dashicons dashicons-trash"></span>
 										</button>
 									</div>
-									
+
 									<div class="pg-logo-upload-container">
-										<button type="button" id="pg-upload-logo" class="bdt-button bdt-btn-blue bdt-margin-small-top" <?php disabled(!$is_license_active || !$is_white_label_eligible); ?>>
+										<button type="button" id="pg-upload-logo"
+											class="bdt-button bdt-btn-blue bdt-margin-small-top" <?php disabled(!$is_license_active || !$is_white_label_eligible); ?>>
 											<span class="dashicons dashicons-cloud-upload"></span>
 											<?php esc_html_e('Upload Logo', 'pixel-gallery'); ?>
 										</button>
-										<input type="hidden" id="pg-white-label-logo" name="pg_white_label_logo" value="<?php echo esc_attr($logo_url); ?>">
-										<input type="hidden" id="pg-white-label-logo-id" name="pg_white_label_logo_id" value="<?php echo esc_attr($logo_id); ?>">
+										<input type="hidden" id="pg-white-label-logo" name="pg_white_label_logo"
+											value="<?php echo esc_attr($logo_url); ?>">
+										<input type="hidden" id="pg-white-label-logo-id" name="pg_white_label_logo_id"
+											value="<?php echo esc_attr($logo_id); ?>">
 									</div>
 								</div>
 								<p class="pg-input-help">
@@ -3797,12 +3969,15 @@ class PixelGallery_Admin_Settings {
 				</div>
 
 				<!-- License Hide Option (conditional) -->
-				<div class="pg-option-item pg-white-label-fields" style="<?php echo ($white_label_enabled && $is_license_active && $is_white_label_eligible) ? '' : 'display: none;'; ?>">
+				<div class="pg-option-item pg-white-label-fields"
+					style="<?php echo ($white_label_enabled && $is_license_active && $is_white_label_eligible) ? '' : 'display: none;'; ?>">
 					<div class="pg-option-item-inner bdt-card">
 						<div class="bdt-flex bdt-flex-between bdt-flex-middle">
 							<div>
 								<h3 class="pg-option-title"><?php esc_html_e('Hide License Menu', 'pixel-gallery'); ?></h3>
-								<p class="pg-option-description"><?php esc_html_e('Hide the license menu from the admin sidebar when white label mode is enabled.', 'pixel-gallery'); ?></p>
+								<p class="pg-option-description">
+									<?php esc_html_e('Hide the license menu from the admin sidebar when white label mode is enabled.', 'pixel-gallery'); ?>
+								</p>
 							</div>
 							<div class="pg-option-switch">
 								<?php
@@ -3811,11 +3986,8 @@ class PixelGallery_Admin_Settings {
 								$hide_license = (bool) $hide_license;
 								?>
 								<label class="switch">
-									<input type="checkbox" 
-										   id="pg-white-label-hide-license" 
-										   name="pg_white_label_hide_license" 
-										   <?php checked($hide_license, true); ?>
-										   <?php disabled(!$is_license_active || !$is_white_label_eligible); ?>>
+									<input type="checkbox" id="pg-white-label-hide-license" name="pg_white_label_hide_license"
+										<?php checked($hide_license, true); ?> 		<?php disabled(!$is_license_active || !$is_white_label_eligible); ?>>
 									<span class="slider"></span>
 								</label>
 							</div>
@@ -3824,18 +3996,23 @@ class PixelGallery_Admin_Settings {
 				</div>
 
 				<!-- BDTPG_HIDE Option (conditional) -->
-				<div class="pg-option-item pg-white-label-fields" style="<?php echo ($white_label_enabled && $is_license_active && $is_white_label_eligible) ? '' : 'display: none;'; ?>">
+				<div class="pg-option-item pg-white-label-fields"
+					style="<?php echo ($white_label_enabled && $is_license_active && $is_white_label_eligible) ? '' : 'display: none;'; ?>">
 					<div class="pg-option-item-inner bdt-card">
 						<div class="bdt-flex bdt-flex-between bdt-flex-middle">
 							<div>
-								<h3 class="pg-option-title"><?php esc_html_e('Enable BDTPG_HIDE Constant', 'pixel-gallery'); ?></h3>
-								<p class="pg-option-description"><?php esc_html_e('Define the BDTPG_HIDE constant to hide additional Pixel Gallery branding and features throughout the plugin.', 'pixel-gallery'); ?></p>
-								<?php 
+								<h3 class="pg-option-title"><?php esc_html_e('Enable BDTPG_HIDE Constant', 'pixel-gallery'); ?>
+								</h3>
+								<p class="pg-option-description">
+									<?php esc_html_e('Define the BDTPG_HIDE constant to hide additional Pixel Gallery branding and features throughout the plugin.', 'pixel-gallery'); ?>
+								</p>
+								<?php
 								$bdtpg_hide = get_option('pg_white_label_bdtpg_hide', false);
 								if ($bdtpg_hide): ?>
 									<div class="bdt-alert bdt-alert-warning bdt-margin-small-top">
 										<p><strong>⚠️ BDTPG_HIDE Currently Active</strong></p>
-										<p>Advanced white label mode is currently enabled. Pixel Gallery menus are hidden from the admin interface.</p>
+										<p>Advanced white label mode is currently enabled. Pixel Gallery menus are hidden from the
+											admin interface.</p>
 									</div>
 								<?php endif; ?>
 							</div>
@@ -3845,32 +4022,29 @@ class PixelGallery_Admin_Settings {
 								$bdtpg_hide = (bool) $bdtpg_hide;
 								?>
 								<label class="switch">
-									<input type="checkbox" 
-										   id="pg-white-label-bdtpg-hide" 
-										   name="pg_white_label_bdtpg_hide" 
-										   <?php checked($bdtpg_hide, true); ?>
-										   <?php disabled(!$is_license_active || !$is_white_label_eligible); ?>>
+									<input type="checkbox" id="pg-white-label-bdtpg-hide" name="pg_white_label_bdtpg_hide" <?php checked($bdtpg_hide, true); ?> 		<?php disabled(!$is_license_active || !$is_white_label_eligible); ?>>
 									<span class="slider"></span>
 								</label>
 							</div>
 						</div>
 					</div>
 				</div>
-				
+
 				<?php if (!$bdtpg_hide && $is_license_active && $is_white_label_eligible): ?>
-				<div class="bdt-margin-small-top">
-					<div class="bdt-alert bdt-alert-danger">
-						<h4>📧 Email Access System</h4>
-						<p>When you enable BDTPG_HIDE, an email will be automatically sent to:</p>
-						<ul style="margin: 10px 0;">
-							<li><strong>License Email:</strong> <?php echo esc_html(self::get_license_email()); ?></li>
-							<?php if (get_bloginfo('admin_email') !== self::get_license_email()): ?>
-							<li><strong>Admin Email:</strong> <?php echo esc_html(get_bloginfo('admin_email')); ?></li>
-							<?php endif; ?>
-						</ul>
-						<p>This email will contain a special access link that allows you to return to these settings even when BDTPG_HIDE is active.</p>
+					<div class="bdt-margin-small-top">
+						<div class="bdt-alert bdt-alert-danger">
+							<h4>📧 Email Access System</h4>
+							<p>When you enable BDTPG_HIDE, an email will be automatically sent to:</p>
+							<ul style="margin: 10px 0;">
+								<li><strong>License Email:</strong> <?php echo esc_html(self::get_license_email()); ?></li>
+								<?php if (get_bloginfo('admin_email') !== self::get_license_email()): ?>
+									<li><strong>Admin Email:</strong> <?php echo esc_html(get_bloginfo('admin_email')); ?></li>
+								<?php endif; ?>
+							</ul>
+							<p>This email will contain a special access link that allows you to return to these settings even when
+								BDTPG_HIDE is active.</p>
+						</div>
 					</div>
-				</div>
 				<?php endif; ?>
 
 				<!-- Success/Error Messages -->
@@ -3885,7 +4059,7 @@ class PixelGallery_Admin_Settings {
 		<?php
 	}
 
-    /**
+	/**
 	 * Get allowed white label license types (SHA-256 hashes)
 	 * This centralized method makes it easy to add new license types in the future
 	 * Note: AppSumo and Lifetime licenses require WL flag in other_param instead of automatic access
@@ -3893,7 +4067,8 @@ class PixelGallery_Admin_Settings {
 	 * @access public static
 	 * @return array Array of SHA-256 hashes for allowed license types
 	 */
-	public static function get_white_label_allowed_license_types() {
+	public static function get_white_label_allowed_license_types()
+	{
 		$allowed_types = [
 			'agency' => 'c4b2af4722ee54e317672875b2d8cf49aa884bf5820ec6091114fea5ec6560e4',
 			'extended' => '4d7120eb6c796b04273577476eb2e20c34c51d7fa1025ec19c3414448abc241e',
@@ -3905,32 +4080,35 @@ class PixelGallery_Admin_Settings {
 		return $allowed_types;
 	}
 
-    public static function license_wl_status() {
+	public static function license_wl_status()
+	{
 		$status = get_option('pixel_gallery_license_title_status');
-		
+
 		if ($status) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
-    /**
+	/**
 	 * Get License Email
 	 *
 	 * @access public
 	 * @return string
 	 */
 
-	 public static function get_license_email() {
+	public static function get_license_email()
+	{
 		return trim(get_option('pixel_gallery_license_email', get_bloginfo('admin_email')));
 	}
 
-    /**
+	/**
 	 * Others Plugin
 	 */
 
-	public function pixel_gallery_others_plugin() {
+	public function pixel_gallery_others_plugin()
+	{
 		// Include the Plugin Integration Helper and API Fetcher
 		require_once BDTPG_INC_PATH . 'setup-wizard/class-plugin-api-fetcher.php';
 		require_once BDTPG_INC_PATH . 'setup-wizard/class-plugin-integration-helper.php';
@@ -3956,18 +4134,19 @@ class PixelGallery_Admin_Settings {
 
 		// Helper function for time formatting (same as integration view)
 		if (!function_exists('format_last_updated')) {
-			function format_last_updated($date_string) {
+			function format_last_updated($date_string)
+			{
 				if (empty($date_string)) {
 					return __('Unknown', 'pixel-gallery');
 				}
-				
+
 				$date = strtotime($date_string);
 				if (!$date) {
 					return __('Unknown', 'pixel-gallery');
 				}
-				
+
 				$diff = current_time('timestamp') - $date;
-				
+
 				if ($diff < 60) {
 					return __('Just now', 'pixel-gallery');
 				} elseif ($diff < 3600) {
@@ -3991,7 +4170,8 @@ class PixelGallery_Admin_Settings {
 
 		// Helper function for fallback URLs (same as integration view)
 		if (!function_exists('get_plugin_fallback_urls')) {
-			function get_plugin_fallback_urls($plugin_slug) {
+			function get_plugin_fallback_urls($plugin_slug)
+			{
 				// Handle different plugin slug formats
 				if (strpos($plugin_slug, '/') !== false) {
 					// If it's a file path like 'plugin-name/plugin-name.php', extract directory
@@ -4000,7 +4180,7 @@ class PixelGallery_Admin_Settings {
 					// If it's just the plugin directory name, use it directly
 					$plugin_slug_clean = $plugin_slug;
 				}
-				
+
 				// Custom icon URLs for specific plugins that might not be on WordPress.org
 				$custom_icons = [
 					// 'bdthemes-element-pack-lite' => [
@@ -4028,12 +4208,12 @@ class PixelGallery_Admin_Settings {
 						'https://ps.w.org/ar-viewer/assets/icon-128x128.gif',
 					],
 				];
-				
+
 				// Return custom icons if available, otherwise use default WordPress.org URLs
 				if (isset($custom_icons[$plugin_slug_clean])) {
 					return $custom_icons[$plugin_slug_clean];
 				}
-				
+
 				return [
 					// "https://ps.w.org/{$plugin_slug_clean}/assets/icon-256x256.gif",  // Try GIF first
 					"https://ps.w.org/{$plugin_slug_clean}/assets/icon-256x256.png",  // Then PNG
@@ -4046,16 +4226,16 @@ class PixelGallery_Admin_Settings {
 		<div class="pg-dashboard-panel"
 			bdt-scrollspy="target: > div > div > .bdt-card; cls: bdt-animation-slide-bottom-small; delay: 300">
 			<div class="pg-dashboard-others-plugin">
-				
-				<?php foreach ($pg_plugins as $plugin) : 
+
+				<?php foreach ($pg_plugins as $plugin):
 					$is_active = is_plugin_active($plugin['slug']);
 					// $is_recommended = $plugin['recommended'] && !$is_active;
-					
+		
 					// Get plugin logo with fallback
 					$logo_url = $plugin['logo'] ?? '';
 					$plugin_name = $plugin['name'] ?? '';
 					$plugin_slug = $plugin['slug'] ?? '';
-					
+
 					if (empty($logo_url) || !filter_var($logo_url, FILTER_VALIDATE_URL)) {
 						// Generate fallback URLs for WordPress.org
 						// Extract the directory name from the file path format
@@ -4064,129 +4244,132 @@ class PixelGallery_Admin_Settings {
 						$fallback_urls = get_plugin_fallback_urls($actual_slug);
 						$logo_url = $fallback_urls[0];
 					}
-				?>
-				
-				<div class="bdt-card bdt-card-body bdt-flex bdt-flex-middle bdt-flex-between">
-					<div class="bdt-others-plugin-content bdt-flex bdt-flex-middle">
-						<div class="bdt-plugin-logo-wrap bdt-flex bdt-flex-middle">
-							<div class="bdt-plugin-logo-container">
-								<img src="<?php echo esc_url($logo_url); ?>" 
-									alt="<?php echo esc_attr($plugin_name); ?>" 
-									class="bdt-plugin-logo"
-									onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-								<div class="default-plugin-icon" style="display:none;">📦</div>
-							</div>
+					?>
 
-							<div class="bdt-others-plugin-user-wrap bdt-flex bdt-flex-middle">
-								<h1 class="pg-feature-title"><?php echo esc_html($plugin_name); ?></h1>
-								
-								<!-- <?php //if ($is_active) : ?>
+					<div class="bdt-card bdt-card-body bdt-flex bdt-flex-middle bdt-flex-between">
+						<div class="bdt-others-plugin-content bdt-flex bdt-flex-middle">
+							<div class="bdt-plugin-logo-wrap bdt-flex bdt-flex-middle">
+								<div class="bdt-plugin-logo-container">
+									<img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr($plugin_name); ?>"
+										class="bdt-plugin-logo"
+										onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+									<div class="default-plugin-icon" style="display:none;">📦</div>
+								</div>
+
+								<div class="bdt-others-plugin-user-wrap bdt-flex bdt-flex-middle">
+									<h1 class="pg-feature-title"><?php echo esc_html($plugin_name); ?></h1>
+
+									<!-- <?php //if ($is_active) : ?>
 									<span class="bdt-others-plugin-active"><?php //esc_html_e('ACTIVE', 'pixel-gallery'); ?></span>
 								<?php //endif; ?> -->
-								
-							</div>
-						</div>	
-						<div class="bdt-others-plugin-content-text">
-							
-							
-							
-							
-							
-							<?php if (!empty($plugin['description'])) : ?>
-								<p><?php echo esc_html($plugin['description']); ?></p>
-							<?php endif; ?>
 
-							<span class="active-installs bdt-margin-small-top">
-								<?php esc_html_e('Active Installs: ', 'pixel-gallery'); 
-								// echo wp_kses_post($plugin['active_installs'] ?? '0'); 
-								if (isset($plugin['active_installs_count']) && $plugin['active_installs_count'] > 0) {
-									echo ' <span class="installs-count">' . number_format($plugin['active_installs_count']) . '+' . '</span>';
-								} else {
-									echo ' <span class="installs-count">Fewer than 10' . '</span>';
-								}
-								?>
-							</span>
-
-							<?php if (isset($plugin['downloaded_formatted']) && !empty($plugin['downloaded_formatted'])): ?>
-								<div class="downloads bdt-margin-small-top">
-									<span><?php esc_html_e('Downloads: ', 'pixel-gallery'); ?><?php echo esc_html($plugin['downloaded_formatted']); ?></span>
 								</div>
-							<?php endif; ?>
+							</div>
+							<div class="bdt-others-plugin-content-text">
 
-							<div class="bdt-others-plugin-rating bdt-margin-small-top bdt-flex bdt-flex-middle">
-								<span class="bdt-others-plugin-rating-stars">
-									<?php 
-									$rating = floatval($plugin['rating'] ?? 0);
-									$full_stars = floor($rating);
-									$has_half_star = ($rating - $full_stars) >= 0.5;
-									$empty_stars = 5 - $full_stars - ($has_half_star ? 1 : 0);
-									
-									// Full stars
-									for ($i = 0; $i < $full_stars; $i++) {
-										echo '<i class="dashicons dashicons-star-filled"></i>';
-									}
-									
-									// Half star
-									if ($has_half_star) {
-										echo '<i class="dashicons dashicons-star-half"></i>';
-									}
-									
-									// Empty stars
-									for ($i = 0; $i < $empty_stars; $i++) {
-										echo '<i class="dashicons dashicons-star-empty"></i>';
+
+
+
+
+								<?php if (!empty($plugin['description'])): ?>
+									<p><?php echo esc_html($plugin['description']); ?></p>
+								<?php endif; ?>
+
+								<span class="active-installs bdt-margin-small-top">
+									<?php esc_html_e('Active Installs: ', 'pixel-gallery');
+									// echo wp_kses_post($plugin['active_installs'] ?? '0'); 
+									if (isset($plugin['active_installs_count']) && $plugin['active_installs_count'] > 0) {
+										echo ' <span class="installs-count">' . number_format($plugin['active_installs_count']) . '+' . '</span>';
+									} else {
+										echo ' <span class="installs-count">Fewer than 10' . '</span>';
 									}
 									?>
 								</span>
-								<span class="bdt-others-plugin-rating-text bdt-margin-small-left">
-									<?php echo esc_html($plugin['rating'] ?? '0'); ?> <?php esc_html_e('out of 5 stars.', 'pixel-gallery'); ?>
-									<?php if (isset($plugin['num_ratings']) && $plugin['num_ratings'] > 0): ?>
-										<span class="rating-count">(<?php echo number_format($plugin['num_ratings']); ?> <?php esc_html_e('ratings', 'pixel-gallery'); ?>)</span>
-									<?php endif; ?>
-								</span>
-							</div>
-							
-							<?php if (isset($plugin['last_updated']) && !empty($plugin['last_updated'])): ?>
-								<div class="bdt-others-plugin-updated bdt-margin-small-top">
-									<span><?php esc_html_e('Last Updated: ', 'pixel-gallery'); ?><?php echo esc_html(format_last_updated($plugin['last_updated'])); ?></span>
+
+								<?php if (isset($plugin['downloaded_formatted']) && !empty($plugin['downloaded_formatted'])): ?>
+									<div class="downloads bdt-margin-small-top">
+										<span><?php esc_html_e('Downloads: ', 'pixel-gallery'); ?><?php echo esc_html($plugin['downloaded_formatted']); ?></span>
+									</div>
+								<?php endif; ?>
+
+								<div class="bdt-others-plugin-rating bdt-margin-small-top bdt-flex bdt-flex-middle">
+									<span class="bdt-others-plugin-rating-stars">
+										<?php
+										$rating = floatval($plugin['rating'] ?? 0);
+										$full_stars = floor($rating);
+										$has_half_star = ($rating - $full_stars) >= 0.5;
+										$empty_stars = 5 - $full_stars - ($has_half_star ? 1 : 0);
+
+										// Full stars
+										for ($i = 0; $i < $full_stars; $i++) {
+											echo '<i class="dashicons dashicons-star-filled"></i>';
+										}
+
+										// Half star
+										if ($has_half_star) {
+											echo '<i class="dashicons dashicons-star-half"></i>';
+										}
+
+										// Empty stars
+										for ($i = 0; $i < $empty_stars; $i++) {
+											echo '<i class="dashicons dashicons-star-empty"></i>';
+										}
+										?>
+									</span>
+									<span class="bdt-others-plugin-rating-text bdt-margin-small-left">
+										<?php echo esc_html($plugin['rating'] ?? '0'); ?>
+										<?php esc_html_e('out of 5 stars.', 'pixel-gallery'); ?>
+										<?php if (isset($plugin['num_ratings']) && $plugin['num_ratings'] > 0): ?>
+											<span class="rating-count">(<?php echo number_format($plugin['num_ratings']); ?>
+												<?php esc_html_e('ratings', 'pixel-gallery'); ?>)</span>
+										<?php endif; ?>
+									</span>
 								</div>
+
+								<?php if (isset($plugin['last_updated']) && !empty($plugin['last_updated'])): ?>
+									<div class="bdt-others-plugin-updated bdt-margin-small-top">
+										<span><?php esc_html_e('Last Updated: ', 'pixel-gallery'); ?><?php echo esc_html(format_last_updated($plugin['last_updated'])); ?></span>
+									</div>
+								<?php endif; ?>
+							</div>
+						</div>
+
+						<div class="bdt-others-plugins-link">
+							<?php echo $this->get_plugin_action_button($plugin['slug'], 'https://wordpress.org/plugins/' . dirname($plugin['slug']) . '/'); ?>
+							<?php if (!empty($plugin['homepage'])): ?>
+								<a class="bdt-button bdt-dashboard-sec-btn" target="_blank"
+									href="<?php echo esc_url($plugin['homepage']); ?>">
+									<?php esc_html_e('Learn More', 'pixel-gallery'); ?>
+								</a>
 							<?php endif; ?>
 						</div>
 					</div>
-				
-					<div class="bdt-others-plugins-link">
-						<?php echo $this->get_plugin_action_button($plugin['slug'], 'https://wordpress.org/plugins/' . dirname($plugin['slug']) . '/'); ?>
-						<?php if (!empty($plugin['homepage'])) : ?>
-							<a class="bdt-button bdt-dashboard-sec-btn" target="_blank" href="<?php echo esc_url($plugin['homepage']); ?>">
-								<?php esc_html_e('Learn More', 'pixel-gallery'); ?>
-							</a>
-						<?php endif; ?>
-					</div>
-				</div>
-				
+
 				<?php endforeach; ?>
 			</div>
 		</div>
 		<?php
 	}
 
-    /**
+	/**
 	 * Check plugin status (installed, active, or not installed)
 	 * 
 	 * @param string $plugin_path Plugin file path
 	 * @return string 'active', 'installed', or 'not_installed'
 	 */
-	private function get_plugin_status($plugin_path) {
+	private function get_plugin_status($plugin_path)
+	{
 		// Check if plugin is active
 		if (is_plugin_active($plugin_path)) {
 			return 'active';
 		}
-		
+
 		// Check if plugin is installed but not active
 		$installed_plugins = get_plugins();
 		if (isset($installed_plugins[$plugin_path])) {
 			return 'installed';
 		}
-		
+
 		// Plugin is not installed
 		return 'not_installed';
 	}
@@ -4197,51 +4380,52 @@ class PixelGallery_Admin_Settings {
 	 * @access public
 	 * @return void
 	 */
-	public function save_custom_code_ajax() {
+	public function save_custom_code_ajax()
+	{
 		// Verify nonce
-		if ( ! wp_verify_nonce( $_POST['nonce'] ?? '', 'pg_custom_code_nonce' ) ) {
-			wp_send_json_error( [ 'message' => 'Invalid security token.' ] );
+		if (!wp_verify_nonce($_POST['nonce'] ?? '', 'pg_custom_code_nonce')) {
+			wp_send_json_error(['message' => 'Invalid security token.']);
 		}
 
 		// Check user capability
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => 'Insufficient permissions.' ] );
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(['message' => 'Insufficient permissions.']);
 		}
 
 		// Sanitize and save the custom code
-		$custom_css = isset( $_POST['custom_css'] ) ? wp_unslash( $_POST['custom_css'] ) : '';
-		$custom_js = isset( $_POST['custom_js'] ) ? wp_unslash( $_POST['custom_js'] ) : '';
-		$custom_css_2 = isset( $_POST['custom_css_2'] ) ? wp_unslash( $_POST['custom_css_2'] ) : '';
-		$custom_js_2 = isset( $_POST['custom_js_2'] ) ? wp_unslash( $_POST['custom_js_2'] ) : '';
+		$custom_css = isset($_POST['custom_css']) ? wp_unslash($_POST['custom_css']) : '';
+		$custom_js = isset($_POST['custom_js']) ? wp_unslash($_POST['custom_js']) : '';
+		$custom_css_2 = isset($_POST['custom_css_2']) ? wp_unslash($_POST['custom_css_2']) : '';
+		$custom_js_2 = isset($_POST['custom_js_2']) ? wp_unslash($_POST['custom_js_2']) : '';
 
 		// Handle excluded pages - ensure we get proper array format
 		$excluded_pages = array();
-		if ( isset( $_POST['excluded_pages'] ) ) {
-			if ( is_array( $_POST['excluded_pages'] ) ) {
+		if (isset($_POST['excluded_pages'])) {
+			if (is_array($_POST['excluded_pages'])) {
 				$excluded_pages = $_POST['excluded_pages'];
-			} elseif ( is_string( $_POST['excluded_pages'] ) && ! empty( $_POST['excluded_pages'] ) ) {
+			} elseif (is_string($_POST['excluded_pages']) && !empty($_POST['excluded_pages'])) {
 				// Handle case where it might be a single value
-				$excluded_pages = [ $_POST['excluded_pages'] ];
+				$excluded_pages = [$_POST['excluded_pages']];
 			}
 		}
-		
+
 		// Sanitize excluded pages - convert to integers and remove empty values
-		$excluded_pages = array_map( 'intval', $excluded_pages );
-		$excluded_pages = array_filter( $excluded_pages, function( $page_id ) {
+		$excluded_pages = array_map('intval', $excluded_pages);
+		$excluded_pages = array_filter($excluded_pages, function ($page_id) {
 			return $page_id > 0;
-		} );
+		});
 
 		// Save to database
-		update_option( 'pg_custom_css', $custom_css );
-		update_option( 'pg_custom_js', $custom_js );
-		update_option( 'pg_custom_css_2', $custom_css_2 );
-		update_option( 'pg_custom_js_2', $custom_js_2 );
-		update_option( 'pg_excluded_pages', $excluded_pages );
+		update_option('pg_custom_css', $custom_css);
+		update_option('pg_custom_js', $custom_js);
+		update_option('pg_custom_css_2', $custom_css_2);
+		update_option('pg_custom_js_2', $custom_js_2);
+		update_option('pg_excluded_pages', $excluded_pages);
 
-		wp_send_json_success( [ 
+		wp_send_json_success([
 			'message' => 'Custom code saved successfully!',
-			'excluded_count' => count( $excluded_pages )
-		] );
+			'excluded_count' => count($excluded_pages)
+		]);
 	}
 
 	/**
@@ -4250,7 +4434,8 @@ class PixelGallery_Admin_Settings {
 	 * @access public
 	 * @return void
 	 */
-	public function install_plugin_ajax() {
+	public function install_plugin_ajax()
+	{
 		// Check nonce
 		if (!wp_verify_nonce($_POST['nonce'], 'pg_install_plugin_nonce')) {
 			wp_send_json_error(['message' => __('Security check failed', 'pixel-gallery')]);
@@ -4299,7 +4484,7 @@ class PixelGallery_Admin_Settings {
 
 		// Get installation status
 		$install_status = install_plugin_install_status($api);
-		
+
 		wp_send_json_success([
 			'message' => __('Plugin installed successfully!', 'pixel-gallery'),
 			'plugin_file' => $install_status['file'],
@@ -4307,18 +4492,19 @@ class PixelGallery_Admin_Settings {
 		]);
 	}
 
-    /**
+	/**
 	 * Extract plugin slug from plugin path
 	 * 
 	 * @param string $plugin_path Plugin file path
 	 * @return string Plugin slug
 	 */
-	private function extract_plugin_slug_from_path($plugin_path) {
+	private function extract_plugin_slug_from_path($plugin_path)
+	{
 		$parts = explode('/', $plugin_path);
 		return isset($parts[0]) ? $parts[0] : '';
 	}
 
-    /**
+	/**
 	 * Get plugin action button HTML based on plugin status
 	 * 
 	 * @param string $plugin_path Plugin file path
@@ -4326,13 +4512,14 @@ class PixelGallery_Admin_Settings {
 	 * @param string $plugin_slug Plugin slug for activation
 	 * @return string Button HTML
 	 */
-	private function get_plugin_action_button($plugin_path, $install_url, $plugin_slug = '') {
+	private function get_plugin_action_button($plugin_path, $install_url, $plugin_slug = '')
+	{
 		$status = $this->get_plugin_status($plugin_path);
-		
+
 		switch ($status) {
 			case 'active':
 				return '';
-				
+
 			case 'installed':
 				$activate_url = wp_nonce_url(
 					add_query_arg([
@@ -4341,9 +4528,9 @@ class PixelGallery_Admin_Settings {
 					], admin_url('plugins.php')),
 					'activate-plugin_' . $plugin_path
 				);
-				return '<a class="bdt-button bdt-welcome-button" href="' . esc_url($activate_url) . '">' . 
-				       __('Activate', 'pixel-gallery') . '</a>';
-				
+				return '<a class="bdt-button bdt-welcome-button" href="' . esc_url($activate_url) . '">' .
+					__('Activate', 'pixel-gallery') . '</a>';
+
 			case 'not_installed':
 			default:
 				$plugin_slug = $this->extract_plugin_slug_from_path($plugin_path);
@@ -4351,47 +4538,49 @@ class PixelGallery_Admin_Settings {
 				return '<a class="bdt-button bdt-welcome-button pg-install-plugin" 
 				          data-plugin-slug="' . esc_attr($plugin_slug) . '" 
 				          data-nonce="' . esc_attr($nonce) . '" 
-				          href="#">' . 
-				       __('Install', 'pixel-gallery') . '</a>';
+				          href="#">' .
+					__('Install', 'pixel-gallery') . '</a>';
 		}
 	}
 
-    /**
+	/**
 	 * Rollback Version Content
 	 *
 	 * @access public
 	 * @return void
 	 */
-	public function pg_rollback_version_content() {
+	public function pg_rollback_version_content()
+	{
 		// Use the already initialized rollback version instance
 		$this->rollback_version->pg_rollback_version_content();
 	}
 
-    /**
+	/**
 	 * Validate white label access token
 	 * 
 	 * @access public
 	 * @param string $token
 	 * @return bool
 	 */
-	public function validate_white_label_access_token( $token ) {
-		$stored_token_data = get_option( 'pg_white_label_access_token', [] );
-		
-		if ( empty( $stored_token_data ) || ! isset( $stored_token_data['token'] ) ) {
+	public function validate_white_label_access_token($token)
+	{
+		$stored_token_data = get_option('pg_white_label_access_token', []);
+
+		if (empty($stored_token_data) || !isset($stored_token_data['token'])) {
 			return false;
 		}
-		
+
 		// Check token match
-		if ( $stored_token_data['token'] !== $token ) {
+		if ($stored_token_data['token'] !== $token) {
 			return false;
 		}
-		
+
 		// Check if token was generated for current license
 		$current_license_key = self::get_license_key();
-		if ( $stored_token_data['license_key'] !== $current_license_key ) {
+		if ($stored_token_data['license_key'] !== $current_license_key) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -4401,7 +4590,8 @@ class PixelGallery_Admin_Settings {
 	 * @access public
 	 * @return void
 	 */
-	public function revoke_white_label_token_ajax() {
+	public function revoke_white_label_token_ajax()
+	{
 		// Check nonce and permissions
 		if (!wp_verify_nonce($_POST['nonce'], 'pg_white_label_nonce')) {
 			wp_send_json_error(['message' => __('Security check failed', 'pixel-gallery')]);
@@ -4430,20 +4620,21 @@ class PixelGallery_Admin_Settings {
 		}
 	}
 
-    /**
+	/**
 	 * Revoke white label access token
 	 * 
 	 * @access public
 	 * @return bool
 	 */
-	public function revoke_white_label_access_token() {
-		$token_data = get_option( 'pg_white_label_access_token', [] );
-		
-		if ( ! empty( $token_data ) ) {
-			delete_option( 'pg_white_label_access_token' );
+	public function revoke_white_label_access_token()
+	{
+		$token_data = get_option('pg_white_label_access_token', []);
+
+		if (!empty($token_data)) {
+			delete_option('pg_white_label_access_token');
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -4454,7 +4645,8 @@ class PixelGallery_Admin_Settings {
 	 * @return string
 	 */
 
-	public static function get_license_key() {
+	public static function get_license_key()
+	{
 		$license_key = get_option('pixel_gallery_license_key');
 		return trim($license_key);
 	}
