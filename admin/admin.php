@@ -80,7 +80,7 @@ class Admin {
 
         $direction_suffix = is_rtl() ? '.rtl' : '';
 
-        wp_enqueue_style('bdt-uikit', BDTPG_ADMIN_URL . 'assets/css/bdt-uikit.css', [], '3.21.7');
+        wp_enqueue_style('bdt-uikit', BDTPG_ADMIN_URL . 'assets/css/bdt-uikit'. $direction_suffix .'.css', [], '3.21.7');
         wp_enqueue_style('pg-editor', BDTPG_ASSETS_URL . 'css/pg-editor.css', [], BDTPG_VER);
         wp_enqueue_style('pg-admin', BDTPG_ADMIN_URL . 'assets/css/pg-admin.css', [], BDTPG_VER);
 
