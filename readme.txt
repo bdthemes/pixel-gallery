@@ -232,6 +232,8 @@ https://youtu.be/f70l2qE7W7o
 
 = 2.0.X [XXth January 2026] =
 
+* Fixed: Pagination issues in the axen, crop and ocean widgets
+* Fixed: Depricated issue in the ocean widget
 * Fixed: Design issues in the Custom Code and Reset Code buttons
 * Added: wpml translation added to the pro widgets
 

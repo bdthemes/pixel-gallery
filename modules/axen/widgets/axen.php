@@ -584,6 +584,9 @@ class Axen extends Module_Base {
 
 		//Clip Path Controls
 		$this->register_clip_path_controls('axen');
+
+		// Pagination Style Control
+		$this->register_pagination_style_controls();
 	}
 
 	/**
@@ -744,9 +747,14 @@ class Axen extends Module_Base {
 			<?php else : ?>
 				<?php $this->render_items(); ?>
 			<?php endif; ?>
-
-
+			
 		</div>
+
+		<?php if ($settings['show_pagination'] && 'dynamic' === $settings['source']) : ?>
+		<div class="pixel-gallery-pagination">
+			<?php pixel_gallery_post_pagination($this->get_query(), $this->get_id()); ?>
+		</div>
+		<?php endif; ?>
 <?php
 	}
 }

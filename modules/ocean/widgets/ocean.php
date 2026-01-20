@@ -28,6 +28,7 @@ class Ocean extends Module_Base {
 
 	use Global_Widget_Controls;
 	use Group_Control_Query;
+	private $_query;
 
 	public function get_query() {
 		return $this->_query;
@@ -572,6 +573,9 @@ class Ocean extends Module_Base {
 
 		//Clip Path Controls
 		$this->register_clip_path_controls('ocean');
+
+		// Pagination Style Control
+		$this->register_pagination_style_controls();
 	}
 
 	/**
@@ -759,9 +763,14 @@ class Ocean extends Module_Base {
 			<?php else : ?>
 				<?php $this->render_items(); ?>
 			<?php endif; ?>
-
-
+			
 		</div>
+
+		<?php if ($settings['show_pagination'] && 'dynamic' === $settings['source']) : ?>
+		<div class="pixel-gallery-pagination">
+			<?php pixel_gallery_post_pagination($this->get_query(), $this->get_id()); ?>
+		</div>
+		<?php endif; ?>
 <?php
 	}
 }
