@@ -83,6 +83,24 @@ class Pixel_Gallery_WPML {
         require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-walden.php' );
         require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-wisdom.php' );
         require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-zilax.php' );
+		
+        // Pro Widgets
+		require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-amaze.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-diamond.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-draggable.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-dream.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-evolve.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-flash.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-floral.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-heron.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-kitec.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-maven.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-menuz.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-pastel.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-polo.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-ridex.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-tread.php' );
+        require_once( BDTPG_PATH . 'includes/compatiblity/wpml/class-wpml-pixel-gallery-xero.php' );
     }
 
     /**
@@ -458,6 +476,164 @@ class Pixel_Gallery_WPML {
 			],
 			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Zilax',
 			'fields'            => []
+		];
+
+        // Pro Widgets
+		$nodes_to_translate['pg-amaze'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-amaze',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Amaze',
+			'fields'            => []
+		];
+		
+        $nodes_to_translate['pg-diamond'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-diamond',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Diamond',
+			'fields'            => [
+                [
+                    'field'       => 'gridItemHoverText',
+                    'type'        => __( 'Hover Text', 'pixel-gallery' ),
+                    'editor_type' => 'LINE',
+                ],
+            ]
+		];
+
+        $nodes_to_translate['pg-draggable'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-draggable',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Draggable',
+			'fields'            => []
+		];
+
+        $nodes_to_translate['pg-dream'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-dream',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Dream',
+			'fields'            => []
+		];
+
+        $nodes_to_translate['pg-evolve'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-evolve',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Evolve',
+			'fields'            => []
+		];
+
+        $nodes_to_translate['pg-flash'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-flash',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Flash',
+			'fields'            => []
+		];
+
+        $nodes_to_translate['pg-floral'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-floral',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Floral',
+			'fields'            => []
+		];
+
+        $nodes_to_translate['pg-heron'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-heron',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Heron',
+			'fields'            => []
+		];
+
+        $nodes_to_translate['pg-kitec'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-kitec',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Kitec',
+			'fields'            => [
+                [
+                    'field'       => 'background_text',
+                    'type'        => __( 'Background Text', 'pixel-gallery' ),
+                    'editor_type' => 'AREA',
+                ],
+            ]
+		];
+
+        $nodes_to_translate['pg-maven'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-maven',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Maven',
+			'fields'            => []
+		];
+
+        $nodes_to_translate['pg-menuz'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-menuz',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Menuz',
+			'fields'            => []
+		];
+
+        $nodes_to_translate['pg-pastel'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-pastel',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Pastel',
+			'fields'            => []
+		];
+
+        $nodes_to_translate['pg-polo'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-polo',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Polo',
+			'fields'            => []
+		];
+
+        $nodes_to_translate['pg-ridex'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-ridex',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Ridex',
+			'fields'            => []
+		];
+
+        $nodes_to_translate['pg-tread'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-tread',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Tread',
+			'fields'            => [
+                [
+                    'field'       => 'main_title',
+                    'type'        => __( 'Main Title', 'pixel-gallery' ),
+                    'editor_type' => 'LINE',
+                ],
+                [
+                    'field'       => 'main_sub_title',
+                    'type'        => __( 'Main Sub Title', 'pixel-gallery' ),
+                    'editor_type' => 'LINE',
+                ],
+            ]
+		];
+
+        $nodes_to_translate['pg-xero'] = [
+			'conditions'        => [
+				'widgetType' => 'pg-xero',
+			],
+			'integration-class' => __NAMESPACE__ . '\\WPML_Pixel_Gallery_Xero',
+			'fields'            => [
+                [
+                    'field'       => 'static_title',
+                    'type'        => __( 'Static Title', 'pixel-gallery' ),
+                    'editor_type' => 'LINE',
+                ],
+            ]
 		];
 
         return $nodes_to_translate;

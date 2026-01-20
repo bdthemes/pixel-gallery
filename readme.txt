@@ -230,6 +230,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 2.0.X [XXth January 2026] =
+
+* Added: wpml translation added to the pro widgets
+
 = 2.0.1 [12th January 2026] =
 
 * Updated: System improved
