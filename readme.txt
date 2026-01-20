@@ -232,6 +232,7 @@ https://youtu.be/f70l2qE7W7o
 
 = 2.0.X [XXth January 2026] =
 
+* Fixed: Design issues in the Custom Code and Reset Code buttons
 * Added: wpml translation added to the pro widgets
 
 = 2.0.1 [12th January 2026] =
