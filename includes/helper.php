@@ -328,3 +328,111 @@ function pixel_gallery_mask_shapes_options() {
 	
 	return $options;
 }
+
+function pixel_gallery_post_pagination( $wp_query, $widget_id = '' ) {
+
+	/** Stop execution if there's only 1 page */
+	if ( $wp_query->max_num_pages <= 1 ) {
+		return;
+	}
+
+	// Get current page from multiple sources for reliability
+	$paged_from_query = isset( $wp_query->query_vars['paged'] ) ? $wp_query->query_vars['paged'] : 0;
+	$page_from_query = isset( $wp_query->query_vars['page'] ) ? $wp_query->query_vars['page'] : 0;
+	
+	if ( is_front_page() ) {
+		// On front page, WordPress can use either 'page' or 'paged' depending on permalink structure
+		$paged = max( get_query_var( 'page' ), get_query_var( 'paged' ), $paged_from_query, $page_from_query );
+		$paged = $paged ? $paged : 1;
+		$page_var = 'page';
+	} else {
+		$paged = max( get_query_var( 'paged' ), $paged_from_query );
+		$paged = $paged ? $paged : 1;
+		$page_var = 'paged';
+	}
+	
+	$max = intval( $wp_query->max_num_pages );
+
+	/** Add current page to the array */
+	if ( $paged >= 1 ) {
+		$links[] = $paged;
+	}
+
+	/** Add the pages around the current page to the array */
+	if ( $paged >= 3 ) {
+		$links[] = $paged - 1;
+		$links[] = $paged - 2;
+	}
+
+	if ( ( $paged + 2 ) <= $max ) {
+		$links[] = $paged + 2;
+		$links[] = $paged + 1;
+	}
+
+	printf( '<ul class="pg-pagination" data-widget-id="%s">' . "\n", esc_attr($widget_id) );
+
+	/** Previous Post Link */
+	if ( $paged > 1 ) {
+		$prev_page = $paged - 1;
+		if ( is_front_page() && $prev_page == 1 ) {
+			$prev_link = home_url( '/' );
+		} else {
+			$prev_link = get_pagenum_link( $prev_page );
+		}
+		printf( '<li class="pg-pagination-previous"><a href="%s" aria-label="' . esc_attr__( 'Previous Page', 'pixel-gallery' ) . '"><span data-pg-pagination-previous><i class="eicon-angle-left" aria-hidden="true"></i></span></a></li>' . "\n", esc_url( $prev_link ) );
+	}
+
+	/** Link to first page, plus ellipses if necessary */
+	if ( ! in_array( 1, $links ) ) {
+		$class = 1 == $paged ? ' class="current"' : '';
+		
+		// For page 1, always use home URL on front page, otherwise use get_pagenum_link
+		if ( is_front_page() ) {
+			$page_link = home_url( '/' );
+		} else {
+			$page_link = get_pagenum_link( 1 );
+		}
+
+		printf( '<li%s><a href="%s">%s</a></li>' . "\n", wp_kses_post($class), esc_url( $page_link ), '1' );
+
+		if ( ! in_array( 2, $links ) ) {
+			echo '<li class="pg-pagination-dot-dot"><span>...</span></li>';
+		}
+	}
+
+	/** Link to current page, plus 2 pages in either direction if necessary */
+	sort( $links );
+	foreach ( (array) $links as $link ) {
+		$class = $paged == $link ? ' class="pg-active"' : '';
+		
+		// Use appropriate page link for front page vs other pages
+		if ( is_front_page() && $link == 1 ) {
+			$page_link = home_url( '/' );
+		} else {
+			$page_link = get_pagenum_link( $link );
+		}
+		
+		printf( '<li%s><a href="%s">%s</a></li>' . "\n", wp_kses_post($class), esc_url( $page_link ), wp_kses_post($link) );
+	}
+
+	/** Link to last page, plus ellipses if necessary */
+	if ( ! in_array( $max, $links ) ) {
+		if ( ! in_array( $max - 1, $links ) ) {
+			echo '<li class="pg-pagination-dot-dot"><span>...</span></li>' . "\n";
+		}
+
+		$class = $paged == $max ? ' class="pg-active"' : '';
+		$page_link = get_pagenum_link( $max );
+		
+		printf( '<li%s><a href="%s">%s</a></li>' . "\n", wp_kses_post($class), esc_url( $page_link ), wp_kses_post($max) );
+	}
+
+	/** Next Post Link */
+	if ( $paged < $max ) {
+		$next_page = $paged + 1;
+		$next_link = get_pagenum_link( $next_page );
+		printf( '<li class="pg-pagination-next"><a href="%s" aria-label="' . esc_attr__( 'Next Page', 'pixel-gallery' ) . '"><span data-pg-pagination-next><i class="eicon-angle-right" aria-hidden="true"></i></span></a></li>' . "\n", esc_url( $next_link ) );
+	}
+
+	echo '</ul>' . "\n";
+}
