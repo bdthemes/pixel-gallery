@@ -24,24 +24,13 @@ class Plugin_Integration_Helper {
                 'recommended' => true,
                 'fallback' => [
                     'name' => 'Element Pack',
-                    'description' => 'Ultimate Elementor addon with 300+ widgets, templates, live copy paste, post grid, header footer, mega menu, dynamic builder, WooCommerce builder and more.',
+                    'description' => 'Build responsive website from scratch with an all-rounder package for Elementor.',
                     'logo' => 'https://ps.w.org/bdthemes-element-pack-lite/assets/icon-256x256.gif',
-                    'rating' => 4.8,
+                    'rating' => 4.9,
                     'num_ratings' => 1000,
-                    'active_installs' => '100,000+'
+                    'active_installs' => '500,000+'
                 ]
             ],
-            // 'bdthemes-prime-slider-lite' => [
-            //     'recommended' => true,
-            //     'fallback' => [
-            //         'name' => 'Prime Slider',
-            //         'description' => 'Create eye-catching sliders for your website quickly and easily with 55+ modern Elementor slider widgets.',
-            //         'logo' => 'https://ps.w.org/bdthemes-prime-slider-lite/assets/icon-256x256.gif',
-            //         'rating' => 4.7,
-            //         'num_ratings' => 500,
-            //         'active_installs' => '100,000+'
-            //     ]
-            // ],
             'bdthemes-prime-slider-lite/bdthemes-prime-slider.php' => [
                 'recommended' => true,
                 'fallback' => [
@@ -58,32 +47,43 @@ class Plugin_Integration_Helper {
                 'fallback' => [
                     'name' => 'Ultimate Post Kit',
                     'description' => 'Design beautiful post layouts with simple, ready-made blocks.',
-                    'logo' => 'https://ps.w.org/ultimate-post-kit/assets/icon-256x256.gif',
+                    'logo' => 'https://ps.w.org/ultimate-post-kit/assets/icon-256x256.png',
                     'rating' => 4.8,
                     'num_ratings' => 1000,
                     'active_installs' => '50,000+'
                 ]
             ],
-            // 'live-copy-paste' => [
+            'live-copy-paste' => [
+                'recommended' => false,
+                'fallback' => [
+                    'name' => 'Live Copy Paste',
+                    'description' => 'Copy and paste website elements between WordPress sites instantly.',
+                    'logo' => 'https://ps.w.org/live-copy-paste/assets/icon-256x256.png',
+                    'rating' => 4.9,
+                    'num_ratings' => 200,
+                    'active_installs' => '10,000+'
+                ]
+            ],
+            'ultimate-store-kit' => [
+                'recommended' => true,
+                'fallback' => [
+                    'name' => 'Ultimate Store Kit',
+                    'description' => 'Improve your online store with tools to display products better.',
+                    'logo' => 'https://ps.w.org/ultimate-store-kit/assets/icon-256x256.png',
+                    'rating' => 4.6,
+                    'num_ratings' => 300,
+                    'active_installs' => '20,000+'
+                ]
+            ],
+            // 'pixel-gallery' => [
             //     'recommended' => false,
             //     'fallback' => [
-            //         'name' => 'Live Copy Paste',
-            //         'description' => 'Copy and paste website elements between WordPress sites instantly.',
-            //         'logo' => 'https://ps.w.org/live-copy-paste/assets/icon-256x256.png',
-            //         'rating' => 4.9,
-            //         'num_ratings' => 200,
-            //         'active_installs' => '10,000+'
-            //     ]
-            // ],
-            // 'ultimate-store-kit' => [
-            //     'recommended' => true,
-            //     'fallback' => [
-            //         'name' => 'Ultimate Store Kit',
-            //         'description' => 'Improve your online store with tools to display products better.',
-            //         'logo' => 'https://ps.w.org/ultimate-store-kit/assets/icon-256x256.gif',
-            //         'rating' => 4.6,
-            //         'num_ratings' => 300,
-            //         'active_installs' => '20,000+'
+            //         'name' => 'Pixel Gallery',
+            //         'description' => 'Show off your photos in a stylish, responsive gallery.',
+            //         'logo' => 'https://ps.w.org/pixel-gallery/assets/icon-256x256.gif',
+            //         'rating' => 4.5,
+            //         'num_ratings' => 150,
+            //         'active_installs' => '5,000+'
             //     ]
             // ],
             // 'zoloblocks' => [
@@ -130,17 +130,17 @@ class Plugin_Integration_Helper {
             //         'active_installs' => '800+'
             //     ]
             // ],
-            'ar-viewer' => [
-                'recommended' => false,
-                'fallback' => [
-                    'name' => 'AR Viewer',
-                    'description' => 'Augmented Reality Viewer – 3D Model Viewer.',
-                    'logo' => 'https://ps.w.org/ar-viewer/assets/icon-256x256.gif',
-                    'rating' => 3.9,
-                    'num_ratings' => 15,
-                    'active_installs' => '200+'
-                ]
-            ]
+            // 'ar-viewer' => [
+            //     'recommended' => false,
+            //     'fallback' => [
+            //         'name' => 'AR Viewer',
+            //         'description' => 'Augmented Reality Viewer – 3D Model Viewer.',
+            //         'logo' => 'https://ps.w.org/ar-viewer/assets/icon-256x256.gif',
+            //         'rating' => 3.9,
+            //         'num_ratings' => 15,
+            //         'active_installs' => '200+'
+            //     ]
+            // ]
         ];
     }
 
@@ -152,12 +152,21 @@ class Plugin_Integration_Helper {
      */
     public static function build_plugin_data($plugin_slugs = []) {
         $predefined = self::get_predefined_plugins();
-        $fetched_data = Plugin_Api_Fetcher::get_multiple_plugins_data($plugin_slugs);
+        
+        // Use new non-blocking approach - get cached data only from Remote_Data_Handler
+        $fetched_data = [];
+        if (function_exists('pg_get_remote_plugins')) {
+            $fetched_data = pg_get_remote_plugins();
+        }
+        
         $plugins = [];
 
         foreach ($plugin_slugs as $slug) {
             $config = $predefined[$slug] ?? ['recommended' => false, 'fallback' => []];
-            $api_data = $fetched_data[$slug] ?? null;
+            
+            // Try to get data from remote cache first
+            $api_slug = (strpos($slug, '/') !== false) ? dirname($slug) : $slug;
+            $api_data = $fetched_data[$api_slug] ?? null;
 
             // Ensure api_data is a valid array with required fields
             if ($api_data && self::validate_plugin_data($api_data)) {

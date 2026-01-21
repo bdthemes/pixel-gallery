@@ -111,7 +111,7 @@ function pixel_gallery_load_plugin() {
 	// Widgets filters here
 	require_once ( BDTPG_INC_PATH . 'pixel-gallery-filters.php' );
 
-	// Element pack widget and assets loader
+	// Pixel gallery widget and assets loader
 	require_once ( BDTPG_PATH . 'loader.php' );
 
 	// Initialize custom CSS/JS injection on frontend

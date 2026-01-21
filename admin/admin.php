@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
 
 require_once BDTPG_ADMIN_PATH . 'class-settings-api.php';
 // require_once BDTPG_ADMIN_PATH . 'admin-feeds.php';
-// element pack admin settings here
+// pixel gallery admin settings here
 require_once BDTPG_ADMIN_PATH . 'admin-settings.php';
 
 /**

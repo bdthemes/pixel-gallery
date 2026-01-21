@@ -6,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Load the Remote Data Handler
+require_once __DIR__ . '/class-remote-data-handler.php';
+
 use PixelGallery\Admin\ModuleService;
 use Elementor\Plugin;
 /**

@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 } // Exit if accessed directly
 
 /**
- * Main class for element pack
+ * Main class for pixel gallery
  */
 class Pixel_Gallery_Loader {
 
