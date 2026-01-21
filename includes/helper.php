@@ -306,7 +306,7 @@ function pixel_gallery_mask_shapes() {
 }
 
 /**
- * Get Element Pack mask shapes options for VISUAL_CHOICE control
+ * Get Pixel Gallery mask shapes options for VISUAL_CHOICE control
  * 
  * @return array Options array for VISUAL_CHOICE control
  */
