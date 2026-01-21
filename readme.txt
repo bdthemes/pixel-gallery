@@ -236,6 +236,7 @@ https://youtu.be/f70l2qE7W7o
 * Fixed: Depricated issue in the ocean widget
 * Fixed: Design issues in the Custom Code and Reset Code buttons
 * Added: wpml translation added to the pro widgets
+* Added: system improved
 
 = 2.0.1 [12th January 2026] =
 
