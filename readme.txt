@@ -5,11 +5,11 @@ Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
 Tested up to: 6.9
 Requires PHP: 7.4.0
-Stable tag: 2.0.1
+Stable tag: 2.1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.28
-Elementor tested up to: 3.34.1
+Elementor tested up to: 3.34.2
 
 Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
 
@@ -230,13 +230,13 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 2.0.X [XXth January 2026] =
+= 2.1.0 [22nd January 2026] =
 
+* Added: WPML multi-language support added in pro widgets
+* Added: Compatible with modern css & removed RTL css files
 * Fixed: Pagination issues in the axen, crop and ocean widgets
-* Fixed: Depricated issue in the ocean widget
+* Fixed: Deprecated issue in the ocean widget
 * Fixed: Design issues in the Custom Code and Reset Code buttons
-* Added: wpml translation added to the pro widgets
-* Added: system improved
 
 = 2.0.1 [12th January 2026] =
 
