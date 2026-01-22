@@ -957,6 +957,7 @@
   /* float: inline-end; */
   transform: translateY(-100%);
   display: flex;
+  inline-size: 18rem;
 }
 
 
