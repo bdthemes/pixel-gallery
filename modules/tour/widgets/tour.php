@@ -8,13 +8,7 @@ use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Box_Shadow;
-use Elementor\Group_Control_Image_Size;
-use Elementor\Group_Control_Text_Shadow;
-use Elementor\Icons_Manager;
-use Elementor\Group_Control_Css_Filter;
-use Elementor\Group_Control_Text_Stroke;
 use Elementor\Repeater;
-use PixelGallery\Utils;
 use PixelGallery\Traits\Global_Widget_Controls;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
@@ -424,6 +418,25 @@ class Tour extends Module_Base {
 					'{{WRAPPER}} .pg-tour-line' => 'background-color: {{VALUE}};',
 				],
 				'separator' => 'before'
+			]
+		);
+
+		$this->add_control(
+			'line_height',
+			[
+				'label'      => __( 'Line Height', 'pixel-gallery' ) . BDTPG_NC,
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%', 'em', 'rem' ],
+				'range'      => [
+					'px' => [
+						'min'  => 0,
+						'max'  => 100,
+						'step' => 1,
+					],
+				],
+				'selectors'  => [
+					'{{WRAPPER}} .pg-tour-line' => 'height: {{SIZE}}{{UNIT}};',
+				],
 			]
 		);
 

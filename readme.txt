@@ -229,6 +229,11 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 2.1.X [XXth February 2026] =
+
+* Added: Line height control added in the tour widget
+* Fixed: Alignment issue fixed in the ruby widget
+
 = 2.1.1 [9th February 2026] =
 
 * Updated: System improved
