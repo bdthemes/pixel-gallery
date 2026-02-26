@@ -71,25 +71,13 @@ module.exports = function (grunt) {
 					{
 						expand: true,
 						cwd: 'src/less/',
-						src: 'admin.less',
+						src: ['admin.less', 'admin-biggopti.less', 'admin-api-biggopti.less'],
 						dest: 'admin/assets/css/',
 						ext: '.css',
 						rename: function (dest, src) {
 							return dest + src.replace(/(.+)\.css$/, 'pg-$1.css');
 						},
 					},
-
-					{
-						expand: true,
-						cwd: 'src/less/',
-						src: 'admin-biggopti.less',
-						dest: 'admin/assets/css/',
-						ext: '.css',
-						rename: function (dest, src) {
-							return dest + src.replace(/(.+)\.css$/, 'pg-$1.css');
-						},
-					},
-
 					{
 						// combine all css files in assets/css to pg-styles.css
 						'assets/css/pg-styles.css': ['src/less/widgets/*.less', '!assets/css/pg-styles.css'],

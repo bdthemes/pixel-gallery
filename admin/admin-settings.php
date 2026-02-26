@@ -890,17 +890,6 @@ class PixelGallery_Admin_Settings
 				[$this, 'plugin_page']
 			);
 		}
-
-		if (true !== _is_pg_pro_activated()) {
-			add_submenu_page(
-				self::PAGE_ID,
-				BDTPG_TITLE,
-				esc_html__('Get Pro', 'pixel-gallery'),
-				'manage_options',
-				self::PAGE_ID . '#pixel_gallery_get_pro',
-				[$this, 'plugin_page']
-			);
-		}
 	}
 
 	/**
