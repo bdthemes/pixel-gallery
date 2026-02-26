@@ -43,6 +43,7 @@ class Admin {
 
     public function admin_biggopti_styles(){
 		wp_enqueue_style('pg-admin-biggopti', BDTPG_ADMIN_URL . 'assets/css/pg-admin-biggopti.css', [], BDTPG_VER);
+        wp_enqueue_style('pg-admin-api-biggopti', BDTPG_ADMIN_URL . 'assets/css/pg-admin-api-biggopti.css', [], BDTPG_VER);
 	}
 
 
@@ -115,16 +116,9 @@ class Admin {
 
     public function plugin_action_links( $plugin_meta ) {
 
-        if ( true !== _is_pg_pro_activated() ) {
-            $row_meta = [
-                'settings' => '<a href="'.admin_url( 'admin.php?page=pixel_gallery_options' ) .'" aria-label="' . esc_attr(__('Go to settings', 'pixel-gallery')) . '" >' . __('Settings', 'pixel-gallery') . '</b></a>',
-                'gopro' => '<a href="https://pixelgallery.pro/pricing/" aria-label="' . esc_attr(__('Go get the pro version', 'pixel-gallery')) . '" target="_blank" title="When you purchase through this link you will get up to 87% discount!" class="pg-go-pro">' . __('Get Pro', 'pixel-gallery') . '</a>',
-            ];
-        } else {
-            $row_meta = [
-                'settings' => '<a href="'.admin_url( 'admin.php?page=pixel_gallery_options' ) .'" aria-label="' . esc_attr(__('Go to settings', 'pixel-gallery')) . '" >' . __('Settings', 'pixel-gallery') . '</b></a>',
-            ];
-        }
+        $row_meta = [
+            'settings' => '<a href="'.admin_url( 'admin.php?page=pixel_gallery_options' ) .'" aria-label="' . esc_attr(__('Go to settings', 'pixel-gallery')) . '" >' . __('Settings', 'pixel-gallery') . '</b></a>',
+        ];
 
         $plugin_meta = array_merge($plugin_meta, $row_meta);
 
@@ -206,13 +200,35 @@ class Admin {
             wp_enqueue_script('jquery');
             wp_enqueue_script('jquery-form');
             wp_enqueue_script('pg-biggopti', BDTPG_ADMIN_URL  . 'assets/js/pg-biggopti.min.js', ['jquery'], BDTPG_VER, true);
+            wp_enqueue_script('pg-admin-api-biggopti', BDTPG_ADMIN_URL  . 'assets/js/pg-admin-api-biggopti.min.js', ['jquery'], BDTPG_VER, true);
+
+            $dismissals = get_option('bdt_biggopti_dismissals', []);
+			$dismissed_display_ids = [];
+			$prefix = 'bdt-admin-biggopti-api-biggopti-';
+			foreach (array_keys($dismissals) as $key) {
+				if (strpos($key, $prefix) === 0) {
+					$dismissed_display_ids[] = substr($key, strlen($prefix));
+				} else {
+					$dismissed_display_ids[] = $key;
+				}
+			}
+
+			$current_sector = '';
+			if ( isset( $_GET['page'] ) && $_GET['page'] === 'pixel_gallery_options' ) {
+				$current_sector = 'plugin_dashboard';
+			}
             
             $script_config = [
                 'ajaxurl'	=> admin_url('admin-ajax.php'),
                 'nonce'		=> wp_create_nonce('pixel-gallery'),
+                'isPro'             	=> function_exists('_is_pg_pro_activated') && _is_pg_pro_activated(),
+				'assetsUrl'         	=> defined('BDTPG_ASSETS_URL') ? BDTPG_ASSETS_URL : '',
+				'dismissedDisplayIds'	=> $dismissed_display_ids,
+				'currentSector'      	=> $current_sector,
             ];
 
             wp_localize_script('pg-biggopti', 'PixelGalleryBiggoptiConfig', $script_config);
+            wp_localize_script('pg-admin-api-biggopti', 'PixelGalleryAdminApiBiggoptiConfig', $script_config);
 
         }
     }
