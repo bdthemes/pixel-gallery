@@ -5,7 +5,7 @@ Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
 Tested up to: 6.9
 Requires PHP: 7.4.0
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.28
@@ -228,6 +228,10 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 2.1.3 [26th February 2026] =
+
+* Updated: System improved
 
 = 2.1.2 [25th February 2026] =
 
