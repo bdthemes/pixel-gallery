@@ -33,18 +33,9 @@ class Admin {
 
         add_action('after_setup_theme', [$this, 'whitelabel']);
 
-        // register_activation_hook(BDTPG__FILE__, 'install_and_activate');
-
-        add_action('admin_init', [$this, 'admin_biggopti_styles']);
-
         add_filter('plugin_action_links_' . BDTPG_PBNAME, [$this, 'plugin_action_links']);
         
     }
-
-    public function admin_biggopti_styles(){
-		wp_enqueue_style('pg-admin-biggopti', BDTPG_ADMIN_URL . 'assets/css/pg-admin-biggopti.css', [], BDTPG_VER);
-        wp_enqueue_style('pg-admin-api-biggopti', BDTPG_ADMIN_URL . 'assets/css/pg-admin-api-biggopti.css', [], BDTPG_VER);
-	}
 
 
     function install_and_activate() {
@@ -196,9 +187,13 @@ class Admin {
                 wp_enqueue_script('pg-admin', BDTPG_ADMIN_URL  . 'assets/js/pg-admin.min.js', ['jquery'], BDTPG_VER, true);
             }
 
-            
             wp_enqueue_script('jquery');
             wp_enqueue_script('jquery-form');
+
+            wp_enqueue_style('pg-admin-biggopti', BDTPG_ADMIN_URL . 'assets/css/pg-admin-biggopti.css', [], BDTPG_VER);
+            wp_enqueue_style('pg-admin-api-biggopti', BDTPG_ADMIN_URL . 'assets/css/pg-admin-api-biggopti.css', [], BDTPG_VER);        
+            wp_enqueue_style('bdt-product-feed', BDTPG_ADMIN_URL . 'assets/css/pg-admin-feeds.css', [], BDTPG_VER);
+
             wp_enqueue_script('pg-biggopti', BDTPG_ADMIN_URL  . 'assets/js/pg-biggopti.min.js', ['jquery'], BDTPG_VER, true);
             wp_enqueue_script('pg-admin-api-biggopti', BDTPG_ADMIN_URL  . 'assets/js/pg-admin-api-biggopti.min.js', ['jquery'], BDTPG_VER, true);
 

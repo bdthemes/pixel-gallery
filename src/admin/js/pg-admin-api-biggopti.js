@@ -198,7 +198,7 @@ jQuery(document).ready(function ($) {
         if (!imageUrl) return '';
 
         return `
-            <div id="${esc(feedId)}" class="pixel-gallery-feed">
+            <div id="${esc(feedId)}" class="bdt-dashboard-feed">
                 <a href="${esc(link)}" target="_blank" rel="noopener noreferrer">
                     <img src="${esc(imageUrl)}" alt="" style="max-width:100%; height:auto;">
                 </a>
