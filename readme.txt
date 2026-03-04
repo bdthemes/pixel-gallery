@@ -229,6 +229,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 2.1.X [XXth March 2026] =
+
+* Added: Admin Dashboard Feed added
+
 = 2.1.3 [26th February 2026] =
 
 * Updated: System improved

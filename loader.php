@@ -394,12 +394,12 @@ class Pixel_Gallery_Loader {
 
     public function init(){
 		if ( ! defined( 'BDTPG_CH' ) && is_admin() ) {
+            require_once BDTPG_ADMIN_PATH . 'admin.php';
+			new Admin();
             // Biggopti class
 	        require_once ( BDTPG_ADMIN_PATH . 'admin-biggopti.php' );
             require_once ( BDTPG_ADMIN_PATH . 'admin-api-biggopti.php' );
-
-			require_once BDTPG_ADMIN_PATH . 'admin.php';
-			new Admin();
+            require_once ( BDTPG_ADMIN_PATH . 'admin-feeds.php' );			
 		}
     }
 
