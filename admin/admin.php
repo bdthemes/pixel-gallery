@@ -191,7 +191,7 @@ class Admin {
             wp_enqueue_script('jquery-form');
 
             wp_enqueue_style('pg-admin-biggopti', BDTPG_ADMIN_URL . 'assets/css/pg-admin-biggopti.css', [], BDTPG_VER);
-            wp_enqueue_style('pg-admin-api-biggopti', BDTPG_ADMIN_URL . 'assets/css/pg-admin-api-biggopti.css', [], BDTPG_VER);        
+            wp_enqueue_style('bdt-admin-api-biggopti', BDTPG_ADMIN_URL . 'assets/css/pg-admin-api-biggopti.css', [], BDTPG_VER);        
             wp_enqueue_style('bdt-product-feed', BDTPG_ADMIN_URL . 'assets/css/pg-admin-feeds.css', [], BDTPG_VER);
 
             wp_enqueue_script('pg-biggopti', BDTPG_ADMIN_URL  . 'assets/js/pg-biggopti.min.js', ['jquery'], BDTPG_VER, true);
