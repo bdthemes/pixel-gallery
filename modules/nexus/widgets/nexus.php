@@ -83,6 +83,21 @@ class Nexus extends Module_Base
             ]
         );
 
+        $this->add_control(
+            'nexus_select_design',
+            [
+                'label'   => esc_html__('Style', 'pixel-gallery'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'default',
+                'options' => [
+                    'default'       => esc_html__('Slide Right', 'pixel-gallery'),
+                    'slide-left'    => esc_html__('Slide Left', 'pixel-gallery'),
+                    'slide-top'     => esc_html__('Slide Top', 'pixel-gallery'),
+                    'slide-bottom'  => esc_html__('Slide Bottom', 'pixel-gallery'),
+                ],
+            ]
+        );
+
         //Global
 		$this->register_grid_controls('nexus');
 		$this->register_global_height_controls('nexus');
@@ -305,6 +320,11 @@ class Nexus extends Module_Base
     {
         $settings   = $this->get_settings_for_display();
         $this->add_render_attribute('grid', 'class', 'pg-nexus-grid pg-grid');
+
+        $design = isset($settings['nexus_select_design']) ? $settings['nexus_select_design'] : 'default';
+        if ('default' !== $design) {
+            $this->add_render_attribute('grid', 'class', 'pg-nexus-design-' . esc_attr($design));
+        }
 
         /**
          * Render Justified Gallery Attributes
