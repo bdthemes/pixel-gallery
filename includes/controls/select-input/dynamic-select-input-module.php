@@ -290,7 +290,7 @@ class Dynamic_Select_Input_Module {
 
 		$args = [
 			'taxonomy'   => $taxonomies,
-			'hide_empty' => false,
+			'hide_empty' => true,
 		];
 
 		if (!empty($include)) {
