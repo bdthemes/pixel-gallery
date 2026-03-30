@@ -246,14 +246,15 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 2.1.XX [XXth March 2026] =
+= 2.1.5 [30th March 2026] =
 
+* Added: Nexus widget - new hover style variations (Slide Left, Slide Top, Slide Bottom)
 * Fixed: Query controls Include/Exclude By Terms dropdown now hides taxonomy terms with no posts (only terms that have at least one post are shown)
+* Updated: Made compatible with Elementor version 4.0.0
 
 = 2.1.4 [10th March 2026] =
 
 * Added: Admin Dashboard Feed added
-* Added: Nexus widget - new hover style variations (Slide Left, Slide Top, Slide Bottom)
 
 = 2.1.3 [26th February 2026] =
 
