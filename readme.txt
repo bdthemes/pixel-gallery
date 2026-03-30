@@ -249,6 +249,7 @@ https://youtu.be/f70l2qE7W7o
 = 2.1.4 [10th March 2026] =
 
 * Added: Admin Dashboard Feed added
+* Added: Nexus widget - new hover style variations (Slide Left, Slide Top, Slide Bottom)
 
 = 2.1.3 [26th February 2026] =
 
