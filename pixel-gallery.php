@@ -10,7 +10,7 @@
  * Domain Path: /languages
  * License: GPL3
  * Elementor requires at least: 3.28
- * Elementor tested up to: 4.0.0
+ * Elementor tested up to: 4.0.1
  */
 
 // Some pre defined value for easy use
