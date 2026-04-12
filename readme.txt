@@ -246,6 +246,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 2.1.X [XXth April 2026] =
+
+* Improved: New directional hover effect for image, title and meta reveal in the lytical widget
+
 = 2.1.5 [2nd April 2026] =
 
 * Added: Nexus widget - new hover style variations (Slide Left, Slide Top, Slide Bottom)

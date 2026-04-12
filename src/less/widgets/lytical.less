@@ -1,3 +1,11 @@
+// Same 21% shrink on every side; inset() interpolates reliably (polygon L↔T often glitches).
+@lytical-shrink: 21%;
+
+.lytical-clip(@t: 0; @r: 0; @b: 0; @l: 0) {
+  clip-path: inset(@t @r @b @l);
+  -webkit-clip-path: inset(@t @r @b @l);
+}
+
 .pg-lytical-grid {
   display: grid;
 }
@@ -6,24 +14,106 @@
   position: relative;
   overflow: hidden;
   &:hover {
-    .pg-lytical-img {
-      transform: translateY(-20px);
+    // Same motion on img + overlay — otherwise clip bands misalign (esp. from-top: gap toward top).
+    .pg-lytical-img,
+    .pg-lytical-image-wrap::before {
+      transform: translate3d(0, -20px, 0);
+      .lytical-clip(0, 0, 0, @lytical-shrink);
     }
 
-    .pg-lytical-img,
-    .pg-lytical-image-wrap:before {
-      clip-path: polygon(21% 0, 100% 0%, 100% 100%, 21% 100%);
+    html:not([dir="rtl"]) & {
+      &.pg-lytical-from-right .pg-lytical-img,
+      &.pg-lytical-from-right .pg-lytical-image-wrap::before {
+        .lytical-clip(0, @lytical-shrink, 0, 0);
+      }
 
-      [dir="rtl"] & {
-        clip-path: polygon(0% 0, 79% 0%, 79% 100%, 0% 100%);
+      &.pg-lytical-from-top .pg-lytical-img,
+      &.pg-lytical-from-top .pg-lytical-image-wrap::before {
+        .lytical-clip(@lytical-shrink, 0, 0, 0);
+      }
+
+      &.pg-lytical-from-bottom .pg-lytical-img,
+      &.pg-lytical-from-bottom .pg-lytical-image-wrap::before {
+        .lytical-clip(0, 0, @lytical-shrink, 0);
       }
     }
 
-    .pg-lytical-title {
-      opacity: 1;
-      transform: translateY(-50%);
-      transition-delay: 0.3s;
+    [dir="rtl"] & {
+      .pg-lytical-img,
+      .pg-lytical-image-wrap::before {
+        .lytical-clip(0, @lytical-shrink, 0, 0);
+      }
+
+      &.pg-lytical-from-left .pg-lytical-img,
+      &.pg-lytical-from-left .pg-lytical-image-wrap::before {
+        .lytical-clip(0, 0, 0, @lytical-shrink);
+      }
+
+      &.pg-lytical-from-right .pg-lytical-img,
+      &.pg-lytical-from-right .pg-lytical-image-wrap::before {
+        .lytical-clip(0, @lytical-shrink, 0, 0);
+      }
+
+      &.pg-lytical-from-top .pg-lytical-img,
+      &.pg-lytical-from-top .pg-lytical-image-wrap::before {
+        .lytical-clip(@lytical-shrink, 0, 0, 0);
+      }
+
+      &.pg-lytical-from-bottom .pg-lytical-img,
+      &.pg-lytical-from-bottom .pg-lytical-image-wrap::before {
+        .lytical-clip(0, 0, @lytical-shrink, 0);
+      }
     }
+
+    html:not([dir="rtl"]) & {
+      &.pg-lytical-from-left .pg-lytical-title {
+        opacity: 1;
+        transform: translate(-100%, -50%);
+      }
+
+      &.pg-lytical-from-right .pg-lytical-title {
+        opacity: 1;
+        transform: translate(0, -50%);
+      }
+
+      &.pg-lytical-from-top .pg-lytical-title {
+        opacity: 1;
+        transform: translate(-100%, -50%);
+      }
+
+      &.pg-lytical-from-bottom .pg-lytical-title {
+        opacity: 1;
+        transform: translate(-100%, -50%);
+      }
+    }
+
+    [dir="rtl"] & {
+      &.pg-lytical-from-left .pg-lytical-title {
+        opacity: 1;
+        transform: translate(-100%, -50%);
+      }
+
+      &.pg-lytical-from-right .pg-lytical-title {
+        opacity: 1;
+        transform: translate(0, -50%);
+      }
+
+      &.pg-lytical-from-top .pg-lytical-title {
+        opacity: 1;
+        transform: translate(0, -50%);
+      }
+
+      &.pg-lytical-from-bottom .pg-lytical-title {
+        opacity: 1;
+        transform: translate(0, -50%);
+      }
+    }
+
+    // .pg-lytical-title {
+    //   opacity: 1;
+    //   transform: translateY(-50%);
+    //   transition-delay: 0.3s;
+    // }
 
     .pg-lytical-readmore,
     .pg-lytical-meta {
@@ -52,20 +142,25 @@
     inset-block-start: 0;
     inset-inline-start: 0;
     inset-inline-end: 0;
-    block-size: 100%;
+    // Match .pg-lytical-img height so clip-path % and visible band align (top/bottom hover).
+    block-size: 120%;
+    inline-size: 100%;
     z-index: 1;
-    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
-    transition: all 0.3s ease-in-out;
+    pointer-events: none;
+    .lytical-clip(0, 0, 0, 0);
+    transition: clip-path 0.3s ease-in-out, -webkit-clip-path 0.3s ease-in-out,
+      transform 0.3s ease-in-out;
     background: linear-gradient(353deg, rgba(13, 59, 84, 0.2), transparent);
   }
   img {
+    display: block;
     inline-size: 100%;
     block-size: 120%;
     object-fit: cover;
     // position: absolute;
     inset-inline-end: 0;
-    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
-    transition: all 0.3s ease-in-out;
+    .lytical-clip(0, 0, 0, 0);
+    transition: clip-path 0.3s ease-in-out, -webkit-clip-path 0.3s ease-in-out, transform 0.3s ease-in-out;
 
     [dir="rtl"] & {
       inset-inline-end: auto;
@@ -76,9 +171,10 @@
 
 .pg-lytical-title {
   position: absolute;
-  inset-block-start: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   margin: 0;
-  transform: translateY(-10%);
   font-size: 24px;
   font-weight: 700;
   z-index: 1;
@@ -88,7 +184,7 @@
   background: #ffffff;
   padding: 5px;
   border-radius: 3px;
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .pg-lytical-content-wrap {
@@ -101,6 +197,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.pg-lytical-from-right .pg-lytical-content-wrap {
+  inset-inline-start: 2%;
+  inset-inline-end: 22%;
 }
 
 .pg-lytical-readmore,

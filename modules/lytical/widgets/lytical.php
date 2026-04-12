@@ -55,11 +55,11 @@ class Lytical extends Module_Base
 	}
 
 	public function get_script_depends() {
+		$scripts = ['pg-lytical'];
 		if ( true === _is_pg_pro_activated() ) {
-			return ['justified-gallery'];
-		} else {
-			return [];
+			$scripts[] = 'justified-gallery';
 		}
+		return $scripts;
 	}
 
 	public function has_widget_inner_wrapper(): bool {
