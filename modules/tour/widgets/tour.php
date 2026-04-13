@@ -614,4 +614,60 @@ class Tour extends Module_Base {
 		</div>
 <?php
 	}
+	/**
+	 * Elementor editor Backbone template.
+	 */
+	protected function content_template() {
+		?>
+		<#
+	var items = settings.items || [];
+	var animDelay = ( settings.pg_in_animation_delay && settings.pg_in_animation_delay.size ) ? settings.pg_in_animation_delay.size : '';
+	var gridClass = 'pg-tour-grid pg-grid';
+	if ( settings.pg_in_animation_show === 'yes' ) {
+		gridClass += ' pg-in-animation';
+	}
+	#>
+		<div class="{{{ gridClass }}}"
+			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
+		>
+		<# _.each( items, function( item, index ) {
+			var itemClass = 'pg-tour-item pg-item elementor-repeater-item-' + item._id;
+		#>
+			<div class="{{{ itemClass }}}">
+				<# if ( item.item_hidden !== 'yes' ) { #>
+										<div class="pg-tour-image-wrap bdt-pg-img-mask">
+						<# if ( item.media_type === 'video' ) { #>
+							<# if ( item.poster && item.poster.url ) { #>
+								<img src="{{ item.poster.url }}" alt="{{ item.title }}" class="pg-tour-img">
+							<# } #>
+						<# } else if ( item.image && item.image.url ) { #>
+							<img src="{{ item.image.url }}" alt="{{ item.title }}" class="pg-tour-img">
+						<# } #>
+						<# if ( settings.link_to === 'file' && item.media_type === 'video' ) { #>
+							<span class="pg-video-icon-wrap">
+								<i class="pg-icon-play-circle pg-eicon-play"></i>
+							</span>
+						<# } #>
+					</div>
+					<# if ( item.price ) { #>
+						<div class="pg-tour-price"><span>{{{ item.price }}}</span></div>
+					<# } #>
+					<div class="pg-tour-content">
+						<# if ( settings.show_title === 'yes' && item.title ) { #>
+							<# var ttag = settings.title_tag || 'h3'; #>
+							<{{{ ttag }}} class="pg-tour-title">{{{ item.title }}}</{{{ ttag }}}>
+						<# } #>
+						<div class="pg-tour-line"></div>
+						<# if ( settings.show_meta === 'yes' && item.meta ) { #>
+							<div class="pg-tour-meta">{{{ item.meta }}}</div>
+						<# } #>
+					</div>
+<?php $this->print_content_template_lightbox_overlay( 'tour' ); ?>
+				<# } #>
+			</div>
+		<# } ); #>
+		</div>
+		<?php
+	}
+
 }

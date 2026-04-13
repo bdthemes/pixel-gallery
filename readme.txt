@@ -246,6 +246,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 2.1.X [XX April 2026] =
+
+* added: Widget content template rendering added in elementor editor page
+
 = 2.1.5 [2nd April 2026] =
 
 * Added: Nexus widget - new hover style variations (Slide Left, Slide Top, Slide Bottom)

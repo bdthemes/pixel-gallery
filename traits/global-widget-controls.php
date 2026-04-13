@@ -2661,6 +2661,102 @@ trait Global_Widget_Controls
 		}
 	}
 
+	/**
+	 * Backbone `content_template()` fragment: whole-item overlay link for editor preview.
+	 * Aligns with {@see render_lightbox_link_url()} (real href, Elementor lightbox + slideshow, clickable in editor).
+	 *
+	 * @param string $slug Slideshow prefix without `pg-` (e.g. `alien` for `pg-alien-{id}`).
+	 */
+	protected function print_content_template_lightbox_overlay( $slug ) {
+		$slug = preg_replace( '/[^a-z0-9-]/', '', (string) $slug );
+		?>
+						<#
+						var pgLbSlideshowId = 'pg-<?php echo esc_js( $slug ); ?>-' + view.getID();
+						var pgLbHref = '';
+						if ( settings.link_to === 'custom' && item.link && item.link.url ) {
+							pgLbHref = elementor.helpers.sanitizeUrl( item.link.url );
+						} else if ( settings.link_to === 'file' && item.media_type !== 'video' && item.image && item.image.url ) {
+							pgLbHref = elementor.helpers.sanitizeUrl( item.image.url );
+						}
+						#>
+						<# if ( pgLbHref ) { #>
+						<a href="{{{ pgLbHref }}}" class="elementor-clickable pg-open-lightbox"<#
+							if ( settings.link_to === 'file' && item.media_type !== 'video' && item.image && item.image.id ) {
+						#> data-elementor-open-lightbox="{{ settings.open_lightbox }}" data-elementor-lightbox-slideshow="{{ pgLbSlideshowId }}"<#
+							}
+						#>></a>
+						<# } #>
+		<?php
+	}
+
+	/**
+	 * Editor template: compute href + slideshow id for item links (read more, epoch buttons, etc.).
+	 * Call once per repeater item before {@see print_content_template_item_link_wrap_open()}.
+	 *
+	 * @param string $slug Same as lightbox overlay (e.g. `alien`).
+	 */
+	protected function print_content_template_item_link_prepare( $slug ) {
+		$slug = preg_replace( '/[^a-z0-9-]/', '', (string) $slug );
+		?>
+						<#
+						var pgItemSlideshowId = 'pg-<?php echo esc_js( $slug ); ?>-' + view.getID();
+						var pgItemHref = '';
+						if ( settings.link_to === 'custom' && item.link && item.link.url ) {
+							pgItemHref = elementor.helpers.sanitizeUrl( item.link.url );
+						} else if ( settings.link_to === 'file' && item.media_type !== 'video' && item.image && item.image.url ) {
+							pgItemHref = elementor.helpers.sanitizeUrl( item.image.url );
+						}
+						#>
+		<?php
+	}
+
+	/**
+	 * Opens `if ( pgItemHref )` for editor item links.
+	 */
+	protected function print_content_template_item_link_wrap_open() {
+		?>
+						<# if ( pgItemHref ) { #>
+		<?php
+	}
+
+	/**
+	 * Closes `if ( pgItemHref )` for editor item links.
+	 */
+	protected function print_content_template_item_link_wrap_close() {
+		?>
+						<# } #>
+		<?php
+	}
+
+	/**
+	 * Opens `<a>` for editor item link (read more / icon / epoch buttons). Requires {@see print_content_template_item_link_prepare()}.
+	 *
+	 * @param string $extra_class Optional CSS classes (e.g. `pg-epoch-zoom-btn`).
+	 */
+	protected function print_content_template_item_link_a_open( $extra_class = '' ) {
+		$extra = trim( preg_replace( '/[^a-zA-Z0-9_\s-]/', '', (string) $extra_class ) );
+		$classes = 'elementor-clickable';
+		if ( '' !== $extra ) {
+			$classes .= ' ' . $extra;
+		}
+		?>
+						<a href="{{{ pgItemHref }}}" class="<?php echo esc_attr( $classes ); ?>"<#
+							if ( settings.link_to === 'file' && item.media_type !== 'video' && item.image && item.image.id ) {
+						#> data-elementor-open-lightbox="{{ settings.open_lightbox }}" data-elementor-lightbox-slideshow="{{ pgItemSlideshowId }}"<#
+							}
+						#>>
+		<?php
+	}
+
+	/**
+	 * Closes `<a>` for editor item link.
+	 */
+	protected function print_content_template_item_link_a_close() {
+		?>
+						</a>
+		<?php
+	}
+
 
 
 }

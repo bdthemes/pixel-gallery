@@ -427,4 +427,59 @@ class Lumen extends Module_Base {
 		</div>
 		<?php
 	}
+	/**
+	 * Elementor editor Backbone template.
+	 */
+	protected function content_template() {
+		?>
+		<#
+	var items = settings.items || [];
+	var animDelay = ( settings.pg_in_animation_delay && settings.pg_in_animation_delay.size ) ? settings.pg_in_animation_delay.size : '';
+	var alwaysLb = false;
+	var gridClass = 'pg-lumen-grid pg-grid';
+	if ( settings.pg_in_animation_show === 'yes' ) {
+		gridClass += ' pg-in-animation';
+	}
+	#>
+		<div class="{{{ gridClass }}}"
+			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
+		>
+		<# _.each( items, function( item, index ) {
+			var itemClass = 'pg-lumen-item pg-item elementor-repeater-item-' + item._id;
+		#>
+			<div class="{{{ itemClass }}}">
+				<# if ( item.item_hidden !== 'yes' ) { #>
+										<div class="pg-lumen-image-wrap bdt-pg-img-mask">
+						<# if ( item.media_type === 'video' ) { #>
+							<# if ( item.poster && item.poster.url ) { #>
+								<img src="{{ item.poster.url }}" alt="{{ item.title }}" class="pg-lumen-img">
+							<# } #>
+						<# } else if ( item.image && item.image.url ) { #>
+							<img src="{{ item.image.url }}" alt="{{ item.title }}" class="pg-lumen-img">
+						<# } #>
+						<# if ( settings.link_to === 'file' && item.media_type === 'video' ) { #>
+							<span class="pg-video-icon-wrap">
+								<i class="pg-icon-play-circle pg-eicon-play"></i>
+							</span>
+						<# } #>
+					</div>
+					<div class="pg-lumen-content">
+						<# if ( settings.show_title === 'yes' && item.title ) { #>
+							<# var ttag = settings.title_tag || 'h3'; #>
+							<{{{ ttag }}} class="pg-lumen-title">{{{ item.title }}}</{{{ ttag }}}>
+						<# } #>
+						<# if ( settings.show_meta === 'yes' && item.meta ) { #>
+							<div class="pg-lumen-meta">{{{ item.meta }}}</div>
+						<# } #>
+					</div>
+					<# if ( alwaysLb || ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'whole_item' ) ) { #>
+<?php $this->print_content_template_lightbox_overlay( 'lumen' ); ?>
+					<# } #>
+				<# } #>
+			</div>
+		<# } ); #>
+		</div>
+		<?php
+	}
+
 }
