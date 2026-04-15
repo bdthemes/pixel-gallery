@@ -645,17 +645,20 @@ class Sonic extends Module_Base
 							<# var ttag = settings.title_tag || 'h3'; #>
 							<{{{ ttag }}} class="pg-sonic-title">{{{ item.title }}}</{{{ ttag }}}>
 						<# } #>
-						<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' ) { #>
-							<div class="pg-sonic-readmore">
+					</div>
+					<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' ) { #>
+						<div class="pg-sonic-readmore">
 <?php $this->print_content_template_item_link_prepare( 'sonic' ); ?>
 <?php $this->print_content_template_item_link_wrap_open(); ?>
 <?php $this->print_content_template_item_link_a_open(); ?>
-							<i class="pg-icon-arrow-right" aria-hidden="true"></i>
+							<i class="pg-icon-search" aria-hidden="true"></i>
+<?php $this->print_content_template_item_link_a_close(); ?>
+<?php $this->print_content_template_item_link_a_open(); ?>
+							<i class="pg-icon-link" aria-hidden="true"></i>
 <?php $this->print_content_template_item_link_a_close(); ?>
 <?php $this->print_content_template_item_link_wrap_close(); ?>
 						</div>
-						<# } #>
-					</div>
+					<# } #>
 					<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'whole_item' ) { #>
 <?php $this->print_content_template_lightbox_overlay( 'sonic' ); ?>
 					<# } #>
