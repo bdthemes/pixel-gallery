@@ -513,4 +513,74 @@ class Walden extends Module_Base {
 		</div>
 <?php
 	}
+	/**
+	 * Elementor editor Backbone template.
+	 */
+	protected function content_template() {
+		?>
+		<#
+	var items = settings.items || [];
+	var animDelay = ( settings.pg_in_animation_delay && settings.pg_in_animation_delay.size ) ? settings.pg_in_animation_delay.size : '';
+	var gridClass = 'pg-walden-grid pg-grid';
+	if ( settings.layout_style ) { gridClass += ' pg-walden-effect-style-' + settings.layout_style; }
+	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
+	#>
+		<div class="{{{ gridClass }}}"
+			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
+		>
+		<# _.each( items, function( item, index ) {
+			var itemClass = 'pg-walden-item pg-item elementor-repeater-item-' + item._id;
+		#>
+			<div class="{{{ itemClass }}}">
+				<# if ( item.item_hidden !== 'yes' ) { #>
+										<div class="pg-walden-image-wrap bdt-pg-img-mask">
+						<# if ( item.media_type === 'video' ) { #>
+							<# if ( item.poster && item.poster.url ) { #>
+								<img src="{{ item.poster.url }}" alt="{{ item.title }}" class="pg-walden-img">
+							<# } #>
+						<# } else if ( item.image && item.image.url ) { #>
+							<img src="{{ item.image.url }}" alt="{{ item.title }}" class="pg-walden-img">
+						<# } #>
+						<# if ( settings.link_to === 'file' && item.media_type === 'video' ) { #>
+							<span class="pg-video-icon-wrap">
+								<i class="pg-icon-play-circle pg-eicon-play"></i>
+							</span>
+						<# } #>
+					</div>
+					<div class="pg-walden-head-content">
+						<# if ( settings.show_title === 'yes' && item.title ) { #>
+							<# var ttag = settings.title_tag || 'h3'; #>
+							<{{{ ttag }}} class="pg-walden-title">{{{ item.title }}}</{{{ ttag }}}>
+						<# } #>
+					</div>
+					<div class="pg-walden-center-content">
+						<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' ) { #>
+							<div class="pg-walden-readmore">
+<?php $this->print_content_template_item_link_prepare( 'walden' ); ?>
+<?php $this->print_content_template_item_link_wrap_open(); ?>
+<?php $this->print_content_template_item_link_a_open(); ?>
+							<i class="pg-icon-arrow-right" aria-hidden="true"></i>
+<?php $this->print_content_template_item_link_a_close(); ?>
+<?php $this->print_content_template_item_link_wrap_close(); ?>
+						</div>
+						<# } #>
+					</div>
+					<div class="pg-walden-bottom-content">
+						<# if ( settings.show_follow === 'yes' && item.follow ) { #>
+							<div class="pg-walden-follow-btn"><i class="pg-icon-preview"></i><span>{{ item.follow }}</span></div>
+						<# } #>
+						<# if ( settings.show_follow === 'yes' && item.like ) { #>
+							<div class="pg-walden-like-btn"><i class="pg-icon-heart"></i><span>{{ item.like }}</span></div>
+						<# } #>
+					</div>
+					<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'whole_item' ) { #>
+<?php $this->print_content_template_lightbox_overlay( 'walden' ); ?>
+					<# } #>
+				<# } #>
+			</div>
+		<# } ); #>
+		</div>
+		<?php
+	}
+
 }

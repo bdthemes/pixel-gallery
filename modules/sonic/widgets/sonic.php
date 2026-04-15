@@ -607,4 +607,66 @@ class Sonic extends Module_Base
 		</div>
 <?php
 	}
+	/**
+	 * Elementor editor Backbone template.
+	 */
+	protected function content_template() {
+		?>
+		<#
+	var items = settings.items || [];
+	var animDelay = ( settings.pg_in_animation_delay && settings.pg_in_animation_delay.size ) ? settings.pg_in_animation_delay.size : '';
+	var gridClass = 'pg-sonic-grid pg-grid';
+	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
+	#>
+		<div class="{{{ gridClass }}}"
+			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
+		>
+		<# _.each( items, function( item, index ) {
+			var itemClass = 'pg-sonic-item pg-item elementor-repeater-item-' + item._id;
+		#>
+			<div class="{{{ itemClass }}}">
+				<# if ( item.item_hidden !== 'yes' ) { #>
+										<div class="pg-sonic-image-wrap bdt-pg-img-mask">
+						<# if ( item.media_type === 'video' ) { #>
+							<# if ( item.poster && item.poster.url ) { #>
+								<img src="{{ item.poster.url }}" alt="{{ item.title }}" class="pg-sonic-img">
+							<# } #>
+						<# } else if ( item.image && item.image.url ) { #>
+							<img src="{{ item.image.url }}" alt="{{ item.title }}" class="pg-sonic-img">
+						<# } #>
+						<# if ( settings.link_to === 'file' && item.media_type === 'video' ) { #>
+							<span class="pg-video-icon-wrap">
+								<i class="pg-icon-play-circle pg-eicon-play"></i>
+							</span>
+						<# } #>
+					</div>
+					<div class="pg-sonic-content">
+						<# if ( settings.show_title === 'yes' && item.title ) { #>
+							<# var ttag = settings.title_tag || 'h3'; #>
+							<{{{ ttag }}} class="pg-sonic-title">{{{ item.title }}}</{{{ ttag }}}>
+						<# } #>
+					</div>
+					<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' ) { #>
+						<div class="pg-sonic-readmore">
+<?php $this->print_content_template_item_link_prepare( 'sonic' ); ?>
+<?php $this->print_content_template_item_link_wrap_open(); ?>
+<?php $this->print_content_template_item_link_a_open(); ?>
+							<i class="pg-icon-search" aria-hidden="true"></i>
+<?php $this->print_content_template_item_link_a_close(); ?>
+<?php $this->print_content_template_item_link_a_open(); ?>
+							<i class="pg-icon-link" aria-hidden="true"></i>
+<?php $this->print_content_template_item_link_a_close(); ?>
+<?php $this->print_content_template_item_link_wrap_close(); ?>
+						</div>
+					<# } #>
+					<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'whole_item' ) { #>
+<?php $this->print_content_template_lightbox_overlay( 'sonic' ); ?>
+					<# } #>
+				<# } #>
+			</div>
+		<# } ); #>
+		</div>
+		<?php
+	}
+
 }
