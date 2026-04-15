@@ -487,4 +487,59 @@ class Glaze extends Module_Base {
 		</div>
 <?php
 	}
+	/**
+	 * Elementor editor Backbone template.
+	 */
+	protected function content_template() {
+		?>
+		<#
+	var items = settings.items || [];
+	var animDelay = ( settings.pg_in_animation_delay && settings.pg_in_animation_delay.size ) ? settings.pg_in_animation_delay.size : '';
+	var gridClass = 'pg-glaze-grid pg-grid';
+	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
+	#>
+		<div class="{{{ gridClass }}}"
+			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
+		>
+		<# _.each( items, function( item, index ) {
+			var itemClass = 'pg-glaze-item pg-item elementor-repeater-item-' + item._id;
+		#>
+			<div class="{{{ itemClass }}}">
+				<# if ( item.item_hidden !== 'yes' ) { #>
+					<div class="pg-glaze-image-wrap">
+						<# if ( item.media_type === 'video' && item.poster && item.poster.url ) { #>
+							<img src="{{ item.poster.url }}" alt="{{ item.title }}" class="pg-glaze-img">
+						<# } else if ( item.image && item.image.url ) { #>
+							<img src="{{ item.image.url }}" alt="{{ item.title }}" class="pg-glaze-img">
+						<# } #>
+						<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' && item.readmore_text ) { #>
+							<div class="pg-glaze-readmore">
+<?php $this->print_content_template_item_link_prepare( 'glaze' ); ?>
+<?php $this->print_content_template_item_link_wrap_open(); ?>
+<?php $this->print_content_template_item_link_a_open(); ?>
+							{{{ item.readmore_text }}}
+<?php $this->print_content_template_item_link_a_close(); ?>
+<?php $this->print_content_template_item_link_wrap_close(); ?>
+						</div>
+						<# } #>
+					</div>
+					<div class="pg-glaze-content">
+						<# if ( settings.show_title === 'yes' && item.title ) { #>
+							<# var ttag = settings.title_tag || 'h3'; #>
+							<{{{ ttag }}} class="pg-glaze-title">{{{ item.title }}}</{{{ ttag }}}>
+						<# } #>
+						<# if ( settings.show_meta === 'yes' && item.meta ) { #>
+							<div class="pg-glaze-meta">{{{ item.meta }}}</div>
+						<# } #>
+					</div>
+					<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'whole_item' ) { #>
+<?php $this->print_content_template_lightbox_overlay( 'glaze' ); ?>
+					<# } #>
+				<# } #>
+			</div>
+		<# } ); #>
+		</div>
+		<?php
+	}
+
 }
