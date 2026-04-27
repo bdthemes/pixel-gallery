@@ -250,6 +250,7 @@ https://youtu.be/f70l2qE7W7o
 
 Added: New title hover color control for crop, axen and ocean widgets
 Fixed: Post title and category links are now clickable in the crop, axen, and ocean widgets when using the dynamic query source
+Fixed: Glassmorphism effect issue fixed in the ocean widget
 
 = 2.1.6 [15th April 2026] =
 

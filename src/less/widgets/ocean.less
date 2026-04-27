@@ -13,11 +13,6 @@
       clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%) !important;
     }
 
-    .pg-ocean-overlay {
-      opacity: 1;
-      transform: scale(1);
-    }
-
     .pg-ocean-img {
       transform: scale(1.05);
     }
@@ -67,9 +62,13 @@
   transition: clip-path 0.65s, -webkit-clip-path 0.65s, transform 0.85s;
   transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
   border-radius: 3px;
+  overflow: hidden;
+  background: #fff;
 }
 
 .pg-ocean-content-inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -78,18 +77,12 @@
 }
 
 .pg-ocean-overlay {
-  display: flex;
   position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  inline-size: 100%;
-  block-size: 100%;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
   border-radius: inherit;
-  transition: opacity 0.65s, transform 0.65s;
-  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
-  opacity: 1;
-  background: #fff;
-  border-radius: 3px;
+  background: inherit;
 }
 
 .pg-ocean-title {
