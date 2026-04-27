@@ -773,8 +773,15 @@ trait Global_Widget_Controls
 		$this->end_controls_section();
 	}
 
-	protected function register_lightbox_controls()
+	protected function register_lightbox_controls( $condition = [] )
 	{
+		$open_lightbox_condition = array_merge(
+			$condition,
+			[
+				'link_to' => 'file',
+			]
+		);
+
 		$this->add_control(
 			'link_to',
 			[
@@ -787,9 +794,7 @@ trait Global_Widget_Controls
 					'custom' => esc_html__('Custom URL', 'pixel-gallery'),
 				],
 				'separator' => 'before',
-				'condition' => [
-					'source!' => 'dynamic',
-				],
+				'condition' => $condition,
 			]
 		);
 
@@ -804,10 +809,7 @@ trait Global_Widget_Controls
 					'yes' => esc_html__('Yes', 'pixel-gallery'),
 					'no' => esc_html__('No', 'pixel-gallery'),
 				],
-				'condition' => [
-					'link_to' => 'file',
-					'source!' => 'dynamic',
-				],
+				'condition' => $open_lightbox_condition,
 			]
 		);
 	}
