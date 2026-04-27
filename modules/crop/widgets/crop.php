@@ -611,7 +611,7 @@ class Crop extends Module_Base {
 					<?php $this->render_dynamic_meta('crop'); ?>
 				</div>
 				<?php $this->render_dynamic_image_wrap(get_the_ID(), 'thumbnail_size', 'crop'); ?>
-				<?php $this->render_dynamic_lightbox_link_url($index, $id); ?>
+				<!-- <?php $this->render_dynamic_lightbox_link_url($index, $id); ?> -->
 				<?php //endif; 
 				?>
 			</div>

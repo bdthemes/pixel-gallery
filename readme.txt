@@ -246,6 +246,11 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 2.1.X [XXth April 2026] =
+
+Added: New title hover color control for crop, axen and ocean widgets
+Fixed: Post title and category links are now clickable in the crop, axen, and ocean widgets when using the dynamic query source
+
 = 2.1.6 [15th April 2026] =
 
 * Added: Widget content template rendering added in elementor editor page

@@ -722,7 +722,7 @@ class Ocean extends Module_Base {
 						<?php $this->render_dynamic_meta('ocean'); ?>
 					</div>
 				</div>
-				<?php $this->render_dynamic_lightbox_link_url($index, $id); ?>
+				<!-- <?php $this->render_dynamic_lightbox_link_url($index, $id); ?> -->
 				<?php endif; 
 				?>
 			</div>
