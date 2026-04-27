@@ -100,7 +100,9 @@ class Crop extends Module_Base {
 		$this->register_thumbnail_size_controls();
 
 		//Global Lightbox Controls
-		$this->register_lightbox_controls();
+		$this->register_lightbox_controls([
+			'source!' => 'dynamic',
+		]);
 		$this->end_controls_section();
 
 		//Dynamic query
@@ -611,7 +613,7 @@ class Crop extends Module_Base {
 					<?php $this->render_dynamic_meta('crop'); ?>
 				</div>
 				<?php $this->render_dynamic_image_wrap(get_the_ID(), 'thumbnail_size', 'crop'); ?>
-				<?php $this->render_dynamic_lightbox_link_url($index, $id); ?>
+				<!-- <?php $this->render_dynamic_lightbox_link_url($index, $id); ?> -->
 				<?php //endif; 
 				?>
 			</div>

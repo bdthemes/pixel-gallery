@@ -313,7 +313,21 @@ trait Global_Widget_Controls
 				'label' => __('Color', 'pixel-gallery'),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .pg-' . $name . '-title' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .pg-' . $name . '-title, {{WRAPPER}} .pg-' . $name . '-title a' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'title_hover_color',
+			[
+				'label' 	=> __('Hover Color', 'pixel-gallery'),
+				'type'     	=> Controls_Manager::COLOR,
+				'condition' => [
+					'source' => 'dynamic',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .pg-' . $name . '-title:hover, {{WRAPPER}} .pg-' . $name . '-title a:hover' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -759,8 +773,15 @@ trait Global_Widget_Controls
 		$this->end_controls_section();
 	}
 
-	protected function register_lightbox_controls()
+	protected function register_lightbox_controls( $condition = [] )
 	{
+		$open_lightbox_condition = array_merge(
+			$condition,
+			[
+				'link_to' => 'file',
+			]
+		);
+
 		$this->add_control(
 			'link_to',
 			[
@@ -772,7 +793,8 @@ trait Global_Widget_Controls
 					'file' => esc_html__('Media File', 'pixel-gallery'),
 					'custom' => esc_html__('Custom URL', 'pixel-gallery'),
 				],
-				'separator' => 'before'
+				'separator' => 'before',
+				'condition' => $condition,
 			]
 		);
 
@@ -787,9 +809,7 @@ trait Global_Widget_Controls
 					'yes' => esc_html__('Yes', 'pixel-gallery'),
 					'no' => esc_html__('No', 'pixel-gallery'),
 				],
-				'condition' => [
-					'link_to' => 'file',
-				],
+				'condition' => $open_lightbox_condition,
 			]
 		);
 	}
@@ -2353,7 +2373,13 @@ trait Global_Widget_Controls
 			return;
 		}
 
-		printf('<%1$s class="pg-%3$s-title">%2$s</%1$s>', esc_attr(Utils::get_valid_html_tag($settings['title_tag'])), esc_html(get_the_title()), esc_attr($name));
+		printf(
+			'<%1$s class="pg-%3$s-title"><a href="%4$s">%2$s</a></%1$s>',
+			esc_attr(Utils::get_valid_html_tag($settings['title_tag'])),
+			esc_html(get_the_title()),
+			esc_attr($name),
+			esc_url(get_permalink())
+		);
 	}
 
 	protected function render_meta($item, $name)

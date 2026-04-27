@@ -112,7 +112,9 @@ class Axen extends Module_Base {
 		$this->register_thumbnail_size_controls();
 
 		//Global Lightbox Controls
-		$this->register_lightbox_controls();
+		$this->register_lightbox_controls([
+			'source!' => 'dynamic',
+		]);
 		$this->end_controls_section();
 
 		//Dynamic query
@@ -706,7 +708,7 @@ class Axen extends Module_Base {
 					<?php $this->render_dynamic_title('axen'); ?>
 					<?php $this->render_dynamic_meta('axen'); ?>
 				</div>
-				<?php $this->render_dynamic_lightbox_link_url($index, $id); ?>
+				<!-- <?php $this->render_dynamic_lightbox_link_url($index, $id); ?> -->
 				<?php //endif; 
 				?>
 			</div>

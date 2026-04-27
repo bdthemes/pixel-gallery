@@ -109,14 +109,16 @@ class Ocean extends Module_Base {
 		$this->register_thumbnail_size_controls();
 
 		//Global Lightbox Controls
-		$this->register_lightbox_controls();
+		$this->register_lightbox_controls([
+			'source!' => 'dynamic',
+		]);
 		$this->end_controls_section();
 
 		//Dynamic query
 		$this->start_controls_section(
 			'section_post_query_builder',
 			[
-				'label' => __('Query', 'pixel-gallery') . BDTPG_NC,
+				'label' => __('Query', 'pixel-gallery'),
 				'tab' => Controls_Manager::TAB_CONTENT,
 				'condition' => [
 					'source' => 'dynamic',
@@ -463,7 +465,7 @@ class Ocean extends Module_Base {
 		$this->add_control(
 			'glassmorphism_effect',
 			[
-				'label' => esc_html__('Glassmorphism', 'pixel-gallery') . BDTPG_NC,
+				'label' => esc_html__('Glassmorphism', 'pixel-gallery'),
 				'type'  => Controls_Manager::SWITCHER,
 				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'pixel-gallery'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
 
@@ -486,7 +488,7 @@ class Ocean extends Module_Base {
 					'size' => 5
 				],
 				'selectors'   => [
-					'{{WRAPPER}} .pg-ocean-overlay' => 'backdrop-filter: blur({{SIZE}}px); -webkit-backdrop-filter: blur({{SIZE}}px);'
+					'{{WRAPPER}} .pg-ocean-content' => 'backdrop-filter: blur({{SIZE}}px); -webkit-backdrop-filter: blur({{SIZE}}px);'
 				],
 				'condition' => [
 					'glassmorphism_effect' => 'yes',
@@ -501,7 +503,7 @@ class Ocean extends Module_Base {
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
-				'selector' => '{{WRAPPER}} .pg-ocean-overlay',
+				'selector' => '{{WRAPPER}} .pg-ocean-content',
 				'fields_options' => [
 					'background' => [
 						'default' => 'classic',
@@ -518,7 +520,7 @@ class Ocean extends Module_Base {
 			Group_Control_Border::get_type(),
 			[
 				'name'      => 'content_border',
-				'selector'  => '{{WRAPPER}} .pg-ocean-overlay',
+				'selector'  => '{{WRAPPER}} .pg-ocean-content',
 				'separator' => 'before',
 			]
 		);
@@ -530,7 +532,7 @@ class Ocean extends Module_Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
-					'{{WRAPPER}} .pg-ocean-content, {{WRAPPER}} .pg-ocean-overlay' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .pg-ocean-content' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
@@ -722,7 +724,7 @@ class Ocean extends Module_Base {
 						<?php $this->render_dynamic_meta('ocean'); ?>
 					</div>
 				</div>
-				<?php $this->render_dynamic_lightbox_link_url($index, $id); ?>
+				<!-- <?php $this->render_dynamic_lightbox_link_url($index, $id); ?> -->
 				<?php endif; 
 				?>
 			</div>
