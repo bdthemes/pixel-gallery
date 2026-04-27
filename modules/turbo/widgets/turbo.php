@@ -102,6 +102,44 @@ class Turbo extends Module_Base {
 		//Global Lightbox Controls
 		$this->register_lightbox_controls();
 		$this->register_link_target_controls();
+
+		$this->add_control(
+			'cursor_type',
+			[
+				'label'   => esc_html__( 'Cursor Type', 'pixel-gallery' ) . BDTPG_NC,
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'inherit',
+				'options' => [
+					'inherit'     => esc_html__( 'Theme Default', 'pixel-gallery' ),
+					'default'     => esc_html__( 'Default', 'pixel-gallery' ),
+					'pointer'     => esc_html__( 'Pointer', 'pixel-gallery' ),
+					'zoom-in'     => esc_html__( 'Zoom In', 'pixel-gallery' ),
+					'zoom-out'    => esc_html__( 'Zoom Out', 'pixel-gallery' ),
+					'grab'        => esc_html__( 'Grab', 'pixel-gallery' ),
+					'grabbing'    => esc_html__( 'Grabbing', 'pixel-gallery' ),
+					'crosshair'   => esc_html__( 'Crosshair', 'pixel-gallery' ),
+					'move'        => esc_html__( 'Move', 'pixel-gallery' ),
+					'not-allowed' => esc_html__( 'Not Allowed', 'pixel-gallery' ),
+		
+					// Additional useful cursor types
+					'help'        => esc_html__( 'Help', 'pixel-gallery' ),
+					'progress'    => esc_html__( 'Progress', 'pixel-gallery' ),
+					'wait'        => esc_html__( 'Wait', 'pixel-gallery' ),
+					'text'        => esc_html__( 'Text', 'pixel-gallery' ),
+					'vertical-text' => esc_html__( 'Vertical Text', 'pixel-gallery' ),
+					'alias'       => esc_html__( 'Alias', 'pixel-gallery' ),
+					'copy'        => esc_html__( 'Copy', 'pixel-gallery' ),
+					'no-drop'     => esc_html__( 'No Drop', 'pixel-gallery' ),
+					'all-scroll'  => esc_html__( 'All Scroll', 'pixel-gallery' ),
+					'col-resize'  => esc_html__( 'Column Resize', 'pixel-gallery' ),
+					'row-resize'  => esc_html__( 'Row Resize', 'pixel-gallery' ),
+				],
+				'selectors' => [
+					'{{WRAPPER}} .pg-turbo-item, {{WRAPPER}} .pg-turbo-item a' => 'cursor: {{VALUE}};',
+				],
+			]
+		);
+
 		$this->end_controls_section();
 
 		//Repeater

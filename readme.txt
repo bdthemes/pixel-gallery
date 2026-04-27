@@ -249,6 +249,7 @@ https://youtu.be/f70l2qE7W7o
 = 2.1.6 [15th April 2026] =
 
 * Added: Widget content template rendering added in elementor editor page
+* Added: Cursor type control in the turbo widget
 * Improved: New directional hover effect for image, title and meta reveal in the lytical widget
 
 = 2.1.5 [2nd April 2026] =
