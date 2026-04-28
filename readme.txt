@@ -1,17 +1,17 @@
 === Pixel Gallery Addons for Elementor - Easy Grid, Creative Gallery, Drag and Drop Grid, Custom Grid Layout, Portfolio Gallery ===
-Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, tauhidalam, maudud, shmusuf, syedfarhanreza, arafatakashakku, shaikatazim,  shamim496
-Donate link: http://bdthemes.com/
+Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, tauhidalam, maudud, shmusuf, syedfarhanreza, arafatakashakku, shaikatazim, shamim496
+Donate link: https://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
 Tested up to: 6.9.4
 Requires PHP: 7.4.0
-Stable tag: 2.1.6
-License: GPLv3
+Stable tag: 2.1.7
+License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 3.28
-Elementor tested up to: 4.0.2
+Elementor tested up to: 4.0.3
 
-Best Addon for Elementor WordPress Plugin with 60+ Most Popular Elements that need your everyday website page building.
+Pixel Gallery is an Elementor gallery plugin for creating responsive image and portfolio grids with customizable layouts and effects.
 
 
 == Description ==
@@ -90,7 +90,7 @@ As a plugin created and optimized for WordPress, Pixel Gallery not only works fa
 You can also use our plugin to display static WooCommerce product galleries at ease. Just select your product or categories and make your visitors fall in love with your beautifully crafted gallery interface.
 
 
-###USEFUL LINKS 👇###
+== Useful Links ==
 **[Live Demo](https://pixelgallery.pro/demo/)** | **[Documentation](https://bdthemes.com/all-knowledge-base-of-pixel-gallery/)** | **[Video Tutorial](https://www.youtube.com/playlist?list=PLP0S85GEw7DPv5T-Ara11Zvplmk4ty0jy)** | **[Need Support?](https://bdthemes.com/support/)**
 
 
@@ -246,7 +246,7 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 2.1.X [XXth April 2026] =
+= 2.1.7 [28th April 2026] =
 
 Added: New title hover color control for crop, axen and ocean widgets
 Fixed: Post title and category links are now clickable in the crop, axen, and ocean widgets when using the dynamic query source
