@@ -158,7 +158,7 @@ class Fabric extends Module_Base {
 		$this->add_control(
 			'glassmorphism_effect',
 			[
-				'label' => esc_html__('Glassmorphism', 'pixel-gallery') . BDTPG_NC,
+				'label' => esc_html__('Glassmorphism', 'pixel-gallery'),
 				'type'  => Controls_Manager::SWITCHER,
 				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'pixel-gallery'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
 
@@ -293,6 +293,19 @@ class Fabric extends Module_Base {
 		);
 
 		$this->add_control(
+			'content_hover_effect',
+			[
+				'label'   => esc_html__('Hover Effect', 'pixel-gallery'),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'default',
+				'options' => [
+					'default'         => esc_html__('Default', 'pixel-gallery'),
+					'animated_border' => esc_html__('Animated Border', 'pixel-gallery'),
+				],
+			]
+		);
+
+		$this->add_control(
 			'content_animated_border_color',
 			[
 				'label'     => __('Animated Border Color', 'pixel-gallery'),
@@ -316,6 +329,24 @@ class Fabric extends Module_Base {
 				],
 				'selectors' => [
 					'{{WRAPPER}} ' => '--fabric-content-border-width: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'content_animated_border_duration',
+			[
+				'label'   => __('Animated Border Duration (s)', 'pixel-gallery'),
+				'type'    => Controls_Manager::NUMBER,
+				'min'     => 0.2,
+				'max'     => 20,
+				'step'    => 0.1,
+				'default' => 2,
+				'selectors' => [
+					'{{WRAPPER}} ' => '--fabric-content-border-duration: {{VALUE}}s;',
+				],
+				'condition' => [
+					'content_hover_effect' => 'animated_border',
 				],
 			]
 		);
@@ -383,6 +414,12 @@ class Fabric extends Module_Base {
 			<?php if ($item['item_hidden'] !== 'yes') : ?>
 			<?php $this->render_image_wrap($item, 'fabric'); ?>
 			<div class="pg-fabric-content">
+				<?php if ('animated_border' === $settings['content_hover_effect']) : ?>
+					<span class="pg-fabric-animated-line"></span>
+					<span class="pg-fabric-animated-line"></span>
+					<span class="pg-fabric-animated-line"></span>
+					<span class="pg-fabric-animated-line"></span>
+				<?php endif; ?>
 				<div class="pg-fabric-inner-content">
 					<?php $this->render_title($item, 'fabric'); ?>
 					<?php $this->render_text($item, 'fabric'); ?>
@@ -405,6 +442,11 @@ class Fabric extends Module_Base {
 	public function render() {
 		$settings   = $this->get_settings_for_display();
 		$this->add_render_attribute('grid', 'class', 'pg-fabric-grid pg-grid');
+		$this->add_render_attribute(
+			'grid',
+			'class',
+			'pg-fabric-hover-effect-' . (!empty($settings['content_hover_effect']) ? $settings['content_hover_effect'] : 'default')
+		);
 
 		/**
 		 * Render Justified Gallery Attributes
@@ -432,7 +474,8 @@ class Fabric extends Module_Base {
 		<#
 	var items = settings.items || [];
 	var animDelay = ( settings.pg_in_animation_delay && settings.pg_in_animation_delay.size ) ? settings.pg_in_animation_delay.size : '';
-	var gridClass = 'pg-fabric-grid pg-grid';
+	var hoverEffect = settings.content_hover_effect || 'default';
+	var gridClass = 'pg-fabric-grid pg-grid pg-fabric-hover-effect-' + hoverEffect;
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
 		<div class="{{{ gridClass }}}"
@@ -458,6 +501,12 @@ class Fabric extends Module_Base {
 						<# } #>
 					</div>
 					<div class="pg-fabric-content">
+						<# if ( hoverEffect === 'animated_border' ) { #>
+							<span class="pg-fabric-animated-line"></span>
+							<span class="pg-fabric-animated-line"></span>
+							<span class="pg-fabric-animated-line"></span>
+							<span class="pg-fabric-animated-line"></span>
+						<# } #>
 						<div class="pg-fabric-inner-content">
 							<# if ( settings.show_title === 'yes' && item.title ) { #>
 								<# var ttag = settings.title_tag || 'h3'; #>

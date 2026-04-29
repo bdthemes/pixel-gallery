@@ -3,6 +3,7 @@
   --fabric-content-border-color: #fff;
   --fabric-content-border-width: 1px;
   --fabric-content-border-style: solid;
+  --fabric-content-border-duration: 2s;
 }
 
 .pg-fabric-grid {
@@ -64,6 +65,107 @@
   border-inline: var(--fabric-content-border-width)
     var(--fabric-content-border-style) var(--fabric-content-border-color);
   transform: scale(1, 0);
+}
+
+/* Animated Border hover effect related styles */
+.pg-fabric-hover-effect-animated_border {
+  --pg-fabric-animated-fade: rgba(13, 59, 84, 0);
+  --pg-fabric-animated-half-duration: calc(var(--fabric-content-border-duration) * -0.5);
+
+  .pg-fabric-content::before,
+  .pg-fabric-content::after {
+    display: none;
+  }
+
+  .pg-fabric-content {
+    overflow: hidden;
+  }
+
+  .pg-fabric-animated-line {
+    position: absolute;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  .pg-fabric-animated-line:nth-child(odd) {
+    width: 100%;
+    height: var(--fabric-content-border-width);
+  }
+
+  .pg-fabric-animated-line:nth-child(even) {
+    width: var(--fabric-content-border-width);
+    height: 100%;
+  }
+
+  .pg-fabric-item:hover .pg-fabric-animated-line {
+    opacity: 1;
+  }
+
+  .pg-fabric-animated-line:nth-child(1) {
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    background: linear-gradient(to left, var(--pg-fabric-animated-fade), var(--fabric-content-border-color));
+    animation: pg-fabric-animated-top var(--fabric-content-border-duration) linear infinite;
+  }
+
+  .pg-fabric-animated-line:nth-child(2) {
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    background: linear-gradient(to top, var(--pg-fabric-animated-fade), var(--fabric-content-border-color));
+    animation: pg-fabric-animated-right var(--fabric-content-border-duration) linear var(--pg-fabric-animated-half-duration) infinite;
+  }
+
+  .pg-fabric-animated-line:nth-child(3) {
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    background: linear-gradient(to right, var(--pg-fabric-animated-fade), var(--fabric-content-border-color));
+    animation: pg-fabric-animated-bottom var(--fabric-content-border-duration) linear infinite;
+  }
+
+  .pg-fabric-animated-line:nth-child(4) {
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    background: linear-gradient(to bottom, var(--pg-fabric-animated-fade), var(--fabric-content-border-color));
+    animation: pg-fabric-animated-left var(--fabric-content-border-duration) linear var(--pg-fabric-animated-half-duration) infinite;
+  }
+}
+
+@keyframes pg-fabric-animated-top {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes pg-fabric-animated-right {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes pg-fabric-animated-bottom {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes pg-fabric-animated-left {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
 }
 
 .pg-fabric-image-wrap::before {
