@@ -246,6 +246,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 2.1.X [XXth April 2026] =
+
+Added: New hover effect added in the epoch widget
+
 = 2.1.7 [28th April 2026] =
 
 Added: New Animated border hover effect added in the fabric widget with duration control
