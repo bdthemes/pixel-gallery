@@ -443,10 +443,10 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
 			$html .= '<div class="pg-option-links">';
 			if ($args['demo_url']) {
-				$html .= '<a href=' . $args['demo_url'] . ' target="_blank" class="pg-option-demo" title="' . esc_html__('View ' . $args['name'] . ' Widget Demo', 'bdthemes-element-pack') . '">' . esc_html__('Demo', 'bdthemes-element-pack') . '<i class="pg-icon-preview" aria-hidden="true"></i></a>';
+				$html .= '<a href=' . $args['demo_url'] . ' target="_blank" class="pg-option-demo" title="' . esc_html__('View ' . $args['name'] . ' Widget Demo', 'pixel-gallery') . '">' . esc_html__('Demo', 'pixel-gallery') . '<i class="pg-icon-preview" aria-hidden="true"></i></a>';
 			}
 			if ($args['video_url']) {
-				$html .= '<a href=' . $args['video_url'] . ' target="_blank" class="pg-option-video" title="View ' . $args['name'] . ' Video Tutorial">Video<i class="pg-icon-tutorial" aria-hidden="true"></i></a>';
+				$html .= '<a href=' . $args['video_url'] . ' target="_blank" class="pg-option-video" title="' . esc_html__('View ' . $args['name'] . ' Video Tutorial', 'pixel-gallery') . '">' . esc_html__('Video', 'pixel-gallery') . '<i class="pg-icon-tutorial" aria-hidden="true"></i></a>';
 			}
 			$html .= '</div>';
 			$html .= '</div>';

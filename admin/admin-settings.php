@@ -413,40 +413,54 @@ class PixelGallery_Admin_Settings
 		<body>
 			<div class="container">
 				<div class="header">
-					<h1>🔒 Pixel Gallery White Label Access</h1>
+					<h1><?php echo esc_html__( '🔒 Pixel Gallery White Label Access', 'pixel-gallery' ); ?></h1>
 				</div>
 				<div class="content">
-					<h2>Important: Save This Email!</h2>
+					<h2><?php echo esc_html__( 'Important: Save This Email!', 'pixel-gallery' ); ?></h2>
 
-					<p>Hello,</p>
+					<p><?php echo esc_html__( 'Hello,', 'pixel-gallery' ); ?></p>
 
-					<p>You have successfully enabled <strong>BDTPG_HIDE mode</strong> for Pixel Gallery Pro on
-						<strong><?php echo esc_html($site_name); ?></strong>.</p>
+					<p>
+						<?php
+						printf(
+							wp_kses_post( __( 'You have successfully enabled <strong>%1$s</strong> for Pixel Gallery Pro on <strong>%2$s</strong>.', 'pixel-gallery' ) ),
+							esc_html__( 'BDTPG_HIDE mode', 'pixel-gallery' ),
+							esc_html( $site_name )
+						);
+						?>
+					</p>
 
 					<div class="warning">
-						<h3>⚠️ IMPORTANT</h3>
-						<p>The plugin interface is hidden from your WordPress admin. Use below link to modify white label
-							settings.</p>
+						<h3><?php echo esc_html__( '⚠️ IMPORTANT', 'pixel-gallery' ); ?></h3>
+						<p><?php echo esc_html__( 'The plugin interface is hidden from your WordPress admin. Use the link below to modify white label settings.', 'pixel-gallery' ); ?></p>
 
 						<p style="text-align: center;">
-							<a href="<?php echo esc_url($access_url); ?>" class="access-link">Access White Label Settings</a>
+							<a href="<?php echo esc_url( $access_url ); ?>" class="access-link"><?php echo esc_html__( 'Access White Label Settings', 'pixel-gallery' ); ?></a>
 						</p>
 					</div>
 
-					<p><strong>Direct Link:</strong><br>
-						<a href="<?php echo esc_url($access_url); ?>"><?php echo esc_html($access_url); ?></a>
+					<p>
+						<strong><?php echo esc_html__( 'Direct Link:', 'pixel-gallery' ); ?></strong><br>
+						<a href="<?php echo esc_url( $access_url ); ?>"><?php echo esc_html( $access_url ); ?></a>
 					</p>
 
 
-					<h3>🔧 What You Can Do</h3>
-					<p>Using the access link above, you can:</p>
+					<h3><?php echo esc_html__( '🔧 What You Can Do', 'pixel-gallery' ); ?></h3>
+					<p><?php echo esc_html__( 'Using the access link above, you can:', 'pixel-gallery' ); ?></p>
 					<ul>
-						<li>Disable BDTPG_HIDE mode</li>
-						<li>Modify white label settings</li>
+						<li><?php echo esc_html__( 'Disable BDTPG_HIDE mode', 'pixel-gallery' ); ?></li>
+						<li><?php echo esc_html__( 'Modify white label settings', 'pixel-gallery' ); ?></li>
 					</ul>
 
-					<p>Need help? <a href="https://bdthemes.com/support/" target="_blank">Contact support</a> with your license
-						key.</p>
+					<p>
+						<?php
+						printf(
+							wp_kses_post( __( 'Need help? %1$sContact support%2$s with your license key.', 'pixel-gallery' ) ),
+							'<a href="' . esc_url( 'https://bdthemes.com/support/' ) . '" target="_blank" rel="noopener noreferrer">',
+							'</a>'
+						);
+						?>
+					</p>
 
 				</div>
 			</div>
@@ -472,7 +486,7 @@ class PixelGallery_Admin_Settings
 
 		// Check user capability
 		if (!current_user_can('manage_options')) {
-			wp_die('You do not have sufficient permissions to access this page.');
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'pixel-gallery' ) );
 		}
 
 		$pg_wl = sanitize_text_field($_GET['pg_wl']);
@@ -480,13 +494,13 @@ class PixelGallery_Admin_Settings
 
 		// Check if pg_wl is set to 1
 		if ($pg_wl !== '1') {
-			$this->show_access_error('Invalid access parameter. Please use the correct link from your email.');
+			$this->show_access_error( esc_html__( 'Invalid access parameter. Please use the correct link from your email.', 'pixel-gallery' ) );
 			return;
 		}
 
 		// Validate the access token
 		if (!$this->validate_white_label_access_token($access_token)) {
-			$this->show_access_error('Invalid or expired access token. Please use the correct access link from your email.');
+			$this->show_access_error( esc_html__( 'Invalid or expired access token. Please use the correct access link from your email.', 'pixel-gallery' ) );
 			return;
 		}
 
@@ -497,7 +511,7 @@ class PixelGallery_Admin_Settings
 		// Add success notice
 		add_action('admin_notices', function () {
 			echo '<div class="notice notice-success is-dismissible">';
-			echo '<p><strong>✅ White Label Access Granted!</strong> You can now modify white label settings.</p>';
+			echo '<p><strong>' . esc_html__( '✅ White Label Access Granted!', 'pixel-gallery' ) . '</strong> ' . esc_html__( 'You can now modify white label settings.', 'pixel-gallery' ) . '</p>';
 			echo '</div>';
 		});
 	}
@@ -512,11 +526,11 @@ class PixelGallery_Admin_Settings
 	private function show_access_error($message)
 	{
 		wp_die(
-			'<h1>🔒 Pixel Gallery White Label Access</h1>' .
-			'<p><strong>Access Denied:</strong> ' . esc_html($message) . '</p>' .
-			'<p>If you need assistance, please contact support with your license information.</p>' .
-			'<p><a href="' . admin_url() . '" class="button button-primary">← Return to Dashboard</a></p>',
-			'Access Denied',
+			'<h1>' . esc_html__( '🔒 Pixel Gallery White Label Access', 'pixel-gallery' ) . '</h1>' .
+			'<p><strong>' . esc_html__( 'Access Denied:', 'pixel-gallery' ) . '</strong> ' . esc_html( $message ) . '</p>' .
+			'<p>' . esc_html__( 'If you need assistance, please contact support with your license information.', 'pixel-gallery' ) . '</p>' .
+			'<p><a href="' . esc_url( admin_url() ) . '" class="button button-primary">' . esc_html__( '← Return to Dashboard', 'pixel-gallery' ) . '</a></p>',
+			esc_html__( 'Access Denied', 'pixel-gallery' ),
 			['response' => 403]
 		);
 	}
@@ -974,22 +988,22 @@ class PixelGallery_Admin_Settings
 						$un_used_widgets = count(self::get_unused_widgets());
 						?>
 						<div class="pg-count-canvas-wrap">
-							<h1 class="pg-feature-title"><?php echo esc_html__('All Widgets', 'pixel-gallery'); ?></h1>
+							<h1 class="pg-feature-title"><?php echo esc_html__( 'All Widgets', 'pixel-gallery' ); ?></h1>
 							<div class="bdt-flex bdt-flex-between bdt-flex-middle">
 								<div class="pg-count-wrap">
-									<div class="pg-widget-count"><?php echo esc_html__('Used:', 'pixel-gallery'); ?>
-										<b><?php echo esc_html__($used_widgets, 'pixel-gallery'); ?></b></div>
-									<div class="pg-widget-count"><?php echo esc_html__('Unused:', 'pixel-gallery'); ?>
-										<b><?php echo esc_html__($un_used_widgets, 'pixel-gallery'); ?></b></div>
-									<div class="pg-widget-count"><?php echo esc_html__('Total:', 'pixel-gallery'); ?>
-										<b><?php echo esc_html__($used_widgets + $un_used_widgets, 'pixel-gallery'); ?></b>
+									<div class="pg-widget-count"><?php echo esc_html__( 'Used:', 'pixel-gallery' ); ?>
+										<b><?php echo esc_html( $used_widgets ); ?></b></div>
+									<div class="pg-widget-count"><?php echo esc_html__( 'Unused:', 'pixel-gallery' ); ?>
+										<b><?php echo esc_html( $un_used_widgets ); ?></b></div>
+									<div class="pg-widget-count"><?php echo esc_html__( 'Total:', 'pixel-gallery' ); ?>
+										<b><?php echo esc_html( $used_widgets + $un_used_widgets ); ?></b>
 									</div>
 								</div>
 
 								<div class="pg-canvas-wrap">
 									<canvas id="bdt-db-total-status" style="height: 100px; width: 100px;"
-										data-label="Total Widgets Status - (<?php echo esc_html__($used_widgets + $un_used_widgets, 'pixel-gallery'); ?>)"
-										data-labels="<?php echo esc_attr('Used, Unused'); ?>"
+										data-label="<?php echo esc_attr( sprintf( __( 'Total Widgets Status - (%s)', 'pixel-gallery' ), $used_widgets + $un_used_widgets ) ); ?>"
+										data-labels="<?php echo esc_attr( sprintf( '%1$s, %2$s', __( 'Used', 'pixel-gallery' ), __( 'Unused', 'pixel-gallery' ) ) ); ?>"
 										data-value="<?php echo esc_attr($used_widgets) . ',' . esc_attr($un_used_widgets); ?>"
 										data-bg="#FFD166, #fff4d9" data-bg-hover="#0673e1, #e71522"></canvas>
 								</div>
@@ -1003,7 +1017,7 @@ class PixelGallery_Admin_Settings
 					<div class="pg-widget-status bdt-card bdt-card-body">
 
 						<div class="pg-count-canvas-wrap">
-							<h1 class="pg-feature-title"><?php echo esc_html_e('Active', 'pixel-gallery'); ?></h1>
+							<h1 class="pg-feature-title"><?php esc_html_e( 'Active', 'pixel-gallery' ); ?></h1>
 							<div class="bdt-flex bdt-flex-between bdt-flex-middle">
 								<div class="pg-count-wrap">
 									<div class="pg-widget-count"><?php esc_html_e('Core: ', 'pixel-gallery'); ?><b
@@ -1036,13 +1050,17 @@ class PixelGallery_Admin_Settings
 			<div class="bdt-grid bdt-grid-medium" bdt-grid bdt-height-match="target: > div > .bdt-card">
 				<div class="bdt-width-2-5@m pg-support-section">
 					<div class="pg-support-content bdt-card bdt-card-body">
-						<h1 class="pg-feature-title">Support And Feedback</h1>
-						<p>Feeling like to consult with an expert? Take live Chat support immediately from <a
-								href="https://pixelgallery.com" target="_blank" rel="">PixelGallery</a>. We are always
-							ready to help
-							you 24/7.</p>
-						<p><strong>Or if you’re facing technical issues with our plugin, then please create a support
-								ticket</strong></p>
+						<h1 class="pg-feature-title"><?php esc_html_e( 'Support And Feedback', 'pixel-gallery' ); ?></h1>
+						<p>
+							<?php
+							printf(
+								wp_kses_post( __( 'Feeling like to consult with an expert? Take live chat support immediately from %1$sPixelGallery%2$s. We are always ready to help you 24/7.', 'pixel-gallery' ) ),
+								'<a href="' . esc_url( 'https://pixelgallery.com' ) . '" target="_blank" rel="noopener noreferrer">',
+								'</a>'
+							);
+							?>
+						</p>
+						<p><strong><?php esc_html_e( 'Or if you’re facing technical issues with our plugin, then please create a support ticket', 'pixel-gallery' ); ?></strong></p>
 						<a class="bdt-button bdt-btn-blue bdt-margin-small-top bdt-margin-small-right" target="_blank" rel=""
 							href="https://bdthemes.com/all-knowledge-base-of-pixel-gallery/">Knowledge
 							Base</a>
@@ -1053,7 +1071,7 @@ class PixelGallery_Admin_Settings
 
 				<div class="bdt-width-3-5@m">
 					<div class="bdt-card bdt-card-body pg-system-requirement">
-						<h1 class="pg-feature-title bdt-margin-small-bottom">System Requirement</h1>
+						<h1 class="pg-feature-title bdt-margin-small-bottom"><?php esc_html_e( 'System Requirement', 'pixel-gallery' ); ?></h1>
 						<?php $this->pixel_gallery_system_requirement(); ?>
 					</div>
 				</div>
@@ -1062,9 +1080,8 @@ class PixelGallery_Admin_Settings
 			<div class="bdt-grid bdt-grid-medium" bdt-grid bdt-height-match="target: > div > .bdt-card">
 				<div class="bdt-width-1-2@m pg-support-section">
 					<div class="bdt-card bdt-card-body pg-feedback-bg">
-						<h1 class="pg-feature-title">Missing Any Feature?</h1>
-						<p style="max-width: 520px;">Are you in need of a feature that’s not available in our plugin?
-							Feel free to do a feature request from here,</p>
+						<h1 class="pg-feature-title"><?php esc_html_e( 'Missing Any Feature?', 'pixel-gallery' ); ?></h1>
+						<p style="max-width: 520px;"><?php esc_html_e( 'Are you in need of a feature that’s not available in our plugin? Feel free to do a feature request from here,', 'pixel-gallery' ); ?></p>
 						<a class="bdt-button bdt-btn-yellow bdt-margin-small-top" target="_blank" rel=""
 							href="https://feedback.bdthemes.com/b/6vr2250l/feature-requests/">Request Feature</a>
 					</div>
@@ -1072,32 +1089,30 @@ class PixelGallery_Admin_Settings
 
 				<div class="bdt-width-1-2@m">
 					<div class="bdt-card bdt-card-body pg-tryaddon-bg">
-						<h1 class="pg-feature-title">Try Our Others Addons</h1>
+						<h1 class="pg-feature-title"><?php esc_html_e( 'Try Our Others Addons', 'pixel-gallery' ); ?></h1>
 						<p style="max-width: 520px;">
-							<b>Element Pack, Prime Slider, Pixel Gallery & Ultimate Store Kit</b> addons for <b>Elementor</b> is
-							the best slider &
-							blogs plugin for WordPress.
+							<b><?php esc_html_e( 'Element Pack, Prime Slider, Pixel Gallery & Ultimate Store Kit', 'pixel-gallery' ); ?></b> <?php esc_html_e( 'addons for', 'pixel-gallery' ); ?> <b><?php esc_html_e( 'Elementor', 'pixel-gallery' ); ?></b> <?php esc_html_e( 'is the best slider & blogs plugin for WordPress.', 'pixel-gallery' ); ?>
 						</p>
 						<div class="bdt-others-plugins-link">
 							<a class="bdt-button bdt-btn-ep bdt-margin-small-right" target="_blank"
 								href="https://wordpress.org/plugins/bdthemes-element-pack-lite/"
-								bdt-tooltip="Element Pack Lite provides more than 50+ essential elements for everyday applications to simplify the whole web building process. It's Free! Download it.">Element
+								bdt-tooltip="<?php echo esc_attr__( 'Element Pack Lite provides more than 50+ essential elements for everyday applications to simplify the whole web building process. It\'s Free! Download it.', 'pixel-gallery' ); ?>">Element
 								pack</a>
 							<a class="bdt-button bdt-btn-ps bdt-margin-small-right" target="_blank"
 								href="https://wordpress.org/plugins/bdthemes-prime-slider-lite/"
-								bdt-tooltip="The revolutionary slider builder addon for Elementor with next-gen superb interface. It's Free! Download it.">Prime
+								bdt-tooltip="<?php echo esc_attr__( 'The revolutionary slider builder addon for Elementor with next-gen superb interface. It\'s Free! Download it.', 'pixel-gallery' ); ?>">Prime
 								Slider</a>
 							<a class="bdt-button bdt-btn-pg bdt-margin-small-right" target="_blank" rel=""
 								href="https://wordpress.org/plugins/pixel-gallery/"
-								bdt-tooltip="Best blogging addon for building quality blogging website with fine-tuned features and widgets. It's Free! Download it.">Pixel
+								bdt-tooltip="<?php echo esc_attr__( 'Best blogging addon for building quality blogging website with fine-tuned features and widgets. It\'s Free! Download it.', 'pixel-gallery' ); ?>">Pixel
 								Gallery</a>
 							<a class="bdt-button bdt-btn-usk bdt-margin-small-right" target="_blank" rel=""
 								href="https://wordpress.org/plugins/ultimate-store-kit/"
-								bdt-tooltip="The only eCommmerce addon for answering all your online store design problems in one package. It's Free! Download it.">Ultimate
+								bdt-tooltip="<?php echo esc_attr__( 'The only eCommerce addon for answering all your online store design problems in one package. It\'s Free! Download it.', 'pixel-gallery' ); ?>">Ultimate
 								Store Kit</a>
 							<a class="bdt-button bdt-btn-live-copy bdt-margin-small-right" target="_blank" rel=""
 								href="https://wordpress.org/plugins/live-copy-paste/"
-								bdt-tooltip="Superfast cross-domain copy-paste mechanism for WordPress websites with true UI copy experience. It's Free! Download it.">Live
+								bdt-tooltip="<?php echo esc_attr__( 'Superfast cross-domain copy-paste mechanism for WordPress websites with true UI copy experience. It\'s Free! Download it.', 'pixel-gallery' ); ?>">Live
 								Copy Paste</a>
 						</div>
 
@@ -1135,7 +1150,7 @@ class PixelGallery_Admin_Settings
 					<p class="pg-dashboard-welcome-desc">
 						<?php esc_html_e('Empower your web creation with powerful widgets, advanced extensions, ready templates and more.', 'pixel-gallery'); ?>
 					</p>
-					<a href="<?php echo admin_url('?pg_setup_wizard=show'); ?>"
+					<a href="<?php echo esc_url( admin_url( '?pg_setup_wizard=show' ) ); ?>"
 						class="bdt-button bdt-welcome-button bdt-margin-small-top"
 						target="_blank"><?php esc_html_e('Setup Pixel Gallery', 'pixel-gallery'); ?></a>
 
@@ -1278,12 +1293,12 @@ class PixelGallery_Admin_Settings
 				<div class="bdt-width-1-1@m pg-comparision bdt-text-center">
 					<div class="bdt-flex bdt-flex-between bdt-flex-middle">
 						<div class="bdt-text-left">
-							<h1 class="bdt-text-bold">WHY GO WITH PRO?</h1>
-							<h2>Just Compare With Pixel Gallery Free Vs Pro</h2>
+							<h1 class="bdt-text-bold"><?php esc_html_e( 'WHY GO WITH PRO?', 'pixel-gallery' ); ?></h1>
+							<h2><?php esc_html_e( 'Just Compare With Pixel Gallery Free Vs Pro', 'pixel-gallery' ); ?></h2>
 						</div>
 						<?php if (true !== _is_pg_pro_activated()): ?>
 							<div class="pg-purchase-button">
-								<a href="https://pixelgallery.pro/pricing/" target="_blank">Purchase Now</a>
+								<a href="<?php echo esc_url( 'https://pixelgallery.pro/pricing/' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Purchase Now', 'pixel-gallery' ); ?></a>
 							</div>
 						<?php endif; ?>
 					</div>
@@ -1295,16 +1310,18 @@ class PixelGallery_Admin_Settings
 
 							<li class="bdt-text-bold">
 								<div class="bdt-grid">
-									<div class="bdt-width-expand@m">Features</div>
-									<div class="bdt-width-auto@m">Free</div>
-									<div class="bdt-width-auto@m">Pro</div>
+									<div class="bdt-width-expand@m"><?php esc_html_e( 'Features', 'pixel-gallery' ); ?></div>
+									<div class="bdt-width-auto@m"><?php esc_html_e( 'Free', 'pixel-gallery' ); ?></div>
+									<div class="bdt-width-auto@m"><?php esc_html_e( 'Pro', 'pixel-gallery' ); ?></div>
 								</div>
 							</li>
 							<li class="">
 								<div class="bdt-grid">
-									<div class="bdt-width-expand@m"><span
-											bdt-tooltip="pos: top-left; title: Lite have 35+ Widgets but Pro have 100+ core widgets">Core
-											Widgets</span></div>
+									<div class="bdt-width-expand@m">
+										<span bdt-tooltip="<?php echo esc_attr( sprintf( 'pos: top-left; title: %s', __( 'Lite has 35+ widgets but Pro has 100+ core widgets', 'pixel-gallery' ) ) ); ?>">
+											<?php esc_html_e( 'Core Widgets', 'pixel-gallery' ); ?>
+										</span>
+									</div>
 									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
 									<div class="bdt-width-auto@m"><span class="dashicons dashicons-yes"></span></div>
 								</div>
@@ -1439,7 +1456,7 @@ class PixelGallery_Admin_Settings
 
 							<?php if (true !== _is_pg_pro_activated()): ?>
 								<div class="pg-purchase-button bdt-margin-medium-top">
-									<a href="https://pixelgallery.pro/pricing/" target="_blank">Purchase Now</a>
+									<a href="<?php echo esc_url( 'https://pixelgallery.pro/pricing/' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Purchase Now', 'pixel-gallery' ); ?></a>
 								</div>
 							<?php endif; ?>
 
@@ -1494,7 +1511,7 @@ class PixelGallery_Admin_Settings
 								$alt_text = !empty($white_label_title) ? $white_label_title . ' Logo' : 'Custom Logo';
 								echo '<img src="' . esc_url($white_label_logo) . '" alt="' . esc_attr($alt_text) . '" style="max-height: 40px;">';
 							} else {
-								echo '<img src="' . BDTPG_URL . 'assets/images/logo-with-text.svg" alt="Pixel Gallery Logo">';
+								echo '<img src="' . esc_url( BDTPG_URL . 'assets/images/logo-with-text.svg' ) . '" alt="' . esc_attr__( 'Pixel Gallery Logo', 'pixel-gallery' ) . '">';
 							}
 							?>
 						</div>
@@ -2258,9 +2275,9 @@ class PixelGallery_Admin_Settings
 
 					// Create the media frame
 					logoUploader = wp.media.frames.file_frame = wp.media({
-						title: 'Select Logo',
+						title: <?php echo wp_json_encode( __( 'Select Logo', 'pixel-gallery' ) ); ?>,
 						button: {
-							text: 'Use This Logo'
+							text: <?php echo wp_json_encode( __( 'Use This Logo', 'pixel-gallery' ) ); ?>
 						},
 						library: {
 							type: ['image/jpeg', 'image/jpg', 'image/png', 'image/svg+xml']
@@ -2302,14 +2319,7 @@ class PixelGallery_Admin_Settings
 				$('#pg-white-label-bdtpg-hide').on('change', function () {
 					if ($(this).is(':checked')) {
 						// Show warning modal/alert
-						var warningMessage = '⚠️ WARNING: ADVANCED FEATURE\n\n' +
-							'Enabling BDTPG_HIDE will activate advanced white label mode that:\n\n' +
-							'• Hides ALL Element Pack branding and menus\n' +
-							'• Makes these settings difficult to access later\n' +
-							'• Requires the special access link to return\n' +
-							'• Is intended for client/agency use only\n\n' +
-							'An email with access instructions will be sent if you proceed.\n\n' +
-							'Are you sure you want to enable this advanced mode?';
+						var warningMessage = <?php echo wp_json_encode( __( "⚠️ WARNING: ADVANCED FEATURE\n\nEnabling BDTPG_HIDE will activate advanced white label mode that:\n\n• Hides ALL Pixel Gallery branding and menus\n• Makes these settings difficult to access later\n• Requires the special access link to return\n• Is intended for client/agency use only\n\nAn email with access instructions will be sent if you proceed.\n\nAre you sure you want to enable this advanced mode?", 'pixel-gallery' ) ); ?>;
 
 						if (!confirm(warningMessage)) {
 							// User cancelled, uncheck the box
@@ -2321,8 +2331,8 @@ class PixelGallery_Admin_Settings
 						if ($('#pg-bdtpg-hide-info').length === 0) {
 							$(this).closest('.pg-option-item').after(
 								'<div id="pg-bdtpg-hide-info" class="bdt-alert bdt-alert-warning bdt-margin-small-top">' +
-								'<p><strong>BDTPG_HIDE Mode Enabled</strong></p>' +
-								'<p>When you save these settings, an email will be sent with instructions to access white label settings in the future.</p>' +
+								'<p><strong><?php echo esc_js( __( 'BDTPG_HIDE Mode Enabled', 'pixel-gallery' ) ); ?></strong></p>' +
+								'<p><?php echo esc_js( __( 'When you save these settings, an email will be sent with instructions to access white label settings in the future.', 'pixel-gallery' ) ); ?></p>' +
 								'</div>'
 							);
 						}
@@ -2344,12 +2354,12 @@ class PixelGallery_Admin_Settings
 						if (buttonText.includes('License Not Activated')) {
 							alertMessage = '<div class="bdt-alert bdt-alert-danger" bdt-alert>' +
 								'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
-								'<p><strong>License Not Activated</strong><br>You need to activate your Pixel Gallery license to access White Label functionality. Please activate your license first.</p>' +
+								'<p><strong><?php echo esc_js( __( 'License Not Activated', 'pixel-gallery' ) ); ?></strong><br><?php echo esc_js( __( 'You need to activate your Pixel Gallery license to access White Label functionality. Please activate your license first.', 'pixel-gallery' ) ); ?></p>' +
 								'</div>';
 						} else {
 							alertMessage = '<div class="bdt-alert bdt-alert-warning" bdt-alert>' +
 								'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
-								'<p><strong>Eligible License Required</strong><br>White Label functionality is available for Agency, Extended, Developer, AppSumo Lifetime, and other eligible license holders. Please upgrade your license to access these features.</p>' +
+								'<p><strong><?php echo esc_js( __( 'Eligible License Required', 'pixel-gallery' ) ); ?></strong><br><?php echo esc_js( __( 'White Label functionality is available for Agency, Extended, Developer, AppSumo Lifetime, and other eligible license holders. Please upgrade your license to access these features.', 'pixel-gallery' ) ); ?></p>' +
 								'</div>';
 						}
 
@@ -2409,31 +2419,31 @@ class PixelGallery_Admin_Settings
 
 								// Add email notification info if BDTPG_HIDE was enabled
 								if (response.data.bdtpg_hide && response.data.email_sent) {
-									successMessage += '<br><br><strong>📧 Access Email Sent!</strong><br>Check your email for the access link to modify these settings in the future.';
+									successMessage += '<br><br><strong><?php echo esc_js( __( '📧 Access Email Sent!', 'pixel-gallery' ) ); ?></strong><br><?php echo esc_js( __( 'Check your email for the access link to modify these settings in the future.', 'pixel-gallery' ) ); ?>';
 								} else if (response.data.bdtpg_hide && !response.data.email_sent && response.data.access_url) {
 									// Localhost scenario - show the access URL directly
-									successMessage += '<br><br><strong>📧 Localhost Email Notice:</strong><br>Email functionality is not available on localhost.<br><strong>Your Access URL:</strong><br><a href="' + response.data.access_url + '" target="_blank">Click here to access white label settings</a><br><small>Save this URL - you\'ll need it to modify settings when BDTPG_HIDE is active.</small>';
+									successMessage += '<br><br><strong><?php echo esc_js( __( '📧 Localhost Email Notice:', 'pixel-gallery' ) ); ?></strong><br><?php echo esc_js( __( 'Email functionality is not available on localhost.', 'pixel-gallery' ) ); ?><br><strong><?php echo esc_js( __( 'Your Access URL:', 'pixel-gallery' ) ); ?></strong><br><a href="' + response.data.access_url + '" target="_blank" rel="noopener noreferrer"><?php echo esc_js( __( 'Click here to access white label settings', 'pixel-gallery' ) ); ?></a><br><small><?php echo esc_js( __( 'Save this URL - you\'ll need it to modify settings when BDTPG_HIDE is active.', 'pixel-gallery' ) ); ?></small>';
 								} else if (response.data.bdtpg_hide && !response.data.email_sent) {
-									successMessage += '<br><br><strong>⚠️ Email Notice:</strong><br>There was an issue sending the access email. Please check your email settings or contact support.';
+									successMessage += '<br><br><strong><?php echo esc_js( __( '⚠️ Email Notice:', 'pixel-gallery' ) ); ?></strong><br><?php echo esc_js( __( 'There was an issue sending the access email. Please check your email settings or contact support.', 'pixel-gallery' ) ); ?>';
 								}
 
 								$('#pg-white-label-message').html(
 									'<div class="bdt-alert bdt-alert-success" bdt-alert>' +
 									'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
-									'<p>' + successMessage + ' <span id="pg-reload-countdown">Reloading in ' + countdown + ' seconds...</span></p>' +
+									'<p>' + successMessage + ' <span id="pg-reload-countdown">' + (<?php echo wp_json_encode( __( 'Reloading in %s seconds...', 'pixel-gallery' ) ); ?>).replace('%s', countdown) + '</span></p>' +
 									'</div>'
 								).show();
 
 								// Update button text
-								$button.html('Reloading...');
+								$button.html(<?php echo wp_json_encode( __( 'Reloading...', 'pixel-gallery' ) ); ?>);
 
 								// Countdown timer
 								var countdownInterval = setInterval(function () {
 									countdown--;
 									if (countdown > 0) {
-										$('#pg-reload-countdown').text('Reloading in ' + countdown + ' seconds...');
+										$('#pg-reload-countdown').text((<?php echo wp_json_encode( __( 'Reloading in %s seconds...', 'pixel-gallery' ) ); ?>).replace('%s', countdown));
 									} else {
-										$('#pg-reload-countdown').text('Reloading now...');
+										$('#pg-reload-countdown').text(<?php echo wp_json_encode( __( 'Reloading now...', 'pixel-gallery' ) ); ?>);
 										clearInterval(countdownInterval);
 									}
 								}, 1000);
@@ -2442,7 +2452,7 @@ class PixelGallery_Admin_Settings
 								setTimeout(function () {
 									if (response.data.bdtpg_hide) {
 										// Redirect to admin dashboard if BDTPG_HIDE is enabled
-										window.location.href = '<?php echo admin_url('index.php'); ?>';
+										window.location.href = '<?php echo esc_url( admin_url( 'index.php' ) ); ?>';
 									} else {
 										// Reload current page if BDTPG_HIDE is not enabled
 										window.location.reload();
@@ -2453,7 +2463,7 @@ class PixelGallery_Admin_Settings
 								$('#pg-white-label-message').html(
 									'<div class="bdt-alert bdt-alert-danger" bdt-alert>' +
 									'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
-									'<p>Error: ' + (response.data.message || 'Unknown error occurred') + '</p>' +
+									'<p><?php echo esc_js( __( 'Error:', 'pixel-gallery' ) ); ?> ' + (response.data.message || <?php echo wp_json_encode( __( 'Unknown error occurred', 'pixel-gallery' ) ); ?>) + '</p>' +
 									'</div>'
 								).show();
 
@@ -2467,7 +2477,7 @@ class PixelGallery_Admin_Settings
 							$('#pg-white-label-message').html(
 								'<div class="bdt-alert bdt-alert-danger" bdt-alert>' +
 								'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
-								'<p>Error: Failed to save settings. Please try again. (' + status + ')</p>' +
+								'<p><?php echo esc_js( __( 'Error:', 'pixel-gallery' ) ); ?> <?php echo esc_js( __( 'Failed to save settings. Please try again.', 'pixel-gallery' ) ); ?> (' + status + ')</p>' +
 								'</div>'
 							).show();
 
@@ -2489,7 +2499,7 @@ class PixelGallery_Admin_Settings
 						$('#pg-custom-code-message').html(
 							'<div class="bdt-alert bdt-alert-danger" bdt-alert>' +
 							'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
-							'<p>Error: AJAX configuration not loaded. Please refresh the page and try again.</p>' +
+							'<p><?php echo esc_js( __( 'Error:', 'pixel-gallery' ) ); ?> <?php echo esc_js( __( 'AJAX configuration not loaded. Please refresh the page and try again.', 'pixel-gallery' ) ); ?></p>' +
 							'</div>'
 						).show();
 						return;
@@ -2529,7 +2539,7 @@ class PixelGallery_Admin_Settings
 						$('#pg-custom-code-message').html(
 							'<div class="bdt-alert bdt-alert-warning" bdt-alert>' +
 							'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
-							'<p>Save operation timed out. Please try again.</p>' +
+							'<p><?php echo esc_js( __( 'Save operation timed out. Please try again.', 'pixel-gallery' ) ); ?></p>' +
 							'</div>'
 						).show();
 					}, 30000);
@@ -2549,7 +2559,7 @@ class PixelGallery_Admin_Settings
 					// Verify we have some content before sending (optional check)
 					var totalContentLength = cssContent.length + jsContent.length + css2Content.length + js2Content.length;
 					if (totalContentLength === 0) {
-						var confirmEmpty = confirm('No content detected in any editor. Do you want to save empty content (this will clear all custom code)?');
+						var confirmEmpty = confirm(<?php echo wp_json_encode( __( 'No content detected in any editor. Do you want to save empty content (this will clear all custom code)?', 'pixel-gallery' ) ); ?>);
 						if (!confirmEmpty) {
 							// Restore button state
 							$button.html(originalText);
@@ -2584,7 +2594,7 @@ class PixelGallery_Admin_Settings
 
 							} else {
 								// Show error message
-								var errorMessage = 'Unknown error occurred';
+								var errorMessage = <?php echo wp_json_encode( __( 'Unknown error occurred', 'pixel-gallery' ) ); ?>;
 								if (response && response.data && response.data.message) {
 									errorMessage = response.data.message;
 								} else if (response && response.message) {
@@ -2594,7 +2604,7 @@ class PixelGallery_Admin_Settings
 								$('#pg-custom-code-message').html(
 									'<div class="bdt-alert bdt-alert-danger" bdt-alert>' +
 									'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
-									'<p>Error: ' + errorMessage + '</p>' +
+									'<p><?php echo esc_js( __( 'Error:', 'pixel-gallery' ) ); ?> ' + errorMessage + '</p>' +
 									'</div>'
 								).show();
 							}
@@ -2603,7 +2613,7 @@ class PixelGallery_Admin_Settings
 							console.log('AJAX Error:', xhr, status, error); // Debug log
 
 							// Try to parse error response
-							var errorMessage = 'Failed to save custom code. Please try again.';
+							var errorMessage = <?php echo wp_json_encode( __( 'Failed to save custom code. Please try again.', 'pixel-gallery' ) ); ?>;
 							try {
 								var errorResponse = JSON.parse(xhr.responseText);
 								if (errorResponse.data && errorResponse.data.message) {
@@ -2619,7 +2629,7 @@ class PixelGallery_Admin_Settings
 							$('#pg-custom-code-message').html(
 								'<div class="bdt-alert bdt-alert-danger" bdt-alert>' +
 								'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
-								'<p>Error: ' + errorMessage + ' (' + status + ')</p>' +
+								'<p><?php echo esc_js( __( 'Error:', 'pixel-gallery' ) ); ?> ' + errorMessage + ' (' + status + ')</p>' +
 								'</div>'
 							).show();
 						})
@@ -3072,8 +3082,21 @@ class PixelGallery_Admin_Settings
 
 				<div class="bdt-width-expand@s bdt-text-right">
 					<p class="">
-						Pixel Gallery plugin made with love by <a target="_blank" href="https://bdthemes.com">BdThemes</a> Team.
-						<br>All rights reserved by <a target="_blank" href="https://bdthemes.com">BdThemes.com</a>.
+						<?php
+						printf(
+							wp_kses_post( __( 'Pixel Gallery plugin made with love by %1$sBdThemes%2$s Team.', 'pixel-gallery' ) ),
+							'<a target="_blank" rel="noopener noreferrer" href="' . esc_url( 'https://bdthemes.com' ) . '">',
+							'</a>'
+						);
+						?>
+						<br>
+						<?php
+						printf(
+							wp_kses_post( __( 'All rights reserved by %1$sBdThemes.com%2$s.', 'pixel-gallery' ) ),
+							'<a target="_blank" rel="noopener noreferrer" href="' . esc_url( 'https://bdthemes.com' ) . '">',
+							'</a>'
+						);
+						?>
 					</p>
 				</div>
 			</div>
@@ -3312,10 +3335,10 @@ class PixelGallery_Admin_Settings
 					<?php
 					if ($max_execution_time < '90') {
 						echo wp_kses_post($no_icon);
-						echo '<span class="label2" title="Min: 90 Recommended" bdt-tooltip>Currently: ' . esc_html($max_execution_time) . '</span>';
+						echo '<span class="label2" title="' . esc_attr__( 'Min: 90 Recommended', 'pixel-gallery' ) . '" bdt-tooltip>' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $max_execution_time ) . '</span>';
 					} else {
 						echo wp_kses_post($yes_icon);
-						echo '<span class="label2">Currently: ' . esc_html($max_execution_time) . '</span>';
+						echo '<span class="label2">' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $max_execution_time ) . '</span>';
 					}
 					?>
 				</div>
@@ -3327,10 +3350,10 @@ class PixelGallery_Admin_Settings
 					<?php
 					if (intval($memory_limit) < '512') {
 						echo wp_kses_post($no_icon);
-						echo '<span class="label2" title="Min: 512M Recommended" bdt-tooltip>Currently: ' . esc_html($memory_limit) . '</span>';
+						echo '<span class="label2" title="' . esc_attr__( 'Min: 512M Recommended', 'pixel-gallery' ) . '" bdt-tooltip>' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $memory_limit ) . '</span>';
 					} else {
 						echo wp_kses_post($yes_icon);
-						echo '<span class="label2">Currently: ' . esc_html($memory_limit) . '</span>';
+						echo '<span class="label2">' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $memory_limit ) . '</span>';
 					}
 					?>
 				</div>
@@ -3343,10 +3366,10 @@ class PixelGallery_Admin_Settings
 					<?php
 					if (intval($post_limit) < '32') {
 						echo wp_kses_post($no_icon);
-						echo '<span class="label2" title="Min: 32M Recommended" bdt-tooltip>Currently: ' . wp_kses_post($post_limit) . '</span>';
+						echo '<span class="label2" title="' . esc_attr__( 'Min: 32M Recommended', 'pixel-gallery' ) . '" bdt-tooltip>' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $post_limit ) . '</span>';
 					} else {
 						echo wp_kses_post($yes_icon);
-						echo '<span class="label2">Currently: ' . wp_kses_post($post_limit) . '</span>';
+						echo '<span class="label2">' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $post_limit ) . '</span>';
 					}
 					?>
 				</div>
@@ -3999,9 +4022,8 @@ class PixelGallery_Admin_Settings
 								$bdtpg_hide = get_option('pg_white_label_bdtpg_hide', false);
 								if ($bdtpg_hide): ?>
 									<div class="bdt-alert bdt-alert-warning bdt-margin-small-top">
-										<p><strong>⚠️ BDTPG_HIDE Currently Active</strong></p>
-										<p>Advanced white label mode is currently enabled. Pixel Gallery menus are hidden from the
-											admin interface.</p>
+										<p><strong><?php echo esc_html__( '⚠️ BDTPG_HIDE Currently Active', 'pixel-gallery' ); ?></strong></p>
+										<p><?php echo esc_html__( 'Advanced white label mode is currently enabled. Pixel Gallery menus are hidden from the admin interface.', 'pixel-gallery' ); ?></p>
 									</div>
 								<?php endif; ?>
 							</div>
@@ -4022,16 +4044,15 @@ class PixelGallery_Admin_Settings
 				<?php if (!$bdtpg_hide && $is_license_active && $is_white_label_eligible): ?>
 					<div class="bdt-margin-small-top">
 						<div class="bdt-alert bdt-alert-danger">
-							<h4>📧 Email Access System</h4>
-							<p>When you enable BDTPG_HIDE, an email will be automatically sent to:</p>
+							<h4><?php esc_html_e( '📧 Email Access System', 'pixel-gallery' ); ?></h4>
+							<p><?php esc_html_e( 'When you enable BDTPG_HIDE, an email will be automatically sent to:', 'pixel-gallery' ); ?></p>
 							<ul style="margin: 10px 0;">
-								<li><strong>License Email:</strong> <?php echo esc_html(self::get_license_email()); ?></li>
+								<li><strong><?php esc_html_e( 'License Email:', 'pixel-gallery' ); ?></strong> <?php echo esc_html( self::get_license_email() ); ?></li>
 								<?php if (get_bloginfo('admin_email') !== self::get_license_email()): ?>
-									<li><strong>Admin Email:</strong> <?php echo esc_html(get_bloginfo('admin_email')); ?></li>
+									<li><strong><?php esc_html_e( 'Admin Email:', 'pixel-gallery' ); ?></strong> <?php echo esc_html( get_bloginfo( 'admin_email' ) ); ?></li>
 								<?php endif; ?>
 							</ul>
-							<p>This email will contain a special access link that allows you to return to these settings even when
-								BDTPG_HIDE is active.</p>
+							<p><?php esc_html_e( 'This email will contain a special access link that allows you to return to these settings even when BDTPG_HIDE is active.', 'pixel-gallery' ); ?></p>
 						</div>
 					</div>
 				<?php endif; ?>

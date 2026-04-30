@@ -366,7 +366,7 @@ class Epoch extends Module_Base {
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
-				'selector' => '{{WRAPPER}} .pg-epoch-image-wrap:before',
+				'selector' => '{{WRAPPER}} .pg-epoch-image-wrap:before, {{WRAPPER}} .pg-epoch-item.pg-epoch-item-effect-alternate:before, {{WRAPPER}} .pg-epoch-item.pg-epoch-item-effect-alternate:after, {{WRAPPER}} .pg-epoch-item.pg-epoch-item-effect-alternate > .pg-epoch-hover-fx:before, {{WRAPPER}} .pg-epoch-item.pg-epoch-item-effect-alternate > .pg-epoch-hover-fx:after',
 				'fields_options' => [
 					'background' => [
 						'default' => 'classic',
