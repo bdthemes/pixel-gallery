@@ -161,6 +161,19 @@ class Epoch extends Module_Base {
 			]
 		);
 
+		$this->add_control(
+			'link_button_hover_effect',
+			[
+				'label'   => esc_html__('Hover Effect', 'pixel-gallery'),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'default',
+				'options' => [
+					'default'   => esc_html__('Default', 'pixel-gallery'),
+					'alternate' => esc_html__('Alternate', 'pixel-gallery'),
+				],
+			]
+		);
+
 		$this->start_controls_tabs('tabs_item_style');
 
 		$this->start_controls_tab(
@@ -600,9 +613,10 @@ class Epoch extends Module_Base {
 		$settings = $this->get_settings_for_display();
 		$id = 'pg-epoch-' . $this->get_id();
 		$slide_index = 1;
+		$item_hover_effect = ! empty( $settings['link_button_hover_effect'] ) ? $settings['link_button_hover_effect'] : 'default';
 		foreach ($settings['items'] as $index => $item) :
 			$attr_name = 'grid-item' . $index;
-			$this->add_render_attribute($attr_name, 'class', 'pg-epoch-item pg-item elementor-repeater-item-' . esc_attr($item['_id']), true);
+			$this->add_render_attribute($attr_name, 'class', 'pg-epoch-item pg-item elementor-repeater-item-' . esc_attr($item['_id']) . ' pg-epoch-item-effect-' . esc_attr($item_hover_effect), true);
 
 			/**
 			 * Render Video Inject Here
@@ -617,6 +631,9 @@ class Epoch extends Module_Base {
 
 		<div <?php $this->print_render_attribute_string($attr_name); ?>>
 			<?php if ($item['item_hidden'] !== 'yes') : ?>
+			<?php if ('alternate' === $item_hover_effect) : ?>
+				<span class="pg-epoch-hover-fx" aria-hidden="true"></span>
+			<?php endif; ?>
 			<?php $this->render_image_wrap($item, 'epoch'); ?>
 			<div class="pg-epoch-content">
 				<?php $this->render_title($item, 'epoch'); ?>
@@ -673,10 +690,14 @@ class Epoch extends Module_Base {
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
-			var itemClass = 'pg-epoch-item pg-item elementor-repeater-item-' + item._id;
+			var eff = settings.link_button_hover_effect || 'default';
+			var itemClass = 'pg-epoch-item pg-item elementor-repeater-item-' + item._id + ' pg-epoch-item-effect-' + eff;
 		#>
 			<div class="{{{ itemClass }}}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
+				<# if ( eff === 'alternate' ) { #>
+				<span class="pg-epoch-hover-fx" aria-hidden="true"></span>
+				<# } #>
 										<div class="pg-epoch-image-wrap bdt-pg-img-mask">
 						<# if ( item.media_type === 'video' ) { #>
 							<# if ( item.poster && item.poster.url ) { #>
