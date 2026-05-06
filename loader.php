@@ -227,6 +227,14 @@ class Pixel_Gallery_Loader {
         $direction_suffix = is_rtl() ? '.rtl' : '';
 
         wp_enqueue_style('pg-editor', BDTPG_ASSETS_URL . 'css/pg-editor.css', '', BDTPG_VER);
+        wp_add_inline_style(
+            'pg-editor',
+            '#elementor-panel{'
+                . '--pg-pro-control-message:' . wp_json_encode( __( 'This is a pro control, available with Pixel Gallery Pro version.', 'pixel-gallery' ) ) . ';'
+                . '--pg-badge-new:' . wp_json_encode( __( 'NEW', 'pixel-gallery' ) ) . ';'
+                . '--pg-badge-pro:' . wp_json_encode( __( 'PRO', 'pixel-gallery' ) ) . ';'
+            . '}'
+        );
     }
 
 

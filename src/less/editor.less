@@ -97,14 +97,14 @@
 }
 .pg-new-control {
   &:after {
-    content: "NEW";
+    content: var(--pg-badge-new);
     background-color: #55c10c;
   }
 }
 
 .pg-pro-control {
   &:after {
-    content: "PRO";
+    content: var(--pg-badge-pro);
     background-color: #e62a3f;
   }
 }
@@ -157,7 +157,7 @@
   #elementor-controls
   .pg-disabled-control
   .elementor-control-field:after {
-  content: "This is a pro control, available with Pixel Gallery Pro version.";
+  content: var(--pg-pro-control-message);
   padding: 10px;
   display: none;
   position: absolute;

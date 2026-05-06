@@ -670,8 +670,8 @@ class ModuleService {
             'pixel_gallery_other_settings'   => [
                 [
 					'name'        => 'asset-manager',
-					'label'       => esc_html__('Asset Manager', 'bdthemes-element-pack'),
-					'tooltip'  => __('If you want to combine your JS and css and load in a single file so enable it. When you enable it all widgets css and JS will combine in a single file.', 'bdthemes-element-pack'),
+					'label'       => esc_html__('Asset Manager', 'pixel-gallery'),
+					'tooltip'  => __('If you want to combine your JS and css and load in a single file so enable it. When you enable it all widgets css and JS will combine in a single file.', 'pixel-gallery'),
 					'type'        => 'checkbox',
 					'default'     => 'off',
 					'widget_type' => 'free',

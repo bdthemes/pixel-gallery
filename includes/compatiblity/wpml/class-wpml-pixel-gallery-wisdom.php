@@ -118,9 +118,9 @@ class WPML_Pixel_Gallery_Wisdom_Social_Link extends WPML_Module_With_Items {
     protected function get_title( $field ) {
         switch ( $field ) {
             case 'social_link_title':
-                return esc_html__( 'Social Link Title', 'bdthemes-prime-slider' );
+                return esc_html__( 'Social Link Title', 'pixel-gallery' );
             case 'social_link':
-                return esc_html__( 'Social Link URL', 'bdthemes-prime-slider' );
+                return esc_html__( 'Social Link URL', 'pixel-gallery' );
             default:
                 return '';
         }

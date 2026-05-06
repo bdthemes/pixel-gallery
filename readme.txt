@@ -249,6 +249,7 @@ https://youtu.be/f70l2qE7W7o
 = 2.1.X [XXth April 2026] =
 
 Added: New hover effect added in the epoch widget
+Fixed: Replaced hard-coded strings with proper translation support
 
 = 2.1.7 [28th April 2026] =
 
