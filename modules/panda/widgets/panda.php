@@ -553,6 +553,33 @@ class Panda extends Module_Base
 			]
 		);
 
+		$this->add_control(
+			'date_position',
+			[
+				'label'   => esc_html__('Position', 'pixel-gallery') . BDTPG_NC,
+				'type'    => Controls_Manager::CHOOSE,
+				'default' => 'left',
+				'options' => [
+					'left'  => [
+						'title' => esc_html__('Left', 'pixel-gallery'),
+						'icon'  => 'eicon-h-align-left',
+					],
+					'right' => [
+						'title' => esc_html__('Right', 'pixel-gallery'),
+						'icon'  => 'eicon-h-align-right',
+					],
+				],
+				'selectors_dictionary' => [
+					'left'  => 'inset-inline-start: 0; inset-inline-end: auto;',
+					'right' => 'inset-inline-end: 0; inset-inline-start: auto;',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .pg-panda-date' => '{{VALUE}}',
+				],
+				'toggle' => false,
+			]
+		);
+
 		$this->end_controls_section();
 
 		//Clip Path Controls
