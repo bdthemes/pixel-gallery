@@ -246,6 +246,10 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 2.1.X [XXth June 2026] =
+
+* Added: Date position control (left and right) added in the panda widget
+
 = 2.1.10 [21st May 2026] =
 
 * Updated: Made compatible with WordPress version 7.0
