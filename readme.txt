@@ -1,15 +1,15 @@
 === Pixel Gallery Addons for Elementor - Easy Grid, Creative Gallery, Drag and Drop Grid, Custom Grid Layout, Portfolio Gallery ===
-Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, tauhidalam, maudud, shmusuf, syedfarhanreza, arafatakashakku, shaikatazim, shamim496
+Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, maudud, shmusuf, syedfarhanreza, arafatakashakku, shaikatazim, shamim496
 Donate link: https://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
-Tested up to: 6.9.4
+Tested up to: 7.0
 Requires PHP: 7.4.0
-Stable tag: 2.1.10
+Stable tag: 2.1.11
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Elementor requires at least: 3.28
-Elementor tested up to: 4.0.9
+Elementor requires at least: 4.0.0
+Elementor tested up to: 4.1.1
 
 Pixel Gallery is an Elementor gallery plugin for creating responsive image and portfolio grids with customizable layouts and effects.
 
@@ -246,7 +246,7 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 2.1.X [XXth June 2026] =
+= 2.1.11 [10th June 2026] =
 
 * Added: Date position control (left and right) added in the panda widget
 
