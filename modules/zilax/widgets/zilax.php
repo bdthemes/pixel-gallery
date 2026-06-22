@@ -8,13 +8,7 @@ use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Box_Shadow;
-use Elementor\Group_Control_Image_Size;
-use Elementor\Group_Control_Text_Shadow;
-use Elementor\Icons_Manager;
-use Elementor\Group_Control_Css_Filter;
-use Elementor\Group_Control_Text_Stroke;
 use Elementor\Repeater;
-use PixelGallery\Utils;
 use PixelGallery\Traits\Global_Widget_Controls;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
@@ -213,7 +207,7 @@ class Zilax extends Module_Base {
 					'image_border_border!' => '',
 				],
 				'selectors' => [
-					'{{WRAPPER}} pg-zilax-grid .pg-zilax-image-wrap:hover' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .pg-zilax-grid .pg-zilax-image-wrap:hover' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -249,6 +243,36 @@ class Zilax extends Module_Base {
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-zilax-content',
+			]
+		);
+
+		$this->add_responsive_control(
+			'content_glassmorphism',
+			[
+				'label'      => esc_html__('Glassmorphism', 'pixel-gallery') . BDTPG_NC,
+				'type'       => Controls_Manager::SWITCHER,
+				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'pixel-gallery'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
+			]
+		);
+
+		$this->add_responsive_control(
+			'glassmorphism_blur_level',
+			[
+				'label'      => esc_html__('Blur Level', 'pixel-gallery'),
+				'type'       => Controls_Manager::SLIDER,
+				'range'      => [
+					'px' => [
+						'min'  => 0,
+						'step' => 1,
+						'max'  => 50,
+					]
+				],
+				'selectors'   => [
+					'{{WRAPPER}} .pg-zilax-content' => 'backdrop-filter: blur({{SIZE}}px); -webkit-backdrop-filter: blur({{SIZE}}px);'
+				],
+				'condition' => [
+					'content_glassmorphism' => 'yes',
+				]
 			]
 		);
 

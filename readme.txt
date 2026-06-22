@@ -246,6 +246,11 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 2.1.X [XXth June 2026] =
+
+* Fixed: Image hover border color not applying issue fixed in the zilax widget
+* Added: Glassmorphism control for styling content in the zilax widget
+
 = 2.1.11 [10th June 2026] =
 
 * Added: Date position control (left and right) added in the panda widget
