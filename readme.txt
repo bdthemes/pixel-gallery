@@ -250,6 +250,7 @@ https://youtu.be/f70l2qE7W7o
 
 * Fixed: Image hover border color not applying issue fixed in the zilax widget
 * Added: Glassmorphism control for styling content in the zilax widget
+* Fixed: Social icon color control not working issue fixed in the wisdom widget
 
 = 2.1.11 [10th June 2026] =
 
