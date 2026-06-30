@@ -138,6 +138,22 @@ class Fever extends Module_Base {
 			]
 		);
 
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			[
+				'name' 		=> 'item_background',
+				'label' 	=> esc_html__('Background', 'pixel-gallery'),
+				'types' 	=> ['classic', 'gradient'],
+				'exclude'   => ['image'],
+				'selector'  => '{{WRAPPER}} .pg-fever-item',
+				'fields_options' => [
+					'background' => [
+						'label'   => esc_html__('Item Background', 'pixel-gallery')  . BDTPG_NC,
+					],
+				],
+			]
+		);
+
 		$this->add_control(
 			'overlay_type',
 			[
@@ -160,11 +176,11 @@ class Fever extends Module_Base {
 				'types' => ['classic', 'gradient'],
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-fever-image-wrap::before',
-				// 'fields_options' => [
-				// 	'background' => [
-				// 		'default' => 'classic',
-				// 	],
-				// ],
+				'fields_options' => [
+					'background' => [
+						'label'   => esc_html__('Overlay Color', 'pixel-gallery'),
+					],
+				],
 				'condition' => [
 					'overlay_type' => ['background', 'blend'],
 				],
