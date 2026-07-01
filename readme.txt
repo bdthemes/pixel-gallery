@@ -5,11 +5,11 @@ Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
 Tested up to: 7.0
 Requires PHP: 7.4.0
-Stable tag: 2.1.11
+Stable tag: 2.1.12
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 4.0.0
-Elementor tested up to: 4.1.1
+Elementor tested up to: 4.1.4
 
 Pixel Gallery is an Elementor gallery plugin for creating responsive image and portfolio grids with customizable layouts and effects.
 
@@ -246,12 +246,12 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 2.1.X [XXth June 2026] =
+= 2.1.12 [1st July 2026] =
 
-* Fixed: Meta hover color not applying in the elixir widget
-* Fixed: Image hover border color not applying issue fixed in the zilax widget
 * Added: Glassmorphism control for styling content in the zilax widget
 * Added: Item background support to the fever widget
+* Fixed: Meta hover color not applying in the elixir widget
+* Fixed: Image hover border color not applying issue fixed in the zilax widget
 * Fixed: Social icon color control not working issue fixed in the wisdom widget
 * Fixed: Show Like control not working issue fixed in the walden widget
 
