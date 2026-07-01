@@ -473,7 +473,7 @@ class Walden extends Module_Base {
 								<span><?php echo esc_html($item['follow']); ?></span>
 							</div>
 						<?php endif; ?>
-						<?php if ($settings['show_follow'] == 'yes') : ?>
+						<?php if ( 'yes' === $settings['show_like'] ) : ?>
 							<div class="pg-walden-like-btn">
 								<i class="pg-icon-heart"></i>
 								<span><?php echo esc_html($item['like']); ?></span>
@@ -569,7 +569,7 @@ class Walden extends Module_Base {
 						<# if ( settings.show_follow === 'yes' && item.follow ) { #>
 							<div class="pg-walden-follow-btn"><i class="pg-icon-preview"></i><span>{{ item.follow }}</span></div>
 						<# } #>
-						<# if ( settings.show_follow === 'yes' && item.like ) { #>
+						<# if ( settings.show_like === 'yes' && item.like ) { #>
 							<div class="pg-walden-like-btn"><i class="pg-icon-heart"></i><span>{{ item.like }}</span></div>
 						<# } #>
 					</div>
