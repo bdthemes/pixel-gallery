@@ -423,10 +423,14 @@ class Fixer extends Module_Base {
 		<div <?php $this->print_render_attribute_string($attr_name); ?>>
 			<?php if ($item['item_hidden'] !== 'yes' ) : ?>
 			<?php $this->render_image_wrap($item, 'fixer'); ?>
-			<div class="pg-fixer-content">
-				<?php $this->render_title($item, 'fixer'); ?>
-				<?php $this->render_meta($item, 'fixer'); ?>
+			<?php if ('yes' === $settings['show_title'] || 'yes' === $settings['show_meta']) : ?>
+			<div class="pg-fixer-content-wrap">
+				<div class="pg-fixer-content">
+					<?php $this->render_title($item, 'fixer'); ?>
+					<?php $this->render_meta($item, 'fixer'); ?>
+				</div>
 			</div>
+			<?php endif; ?>
 			<?php $this->render_lightbox_link_url($item, $index, $id); ?>
 			<?php endif; ?>
 		</div>
@@ -494,7 +498,9 @@ class Fixer extends Module_Base {
 							</span>
 						<# } #>
 					</div>
-					<div class="pg-fixer-content">
+					<# if ( settings.show_title === 'yes' || settings.show_meta === 'yes' ) { #>
+					<div class="pg-fixer-content-wrap">
+						<div class="pg-fixer-content">
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
 							<# var ttag = settings.title_tag || 'h3'; #>
 							<{{{ ttag }}} class="pg-fixer-title">{{{ item.title }}}</{{{ ttag }}}>
@@ -502,7 +508,9 @@ class Fixer extends Module_Base {
 						<# if ( settings.show_meta === 'yes' && item.meta ) { #>
 							<div class="pg-fixer-meta">{{{ item.meta }}}</div>
 						<# } #>
+						</div>
 					</div>
+					<# } #>
 					<# if ( alwaysLb || ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'whole_item' ) ) { #>
 <?php $this->print_content_template_lightbox_overlay( 'fixer' ); ?>
 					<# } #>
