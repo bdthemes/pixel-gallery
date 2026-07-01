@@ -593,7 +593,7 @@ class Wisdom extends Module_Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-wisdom-social-link a' => 'color: {{VALUE}};',
-					'{{WRAPPER}} .pg-wisdom-prime-slider .pg-wisdom-prime-slider-social-icon svg' => 'fill: {{VALUE}};',
+					'{{WRAPPER}} .pg-wisdom-social-link a svg' => 'fill: {{VALUE}};',
 				],
 			]
 		);
