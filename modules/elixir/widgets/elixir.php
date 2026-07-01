@@ -447,6 +447,8 @@ class Elixir extends Module_Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .pg-elixir-author a:hover' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .pg-elixir-author a:focus' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .pg-elixir-author a:focus-visible' => 'color: {{VALUE}};',
 				],
 			]
 		);

@@ -248,8 +248,10 @@ https://youtu.be/f70l2qE7W7o
 
 = 2.1.X [XXth June 2026] =
 
+* Fixed: Meta hover color not applying in the elixir widget
 * Fixed: Image hover border color not applying issue fixed in the zilax widget
 * Added: Glassmorphism control for styling content in the zilax widget
+* Added: Item background support to the fever widget
 * Fixed: Social icon color control not working issue fixed in the wisdom widget
 * Fixed: Show Like control not working issue fixed in the walden widget
 

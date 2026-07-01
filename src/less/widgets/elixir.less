@@ -76,7 +76,8 @@
     inset-inline-end: 0;
     inset-inline-start: 0;
     padding: 30px;
-    z-index: 1;
+    z-index: 3;
+    pointer-events: none;
 }
 
 .pg-elixir-content {
@@ -94,6 +95,11 @@
     text-transform: uppercase;
     color: #567687;
     letter-spacing: 1px;
+}
+
+.pg-elixir-author a,
+.pg-elixir-category a {
+    pointer-events: auto;
 }
 
 .pg-elixir-author a {
