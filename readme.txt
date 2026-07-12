@@ -3,9 +3,9 @@ Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, maudud,
 Donate link: https://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
-Tested up to: 7.0
+Tested up to: 7.0.1
 Requires PHP: 7.4.0
-Stable tag: 2.1.12
+Stable tag: 2.1.13
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 4.0.0
@@ -246,6 +246,11 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 2.1.13 [12th July 2026] =
+
+* Fixed: Empty content box showing when title and meta are disabled in the fixer widget
+* Updated: Made compatible with WordPress version 7.0.1
+
 = 2.1.12 [1st July 2026] =
 
 * Added: Glassmorphism control for styling content in the zilax widget
@@ -254,7 +259,6 @@ https://youtu.be/f70l2qE7W7o
 * Fixed: Image hover border color not applying issue fixed in the zilax widget
 * Fixed: Social icon color control not working issue fixed in the wisdom widget
 * Fixed: Show Like control not working issue fixed in the walden widget
-* Fixed: Empty content box showing when title and meta are disabled in the fixer widget
 
 = 2.1.11 [10th June 2026] =
 
