@@ -254,6 +254,7 @@ https://youtu.be/f70l2qE7W7o
 * Fixed: Image hover border color not applying issue fixed in the zilax widget
 * Fixed: Social icon color control not working issue fixed in the wisdom widget
 * Fixed: Show Like control not working issue fixed in the walden widget
+* Fixed: Empty content box showing when title and meta are disabled in the fixer widget
 
 = 2.1.11 [10th June 2026] =
 
