@@ -1242,7 +1242,7 @@ class PixelGallery_Admin_Settings
 					<p><?php esc_html_e('An invaluable resource for mastering WordPress, Elementor, and Web Creation', 'pixel-gallery'); ?>
 					</p>
 				</a>
-				<a href="https://bdthemes.com/all-knowledge-base-of-pixel-gallery/" target="_blank"
+				<a href="https://bdthemes.com/knowledge-base/pixel-gallery/" target="_blank"
 					class="pg-dashboard-item pg-dashboard-footer-item pg-dashboard-documentation bdt-card bdt-card-body bdt-card-small">
 					<span class="pg-dashboard-footer-item-icon">
 						<i class="dashicons dashicons-admin-tools"></i>
