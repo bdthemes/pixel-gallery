@@ -3,13 +3,13 @@ Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, maudud,
 Donate link: https://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
-Tested up to: 7.0.1
+Tested up to: 7.0.2
 Requires PHP: 7.4.0
-Stable tag: 2.1.13
+Stable tag: 2.1.14
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 4.0.0
-Elementor tested up to: 4.1.4
+Elementor tested up to: 4.2.1
 
 Pixel Gallery is an Elementor gallery plugin for creating responsive image and portfolio grids with customizable layouts and effects.
 
@@ -245,6 +245,10 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 2.1.14 [30th July 2026] =
+
+* Updated: System improved
 
 = 2.1.13 [12th July 2026] =
 
