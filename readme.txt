@@ -91,7 +91,7 @@ You can also use our plugin to display static WooCommerce product galleries at e
 
 
 == Useful Links ==
-**[Live Demo](https://pixelgallery.pro/demo/)** | **[Documentation](https://bdthemes.com/all-knowledge-base-of-pixel-gallery/)** | **[Video Tutorial](https://www.youtube.com/playlist?list=PLP0S85GEw7DPv5T-Ara11Zvplmk4ty0jy)** | **[Need Support?](https://bdthemes.com/support/)**
+**[Live Demo](https://pixelgallery.pro/demo/)** | **[Documentation](https://bdthemes.com/knowledge-base/pixel-gallery/)** | **[Video Tutorial](https://www.youtube.com/playlist?list=PLP0S85GEw7DPv5T-Ara11Zvplmk4ty0jy)** | **[Need Support?](https://bdthemes.com/support/)**
 
 
 == Free Widgets for Lifetime 🔥 ==
