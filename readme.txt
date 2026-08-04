@@ -3,7 +3,7 @@ Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, maudud,
 Donate link: https://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 5.0.0
-Tested up to: 7.0.2
+Tested up to: 7.0
 Requires PHP: 7.4.0
 Stable tag: 2.1.14
 License: GPLv3 or later

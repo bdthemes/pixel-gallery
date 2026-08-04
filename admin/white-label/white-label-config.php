@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 if ( ! defined( 'BDTPG_TITLE' ) ) {
     $white_label_title = get_option( 'pg_white_label_title' );
 	define( 'BDTPG_TITLE', $white_label_title );

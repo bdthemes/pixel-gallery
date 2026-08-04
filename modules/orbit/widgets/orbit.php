@@ -181,6 +181,7 @@ class Orbit extends Module_Base
 				'name' => 'item_background',
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-orbit-item',
 			]
@@ -291,6 +292,7 @@ class Orbit extends Module_Base
 				'name' => 'content_background',
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-orbit-content',
 				'fields_options' => [

@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 if (!class_exists('PixelGallery_Settings_API')) :
 
     class PixelGallery_Settings_API {
@@ -165,7 +169,8 @@ if (!class_exists('PixelGallery_Settings_API')) :
                     $data_type .= ' bdt-tooltip="'.esc_html__('Pro widget only works with Pro version.', 'pixel-gallery').'"';
                 }
 
-                echo "<div class='pg-option-item {$class} {$widget_used_status}' {$data_type}>";
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $data_type is assembled from esc_attr()/esc_html__() escaped values above.
+                echo "<div class='pg-option-item " . esc_attr( $class ) . " " . esc_attr( $widget_used_status ) . "' " . $data_type . ">";
 
 
                 // printf('<div class="pg-option-item %1$s %5$s" data-widget-type="%2$s" data-content-type="%3$s %5$s" data-widget-name="%4$s">', $class, $field['args']['widget_type'], $field['args']['content_type'], strtolower($field['args']['name']), esc_attr($widget_used_status));
@@ -194,6 +199,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
                 if (isset($section['desc']) && !empty($section['desc'])) {
                     $section['desc'] = '<div class="inside">' . $section['desc'] . '</div>';
                     $callback = function () use ($section) {
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Value already escaped with esc_html() before str_replace().
                         echo str_replace('"', '\"', esc_html($section['desc']));
                     };
                 } elseif (isset($section['callback'])) {
@@ -443,10 +449,14 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
 			$html .= '<div class="pg-option-links">';
 			if ($args['demo_url']) {
-				$html .= '<a href=' . $args['demo_url'] . ' target="_blank" class="pg-option-demo" title="' . esc_html__('View ' . $args['name'] . ' Widget Demo', 'pixel-gallery') . '">' . esc_html__('Demo', 'pixel-gallery') . '<i class="pg-icon-preview" aria-hidden="true"></i></a>';
+				/* translators: %s: widget name */
+				$demo_title = esc_html( sprintf( __( 'View %s Widget Demo', 'pixel-gallery' ), $args['name'] ) );
+				$html .= '<a href=' . $args['demo_url'] . ' target="_blank" class="pg-option-demo" title="' . $demo_title . '">' . esc_html__('Demo', 'pixel-gallery') . '<i class="pg-icon-preview" aria-hidden="true"></i></a>';
 			}
 			if ($args['video_url']) {
-				$html .= '<a href=' . $args['video_url'] . ' target="_blank" class="pg-option-video" title="' . esc_html__('View ' . $args['name'] . ' Video Tutorial', 'pixel-gallery') . '">' . esc_html__('Video', 'pixel-gallery') . '<i class="pg-icon-tutorial" aria-hidden="true"></i></a>';
+				/* translators: %s: widget name */
+				$video_title = esc_html( sprintf( __( 'View %s Video Tutorial', 'pixel-gallery' ), $args['name'] ) );
+				$html .= '<a href=' . $args['video_url'] . ' target="_blank" class="pg-option-video" title="' . $video_title . '">' . esc_html__('Video', 'pixel-gallery') . '<i class="pg-icon-tutorial" aria-hidden="true"></i></a>';
 			}
 			$html .= '</div>';
 			$html .= '</div>';
@@ -726,7 +736,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
                 'id'       => $args['section'] . '[' . $args['id'] . ']',
                 'echo'     => 0
             );
-            $html = wp_dropdown_pages($dropdown_args);
+            $html = wp_kses_post( wp_dropdown_pages($dropdown_args) );
             $this->get_control_output($html);
         }
 
@@ -946,10 +956,11 @@ if (!class_exists('PixelGallery_Settings_API')) :
                 return;
             }
 
-            $moudle_id = sanitize_key($_POST['id']);
+            $moudle_id = sanitize_key(wp_unslash($_POST['id']));
 
             unset($_POST['id']);
-            $options = $this->sanitize_pg_options($_POST[$moudle_id]);
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized field-by-field within sanitize_pg_options().
+            $options = $this->sanitize_pg_options(wp_unslash($_POST[$moudle_id]));
 
 
             update_option($moudle_id, $options);

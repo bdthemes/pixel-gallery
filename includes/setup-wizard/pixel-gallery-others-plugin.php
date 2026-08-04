@@ -70,18 +70,23 @@ class PixelGallery_Others_Plugin_Manager {
                     return __('Just now', 'pixel-gallery');
                 } elseif ($diff < 3600) {
                     $minutes = floor($diff / 60);
+                    /* translators: %d: number of minutes (the count). */
                     return sprintf(_n('%d minute ago', '%d minutes ago', $minutes, 'pixel-gallery'), $minutes);
                 } elseif ($diff < 86400) {
                     $hours = floor($diff / 3600);
+                    /* translators: %d: number of hours (the count). */
                     return sprintf(_n('%d hour ago', '%d hours ago', $hours, 'pixel-gallery'), $hours);
                 } elseif ($diff < 2592000) { // 30 days
                     $days = floor($diff / 86400);
+                    /* translators: %d: number of days (the count). */
                     return sprintf(_n('%d day ago', '%d days ago', $days, 'pixel-gallery'), $days);
                 } elseif ($diff < 31536000) { // 1 year
                     $months = floor($diff / 2592000);
+                    /* translators: %d: number of months (the count). */
                     return sprintf(_n('%d month ago', '%d months ago', $months, 'pixel-gallery'), $months);
                 } else {
                     $years = floor($diff / 31536000);
+                    /* translators: %d: number of years (the count). */
                     return sprintf(_n('%d year ago', '%d years ago', $years, 'pixel-gallery'), $years);
                 }
             }
@@ -224,7 +229,7 @@ class PixelGallery_Others_Plugin_Manager {
                     type: 'POST',
                     data: {
                         action: 'pg_get_plugins',
-                        nonce: '<?php echo wp_create_nonce("pg_get_plugins_nonce"); ?>'
+                        nonce: '<?php echo esc_attr( wp_create_nonce("pg_get_plugins_nonce") ); ?>'
                     },
                     success: function(response) {
                         if (response.success && response.data) {
@@ -347,12 +352,12 @@ class PixelGallery_Others_Plugin_Manager {
                                 '<?php esc_html_e("Active", "pixel-gallery"); ?>' +
                                 '</span>';
                         } else if (plugin.status === 'installed') {
-                            var activateUrl = '<?php echo admin_url("plugins.php?action=activate&plugin="); ?>' + plugin.plugin_file + '&_wpnonce=' + plugin.activate_nonce;
+                            var activateUrl = '<?php echo esc_url( admin_url("plugins.php?action=activate&plugin=") ); ?>' + plugin.plugin_file + '&_wpnonce=' + plugin.activate_nonce;
                             html += '<a class="bdt-button bdt-welcome-button" href="' + activateUrl + '">' +
                                 '<?php esc_html_e("Activate", "pixel-gallery"); ?>' +
                                 '</a>';
                         } else {
-                            html += '<button class="bdt-button bdt-welcome-button pg-install-plugin" data-plugin-slug="' + pluginSlug + '" data-nonce="<?php echo wp_create_nonce('pg_install_plugin_nonce'); ?>">' +
+                            html += '<button class="bdt-button bdt-welcome-button pg-install-plugin" data-plugin-slug="' + pluginSlug + '" data-nonce="<?php echo esc_attr( wp_create_nonce('pg_install_plugin_nonce') ); ?>">' +
                                 '<?php esc_html_e("Install", "pixel-gallery"); ?>' +
                                 '</button>';
                         }
@@ -385,7 +390,7 @@ class PixelGallery_Others_Plugin_Manager {
                     
                     // Perform AJAX request
                     $.ajax({
-                        url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                        url: '<?php echo esc_url( admin_url('admin-ajax.php') ); ?>',
                         type: 'POST',
                         data: {
                             action: 'pg_install_plugin',
@@ -490,7 +495,7 @@ class PixelGallery_Others_Plugin_Manager {
     public function ajax_get_plugins() {
         // Verify nonce
         if (!check_ajax_referer('pg_get_plugins_nonce', 'nonce', false)) {
-            wp_die(__('Security check failed.', 'pixel-gallery'));
+            wp_die(esc_html__('Security check failed.', 'pixel-gallery'));
         }
 
         // Get cached data
@@ -522,7 +527,7 @@ class PixelGallery_Others_Plugin_Manager {
      */
     public function install_plugin_ajax() {
         // Check nonce
-        if (!wp_verify_nonce($_POST['nonce'], 'pg_install_plugin_nonce')) {
+        if (!wp_verify_nonce(isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '', 'pg_install_plugin_nonce')) {
             wp_send_json_error(['message' => __('Security check failed', 'pixel-gallery')]);
         }
 
@@ -531,7 +536,7 @@ class PixelGallery_Others_Plugin_Manager {
             wp_send_json_error(['message' => __('You do not have permission to install plugins', 'pixel-gallery')]);
         }
 
-        $plugin_slug = sanitize_text_field($_POST['plugin_slug']);
+        $plugin_slug = isset($_POST['plugin_slug']) ? sanitize_text_field(wp_unslash($_POST['plugin_slug'])) : '';
 
         if (empty($plugin_slug)) {
             wp_send_json_error(['message' => __('Plugin slug is required', 'pixel-gallery')]);

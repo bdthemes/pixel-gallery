@@ -13,6 +13,10 @@
  * Elementor tested up to: 4.2.1
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 // Some pre defined value for easy use
 define( 'BDTPG_VER', '2.1.14' );
 define( 'BDTPG_TPL_DB_VER', '1.0.0' );
@@ -178,7 +182,8 @@ function pg_activation_redirect( $plugin ) {
 	}
 
 	if ( $plugin == plugin_basename( BDTPG__FILE__ ) ) {
-		exit( wp_redirect( admin_url( 'admin.php?page=pixel_gallery_options&notice=v6' ) ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=pixel_gallery_options&notice=v6' ) );
+		exit;
 	}
 }
 

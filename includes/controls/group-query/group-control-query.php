@@ -474,6 +474,7 @@ trait Group_Control_Query {
 		 */
 
 		if ($this->get_settings_for_display('posts_only_with_featured_image') === 'yes') {
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 			$args['meta_key'] = '_thumbnail_id';
 		}
 
@@ -555,6 +556,7 @@ trait Group_Control_Query {
 			$args['ignore_sticky_posts'] = true;
 
 			if (in_array('current_post', $exclude_by)) {
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				$args['post__not_in'] = [get_the_ID()];
 			}
 		}
@@ -598,6 +600,7 @@ trait Group_Control_Query {
 			}
 
 			if (in_array('current_post', $exclude_by)) {
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				$args['post__not_in'] = [get_the_ID()];
 			}
 
@@ -622,6 +625,7 @@ trait Group_Control_Query {
 
 			if (in_array('manual_selection', $exclude_by)) {
 				$exclude_ids          = $settings['posts_exclude_ids'];
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				$args['post__not_in'] = array_merge($current_post, wp_parse_id_list($exclude_ids));
 			}
 
@@ -695,6 +699,7 @@ trait Group_Control_Query {
 			}
 
 			if (!empty($terms_query)) {
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				$args['tax_query']             = $terms_query;
 				$args['tax_query']['relation'] = 'AND';
 			}
@@ -728,6 +733,7 @@ trait Group_Control_Query {
 	 */
 	private function getGroupControlQueryParamBy($by = 'exclude') {
 		$mapBy = [
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 			'exclude' => 'posts_exclude_by',
 			'include' => 'posts_include_by',
 		];
