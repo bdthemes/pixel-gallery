@@ -246,6 +246,12 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
+= 2.1.15 [8th August 2026] =
+
+* Fixed: Security issue where data returned by the promotions API could be injected as script into the WordPress admin area
+* Fixed: Promotion links and images are now restricted to http(s) and mailto addresses
+* Updated: Security improved
+
 = 2.1.14 [30th July 2026] =
 
 * Updated: System improved
