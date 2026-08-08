@@ -175,7 +175,7 @@ class Pixel_Gallery_Loader {
      * @return [type] [description]
      */
     public function register_site_scripts() {
-        wp_register_script('pg-animations', BDTPG_ASSETS_URL . 'js/extensions/pg-animations.min.js', ['jquery'], '', true);
+        wp_register_script('pg-animations', BDTPG_ASSETS_URL . 'js/extensions/pg-animations.min.js', ['jquery'], BDTPG_VER, true);
     }
 
     /**
@@ -318,8 +318,8 @@ class Pixel_Gallery_Loader {
 
         // Nonce is checked, get the POST data and sign user on
         $access_info                  = [];
-        $access_info['user_login']    = !empty($_POST['user_login']) ? sanitize_text_field($_POST['user_login']) : "";
-        $access_info['user_password'] = !empty($_POST['user_password']) ? sanitize_text_field($_POST['user_password']) : "";
+        $access_info['user_login']    = !empty($_POST['user_login']) ? sanitize_text_field(wp_unslash($_POST['user_login'])) : "";
+        $access_info['user_password'] = !empty($_POST['user_password']) ? sanitize_text_field(wp_unslash($_POST['user_password'])) : "";
         $access_info['remember']      = !empty($_POST['rememberme']) ? true : false;
         $user_signon                  = wp_signon($access_info, false);
 

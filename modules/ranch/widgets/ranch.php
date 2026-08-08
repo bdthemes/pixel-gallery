@@ -274,6 +274,7 @@ class Ranch extends Module_Base
 				'name' => 'item_background',
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-ranch-item',
 			]
@@ -383,7 +384,8 @@ class Ranch extends Module_Base
 			[
 				'label' => esc_html__('Glassmorphism', 'pixel-gallery') . BDTPG_NC,
 				'type'  => Controls_Manager::SWITCHER,
-				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1s look here %2s', 'pixel-gallery'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
+				/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
+				'description' => sprintf(esc_html__('This feature will not work in the Firefox browser untill you enable browser compatibility so please %1$s look here %2$s', 'pixel-gallery'), '<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility" target="_blank">', '</a>'),
 
 			]
 		);
@@ -418,6 +420,7 @@ class Ranch extends Module_Base
 				'name' => 'content_background',
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-ranch-content',
 				'fields_options' => [

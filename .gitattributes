@@ -5,3 +5,6 @@ package.json export-ignore
 package-lock.json export-ignore
 /src export-ignore
 .buildignore export-ignore
+.idea export-ignore
+.DS_Store export-ignore
+.github export-ignore

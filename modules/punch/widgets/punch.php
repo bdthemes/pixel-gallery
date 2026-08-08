@@ -159,6 +159,7 @@ class Punch extends Module_Base
 				'name' => 'item_background',
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-punch-item',
 			]
@@ -239,6 +240,7 @@ class Punch extends Module_Base
 				'name' => 'overlay_color',
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-punch-image-wrap:before',
 				'condition' => [
@@ -323,6 +325,7 @@ class Punch extends Module_Base
 				'name' => 'overlay_hover_color',
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-punch-image-wrap:after',
 				'condition' => [

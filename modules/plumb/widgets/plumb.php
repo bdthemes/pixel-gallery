@@ -239,6 +239,7 @@ class Plumb extends Module_Base
 				'name' => 'content_background',
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-plumb-content-wrap',
 			]

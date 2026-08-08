@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 use PixelGallery\Biggopties;
 use PixelGallery\Utils;
 use PixelGallery\Admin\ModuleService;
@@ -168,7 +172,7 @@ class PixelGallery_Admin_Settings
 	{
 
 		// Check nonce and permissions
-		if (!wp_verify_nonce($_POST['nonce'], 'pg_white_label_nonce')) {
+		if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'pg_white_label_nonce')) {
 			wp_send_json_error(['message' => __('Security check failed', 'pixel-gallery')]);
 		}
 
@@ -185,10 +189,10 @@ class PixelGallery_Admin_Settings
 		$white_label_enabled = isset($_POST['pg_white_label_enabled']) ? (bool) $_POST['pg_white_label_enabled'] : false;
 		$hide_license = isset($_POST['pg_white_label_hide_license']) ? (bool) $_POST['pg_white_label_hide_license'] : false;
 		$bdtpg_hide = isset($_POST['pg_white_label_bdtpg_hide']) ? (bool) $_POST['pg_white_label_bdtpg_hide'] : false;
-		$white_label_title = isset($_POST['pg_white_label_title']) ? sanitize_text_field($_POST['pg_white_label_title']) : '';
-		$white_label_icon = isset($_POST['pg_white_label_icon']) ? esc_url_raw($_POST['pg_white_label_icon']) : '';
+		$white_label_title = isset($_POST['pg_white_label_title']) ? sanitize_text_field(wp_unslash($_POST['pg_white_label_title'])) : '';
+		$white_label_icon = isset($_POST['pg_white_label_icon']) ? esc_url_raw(wp_unslash($_POST['pg_white_label_icon'])) : '';
 		$white_label_icon_id = isset($_POST['pg_white_label_icon_id']) ? absint($_POST['pg_white_label_icon_id']) : 0;
-		$white_label_logo = isset($_POST['pg_white_label_logo']) ? esc_url_raw($_POST['pg_white_label_logo']) : '';
+		$white_label_logo = isset($_POST['pg_white_label_logo']) ? esc_url_raw(wp_unslash($_POST['pg_white_label_logo'])) : '';
 		$pg_white_label_logo_id = isset($_POST['pg_white_label_logo_id']) ? absint($_POST['pg_white_label_logo_id']) : 0;
 
 		// Save settings
@@ -287,8 +291,8 @@ class PixelGallery_Admin_Settings
 	 */
 	private function is_localhost()
 	{
-		$server_name = $_SERVER['SERVER_NAME'] ?? '';
-		$server_addr = $_SERVER['SERVER_ADDR'] ?? '';
+		$server_name = sanitize_text_field(wp_unslash($_SERVER['SERVER_NAME'] ?? ''));
+		$server_addr = sanitize_text_field(wp_unslash($_SERVER['SERVER_ADDR'] ?? ''));
 
 		$localhost_indicators = [
 			'localhost',
@@ -423,6 +427,7 @@ class PixelGallery_Admin_Settings
 					<p>
 						<?php
 						printf(
+							/* translators: %1$s: enabled feature name, %2$s: site name */
 							wp_kses_post( __( 'You have successfully enabled <strong>%1$s</strong> for Pixel Gallery Pro on <strong>%2$s</strong>.', 'pixel-gallery' ) ),
 							esc_html__( 'BDTPG_HIDE mode', 'pixel-gallery' ),
 							esc_html( $site_name )
@@ -455,6 +460,7 @@ class PixelGallery_Admin_Settings
 					<p>
 						<?php
 						printf(
+							/* translators: %1$s: opening support link tag, %2$s: closing support link tag */
 							wp_kses_post( __( 'Need help? %1$sContact support%2$s with your license key.', 'pixel-gallery' ) ),
 							'<a href="' . esc_url( 'https://bdthemes.com/support/' ) . '" target="_blank" rel="noopener noreferrer">',
 							'</a>'
@@ -489,8 +495,8 @@ class PixelGallery_Admin_Settings
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'pixel-gallery' ) );
 		}
 
-		$pg_wl = sanitize_text_field($_GET['pg_wl']);
-		$access_token = sanitize_text_field($_GET['token']);
+		$pg_wl = sanitize_text_field(wp_unslash($_GET['pg_wl']));
+		$access_token = sanitize_text_field(wp_unslash($_GET['token']));
 
 		// Check if pg_wl is set to 1
 		if ($pg_wl !== '1') {
@@ -798,7 +804,7 @@ class PixelGallery_Admin_Settings
 	public function pg_redirect_to_get_pro()
 	{
 		if (isset($_GET['page']) && $_GET['page'] === self::PAGE_ID . '_get_pro') {
-			wp_redirect('https://pixelgallery.pro/pricing/');
+			wp_safe_redirect('https://pixelgallery.pro/pricing/');
 			exit;
 		}
 	}
@@ -812,7 +818,7 @@ class PixelGallery_Admin_Settings
 	public function bdt_redirect_to_renew_link()
 	{
 		if (isset($_GET['page']) && $_GET['page'] === self::PAGE_ID . '_license_renew') {
-			wp_redirect('https://account.bdthemes.com/');
+			wp_safe_redirect('https://account.bdthemes.com/');
 			exit;
 		}
 	}
@@ -1002,7 +1008,7 @@ class PixelGallery_Admin_Settings
 
 								<div class="pg-canvas-wrap">
 									<canvas id="bdt-db-total-status" style="height: 100px; width: 100px;"
-										data-label="<?php echo esc_attr( sprintf( __( 'Total Widgets Status - (%s)', 'pixel-gallery' ), $used_widgets + $un_used_widgets ) ); ?>"
+										data-label="<?php /* translators: %s: total number of widgets */ echo esc_attr( sprintf( __( 'Total Widgets Status - (%s)', 'pixel-gallery' ), $used_widgets + $un_used_widgets ) ); ?>"
 										data-labels="<?php echo esc_attr( sprintf( '%1$s, %2$s', __( 'Used', 'pixel-gallery' ), __( 'Unused', 'pixel-gallery' ) ) ); ?>"
 										data-value="<?php echo esc_attr($used_widgets) . ',' . esc_attr($un_used_widgets); ?>"
 										data-bg="#FFD166, #fff4d9" data-bg-hover="#0673e1, #e71522"></canvas>
@@ -1054,6 +1060,7 @@ class PixelGallery_Admin_Settings
 						<p>
 							<?php
 							printf(
+								/* translators: %1$s: opening PixelGallery link tag, %2$s: closing link tag */
 								wp_kses_post( __( 'Feeling like to consult with an expert? Take live chat support immediately from %1$sPixelGallery%2$s. We are always ready to help you 24/7.', 'pixel-gallery' ) ),
 								'<a href="' . esc_url( 'https://pixelgallery.com' ) . '" target="_blank" rel="noopener noreferrer">',
 								'</a>'
@@ -1156,7 +1163,7 @@ class PixelGallery_Admin_Settings
 
 					<div class="pg-dashboard-compare-section">
 						<h4 class="pg-feature-sub-title">
-							<?php printf(esc_html__('Unlock %sPremium Features%s', 'pixel-gallery'), '<strong class="pg-highlight-text">', '</strong>'); ?>
+							<?php /* translators: %1$s: opening highlight tag, %2$s: closing highlight tag */ printf(esc_html__('Unlock %1$sPremium Features%2$s', 'pixel-gallery'), '<strong class="pg-highlight-text">', '</strong>'); ?>
 						</h4>
 						<h1 class="pg-feature-title pg-dashboard-compare-title">
 							<?php esc_html_e('Create Your Sleek Website with Pixel Gallery Pro!', 'pixel-gallery'); ?>
@@ -1183,7 +1190,7 @@ class PixelGallery_Admin_Settings
 
 				<div class="pg-dashboard-item pg-dashboard-template-quick-access bdt-card bdt-card-body">
 					<div class="pg-dashboard-template-section">
-						<img src="<?php echo BDTPG_ADMIN_URL . 'assets/images/template.jpg'; ?>"
+						<img src="<?php echo esc_url( BDTPG_ADMIN_URL . 'assets/images/template.jpg' ); ?>"
 							alt="Pixel Gallery Dashboard Template">
 						<h1 class="pg-feature-title ">
 							<?php esc_html_e('Faster Web Creation with Sleek and Ready-to-Use Templates!', 'pixel-gallery'); ?>
@@ -1195,7 +1202,7 @@ class PixelGallery_Admin_Settings
 					</div>
 
 					<div class="pg-dashboard-quick-access bdt-margin-medium-top">
-						<img src="<?php echo BDTPG_ADMIN_URL . 'assets/images/support.svg'; ?>"
+						<img src="<?php echo esc_url( BDTPG_ADMIN_URL . 'assets/images/support.svg' ); ?>"
 							alt="Pixel Gallery Dashboard Template">
 						<h1 class="pg-feature-title">
 							<?php esc_html_e('Getting Started with Quick Access', 'pixel-gallery'); ?>
@@ -2045,8 +2052,8 @@ class PixelGallery_Admin_Settings
 				//Check if pg_admin_ajax is available
 				if (typeof pg_admin_ajax === 'undefined') {
 					window.pg_admin_ajax = {
-						ajax_url: '<?php echo admin_url('admin-ajax.php'); ?>',
-						white_label_nonce: '<?php echo wp_create_nonce('pg_white_label_nonce'); ?>'
+						ajax_url: '<?php echo esc_url( admin_url('admin-ajax.php') ); ?>',
+						white_label_nonce: '<?php echo esc_attr( wp_create_nonce('pg_white_label_nonce') ); ?>'
 					};
 				}
 
@@ -2430,7 +2437,7 @@ class PixelGallery_Admin_Settings
 								$('#pg-white-label-message').html(
 									'<div class="bdt-alert bdt-alert-success" bdt-alert>' +
 									'<a href="#" class="bdt-alert-close" onclick="$(this).parent().parent().hide(); return false;">&times;</a>' +
-									'<p>' + successMessage + ' <span id="pg-reload-countdown">' + (<?php echo wp_json_encode( __( 'Reloading in %s seconds...', 'pixel-gallery' ) ); ?>).replace('%s', countdown) + '</span></p>' +
+									'<p>' + successMessage + ' <span id="pg-reload-countdown">' + (<?php /* translators: %s: number of seconds until reload */ echo wp_json_encode( __( 'Reloading in %s seconds...', 'pixel-gallery' ) ); ?>).replace('%s', countdown) + '</span></p>' +
 									'</div>'
 								).show();
 
@@ -2441,7 +2448,7 @@ class PixelGallery_Admin_Settings
 								var countdownInterval = setInterval(function () {
 									countdown--;
 									if (countdown > 0) {
-										$('#pg-reload-countdown').text((<?php echo wp_json_encode( __( 'Reloading in %s seconds...', 'pixel-gallery' ) ); ?>).replace('%s', countdown));
+										$('#pg-reload-countdown').text((<?php /* translators: %s: number of seconds until reload */ echo wp_json_encode( __( 'Reloading in %s seconds...', 'pixel-gallery' ) ); ?>).replace('%s', countdown));
 									} else {
 										$('#pg-reload-countdown').text(<?php echo wp_json_encode( __( 'Reloading now...', 'pixel-gallery' ) ); ?>);
 										clearInterval(countdownInterval);
@@ -2905,7 +2912,7 @@ class PixelGallery_Admin_Settings
 
 				// Perform AJAX request
 				jQuery.ajax({
-					url: '<?php echo admin_url('admin-ajax.php'); ?>',
+					url: '<?php echo esc_url( admin_url('admin-ajax.php') ); ?>',
 					type: 'POST',
 					data: {
 						action: 'pg_install_plugin',
@@ -3084,6 +3091,7 @@ class PixelGallery_Admin_Settings
 					<p class="">
 						<?php
 						printf(
+							/* translators: %1$s: opening BdThemes link tag, %2$s: closing link tag */
 							wp_kses_post( __( 'Pixel Gallery plugin made with love by %1$sBdThemes%2$s Team.', 'pixel-gallery' ) ),
 							'<a target="_blank" rel="noopener noreferrer" href="' . esc_url( 'https://bdthemes.com' ) . '">',
 							'</a>'
@@ -3092,6 +3100,7 @@ class PixelGallery_Admin_Settings
 						<br>
 						<?php
 						printf(
+							/* translators: %1$s: opening BdThemes link tag, %2$s: closing link tag */
 							wp_kses_post( __( 'All rights reserved by %1$sBdThemes.com%2$s.', 'pixel-gallery' ) ),
 							'<a target="_blank" rel="noopener noreferrer" href="' . esc_url( 'https://bdthemes.com' ) . '">',
 							'</a>'
@@ -3276,6 +3285,7 @@ class PixelGallery_Admin_Settings
 				<div class="bdt-text-default">
 					<?php
 					printf(
+						/* translators: %1$s: opening bold tag, %2$s: closing bold tag */
 						esc_html__('To view widgets analytics, Elementor %1$sUsage Data Sharing%2$s feature by Elementor needs to be activated. Please activate the feature to get widget analytics instantly ', 'pixel-gallery'),
 						'<b>',
 						'</b>'
@@ -3380,7 +3390,7 @@ class PixelGallery_Admin_Settings
 					<span class="label1"><?php esc_html_e('Uploads folder writable:', 'pixel-gallery'); ?></span>
 
 					<?php
-					if (!is_writable($upload_path)) {
+					if (!wp_is_writable($upload_path)) {
 						echo wp_kses_post($no_icon);
 					} else {
 						echo wp_kses_post($yes_icon);
@@ -3442,8 +3452,8 @@ class PixelGallery_Admin_Settings
 		<div class="bdt-admin-alert">
 			<strong><?php esc_html_e('Note:', 'pixel-gallery'); ?></strong>
 			<?php
-			/* translators: %s: Plugin name 'Pixel Gallery' */
 			printf(
+				/* translators: %s: Plugin name 'Pixel Gallery' */
 				esc_html__('If you have multiple addons like %s so you may need to allocate additional memory for other addons as well.', 'pixel-gallery'),
 				'<b>Pixel Gallery</b>'
 			);
@@ -3604,7 +3614,7 @@ class PixelGallery_Admin_Settings
 						echo '<optgroup label="' . esc_attr__('Pages', 'pixel-gallery') . '">';
 						foreach ($pages as $page) {
 							$selected = in_array($page->ID, $excluded_pages) ? 'selected' : '';
-							echo '<option value="' . esc_attr($page->ID) . '" ' . $selected . '>' . esc_html($page->post_title) . '</option>';
+							echo '<option value="' . esc_attr($page->ID) . '" ' . esc_attr( $selected ) . '>' . esc_html($page->post_title) . '</option>';
 						}
 						echo '</optgroup>';
 					}
@@ -3614,8 +3624,8 @@ class PixelGallery_Admin_Settings
 						echo '<optgroup label="' . esc_attr__('Recent Posts', 'pixel-gallery') . '">';
 						foreach ($posts as $post) {
 							$selected = in_array($post->ID, $excluded_pages) ? 'selected' : '';
-							$post_date = date('M j, Y', strtotime($post->post_date));
-							echo '<option value="' . esc_attr($post->ID) . '" ' . $selected . '>' . esc_html($post->post_title) . ' (' . $post_date . ')</option>';
+							$post_date = gmdate('M j, Y', strtotime($post->post_date));
+							echo '<option value="' . esc_attr($post->ID) . '" ' . esc_attr( $selected ) . '>' . esc_html($post->post_title) . ' (' . esc_html( $post_date ) . ')</option>';
 						}
 						echo '</optgroup>';
 					}
@@ -4156,7 +4166,7 @@ class PixelGallery_Admin_Settings
 	public function save_custom_code_ajax()
 	{
 		// Verify nonce
-		if (!wp_verify_nonce($_POST['nonce'] ?? '', 'pg_custom_code_nonce')) {
+		if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'] ?? '')), 'pg_custom_code_nonce')) {
 			wp_send_json_error(['message' => 'Invalid security token.']);
 		}
 
@@ -4166,19 +4176,19 @@ class PixelGallery_Admin_Settings
 		}
 
 		// Sanitize and save the custom code
-		$custom_css = isset($_POST['custom_css']) ? wp_unslash($_POST['custom_css']) : '';
-		$custom_js = isset($_POST['custom_js']) ? wp_unslash($_POST['custom_js']) : '';
-		$custom_css_2 = isset($_POST['custom_css_2']) ? wp_unslash($_POST['custom_css_2']) : '';
-		$custom_js_2 = isset($_POST['custom_js_2']) ? wp_unslash($_POST['custom_js_2']) : '';
+		$custom_css = isset($_POST['custom_css']) ? wp_unslash($_POST['custom_css']) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Raw custom code saved by an authorized admin.
+		$custom_js = isset($_POST['custom_js']) ? wp_unslash($_POST['custom_js']) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Raw custom code saved by an authorized admin.
+		$custom_css_2 = isset($_POST['custom_css_2']) ? wp_unslash($_POST['custom_css_2']) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Raw custom code saved by an authorized admin.
+		$custom_js_2 = isset($_POST['custom_js_2']) ? wp_unslash($_POST['custom_js_2']) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Raw custom code saved by an authorized admin.
 
 		// Handle excluded pages - ensure we get proper array format
 		$excluded_pages = array();
 		if (isset($_POST['excluded_pages'])) {
 			if (is_array($_POST['excluded_pages'])) {
-				$excluded_pages = $_POST['excluded_pages'];
+				$excluded_pages = array_map('absint', wp_unslash($_POST['excluded_pages']));
 			} elseif (is_string($_POST['excluded_pages']) && !empty($_POST['excluded_pages'])) {
 				// Handle case where it might be a single value
-				$excluded_pages = [$_POST['excluded_pages']];
+				$excluded_pages = [absint(wp_unslash($_POST['excluded_pages']))];
 			}
 		}
 
@@ -4210,7 +4220,7 @@ class PixelGallery_Admin_Settings
 	public function install_plugin_ajax()
 	{
 		// Check nonce
-		if (!wp_verify_nonce($_POST['nonce'], 'pg_install_plugin_nonce')) {
+		if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'pg_install_plugin_nonce')) {
 			wp_send_json_error(['message' => __('Security check failed', 'pixel-gallery')]);
 		}
 
@@ -4219,7 +4229,7 @@ class PixelGallery_Admin_Settings
 			wp_send_json_error(['message' => __('You do not have permission to install plugins', 'pixel-gallery')]);
 		}
 
-		$plugin_slug = sanitize_text_field($_POST['plugin_slug']);
+		$plugin_slug = sanitize_text_field(wp_unslash($_POST['plugin_slug']));
 
 		if (empty($plugin_slug)) {
 			wp_send_json_error(['message' => __('Plugin slug is required', 'pixel-gallery')]);
@@ -4366,7 +4376,7 @@ class PixelGallery_Admin_Settings
 	public function revoke_white_label_token_ajax()
 	{
 		// Check nonce and permissions
-		if (!wp_verify_nonce($_POST['nonce'], 'pg_white_label_nonce')) {
+		if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'pg_white_label_nonce')) {
 			wp_send_json_error(['message' => __('Security check failed', 'pixel-gallery')]);
 		}
 

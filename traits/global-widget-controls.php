@@ -875,7 +875,8 @@ trait Global_Widget_Controls
 			[
 				'label' => esc_html__('Clip Path', 'pixel-gallery'),
 				'type' => Controls_Manager::TEXTAREA,
-				'description' => sprintf(__('Enter your clip path value, if you don\'t understand clip path so please %1s look here %2s', 'pixel-gallery'), '<a href="https://bennettfeely.com/clippy/" target="_blank">', '</a>'),
+				/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
+				'description' => sprintf(__('Enter your clip path value, if you don\'t understand clip path so please %1$s look here %2$s', 'pixel-gallery'), '<a href="https://bennettfeely.com/clippy/" target="_blank">', '</a>'),
 				'placeholder' => esc_html__('polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);', 'pixel-gallery'),
 				'label_block' => true,
 				'selectors' => [
@@ -921,7 +922,8 @@ trait Global_Widget_Controls
 			[
 				'label' => esc_html__('Clip Path', 'pixel-gallery'),
 				'type' => Controls_Manager::TEXTAREA,
-				'description' => sprintf(__('Enter your clip path value, if you don\'t understand clip path so please %1s look here %2s', 'pixel-gallery'), '<a href="https://bennettfeely.com/clippy/" target="_blank">', '</a>'),
+				/* translators: %1$s: opening anchor tag, %2$s: closing anchor tag */
+				'description' => sprintf(__('Enter your clip path value, if you don\'t understand clip path so please %1$s look here %2$s', 'pixel-gallery'), '<a href="https://bennettfeely.com/clippy/" target="_blank">', '</a>'),
 				'placeholder' => esc_html__('polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);', 'pixel-gallery'),
 				'label_block' => true,
 				'selectors' => [
@@ -2409,7 +2411,7 @@ trait Global_Widget_Controls
 		?>
 
 		<div class="pg-<?php echo esc_attr($name); ?>-meta">
-			<?php echo pixel_gallery_get_category_list($settings['posts_source']); ?>
+			<?php echo wp_kses_post(pixel_gallery_get_category_list($settings['posts_source'])); ?>
 		</div>
 
 		<?php

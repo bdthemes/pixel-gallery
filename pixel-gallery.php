@@ -3,18 +3,22 @@
  * Plugin Name: Pixel Gallery
  * Plugin URI: https://pixelgallery.pro/
  * Description: The all-new <a href="https://pixelgallery.pro/">Pixel Gallery</a> brings incredibly advanced, and super-flexible widgets, and A to Z essential addons to the Elementor page builder for WordPress. Explore expertly-coded widgets with first-class support by experts.
- * Version: 2.1.14
+ * Version: 2.1.15
  * Author: BdThemes
  * Author URI: https://bdthemes.com/
  * Text Domain: pixel-gallery
  * Domain Path: /languages
  * License: GPL3
  * Elementor requires at least: 4.0.0
- * Elementor tested up to: 4.2.1
+ * Elementor tested up to: 4.2.2
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
 // Some pre defined value for easy use
-define( 'BDTPG_VER', '2.1.14' );
+define( 'BDTPG_VER', '2.1.15' );
 define( 'BDTPG_TPL_DB_VER', '1.0.0' );
 define( 'BDTPG__FILE__', __FILE__ );
 
@@ -178,7 +182,8 @@ function pg_activation_redirect( $plugin ) {
 	}
 
 	if ( $plugin == plugin_basename( BDTPG__FILE__ ) ) {
-		exit( wp_redirect( admin_url( 'admin.php?page=pixel_gallery_options&notice=v6' ) ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=pixel_gallery_options&notice=v6' ) );
+		exit;
 	}
 }
 

@@ -61,7 +61,8 @@ class Setup_Wizard {
 
 	// Check for manual wizard requests
 	public function check_manual_wizard_request() {
-		$is_setup_wizard_request = isset($_GET['pg_setup_wizard']) && $_GET['pg_setup_wizard'] === 'show';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only request flag to display the setup wizard, no state change.
+		$is_setup_wizard_request = isset($_GET['pg_setup_wizard']) && 'show' === sanitize_text_field(wp_unslash($_GET['pg_setup_wizard']));
 		
 		if ( $is_setup_wizard_request ) {
 			// Use the same approach as first activation - completely override the page
@@ -218,7 +219,7 @@ class Setup_Wizard {
         $direction_suffix = is_rtl() ? '.rtl' : '';
 
         wp_enqueue_style('bdt-uikit', BDTPG_ADMIN_URL . 'assets/css/bdt-uikit'. $direction_suffix .'.css', [], '3.21.7');
-		wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit.min.js', ['jquery'], '3.21.7');
+		wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit.min.js', ['jquery'], '3.21.7', true);
 
 		wp_register_script( 'pg-setup-wizard', plugins_url( 'assets/js/setup-wizard.js', __FILE__ ), array( 'jquery' ), '1.0.0', true );
 		wp_register_style( 'pg-setup-wizard', plugins_url( 'assets/css/setup-wizard.css', __FILE__ ), array(), '1.0.0' );
@@ -251,7 +252,7 @@ class Setup_Wizard {
 	public function install_plugins() {
 		check_ajax_referer( 'setup_wizard_nonce', 'nonce' );
 
-		$plugin_slugs = isset( $_POST['plugins'] ) ? $_POST['plugins'] : array();
+		$plugin_slugs = isset( $_POST['plugins'] ) ? array_map( 'sanitize_text_field', wp_unslash( (array) $_POST['plugins'] ) ) : array();
 
 		if ( empty( $plugin_slugs ) || ! is_array( $plugin_slugs ) ) {
 			wp_send_json_error( array( 'message' => 'Invalid plugins array' ) );
@@ -460,14 +461,14 @@ add_action('wp_ajax_import_elementor_template', function () {
 
         // Initialize Elementor's Template Importer
         if (!class_exists('\Elementor\TemplateLibrary\Source_Local')) {
-            unlink($temp_file);
+            wp_delete_file($temp_file);
             wp_send_json_error(['message' => esc_html__('Elementor is not installed or activated!', 'pixel-gallery')]);
             wp_die();
         }
 
         $manager = new Source_Local();
         $templateData = $manager->import_template('elementor_template', $temp_file);
-        unlink($temp_file); // Delete temp file after import
+        wp_delete_file($temp_file); // Delete temp file after import
 
         if (is_wp_error($templateData) || !is_array($templateData) || empty($templateData[0]['template_id'])) {
             wp_send_json_error(['message' => esc_html__('Failed to import template!', 'pixel-gallery')]);
@@ -477,7 +478,7 @@ add_action('wp_ajax_import_elementor_template', function () {
         $template_id = $templateData[0]['template_id'];
         $metaData = get_post_meta($template_id);
 
-        $page_title = isset($_POST['title']) ? sanitize_text_field($_POST['title']) : esc_html__("No Title", 'pixel-gallery');
+        $page_title = isset($_POST['title']) ? sanitize_text_field(wp_unslash($_POST['title'])) : esc_html__("No Title", 'pixel-gallery');
 
         // Validate Elementor Data
         if (!isset($metaData['_elementor_data'][0])) {
@@ -640,7 +641,7 @@ add_action('wp_ajax_import_pg_elementor_bundle_runner_template', function () {
     }
 
     try {
-        @ini_set('max_execution_time', 60 * 5);
+        @ini_set('max_execution_time', 60 * 5); // phpcs:ignore Squiz.PHP.DiscouragedFunctions.Discouraged -- Required to raise limits during template import.
 
         $import_export_module = $app->get_component('import-export');
         $import = $import_export_module->import_kit_by_runner($sessionId, $runner);

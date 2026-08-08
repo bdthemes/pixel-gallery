@@ -207,6 +207,7 @@ class Tour extends Module_Base {
 				'name' => 'overlay_color',
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-tour-image-wrap:before',
 				'fields_options' => [
@@ -251,6 +252,7 @@ class Tour extends Module_Base {
 				'name' => 'item_background',
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-tour-item',
 			]
@@ -473,6 +475,7 @@ class Tour extends Module_Base {
 				'name' => 'price_background',
 				'label' => esc_html__('Background', 'pixel-gallery'),
 				'types' => ['classic', 'gradient'],
+				// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.SlowDBQuery -- Intentional bounded query; exclusions/keys are plugin-controlled, not user request input.
 				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} .pg-tour-price',
 			]

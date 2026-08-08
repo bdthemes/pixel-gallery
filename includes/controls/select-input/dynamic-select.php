@@ -73,11 +73,11 @@ class Dynamic_Select extends Base_Data_Control {
 ?>
         <div class="elementor-control-field">
             <# if ( data.label ) {#>
-            <label for="<?php echo $control_uid; ?>" class="elementor-control-title">{{{data.label }}}</label>
+            <label for="<?php echo esc_attr($control_uid); ?>" class="elementor-control-title">{{{data.label }}}</label>
             <# } #>
             <div class="elementor-control-input-wrapper elementor-control-unit-5">
                 <# var multiple = ( data.multiple ) ? 'multiple' : ''; #>
-                <select id="<?php echo $control_uid; ?>" class="elementor-select2" type="select2" {{ multiple }}
+                <select id="<?php echo esc_attr($control_uid); ?>" class="elementor-select2" type="select2" {{ multiple }}
                         data-setting="{{ data.name }}">
                     <# _.each( data.options, function( option_title, option_value ) {
                     var value = data.controlValue;
@@ -106,7 +106,7 @@ class Dynamic_Select extends Base_Data_Control {
      * @since 5.8.0
      */
     public function enqueue() {
-        wp_enqueue_script('pg-dynamic-select', BDTPG_URL . 'includes/controls/assets/js/pg-dynamic-select.min.js', array('jquery'), BDTPG_VER);
+        wp_enqueue_script('pg-dynamic-select', BDTPG_URL . 'includes/controls/assets/js/pg-dynamic-select.min.js', array('jquery'), BDTPG_VER, true);
 
         wp_localize_script(
             'pg-dynamic-select',

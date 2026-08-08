@@ -21,7 +21,8 @@ class Admin {
     public function __construct() {
 
         // Embed the Script on our Plugin's Option Page Only
-        if (isset($_GET['page']) && ($_GET['page'] == 'pixel_gallery_options')) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading the page query var for admin menu routing only, no state change.
+        if (isset($_GET['page']) && ('pixel_gallery_options' === sanitize_text_field(wp_unslash($_GET['page'])))) {
             add_action('admin_enqueue_scripts', [$this, 'enqueue_styles']);
         }
 
@@ -41,7 +42,8 @@ class Admin {
     function install_and_activate() {
 
         // I don't know of any other redirect function, so this'll have to do.
-        wp_redirect(admin_url('admin.php?page=pixel_gallery_options'));
+        wp_safe_redirect(admin_url('admin.php?page=pixel_gallery_options'));
+        exit;
         // You could use a header(sprintf('Location: %s', admin_url(...)); here instead too.
     }
 
@@ -77,7 +79,7 @@ class Admin {
         wp_enqueue_style('pg-admin', BDTPG_ADMIN_URL . 'assets/css/pg-admin.css', [], BDTPG_VER);
 
 
-        wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit.min.js', ['jquery'], '3.21.7');
+        wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit.min.js', ['jquery'], '3.21.7', true);
     }
 
     /**
@@ -180,7 +182,8 @@ class Admin {
         
         if (is_admin()) { // for Admin Dashboard Only
 
-            if (isset($_GET['page']) && ($_GET['page'] == 'pixel_gallery_options')) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading the page query var for admin menu routing only, no state change.
+            if (isset($_GET['page']) && ('pixel_gallery_options' === sanitize_text_field(wp_unslash($_GET['page'])))) {
                 wp_enqueue_script('chart', BDTPG_ADMIN_URL . 'assets/js/chart.min.js', ['jquery'], '2.7.3', true);
                 wp_enqueue_script('pg-admin', BDTPG_ADMIN_URL  . 'assets/js/pg-admin.min.js', ['jquery', 'chart'], BDTPG_VER, true);
             }else{
@@ -208,7 +211,8 @@ class Admin {
 			}
 
 			$current_sector = '';
-			if ( isset( $_GET['page'] ) && $_GET['page'] === 'pixel_gallery_options' ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading the page query var for admin menu routing only, no state change.
+			if ( isset( $_GET['page'] ) && 'pixel_gallery_options' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) {
 				$current_sector = 'plugin_dashboard';
 			}
             
@@ -240,11 +244,11 @@ class Admin {
         $table_post     = $wpdb->prefix . 'pg_template_library_post';
         $table_cat_post = $wpdb->prefix . 'pg_template_library_cat_post';
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
-        $wpdb->query('DROP TABLE IF EXISTS ' . $table_cat_post);
+        $wpdb->query('DROP TABLE IF EXISTS ' . $table_cat_post); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name derived from $wpdb->prefix, not user input.
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
-        $wpdb->query('DROP TABLE IF EXISTS ' . $table_cat);
+        $wpdb->query('DROP TABLE IF EXISTS ' . $table_cat); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name derived from $wpdb->prefix, not user input.
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
-        $wpdb->query('DROP TABLE IF EXISTS ' . $table_post);
+        $wpdb->query('DROP TABLE IF EXISTS ' . $table_post); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name derived from $wpdb->prefix, not user input.
     }
 
     /**

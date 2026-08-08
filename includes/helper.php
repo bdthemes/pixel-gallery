@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 //TODO: namespace need.  Note: We don't use namespace because use them easily
 use Elementor\Plugin;
 
@@ -172,7 +175,7 @@ function pixel_gallery_get_category_list($post_type, $separator = ' ') {
         foreach ($categories as $category) {
             // Ensure $category is an object, not an array
             if (is_object($category) && isset($category->term_id, $category->name, $category->slug)) {
-                $link                         = '<a href="' . esc_url(get_category_link($category->term_id)) . '">' . $category->name . '</a>';
+                $link                         = '<a href="' . esc_url(get_category_link($category->term_id)) . '">' . esc_html($category->name) . '</a>';
                 $_categories[$category->slug] = $link;
             }
         }
@@ -217,14 +220,14 @@ if ( ! function_exists( 'pg_inject_header_custom_code' ) ) {
 		if ( ! empty( $custom_css ) ) {
 			echo "\n<!-- Pixel Gallery Custom Header CSS -->\n";
 			echo '<style type="text/css">' . "\n";
-			echo $custom_css . "\n";
+			echo $custom_css . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Custom CSS is intentionally output raw; entered by an authorized admin on the settings screen.
 			echo '</style>' . "\n";
 		}
 
 		if ( ! empty( $custom_js ) ) {
 			echo "\n<!-- Pixel Gallery Custom Header JS -->\n";
 			echo '<script type="text/javascript">' . "\n";
-			echo $custom_js . "\n";
+			echo $custom_js . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Custom JS is intentionally output raw; entered by an authorized admin on the settings screen.
 			echo '</script>' . "\n";
 		}
 	}
@@ -245,14 +248,14 @@ if ( ! function_exists( 'pg_inject_footer_custom_code' ) ) {
 		if ( ! empty( $custom_css_2 ) ) {
 			echo "\n<!-- Pixel Gallery Custom Footer CSS -->\n";
 			echo '<style type="text/css">' . "\n";
-			echo $custom_css_2 . "\n";
+			echo $custom_css_2 . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Custom CSS is intentionally output raw; entered by an authorized admin on the settings screen.
 			echo '</style>' . "\n";
 		}
 
 		if ( ! empty( $custom_js_2 ) ) {
 			echo "\n<!-- Pixel Gallery Custom Footer JS -->\n";
 			echo '<script type="text/javascript">' . "\n";
-			echo $custom_js_2 . "\n";
+			echo $custom_js_2 . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Custom JS is intentionally output raw; entered by an authorized admin on the settings screen.
 			echo '</script>' . "\n";
 		}
 	}

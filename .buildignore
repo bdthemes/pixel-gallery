@@ -13,3 +13,5 @@ gruntfile.js
 node_modules
 .git
 *zip
+.idea
+.DS_Store
