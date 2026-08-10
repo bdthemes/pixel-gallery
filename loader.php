@@ -406,7 +406,6 @@ class Pixel_Gallery_Loader {
 			new Admin();
             // Biggopti class
 	        require_once ( BDTPG_ADMIN_PATH . 'admin-biggopti.php' );
-            require_once ( BDTPG_ADMIN_PATH . 'admin-api-biggopti.php' );
             require_once ( BDTPG_ADMIN_PATH . 'admin-feeds.php' );			
 		}
     }

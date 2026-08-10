@@ -71,7 +71,7 @@ module.exports = function (grunt) {
 					{
 						expand: true,
 						cwd: 'src/less/',
-						src: ['admin.less', 'admin-api-biggopti.less', 'admin-feeds.less'],
+						src: ['admin.less', 'admin-feeds.less'],
 						dest: 'admin/assets/css/',
 						ext: '.css',
 						rename: function (dest, src) {
