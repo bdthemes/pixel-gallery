@@ -33,8 +33,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class="bdt-feature-icon">
                     <span class="dashicons dashicons-layout"></span>
                 </div>
-                <h3><?php esc_html_e( 'Ready Templates', 'pixel-gallery' ); ?></h3>
-                <p><?php esc_html_e( 'Professional templates to jumpstart your projects', 'pixel-gallery' ); ?></p>
+                <h3><?php esc_html_e( 'Flexible Layouts', 'pixel-gallery' ); ?></h3>
+                <p><?php esc_html_e( 'Grid, masonry and creative gallery layouts you can customize', 'pixel-gallery' ); ?></p>
             </div>
             <div class="bdt-feature-item">
                 <div class="bdt-feature-icon">

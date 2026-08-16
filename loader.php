@@ -96,6 +96,7 @@ class Pixel_Gallery_Loader {
             self::$_instance = new self();
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Long-standing public hook; renaming would break released Pixel Gallery Pro versions and third-party integrations.
         do_action('bdthemes_pixel_gallery/init');
         return self::$_instance;
     }
@@ -205,7 +206,7 @@ class Pixel_Gallery_Loader {
         );
 
         $_is_pg_pro_activated = false;
-        if (function_exists('pg_license_validation') && true === pg_license_validation()) {
+        if (function_exists('pixel_gallery_license_validation') && true === pixel_gallery_license_validation()) {
             $_is_pg_pro_activated = true;
         }
 

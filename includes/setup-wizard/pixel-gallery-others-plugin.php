@@ -24,7 +24,6 @@ class PixelGallery_Others_Plugin_Manager {
     public function __construct() {
         // Add AJAX handlers
         add_action('wp_ajax_pg_get_plugins', [$this, 'ajax_get_plugins']);
-        add_action('wp_ajax_nopriv_pg_get_plugins', [$this, 'ajax_get_plugins']);
         add_action('wp_ajax_pg_install_plugin', [$this, 'install_plugin_ajax']);
     }
 
@@ -53,8 +52,8 @@ class PixelGallery_Others_Plugin_Manager {
         );
 
         // Helper function for time formatting
-        if (!function_exists('format_last_updated_pg')) {
-            function format_last_updated_pg($date_string) {
+        if (!function_exists('pixel_gallery_format_last_updated')) {
+            function pixel_gallery_format_last_updated($date_string) {
                 if (empty($date_string)) {
                     return __('Unknown', 'pixel-gallery');
                 }
@@ -92,39 +91,6 @@ class PixelGallery_Others_Plugin_Manager {
             }
         }
 
-        // Helper function for fallback URLs
-        if (!function_exists('get_plugin_fallback_urls_pg')) {
-            function get_plugin_fallback_urls_pg($plugin_slug) {
-                // Handle different plugin slug formats
-                if (strpos($plugin_slug, '/') !== false) {
-                    // If it's a file path like 'plugin-name/plugin-name.php', extract directory
-                    $plugin_slug_clean = dirname($plugin_slug);
-                } else {
-                    // If it's just the plugin directory name, use it directly
-                    $plugin_slug_clean = $plugin_slug;
-                }
-                
-                // Custom icon URLs for specific plugins that might not be on WordPress.org
-                $custom_icons = [
-                    'ar-viewer' => [
-                        'https://ps.w.org/ar-viewer/assets/icon-256x256.gif',
-                        'https://ps.w.org/ar-viewer/assets/icon-128x128.gif',
-                    ],
-                ];
-                
-                // Return custom icons if available, otherwise use default WordPress.org URLs
-                if (isset($custom_icons[$plugin_slug_clean])) {
-                    return $custom_icons[$plugin_slug_clean];
-                }
-                
-                return [
-                    "https://ps.w.org/{$plugin_slug_clean}/assets/icon-256x256.png",  // Then PNG
-                    "https://ps.w.org/{$plugin_slug_clean}/assets/icon-128x128.png",  // Medium PNG
-                    "https://ps.w.org/{$plugin_slug_clean}/assets/icon-256x256.gif",  // Try GIF first
-                    "https://ps.w.org/{$plugin_slug_clean}/assets/icon-128x128.gif",  // Medium GIF
-                ];
-            }
-        }
         ?>
         
         <div class="pg-dashboard-panel"
@@ -261,23 +227,19 @@ class PixelGallery_Others_Plugin_Manager {
                         // Skip own plugin (Pixel Gallery) when printing only; data still includes it for other plugins
                         if (plugin.slug === 'pixel-gallery') return;
                         var isActive = false; // We'll determine this via PHP in the actual implementation
-                        var logoUrl = plugin.logo || '';
                         var pluginName = plugin.name || '';
-                        var pluginSlug = plugin.slug || '';
-                        
-                        // Generate fallback logo URL if needed
-                        if (!logoUrl) {
-                            var actualSlug = pluginSlug.replace('.php', '').split('/')[0];
-                            logoUrl = 'https://ps.w.org/' + actualSlug + '/assets/icon-256x256.png';
-                        }
+                        // Icons are rendered locally from the plugin name; nothing is
+                        // loaded from a remote server.
+                        var pluginInitial = pluginName.replace(/<[^>]*>/g, '').trim().charAt(0).toUpperCase() || '#';
+                        pluginInitial = pluginInitial.replace(/[&<>"']/g, function (c) {
+                            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+                        });
                         
                         html += '<div class="bdt-card bdt-card-body bdt-flex bdt-flex-middle bdt-flex-between">' +
                             '<div class="bdt-others-plugin-content">' +
                                 '<div class="bdt-plugin-logo-wrap bdt-flex bdt-flex-middle">' +
                                     '<div class="bdt-plugin-logo-container">' +
-                                        '<img src="' + logoUrl + '" alt="' + pluginName + '" class="bdt-plugin-logo" ' +
-                                            'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';">' +
-                                        '<div class="default-plugin-icon" style="display:none;">📦</div>' +
+                                        '<div class="default-plugin-icon" aria-hidden="true">' + pluginInitial + '</div>' +
                                     '</div>' +
                                     '<div class="bdt-others-plugin-user-wrap bdt-flex bdt-flex-middle">' +
                                         '<h1 class="pg-feature-title">' + pluginName + '</h1>' +

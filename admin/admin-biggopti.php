@@ -38,8 +38,12 @@ class Biggopties {
 	 * @return array|mixed
 	 */
 	private function get_api_biggopties_data() {
-		// API endpoint for biggopties - you can change this to your actual endpoint
+		// API endpoint for biggopties. Empty means the remote notice feed is disabled.
 		$api_url = '';
+
+		if (empty($api_url)) {
+			return [];
+		}
 
 		$response = wp_remote_get($api_url, [
 			'timeout' => 30,
@@ -205,12 +209,7 @@ class Biggopties {
 	 */
 	private function render_api_biggopti($biggopti) {
 		ob_start();
-		
-		// Add custom CSS if provided
-		if (isset($biggopti->custom_css) && !empty($biggopti->custom_css)) {
-			echo '<style>' . wp_kses_post($biggopti->custom_css) . '</style>';
-		}
-		
+
 		// Prepare background styles
 		$background_style = '';
 		$wrapper_classes = 'bdt-biggopti-wrapper';
@@ -369,8 +368,8 @@ class Biggopties {
 	public function dismiss() {
 		$nonce = (isset($_POST['_wpnonce'])) ? sanitize_text_field(wp_unslash($_POST['_wpnonce'])) : '';
 		$id   = (isset($_POST['id'])) ? sanitize_text_field(wp_unslash($_POST['id'])) : '';
-		$time = (isset($_POST['time'])) ? sanitize_text_field(wp_unslash($_POST['time'])) : '';
-		$meta = (isset($_POST['meta'])) ? sanitize_text_field(wp_unslash($_POST['meta'])) : '';
+		$time = (isset($_POST['time'])) ? absint(wp_unslash($_POST['time'])) : 0;
+		$meta = (isset($_POST['meta'])) ? sanitize_key(wp_unslash($_POST['meta'])) : '';
 
 		if ( ! wp_verify_nonce($nonce, 'pixel-gallery') ) {
 			wp_send_json_error();
@@ -381,28 +380,32 @@ class Biggopties {
 		}
 
 		/**
-		 * Valid inputs?
+		 * Whitelist: the storage key must live inside this plugin's own
+		 * `bdt-admin-biggopti-` namespace (see show_biggopties()), so a request
+		 * cannot write to an arbitrary transient or user meta key.
 		 */
-		if (!empty($id)) {
-			// Handle regular biggopties
-			if ('user' === $meta) {
-				update_user_meta(get_current_user_id(), $id, true);
-			} else {
-				set_transient($id, true, $time);
-
-				// Also store in options table for persistence
-				$dismissals_option = get_option('bdt_biggopti_dismissals', []);
-				$dismissals_option[$id] = [
-					'dismissed_at' => time(),
-					'expires_at' => time() + intval($time),
-				];
-				update_option('bdt_biggopti_dismissals', $dismissals_option, false);
-			}
-
-			wp_send_json_success();
+		if ( ! preg_match( '/^bdt-admin-biggopti-[A-Za-z0-9_-]{1,120}$/', $id ) ) {
+			wp_send_json_error();
 		}
 
-		wp_send_json_error();
+		// Cap the lifetime so a request cannot pin a transient indefinitely.
+		$time = min( max($time, MINUTE_IN_SECONDS), YEAR_IN_SECONDS );
+
+		if ('user' === $meta) {
+			update_user_meta(get_current_user_id(), $id, true);
+		} else {
+			set_transient($id, true, $time);
+
+			// Also store in options table for persistence
+			$dismissals_option = get_option('bdt_biggopti_dismissals', []);
+			$dismissals_option[$id] = [
+				'dismissed_at' => time(),
+				'expires_at' => time() + $time,
+			];
+			update_option('bdt_biggopti_dismissals', $dismissals_option, false);
+		}
+
+		wp_send_json_success();
 	}
 
 	/**
@@ -428,11 +431,6 @@ class Biggopties {
 		foreach (self::$biggopties as $key => $biggopti) {
 
 			$biggopti = wp_parse_args($biggopti, $defaults);
-
-			// Check if biggopti is for White Label
-			if (defined('BDTPG_WL') && $biggopti['category'] === 'regular') {
-				continue;
-			}
 
 			$classes = ['biggopti'];
 

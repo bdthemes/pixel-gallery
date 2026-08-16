@@ -207,7 +207,6 @@ class Remote_Data_Handler {
                 'name' => $data['name'] ?? '',
                 'slug' => $data['slug'] ?? '',
                 'description' => $data['description'] ?? '',
-                'logo' => $data['logo'] ?? '',
                 'rating' => $data['rating'] ?? 0,
                 'rating_percentage' => $data['rating_percentage'] ?? 0,
                 'num_ratings' => $data['num_ratings'] ?? 0,
@@ -349,7 +348,7 @@ class Remote_Data_Handler {
             'request' => [
                 'slug' => $plugin_slug,
                 'fields' => [
-                    'icons' => true,
+                    'icons' => false,
                     'short_description' => true,
                     'active_installs' => true,
                     'rating' => true,
@@ -409,9 +408,6 @@ class Remote_Data_Handler {
      * @return array Formatted plugin data
      */
     private static function format_plugin_data($raw_data) {
-        // Get the best available icon with validation
-        $icon_url = self::get_valid_plugin_icon($raw_data['icons'] ?? []);
-
         // Format active installs with null safety and real data
         $active_installs_raw = $raw_data['active_installs'] ?? 0;
         $active_installs = self::format_active_installs($active_installs_raw);
@@ -432,7 +428,6 @@ class Remote_Data_Handler {
         return [
             'name' => $raw_data['name'] ?? '',
             'slug' => $raw_data['slug'] ?? '',
-            'logo' => $icon_url,
             'description' => $raw_data['short_description'] ?? '',
             'active_installs' => $active_installs,
             'active_installs_count' => $active_installs_count,
@@ -451,53 +446,6 @@ class Remote_Data_Handler {
         ];
     }
 
-    /**
-     * Get valid plugin icon with format validation
-     *
-     * @param array $icons Array of icon URLs
-     * @return string Valid icon URL or empty string
-     */
-    private static function get_valid_plugin_icon($icons) {
-        $valid_extensions = ['gif', 'png', 'jpg', 'jpeg', 'svg'];
-        $icon_sizes = ['256', '128', 'default'];
-        
-        foreach ($icon_sizes as $size) {
-            if (!empty($icons[$size])) {
-                $icon_url = $icons[$size];
-                
-                // Check if URL is valid and has correct extension
-                if (self::is_valid_image_url($icon_url, $valid_extensions)) {
-                    return $icon_url;
-                }
-            }
-        }
-        
-        return '';
-    }
-
-    /**
-     * Validate image URL and extension
-     *
-     * @param string $url Image URL
-     * @param array $valid_extensions Allowed extensions
-     * @return bool True if valid
-     */
-    private static function is_valid_image_url($url, $valid_extensions) {
-        if (empty($url) || !is_string($url)) {
-            return false;
-        }
-        
-        // Check if URL is valid
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            return false;
-        }
-        
-        // Get file extension
-        $path_info = pathinfo(wp_parse_url($url, PHP_URL_PATH));
-        $extension = strtolower($path_info['extension'] ?? '');
-        
-        return in_array($extension, $valid_extensions);
-    }
 
     /**
      * Format active installs number with null safety

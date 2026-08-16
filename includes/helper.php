@@ -187,10 +187,10 @@ function pixel_gallery_get_category_list($post_type, $separator = ' ') {
 /**
  * License Validation
  */
-if (!function_exists('pg_license_validation')) {
-    function pg_license_validation() {
+if (!function_exists('pixel_gallery_license_validation')) {
+    function pixel_gallery_license_validation() {
 
-        if (function_exists('_is_pg_pro_activated') && false === _is_pg_pro_activated()) {
+        if (function_exists('pixel_gallery_is_pro_activated') && false === pixel_gallery_is_pro_activated()) {
             return false;
         }
 
@@ -205,91 +205,11 @@ if (!function_exists('pg_license_validation')) {
     }
 }
 
-/**
- * Inject custom CSS and JS into the header
- */
-if ( ! function_exists( 'pg_inject_header_custom_code' ) ) {
-	function pg_inject_header_custom_code() {
-		if ( pg_is_page_excluded() ) {
-			return;
-		}
-
-		$custom_css = get_option( 'pg_custom_css', '' );
-		$custom_js = get_option( 'pg_custom_js', '' );
-
-		if ( ! empty( $custom_css ) ) {
-			echo "\n<!-- Pixel Gallery Custom Header CSS -->\n";
-			echo '<style type="text/css">' . "\n";
-			echo $custom_css . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Custom CSS is intentionally output raw; entered by an authorized admin on the settings screen.
-			echo '</style>' . "\n";
-		}
-
-		if ( ! empty( $custom_js ) ) {
-			echo "\n<!-- Pixel Gallery Custom Header JS -->\n";
-			echo '<script type="text/javascript">' . "\n";
-			echo $custom_js . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Custom JS is intentionally output raw; entered by an authorized admin on the settings screen.
-			echo '</script>' . "\n";
-		}
-	}
-}
-
-/**
- * Inject custom CSS and JS into the footer
- */
-if ( ! function_exists( 'pg_inject_footer_custom_code' ) ) {
-	function pg_inject_footer_custom_code() {
-		if ( pg_is_page_excluded() ) {
-			return;
-		}
-
-		$custom_css_2 = get_option( 'pg_custom_css_2', '' );
-		$custom_js_2 = get_option( 'pg_custom_js_2', '' );
-
-		if ( ! empty( $custom_css_2 ) ) {
-			echo "\n<!-- Pixel Gallery Custom Footer CSS -->\n";
-			echo '<style type="text/css">' . "\n";
-			echo $custom_css_2 . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Custom CSS is intentionally output raw; entered by an authorized admin on the settings screen.
-			echo '</style>' . "\n";
-		}
-
-		if ( ! empty( $custom_js_2 ) ) {
-			echo "\n<!-- Pixel Gallery Custom Footer JS -->\n";
-			echo '<script type="text/javascript">' . "\n";
-			echo $custom_js_2 . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Custom JS is intentionally output raw; entered by an authorized admin on the settings screen.
-			echo '</script>' . "\n";
-		}
-	}
-}
-
-/**
- * Check if current page should be excluded from custom code injection
- */
-if ( ! function_exists( 'pg_is_page_excluded' ) ) {
-	function pg_is_page_excluded() {
-		$excluded_pages = get_option( 'pg_excluded_pages', array() );
-		
-		if ( empty( $excluded_pages ) || ! is_array( $excluded_pages ) ) {
-			return false;
-		}
-
-		$current_id = 0;
-		
-		if ( is_home() && ! is_front_page() ) {
-			$current_id = get_option( 'page_for_posts' );
-		} elseif ( is_front_page() ) {
-			$current_id = get_option( 'page_on_front' );
-		} elseif ( is_singular() ) {
-			$current_id = get_queried_object_id();
-		} elseif ( is_category() || is_tag() || is_tax() ) {
-			return false;
-		} elseif ( is_author() ) {
-			return false;
-		} elseif ( is_archive() ) {
-			return false;
-		}
-
-		return in_array( $current_id, $excluded_pages );
-	}
+if (!function_exists('pg_license_validation')) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Deprecated alias for pixel_gallery_license_validation(); kept for Pixel Gallery Pro back-compat.
+    function pg_license_validation() {
+        return pixel_gallery_license_validation();
+    }
 }
 
 

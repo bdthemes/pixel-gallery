@@ -10,9 +10,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
+/**
+ * Render the "Choose Features" step of the setup wizard.
+ *
+ * Wrapped in a function so none of its working variables land in the global scope.
+ */
+function pixel_gallery_render_features_step() {
+
 $widget_map     = \PixelGallery\Includes\Setup_Wizard::get_widget_map();
 $active_modules = get_option( 'pixel_gallery_active_modules', array() );
-
 
 ?>
 
@@ -89,4 +95,8 @@ $active_modules = get_option( 'pixel_gallery_active_modules', array() );
 		</button>
 	</div>
 </div>
+<?php
+} // end pixel_gallery_render_features_step()
+
+pixel_gallery_render_features_step();
 
