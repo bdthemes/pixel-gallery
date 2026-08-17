@@ -11,8 +11,8 @@ use PixelGallery\Admin\ModuleService;
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 // Settings Filters
-if (!function_exists('pg_is_dashboard_enabled')) {
-    function pg_is_dashboard_enabled() {
+if (!function_exists('pixel_gallery_is_dashboard_enabled')) {
+    function pixel_gallery_is_dashboard_enabled() {
         return apply_filters('pixel_gallery/settings/dashboard', true);
     }
 }

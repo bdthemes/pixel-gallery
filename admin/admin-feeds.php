@@ -214,7 +214,7 @@ class Admin_Feeds {
 	}
 }
 
-$settings = array(
+new Admin_Feeds( array(
 	'feed_title'       => 'BdThemes News & Updates',
 	'transient_key'    => 'bdthemes_product_feeds',
 	'feed_link'        => 'https://bdthemes.com/feed',
@@ -238,7 +238,5 @@ $settings = array(
 			'title' => 'Changelog',
 		],
 	],
-);
-
-new Admin_Feeds( $settings );
+) );
 

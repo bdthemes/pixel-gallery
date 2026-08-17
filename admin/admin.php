@@ -32,7 +32,7 @@ class Admin {
 
         register_deactivation_hook(BDTPG__FILE__, [$this, 'pixel_gallery_plugin_on_deactivate']);
 
-        add_action('after_setup_theme', [$this, 'whitelabel']);
+        add_action('after_setup_theme', [$this, 'plugin_meta_links']);
 
         add_filter('plugin_action_links_' . BDTPG_PBNAME, [$this, 'plugin_action_links']);
         
@@ -48,21 +48,12 @@ class Admin {
     }
 
     /**
-     * You can easily add white label branding for extended license or multi site license. Don't try for regular license otherwise your license will be invalid.
-     * @return [type] [description]
-     * Define BDTPG_WL for execute white label branding
+     * Register the plugin row meta and action links.
+     * @access public
      */
-    public function whitelabel() {
-        if (defined('BDTPG_WL')) {
-            add_filter('gettext', [$this, 'pixel_gallery_name_change'], 20, 3);
-
-            if (defined('BDTPG_HIDE')) {
-                add_action('pre_current_active_plugins', [$this, 'hide_pixel_gallery']);
-            }
-        } else {
-            add_filter('plugin_row_meta', [$this, 'plugin_row_meta'], 10, 2);
-            add_filter('plugin_action_links_' . BDTPG_PBNAME, [$this, 'plugin_action_meta']);
-        }
+    public function plugin_meta_links() {
+        add_filter('plugin_row_meta', [$this, 'plugin_row_meta'], 10, 2);
+        add_filter('plugin_action_links_' . BDTPG_PBNAME, [$this, 'plugin_action_meta']);
     }
 
     /**
@@ -141,39 +132,6 @@ class Admin {
     }
 
     /**
-     * Change Pixel Gallery Name
-     * @access public
-     * @return string
-     */
-
-    public function pixel_gallery_name_change($translated_text, $text, $domain) {
-        switch ($translated_text) {
-            case 'Pixel Gallery':
-                $translated_text = BDTPG_TITLE;
-                break;
-        }
-
-        return $translated_text;
-    }
-
-    /**
-     * Hiding plugins //still in testing purpose
-     * @access public
-     */
-
-    public function hide_pixel_gallery() {
-        global $wp_list_table;
-        $hide_plg_array = array('pixel-gallery/pixel-gallery.php');
-        $all_plugins    = $wp_list_table->items;
-
-        foreach ($all_plugins as $key => $val) {
-            if (in_array($key, $hide_plg_array)) {
-                unset($wp_list_table->items[$key]);
-            }
-        }
-    }
-
-    /**
      * Register admin script
      * @access public
      */
@@ -240,12 +198,11 @@ class Admin {
         $table_cat      = $wpdb->prefix . 'pg_template_library_cat';
         $table_post     = $wpdb->prefix . 'pg_template_library_post';
         $table_cat_post = $wpdb->prefix . 'pg_template_library_cat_post';
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
-        $wpdb->query('DROP TABLE IF EXISTS ' . $table_cat_post); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name derived from $wpdb->prefix, not user input.
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
-        $wpdb->query('DROP TABLE IF EXISTS ' . $table_cat); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name derived from $wpdb->prefix, not user input.
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
-        $wpdb->query('DROP TABLE IF EXISTS ' . $table_post); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name derived from $wpdb->prefix, not user input.
+        // Removing the plugin's own tables on deactivation is a one-time schema
+        // change; there is nothing to cache and no core API for dropping tables.
+        $wpdb->query('DROP TABLE IF EXISTS ' . $table_cat_post); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Table name derived from $wpdb->prefix, not user input.
+        $wpdb->query('DROP TABLE IF EXISTS ' . $table_cat); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Table name derived from $wpdb->prefix, not user input.
+        $wpdb->query('DROP TABLE IF EXISTS ' . $table_post); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Table name derived from $wpdb->prefix, not user input.
     }
 
     /**

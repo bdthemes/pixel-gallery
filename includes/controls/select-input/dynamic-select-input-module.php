@@ -438,8 +438,8 @@ class Dynamic_Select_Input_Module {
 	}
 }
 
-function Dynamic_Select_Input_Module() {
+function pixel_gallery_dynamic_select_input_module() {
 	return Dynamic_Select_Input_Module::get_instance();
 }
 
-Dynamic_Select_Input_Module()->init();
+pixel_gallery_dynamic_select_input_module()->init();

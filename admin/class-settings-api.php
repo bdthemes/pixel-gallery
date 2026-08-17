@@ -250,7 +250,15 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
             // creates our settings in the options table
             foreach ($this->settings_sections as $section) {
-                register_setting($section['id'], $section['id'], array($this, 'sanitize_options'));
+                register_setting(
+                    $section['id'],
+                    $section['id'],
+                    array(
+                        'type'              => 'array',
+                        'sanitize_callback' => array($this, 'sanitize_options'),
+                        'default'           => array(),
+                    )
+                );
             }
         }
 
@@ -730,65 +738,155 @@ if (!class_exists('PixelGallery_Settings_API')) :
          */
         function callback_pages($args) {
 
-            $dropdown_args = array(
-                'selected' => esc_attr($this->get_option($args['id'], $args['section'], $args['std'])),
-                'name'     => $args['section'] . '[' . $args['id'] . ']',
-                'id'       => $args['section'] . '[' . $args['id'] . ']',
-                'echo'     => 0
+            // Built by hand rather than with wp_dropdown_pages() so that every
+            // attribute and label is escaped for its own context.
+            $selected   = (string) $this->get_option($args['id'], $args['section'], $args['std']);
+            $field_name = $args['section'] . '[' . $args['id'] . ']';
+            $pages      = get_pages();
+
+            $html = sprintf(
+                '<select name="%1$s" id="%1$s" class="pg-select">',
+                esc_attr($field_name)
             );
-            $html = wp_kses_post( wp_dropdown_pages($dropdown_args) );
+
+            $html .= sprintf(
+                '<option value="">%s</option>',
+                esc_html__('Select a page', 'pixel-gallery')
+            );
+
+            if (is_array($pages)) {
+                foreach ($pages as $page) {
+                    $html .= sprintf(
+                        '<option value="%1$s" %2$s>%3$s</option>',
+                        esc_attr($page->ID),
+                        selected($selected, (string) $page->ID, false),
+                        esc_html($page->post_title)
+                    );
+                }
+            }
+
+            $html .= '</select>';
+
             $this->get_control_output($html);
         }
 
         /**
          * Sanitize callback for Settings API
          *
-         * @return mixed
+         * Only fields that were actually registered through add_field() are kept;
+         * everything else in the submitted payload is discarded. Each surviving
+         * value is then sanitized according to its registered field type.
+         *
+         * @param mixed $options Raw submitted option array.
+         * @return array
          */
         function sanitize_options($options) {
 
-            if (!$options) {
-                return $options;
+            if (!is_array($options)) {
+                return array();
             }
+
+            $sanitized = array();
 
             foreach ($options as $option_slug => $option_value) {
-                $sanitize_callback = $this->get_sanitize_callback($option_slug);
+                $option_slug = sanitize_key($option_slug);
+                $field       = $this->get_registered_field($option_slug);
 
-                // If callback is set, call it
-                if ($sanitize_callback) {
-                    $options[$option_slug] = call_user_func($sanitize_callback, $option_value);
+                // Whitelist: drop anything that is not a registered field.
+                if (false === $field) {
                     continue;
                 }
+
+                if (isset($field['sanitize_callback']) && is_callable($field['sanitize_callback'])) {
+                    $sanitized[$option_slug] = call_user_func($field['sanitize_callback'], $option_value);
+                    continue;
+                }
+
+                $sanitized[$option_slug] = $this->sanitize_field_value($field, $option_value);
             }
 
-            return $options;
+            return $sanitized;
         }
 
         /**
-         * Get sanitization callback for given option slug
+         * Get the registered field definition for a given option slug.
          *
          * @param string $slug option slug
          *
-         * @return mixed string or bool false
+         * @return array|false Field definition, or false when the slug is not registered.
          */
-        function get_sanitize_callback($slug = '') {
+        function get_registered_field($slug = '') {
             if (empty($slug)) {
                 return false;
             }
 
-            // Iterate over registered fields and see if we can find proper callback
             foreach ($this->settings_fields as $section => $options) {
                 foreach ($options as $option) {
-                    if ($option['name'] != $slug) {
-                        continue;
+                    if (isset($option['name']) && $option['name'] === $slug) {
+                        return $option;
                     }
-
-                    // Return the callback name
-                    return isset($option['sanitize_callback']) && is_callable($option['sanitize_callback']) ? $option['sanitize_callback'] : false;
                 }
             }
 
             return false;
+        }
+
+        /**
+         * Sanitize a single value against its registered field type.
+         *
+         * @param array $field Registered field definition.
+         * @param mixed $value Raw submitted value.
+         * @return mixed
+         */
+        function sanitize_field_value($field, $value) {
+
+            $type = isset($field['type']) ? $field['type'] : 'text';
+            $std  = isset($field['std']) ? $field['std'] : '';
+
+            switch ($type) {
+                case 'checkbox':
+                    return ('on' === $value) ? 'on' : 'off';
+
+                case 'multicheck':
+                    $clean = array();
+                    if (is_array($value)) {
+                        foreach ($value as $key => $val) {
+                            $clean[sanitize_key($key)] = ('on' === $val) ? 'on' : 'off';
+                        }
+                    }
+                    return $clean;
+
+                case 'number':
+                    return is_numeric($value) ? $value + 0 : 0;
+
+                case 'url':
+                case 'file':
+                    return esc_url_raw($value);
+
+                case 'email':
+                    return sanitize_email($value);
+
+                case 'color':
+                    $color = sanitize_hex_color($value);
+                    return (null === $color) ? $std : $color;
+
+                case 'pages':
+                    return absint($value);
+
+                case 'select':
+                case 'radio':
+                    $allowed = (isset($field['options']) && is_array($field['options'])) ? array_keys($field['options']) : array();
+                    return in_array($value, $allowed, true) ? $value : $std;
+
+                case 'textarea':
+                    return sanitize_textarea_field($value);
+
+                case 'password':
+                    return sanitize_text_field($value);
+
+                default:
+                    return is_array($value) ? array_map('sanitize_text_field', $value) : sanitize_text_field($value);
+            }
         }
 
         /**
@@ -866,17 +964,12 @@ if (!class_exists('PixelGallery_Settings_API')) :
         /**
 		 * Get all sections including manually created content pages
 		 */
-		private function get_all_sections() {
+		public function get_all_sections() {
 			// Start with the settings sections that have forms
 			$all_sections = $this->settings_sections;
 			
 			// Add manually created content sections that don't have settings forms
 			$content_only_sections = [
-				[
-					'id' => 'pixel_gallery_extra_options',
-					'title' => esc_html__('Extra Options', 'pixel-gallery'),
-					'icon' => 'dashicons dashicons-smiley',
-				],
 				[
 					'id' => 'pixel_gallery_analytics_system_req',
 					'title' => esc_html__('System Status', 'pixel-gallery'),
@@ -894,23 +987,6 @@ if (!class_exists('PixelGallery_Settings_API')) :
 				// ],
 			];
 
-            if (true == _is_pg_pro_activated()) {
-                $content_only_sections[] = [
-                    'id' => 'pixel_gallery_rollback_version',
-                    'title' => esc_html__('Rollback Version', 'pixel-gallery'),
-                    'icon' => 'dashicons dashicons-update',
-                ];
-            }
-
-			// Add License section if pro is activated and license is not hidden
-			if ((true == _is_pg_pro_activated()) && !defined('BDTPG_LO')) {
-				$content_only_sections[] = [
-					'id' => 'pixel_gallery_license_settings',
-					'title' => esc_html__('License', 'pixel-gallery'),
-					'icon' => 'dashicons dashicons-admin-network',
-				];
-			}
-			
 			// Check if each content section exists in settings sections, if not add it
 			foreach ($content_only_sections as $content_section) {
 				$exists = false;
@@ -924,8 +1000,48 @@ if (!class_exists('PixelGallery_Settings_API')) :
 					$all_sections[] = $content_section;
 				}
 			}
-			
+
+			/**
+			 * Filters the tabs shown in the Pixel Gallery dashboard navigation.
+			 *
+			 * Add-ons may append their own sections here. Each section is an array with
+			 * `id`, `title` and (optionally) `icon` keys. Panel markup must be printed on
+			 * the `pixel_gallery/admin/settings_pages` action in the same order.
+			 *
+			 * @param array $all_sections Registered dashboard sections.
+			 */
+			$all_sections = apply_filters('pixel_gallery/admin/settings_sections', $all_sections);
+
+			// License always sits last, after anything add-ons registered above.
+			if (true == _is_pg_pro_activated() && apply_filters('pixel_gallery/admin/show_license_section', true)) {
+				$all_sections[] = [
+					'id' => 'pixel_gallery_license_settings',
+					'title' => esc_html__('License', 'pixel-gallery'),
+					'icon' => 'dashicons dashicons-admin-network',
+				];
+			}
+
 			return $all_sections;
+		}
+
+		/**
+		 * Is a section currently registered?
+		 *
+		 * Panels must only be printed for sections that exist, otherwise the tab
+		 * indexes and the switcher panes drift out of sync.
+		 *
+		 * @param string $section_id Section id to look for.
+		 * @return bool
+		 */
+		public function has_section($section_id) {
+
+			foreach ($this->get_all_sections() as $section) {
+				if (isset($section['id']) && $section['id'] === $section_id) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 
@@ -938,32 +1054,43 @@ if (!class_exists('PixelGallery_Settings_API')) :
          */
         function sanitize_pg_options($post_data) {
 
-            if (isset($post_data)) {
+            $_options = array();
+
+            if (is_array($post_data)) {
                 foreach ($post_data as $key => $value) {
+                    if (is_array($value)) {
+                        continue;
+                    }
                     $_options[sanitize_key($key)] = sanitize_key($value);
                 }
-
-                return $_options;
             }
+
+            return $_options;
         }
+
         function pixel_gallery_settings_save() {
 
-            if (!check_ajax_referer('pixel-gallery-settings-save-nonce')) {
-                wp_send_json_error();
+            if (!check_ajax_referer('pixel-gallery-settings-save-nonce', '_wpnonce', false)) {
+                wp_send_json_error(array('message' => esc_html__('Security check failed.', 'pixel-gallery')));
             }
 
             if (!current_user_can('manage_options')) {
-                return;
+                wp_send_json_error(array('message' => esc_html__('You do not have permission to save these settings.', 'pixel-gallery')));
             }
 
-            $moudle_id = sanitize_key(wp_unslash($_POST['id']));
+            $module_id = isset($_POST['id']) ? sanitize_key(wp_unslash($_POST['id'])) : '';
 
-            unset($_POST['id']);
+            // Whitelist: only option names registered as sections by this plugin may be written.
+            $allowed_sections = wp_list_pluck($this->settings_sections, 'id');
+
+            if (!in_array($module_id, $allowed_sections, true)) {
+                wp_send_json_error(array('message' => esc_html__('Unknown settings section.', 'pixel-gallery')));
+            }
+
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized field-by-field within sanitize_pg_options().
-            $options = $this->sanitize_pg_options(wp_unslash($_POST[$moudle_id]));
+            $raw_options = (isset($_POST[$module_id]) && is_array($_POST[$module_id])) ? wp_unslash($_POST[$module_id]) : array();
 
-
-            update_option($moudle_id, $options);
+            update_option($module_id, $this->sanitize_pg_options($raw_options));
 
             wp_send_json_success();
         }

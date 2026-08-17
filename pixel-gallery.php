@@ -3,12 +3,16 @@
  * Plugin Name: Pixel Gallery
  * Plugin URI: https://pixelgallery.pro/
  * Description: The all-new <a href="https://pixelgallery.pro/">Pixel Gallery</a> brings incredibly advanced, and super-flexible widgets, and A to Z essential addons to the Elementor page builder for WordPress. Explore expertly-coded widgets with first-class support by experts.
- * Version: 2.1.17
+ * Version: 2.2.0
  * Author: BdThemes
  * Author URI: https://bdthemes.com/
  * Text Domain: pixel-gallery
  * Domain Path: /languages
- * License: GPL3
+ * Requires at least: 6.0
+ * Tested up to: 7.0
+ * Requires PHP: 7.4
+ * License: GPLv3 or later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Elementor requires at least: 4.0.0
  * Elementor tested up to: 4.2.2
  */
@@ -18,28 +22,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Some pre defined value for easy use
-define( 'BDTPG_VER', '2.1.17' );
+define( 'BDTPG_VER', '2.2.0' );
 define( 'BDTPG_TPL_DB_VER', '1.0.0' );
 define( 'BDTPG__FILE__', __FILE__ );
-
-// Load white label configuration if it exists (before defining BDTPG_TITLE)
-if ( ! defined( 'BDTPG_WL' ) ) {
-    if ( get_option( 'pg_white_label_enabled' ) ) {
-        define( 'BDTPG_WL', true );
-		$white_label_config = dirname( __FILE__ ) . '/admin/white-label/white-label-config.php';
-		if ( file_exists( $white_label_config ) ) {
-			require_once( $white_label_config );
-		}
-	}
-}
 
 if ( ! defined( 'BDTPG_TITLE' ) ) {
 	define( 'BDTPG_TITLE', 'Pixel Gallery' );
 }
 
-if ( ! function_exists( '_is_pg_pro_installed' ) ) {
+if ( ! function_exists( 'pixel_gallery_is_pro_installed' ) ) {
 
-	function _is_pg_pro_installed() {
+	function pixel_gallery_is_pro_installed() {
 
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -52,50 +45,49 @@ if ( ! function_exists( '_is_pg_pro_installed' ) ) {
 	}
 }
 
-if ( ! function_exists( '_is_pg_pro_activated' ) ) {
+if ( ! function_exists( 'pixel_gallery_is_pro_activated' ) ) {
 
-	function _is_pg_pro_activated() {
+	function pixel_gallery_is_pro_activated() {
 
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
-		$file_path         = 'pixel-gallery-pro/pixel-gallery-pro.php';
-		$installed_plugins = get_plugins();
+		return is_plugin_active( 'pixel-gallery-pro/pixel-gallery-pro.php' );
+	}
+}
 
-		if ( is_plugin_active( $file_path ) ) {
-			return true;
-		}
+/*
+ * Deprecated aliases. These names predate the current prefixing rules and are
+ * part of the public contract with released Pixel Gallery Pro versions, so they
+ * are kept as thin wrappers around the prefixed functions above.
+ */
+if ( ! function_exists( '_is_pg_pro_installed' ) ) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Deprecated alias for pixel_gallery_is_pro_installed(); kept for Pixel Gallery Pro back-compat.
+	function _is_pg_pro_installed() {
+		return pixel_gallery_is_pro_installed();
+	}
+}
 
-		return false;
+if ( ! function_exists( '_is_pg_pro_activated' ) ) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Deprecated alias for pixel_gallery_is_pro_activated(); kept for Pixel Gallery Pro back-compat.
+	function _is_pg_pro_activated() {
+		return pixel_gallery_is_pro_activated();
 	}
 }
 
 // Helper function here
 require_once ( dirname( __FILE__ ) . '/includes/helper.php' );
 
-if ( ! _is_pg_pro_activated() ) {
+if ( ! pixel_gallery_is_pro_activated() ) {
 	require_once BDTPG_INC_PATH . 'class-pro-widget-map.php';
 }
 
-if ( function_exists( 'pg_license_validation' ) && true !== pg_license_validation() ) {
+if ( function_exists( 'pixel_gallery_license_validation' ) && true !== pixel_gallery_license_validation() ) {
 	require_once BDTPG_INC_PATH . 'class-pro-widget-map.php';
 }
 
 require_once ( dirname( __FILE__ ) . '/includes/utils.php' );
-
-/**
- * Loads translations
- *
- * @return void
- */
-
-if ( ! function_exists( 'pixel_gallery_load_textdomain' ) ) {
-	function pixel_gallery_load_textdomain() {
-		load_plugin_textdomain( 'pixel-gallery', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-	}
-	add_action( 'init', 'pixel_gallery_load_textdomain' );
-}
 
 /**
  * Plugin load here correctly
@@ -117,10 +109,6 @@ function pixel_gallery_load_plugin() {
 
 	// Pixel gallery widget and assets loader
 	require_once ( BDTPG_PATH . 'loader.php' );
-
-	// Initialize custom CSS/JS injection on frontend
-	add_action( 'wp_head', 'pg_inject_header_custom_code', 999 );
-	add_action( 'wp_footer', 'pg_inject_footer_custom_code', 999 );
 }
 
 add_action( 'plugins_loaded', 'pixel_gallery_load_plugin', 9 );
@@ -139,7 +127,7 @@ function pixel_gallery_fail_load() {
 
 	$plugin = 'elementor/elementor.php';
 
-	if ( _is_elementor_installed() ) {
+	if ( pixel_gallery_is_elementor_installed() ) {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
@@ -161,12 +149,19 @@ function pixel_gallery_fail_load() {
 /**
  * Check the elementor installed or not
  */
-if ( ! function_exists( '_is_elementor_installed' ) ) {
-	function _is_elementor_installed() {
+if ( ! function_exists( 'pixel_gallery_is_elementor_installed' ) ) {
+	function pixel_gallery_is_elementor_installed() {
 		$file_path         = 'elementor/elementor.php';
 		$installed_plugins = get_plugins();
 
 		return isset( $installed_plugins[ $file_path ] );
+	}
+}
+
+if ( ! function_exists( '_is_elementor_installed' ) ) {
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Deprecated alias for pixel_gallery_is_elementor_installed(); kept for Pixel Gallery Pro back-compat.
+	function _is_elementor_installed() {
+		return pixel_gallery_is_elementor_installed();
 	}
 }
 
@@ -176,7 +171,7 @@ if ( ! function_exists( '_is_elementor_installed' ) ) {
  * @param string $plugin
  * @return void
  */
-function pg_activation_redirect( $plugin ) {
+function pixel_gallery_activation_redirect( $plugin ) {
 	if ( ! did_action( 'elementor/loaded' ) ) {
 		return;
 	}
@@ -187,4 +182,4 @@ function pg_activation_redirect( $plugin ) {
 	}
 }
 
-add_action( 'activated_plugin', 'pg_activation_redirect', 20 );
+add_action( 'activated_plugin', 'pixel_gallery_activation_redirect', 20 );

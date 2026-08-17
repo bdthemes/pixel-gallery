@@ -14,8 +14,8 @@ require_once __DIR__ . '/../class-plugin-integration-helper.php';
 require_once __DIR__ . '/../class-remote-data-handler.php';
 
 // Helper function for time formatting
-if (!function_exists('format_last_updated_pg')) {
-    function format_last_updated_pg($date_string) {
+if (!function_exists('pixel_gallery_format_last_updated')) {
+    function pixel_gallery_format_last_updated($date_string) {
         if (empty($date_string)) {
             return __('Unknown', 'pixel-gallery');
         }
@@ -53,53 +53,26 @@ if (!function_exists('format_last_updated_pg')) {
     }
 }
 
-// Helper function for fallback URLs
-if (!function_exists('get_plugin_fallback_urls_pg')) {
-    function get_plugin_fallback_urls_pg($plugin_slug) {
-        // Handle different plugin slug formats
-        if (strpos($plugin_slug, '/') !== false) {
-            // If it's a file path like 'plugin-name/plugin-name.php', extract directory
-            $plugin_slug_clean = dirname($plugin_slug);
-        } else {
-            // If it's just the plugin directory name, use it directly
-            $plugin_slug_clean = $plugin_slug;
+// Build a local, offline initial for a plugin so no icon has to be fetched
+// from a remote server (WordPress.org disallows offloading assets).
+if (!function_exists(__NAMESPACE__ . '\\pixel_gallery_plugin_icon_initial')) {
+    function pixel_gallery_plugin_icon_initial($plugin_name) {
+        $plugin_name = trim(wp_strip_all_tags((string) $plugin_name));
+
+        if ('' === $plugin_name) {
+            return '#';
         }
-        
-        // Custom icon URLs for specific plugins that might not be on WordPress.org
-        $custom_icons = [
-            'ar-viewer' => [
-                'https://ps.w.org/ar-viewer/assets/icon-256x256.gif',
-                'https://ps.w.org/ar-viewer/assets/icon-128x128.gif',
-            ],
-        ];
-        
-        // Return custom icons if available, otherwise use default WordPress.org URLs
-        if (isset($custom_icons[$plugin_slug_clean])) {
-            return $custom_icons[$plugin_slug_clean];
-        }
-        
-        return [
-            "https://ps.w.org/{$plugin_slug_clean}/assets/icon-256x256.png",  // Large PNG
-            "https://ps.w.org/{$plugin_slug_clean}/assets/icon-128x128.png",  // Medium PNG
-        ];
+
+        return strtoupper(mb_substr($plugin_name, 0, 1));
     }
 }
 
-// Define plugin slugs
-$plugin_slugs = array(
-    'bdthemes-prime-slider-lite/bdthemes-prime-slider.php',
-    'ultimate-post-kit',
-    'ultimate-store-kit',
-    'zoloblocks',
-    'pixel-gallery',
-    'live-copy-paste',
-    'spin-wheel',
-    'ai-image',
-    'dark-reader',
-    'ar-viewer',
-    'smart-admin-assistant',
-    'website-accessibility',
-);
+/**
+ * Render the "Integration" step of the setup wizard.
+ *
+ * Wrapped in a function so none of its working variables land in the global scope.
+ */
+function pixel_gallery_render_integration_step() {
 
 // Get enhanced plugin data using the remote data handler
 $pg_plugins = Remote_Data_Handler::get_remote_plugins();
@@ -171,24 +144,7 @@ if (!$has_cached_data) {
                     <label class="plugin-item" data-slug="<?php echo esc_attr($plugin['slug']); ?>">
                         <span class="bdt-flex bdt-flex-middle bdt-flex-between bdt-margin-small-bottom">
                             <span class="bdt-plugin-logo">
-                                <?php 
-                                $logo_url = $plugin['logo'] ?? '';
-                                $plugin_name = $plugin['name'] ?? '';
-                                $plugin_slug = $plugin['slug'] ?? '';
-                                
-                                if (!empty($logo_url) && filter_var($logo_url, FILTER_VALIDATE_URL)) {
-                                    // Show the original logo from API
-                                    echo '<img src="' . esc_url($logo_url) . '" alt="' . esc_attr($plugin_name) . '" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';">';
-                                    echo '<div class="default-plugin-icon" style="display:none;">📦</div>';
-                                } else {
-                                    // Generate fallback URLs for WordPress.org
-                                    $actual_slug = (strpos($plugin_slug, '/') !== false) ? dirname($plugin_slug) : $plugin_slug;
-                                    $fallback_urls = get_plugin_fallback_urls_pg($actual_slug);
-                                    
-                                    echo '<img src="' . esc_url($fallback_urls[0]) . '" alt="' . esc_attr($plugin_name) . '" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';">';
-                                    echo '<div class="default-plugin-icon" style="display:none;">📦</div>';
-                                }
-                                ?>
+                                <div class="default-plugin-icon" aria-hidden="true"><?php echo esc_html(pixel_gallery_plugin_icon_initial($plugin['name'] ?? '')); ?></div>
                             </span>
                             
                             <div class="bdt-plugin-badge-switch-wrap">
@@ -204,7 +160,7 @@ if (!$has_cached_data) {
                              if (!$is_active) : ?>
                                  <label class="switch">
                                      <input type="checkbox" class="plugin-slider-checkbox" <?php echo $plugin_recommended ? 'checked' : ''; ?>
-                                            name="plugins[]<?php echo isset($plugin['slug']) ? wp_kses_post($plugin['slug']) : ''; ?>">
+                                            name="plugins[]<?php echo isset($plugin['slug']) ? esc_attr($plugin['slug']) : ''; ?>">
                                      <span class="slider round"></span>
                                  </label>
                              <?php
@@ -214,14 +170,14 @@ if (!$has_cached_data) {
                         </span>
                         <div class="bdt-flex bdt-flex-middle">
                                 <span class="bdt-plugin-name">
-                                    <?php echo wp_kses_post($plugin['name']); ?>
+                                    <?php echo esc_html($plugin['name']); ?>
                                 </span>
                             </div>
                             
                         <span class="active-installs">
                             <?php esc_html_e('Active Installs: ', 'pixel-gallery'); 
                             if (isset($plugin['active_installs_count']) && $plugin['active_installs_count'] > 0) {
-                                echo ' <span class="installs-count">' . number_format($plugin['active_installs_count']) . '+' . '</span>';
+                                echo ' <span class="installs-count">' . esc_html(number_format($plugin['active_installs_count'])) . '+</span>';
                             } else {
                                 echo '<span class="installs-count">Fewer than 10</span>';
                             }
@@ -229,7 +185,7 @@ if (!$has_cached_data) {
                         </span>
 
                         <?php if (isset($plugin['downloaded_formatted']) && !empty($plugin['downloaded_formatted'])): ?>
-                        <span class="downloads"><?php esc_html_e('Downloads: ', 'pixel-gallery'); echo wp_kses_post($plugin['downloaded_formatted']); ?></span>
+                        <span class="downloads"><?php esc_html_e('Downloads: ', 'pixel-gallery'); echo esc_html($plugin['downloaded_formatted']); ?></span>
                         <?php endif; ?>
                         
                         <div class="rating-section">
@@ -259,7 +215,7 @@ if (!$has_cached_data) {
                             <span class="rating-text">
                                 <?php echo esc_html($plugin['rating'] ?? '0'); ?> out of 5 stars.
                                 <?php if (isset($plugin['num_ratings']) && $plugin['num_ratings'] > 0): ?>
-                                    <span class="rating-count">(<?php echo number_format($plugin['num_ratings']); ?> ratings)</span>
+                                    <span class="rating-count">(<?php echo esc_html(number_format($plugin['num_ratings'])); ?> ratings)</span>
                                 <?php endif; ?>
                             </span>
                         </div>
@@ -269,7 +225,7 @@ if (!$has_cached_data) {
                         if (isset($plugin['last_updated_formatted']) && !empty($plugin['last_updated_formatted'])): ?>
                         <span class="last-updated"><?php esc_html_e('Last Updated: ', 'pixel-gallery'); echo esc_html($plugin['last_updated_formatted']); ?></span>
                         <?php elseif (isset($plugin['last_updated']) && !empty($plugin['last_updated'])): ?>
-                        <span class="last-updated"><?php esc_html_e('Last Updated: ', 'pixel-gallery'); echo esc_html(format_last_updated_pg($plugin['last_updated'])); ?></span>
+                        <span class="last-updated"><?php esc_html_e('Last Updated: ', 'pixel-gallery'); echo esc_html(pixel_gallery_format_last_updated($plugin['last_updated'])); ?></span>
                         <?php endif; ?>
 
                     </label>
@@ -293,6 +249,11 @@ if (!$has_cached_data) {
         </button>
     </div>
 </div>
+<?php
+} // end pixel_gallery_render_integration_step()
+
+pixel_gallery_render_integration_step();
+?>
 
 <style>
 .pg-loading-dots {
@@ -429,16 +390,16 @@ jQuery(document).ready(function($) {
         $pluginList.html(html);
     }
     
-    // Helper function to generate plugin logo
+    // Helper function to generate plugin logo.
+    // Icons are rendered locally from the plugin name; nothing is loaded from a
+    // remote server (WordPress.org disallows offloading assets).
     function generatePluginLogo(plugin) {
-        if (plugin.logo && plugin.logo.match(/^https?:\/\//)) {
-            return `<img src="${plugin.logo}" alt="${plugin.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="default-plugin-icon" style="display:none;">📦</div>`;
-        } else {
-            const slug = plugin.slug.includes('/') ? plugin.slug.split('/')[0] : plugin.slug;
-            return `<img src="https://ps.w.org/${slug}/assets/icon-256x256.png" alt="${plugin.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="default-plugin-icon" style="display:none;">📦</div>`;
-        }
+        const name = (plugin.name || '').replace(/<[^>]*>/g, '').trim();
+        const initial = name ? name.charAt(0).toUpperCase() : '#';
+        const safeInitial = initial.replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+        return `<div class="default-plugin-icon" aria-hidden="true">${safeInitial}</div>`;
     }
     
     // Helper function to generate star rating
