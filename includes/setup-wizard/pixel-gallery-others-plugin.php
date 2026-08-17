@@ -228,6 +228,7 @@ class PixelGallery_Others_Plugin_Manager {
                         if (plugin.slug === 'pixel-gallery') return;
                         var isActive = false; // We'll determine this via PHP in the actual implementation
                         var pluginName = plugin.name || '';
+                        var pluginSlug = plugin.slug || '';
                         // Icons are rendered locally from the plugin name; nothing is
                         // loaded from a remote server.
                         var pluginInitial = pluginName.replace(/<[^>]*>/g, '').trim().charAt(0).toUpperCase() || '#';
