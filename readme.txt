@@ -5,7 +5,7 @@ Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 2.1.18
+Stable tag: 2.2.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 4.0.0
@@ -327,7 +327,7 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 2.1.18 [15th August 2026] =
+= 2.2.0 [17th August 2026] =
 
 * Removed: White Label branding options (now exclusive to Pixel Gallery Pro)
 * Removed: Custom CSS & JS code injection (use the WordPress Customizer's Additional CSS, or Pixel Gallery Pro)

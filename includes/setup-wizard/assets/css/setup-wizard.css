@@ -776,6 +776,7 @@
 .bdt-setup-wizard .template-import {
   background-color: var(--pg-primary);
   color: white;
+  display: none;
 }
 
 .bdt-setup-wizard .template-import:hover {
