@@ -5,7 +5,7 @@ Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 4.0.0
@@ -326,6 +326,10 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 2.2.1 [18th August 2026] =
+
+* Removed: Deprecated BdThemes product-feed remote endpoint (returned an empty response) and its unused fetch code
 
 = 2.2.0 [17th August 2026] =
 
