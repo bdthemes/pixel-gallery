@@ -28,7 +28,7 @@ class Biggopties {
 		add_action('wp_ajax_pixel-gallery-biggopties', [$this, 'dismiss']);
 
 		// AJAX endpoint to fetch API biggopties on demand (after page load)
-		add_action('wp_ajax_pg_fetch_api_biggopties', [$this, 'ajax_fetch_api_biggopties']);
+		add_action('wp_ajax_bdtpg_fetch_api_biggopties', [$this, 'ajax_fetch_api_biggopties']);
 
 	}
 
@@ -38,37 +38,10 @@ class Biggopties {
 	 * @return array|mixed
 	 */
 	private function get_api_biggopties_data() {
-		// API endpoint for biggopties. Empty means the remote notice feed is disabled.
-		$api_url = '';
-
-		if (empty($api_url)) {
-			return [];
-		}
-
-		$response = wp_remote_get($api_url, [
-			'timeout' => 30,
-			'headers' => [
-				'Accept' => 'application/json',
-			],
-		]);
-
-		if (is_wp_error($response)) {
-			return [];
-		}
-
-		$response_code = wp_remote_retrieve_response_code($response);
-
-		$response_body = wp_remote_retrieve_body($response);
-
-		$biggopties = json_decode($response_body);
-		
-		if( isset($biggopties) && isset($biggopties->{'pixel-gallery'}) ) {
-			$data = $biggopties->{'pixel-gallery'};
-			if (is_array($data)) {
-				return $data;
-			}
-		}
-
+		/*
+		 * The remote notice feed was retired in 2.2.1. Pixel Gallery contacts no
+		 * endpoint for admin notices, so there is nothing to fetch here.
+		 */
 		return [];
 	}
 

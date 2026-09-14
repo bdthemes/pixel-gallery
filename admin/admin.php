@@ -65,12 +65,12 @@ class Admin {
 
         $direction_suffix = is_rtl() ? '.rtl' : '';
 
-        wp_enqueue_style('bdt-uikit', BDTPG_ADMIN_URL . 'assets/css/bdt-uikit'. $direction_suffix .'.css', [], '3.21.7');
+        wp_enqueue_style('bdt-uikit', BDTPG_ADMIN_URL . 'assets/css/bdt-uikit'. $direction_suffix .'.css', [], BDTPG_VER);
         wp_enqueue_style('pg-editor', BDTPG_ASSETS_URL . 'css/pg-editor.css', [], BDTPG_VER);
         wp_enqueue_style('pg-admin', BDTPG_ADMIN_URL . 'assets/css/pg-admin.css', [], BDTPG_VER);
 
 
-        wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit.min.js', ['jquery'], '3.21.7', true);
+        wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit.min.js', ['jquery'], '3.25.22', true);
     }
 
     /**
@@ -142,8 +142,8 @@ class Admin {
 
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading the page query var for admin menu routing only, no state change.
             if (isset($_GET['page']) && ('pixel_gallery_options' === sanitize_text_field(wp_unslash($_GET['page'])))) {
-                wp_enqueue_script('chart', BDTPG_ADMIN_URL . 'assets/js/chart.min.js', ['jquery'], '2.7.3', true);
-                wp_enqueue_script('pg-admin', BDTPG_ADMIN_URL  . 'assets/js/pg-admin.min.js', ['jquery', 'chart'], BDTPG_VER, true);
+                wp_enqueue_script('bdtpg-chart', BDTPG_ADMIN_URL . 'assets/js/chart.min.js', ['jquery'], '4.5.1', true);
+                wp_enqueue_script('pg-admin', BDTPG_ADMIN_URL  . 'assets/js/pg-admin.min.js', ['jquery', 'bdtpg-chart'], BDTPG_VER, true);
             }else{
                 wp_enqueue_script('pg-admin', BDTPG_ADMIN_URL  . 'assets/js/pg-admin.min.js', ['jquery'], BDTPG_VER, true);
             }

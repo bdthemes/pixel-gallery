@@ -24,12 +24,12 @@ class Remote_Data_Handler {
     /**
      * Transient key for remote plugins data
      */
-    const CACHE_KEY = 'bdt_remote_plugins_data';
+    const CACHE_KEY = 'bdtpg_remote_plugins_data';
 
     /**
      * Cron hook name for background fetch
      */
-    const CRON_HOOK = 'bdt_fetch_remote_plugins_cron';
+    const CRON_HOOK = 'bdtpg_fetch_remote_plugins_cron';
 
     /**
      * Initialize the remote data handler
@@ -37,8 +37,7 @@ class Remote_Data_Handler {
     public static function init() {
         add_action('init', [__CLASS__, 'schedule_cron']);
         add_action(self::CRON_HOOK, [__CLASS__, 'cron_fetch_plugins']);
-        add_action('wp_ajax_pg_get_plugins', [__CLASS__, 'ajax_get_plugins']);
-        add_action('wp_ajax_nopriv_pg_get_plugins', [__CLASS__, 'ajax_get_plugins']);
+        add_action('wp_ajax_bdtpg_get_plugins', [__CLASS__, 'ajax_get_plugins']);
     }
 
     /**
@@ -63,7 +62,7 @@ class Remote_Data_Handler {
         if (wp_doing_ajax() && isset($_REQUEST['action'])) {
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only page detection, no state change.
             $action = sanitize_text_field(wp_unslash($_REQUEST['action']));
-            if (in_array($action, ['pg_get_plugins'])) {
+            if (in_array($action, ['bdtpg_get_plugins'], true)) {
                 return true;
             }
         }
@@ -107,16 +106,18 @@ class Remote_Data_Handler {
     }
 
     /**
-     * Fetch remote plugins data immediately (for background processing only)
-     * 
-     * @return array|false Plugins data or false on failure
+     * The WordPress.org slugs this plugin is allowed to look up and offer.
+     *
+     * This is the allow-list the setup wizard installer validates against, so a
+     * request can never install or activate an arbitrary plugin.
+     *
+     * @return string[] Plugin directory slugs.
      */
-    public static function fetch_remote_plugins_now() {
-        // Define plugin slugs to fetch
-        $plugin_slugs = [
+    public static function get_plugin_slugs() {
+        return [
             'bdthemes-element-pack-lite',
             'bdthemes-prime-slider-lite',
-            'ultimate-post-kit', 
+            'ultimate-post-kit',
             'ultimate-store-kit',
             'zoloblocks',
             'pixel-gallery',
@@ -128,6 +129,15 @@ class Remote_Data_Handler {
             'smart-admin-assistant',
             'website-accessibility',
         ];
+    }
+
+    /**
+     * Fetch remote plugins data immediately (for background processing only)
+     * 
+     * @return array|false Plugins data or false on failure
+     */
+    public static function fetch_remote_plugins_now() {
+        $plugin_slugs = self::get_plugin_slugs();
 
         $results = [];
         $errors = [];
@@ -153,8 +163,13 @@ class Remote_Data_Handler {
      */
     public static function ajax_get_plugins() {
         // Verify nonce for security
-        if (!check_ajax_referer('pg_get_plugins_nonce', 'nonce', false)) {
-            wp_die(esc_html__('Security check failed.', 'pixel-gallery'));
+        if (!check_ajax_referer('bdtpg_get_plugins_nonce', 'nonce', false)) {
+            wp_send_json_error(['message' => __('Security check failed.', 'pixel-gallery')], 403);
+        }
+
+        // Only users who could act on this list are allowed to request it.
+        if (!current_user_can('install_plugins')) {
+            wp_send_json_error(['message' => __('You do not have permission to view this list.', 'pixel-gallery')], 403);
         }
 
         // Get cached data

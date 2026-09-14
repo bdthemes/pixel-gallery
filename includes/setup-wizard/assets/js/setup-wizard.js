@@ -166,30 +166,31 @@
                 }
             },
 
-            pluginSliderCheckbox: function(selector){
-                const pluginSlugs = [];
-                const data = $(selector).serialize();
-                data.split('&').forEach(item => {
-                    const [key, value] = item.split('=');
-                    if (key.startsWith('plugins') && value === 'on') {
-                        const slug = decodeURIComponent(key.split('%5B%5D')[1]);
-                        if (slug) {
-                            pluginSlugs.push(slug);
-                        }
-                    }
-                });
+            getSelectedPluginSlugs: function () {
+                return $('#pg-install-plugins .plugin-slider-checkbox:checked')
+                    .map(function () { return $(this).val(); })
+                    .get()
+                    .filter(Boolean);
+            },
+
+            pluginSliderCheckbox: function(){
+                const pluginSlugs = this.getSelectedPluginSlugs();
 
                 if(pluginSlugs.length){
                     $("#pg-install-plugins-btn").removeClass('d-none').addClass('pulse-animation');
+                    $("#pg-activate-consent-wrap").removeClass('d-none');
                 }else{
                     $("#pg-install-plugins-btn").addClass('d-none').removeClass('pulse-animation');
+                    $("#pg-activate-consent-wrap").addClass('d-none');
+                    // Activation consent never carries over to an empty selection.
+                    $("#pg-activate-after-install").prop('checked', false);
                 }
             },
 
             onChangedPluginSliderCheckbox: function(){
                 const vm = this;
                 $('#pg-install-plugins').on('change', '.plugin-slider-checkbox', function (e) {
-                    vm.pluginSliderCheckbox('#pg-install-plugins .plugin-slider-checkbox');
+                    vm.pluginSliderCheckbox();
                     
                     const pluginItem = $(this).closest('.plugin-item');
                     pluginItem.addClass('item-highlight');
@@ -213,7 +214,7 @@
                     currentStep.style.display = 'block'; // Make sure active step is visible
                 }
 
-                this.pluginSliderCheckbox('#pg-install-plugins .plugin-slider-checkbox');
+                this.pluginSliderCheckbox();
             },
 
             filterItemsByType: function(type) {
@@ -382,17 +383,11 @@
                     vm.installButton.disabled = true;
                     vm.installButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Installing...';
                     
-                    const pluginSlugs = [];
-                    const data = $(this).serialize();
-                    data.split('&').forEach(item => {
-                        const [key, value] = item.split('=');
-                        if (key.startsWith('plugins') && value === 'on') {
-                            const slug = decodeURIComponent(key.split('%5B%5D')[1]);
-                            if (slug) {
-                                pluginSlugs.push(slug);
-                            }
-                        }
-                    });
+                    const pluginSlugs = vm.getSelectedPluginSlugs();
+
+                    // Activation is a second, separate opt-in. When it is not
+                    // ticked the plugins are only downloaded, never switched on.
+                    const activateAfterInstall = $('#pg-activate-after-install').is(':checked') ? '1' : '0';
 
                     let installedPlugins = 0;
                     const totalPluginsSlug = pluginSlugs.length;
@@ -424,16 +419,17 @@
                         if (installedPlugins < totalPluginsSlug) {
                             const slug = pluginSlugs[installedPlugins];
                             const pluginName = slug.split('/')[0].split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-                            
+
                             statusText.textContent = `Installing ${pluginName}...`;
                             
                             jQuery.ajax({
                                 url: BDT_SetupWizard.ajax_url,
                                 method: 'POST',
                                 data: {
-                                    action: 'setup_wizard_install_plugins',
+                                    action: 'bdtpg_setup_wizard_install_plugins',
                                     nonce: BDT_SetupWizard.nonce,
-                                    plugins: [slug]
+                                    plugins: [slug],
+                                    activate: activateAfterInstall
                                 },
                                 success: (response) => {
                                     if (response.success) {
@@ -469,7 +465,9 @@
                                 }
                             });
                         } else {
-                            statusText.textContent = 'All plugins installed successfully!';
+                            statusText.textContent = activateAfterInstall === '1'
+                                ? 'All selected plugins were installed and activated.'
+                                : 'All selected plugins were installed. Activate them from the Plugins screen whenever you are ready.';
                             statusText.innerHTML += ' <span class="success-indicator"><i class="dashicons dashicons-yes-alt"></i></span>';
                             
                             setTimeout(() => {

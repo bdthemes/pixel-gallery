@@ -159,8 +159,8 @@ if (!$has_cached_data) {
                              <?php
                              if (!$is_active) : ?>
                                  <label class="switch">
-                                     <input type="checkbox" class="plugin-slider-checkbox" <?php echo $plugin_recommended ? 'checked' : ''; ?>
-                                            name="plugins[]<?php echo isset($plugin['slug']) ? esc_attr($plugin['slug']) : ''; ?>">
+                                     <input type="checkbox" class="plugin-slider-checkbox"
+                                            name="plugins[]" value="<?php echo isset($plugin['slug']) ? esc_attr($plugin['slug']) : ''; ?>">
                                      <span class="slider round"></span>
                                  </label>
                              <?php
@@ -234,9 +234,23 @@ if (!$has_cached_data) {
             <?php endif; ?>
         </div>
         
+        <p class="bdt-plugin-consent-note">
+            <?php esc_html_e('Nothing is selected by default. Pixel Gallery only installs the plugins you switch on here, and never activates a plugin unless you also tick the box below.', 'pixel-gallery'); ?>
+        </p>
+
+        <div class="bdt-plugin-activate-consent d-none" id="pg-activate-consent-wrap">
+            <label for="pg-activate-after-install">
+                <input type="checkbox" id="pg-activate-after-install" name="pg_activate_after_install" value="1">
+                <?php esc_html_e('Also activate the selected plugins after installing them', 'pixel-gallery'); ?>
+            </label>
+            <span class="bdt-plugin-consent-hint">
+                <?php esc_html_e('Leave this unticked to only download the plugins; you can then activate them yourself from the Plugins screen.', 'pixel-gallery'); ?>
+            </span>
+        </div>
+
         <div class="wizard-navigation bdt-margin-top">
             <button class="bdt-button bdt-button-primary d-none" type="submit" id="pg-install-plugins-btn">
-                <?php esc_html_e('Install and Continue', 'pixel-gallery'); ?>
+                <?php esc_html_e('Install Selected Plugins', 'pixel-gallery'); ?>
             </button>
             <div class="bdt-close-button bdt-margin-left bdt-wizard-next" data-step="finish"><?php esc_html_e('Skip', 'pixel-gallery'); ?></div>
         </div>
@@ -256,6 +270,32 @@ pixel_gallery_render_integration_step();
 ?>
 
 <style>
+.bdt-plugin-consent-note {
+    margin: 16px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: 0.8;
+}
+
+.bdt-plugin-activate-consent {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.bdt-plugin-activate-consent label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+}
+
+.bdt-plugin-consent-hint {
+    display: block;
+    margin-top: 4px;
+    opacity: 0.75;
+}
+
 .pg-loading-dots {
     display: flex;
     justify-content: center;
@@ -314,8 +354,8 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'pg_get_plugins',
-                nonce: '<?php echo esc_attr( wp_create_nonce('pg_get_plugins_nonce') ); ?>'
+                action: 'bdtpg_get_plugins',
+                nonce: '<?php echo esc_attr( wp_create_nonce('bdtpg_get_plugins_nonce') ); ?>'
             },
             success: function(response) {
                 if (response.success && response.data.plugins) {
@@ -358,7 +398,7 @@ jQuery(document).ready(function($) {
                                 ${isActive ? '<span class="active-badge">ACTIVE</span>' : ''}
                                 ${!isActive ? `
                                     <label class="switch">
-                                        <input type="checkbox" class="plugin-slider-checkbox" ${plugin.recommended ? 'checked' : ''} name="plugins[]${plugin.slug}">
+                                        <input type="checkbox" class="plugin-slider-checkbox" name="plugins[]" value="${plugin.slug}">
                                         <span class="slider round"></span>
                                     </label>
                                 ` : ''}

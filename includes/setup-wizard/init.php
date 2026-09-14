@@ -48,7 +48,7 @@ class Setup_Wizard {
 
 	// Initialize hooks
 	private function init_hooks() {
-		add_action( 'wp_ajax_setup_wizard_install_plugins', array( $this, 'install_plugins' ) );
+		add_action( 'wp_ajax_bdtpg_setup_wizard_install_plugins', array( $this, 'install_plugins' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_init', array( $this, 'activate_default_widgets' ) );
 		add_action( 'admin_init', array( $this, 'maybe_display_setup_wizard' ) );
@@ -214,8 +214,8 @@ class Setup_Wizard {
 
         $direction_suffix = is_rtl() ? '.rtl' : '';
 
-        wp_enqueue_style('bdt-uikit', BDTPG_ADMIN_URL . 'assets/css/bdt-uikit'. $direction_suffix .'.css', [], '3.21.7');
-		wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit.min.js', ['jquery'], '3.21.7', true);
+        wp_enqueue_style('bdt-uikit', BDTPG_ADMIN_URL . 'assets/css/bdt-uikit'. $direction_suffix .'.css', [], BDTPG_VER);
+		wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit.min.js', ['jquery'], '3.25.22', true);
 
 		wp_register_script( 'pg-setup-wizard', plugins_url( 'assets/js/setup-wizard.js', __FILE__ ), array( 'jquery' ), '1.0.0', true );
 		wp_register_style( 'pg-setup-wizard', plugins_url( 'assets/css/setup-wizard.css', __FILE__ ), array(), '1.0.0' );
@@ -228,7 +228,7 @@ class Setup_Wizard {
 			'BDT_SetupWizard',
 			array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( 'setup_wizard_nonce' ),
+				'nonce'    => wp_create_nonce( 'bdtpg_setup_wizard_nonce' ),
 				'is_fullscreen' => true
 			)
 		);
@@ -244,94 +244,152 @@ class Setup_Wizard {
 		return $arr_obj;
 	}
 
-	// Install plugins
+	/**
+	 * Install (and, only with separate explicit consent, activate) the companion
+	 * plugins the user ticked in the setup wizard.
+	 *
+	 * Nothing here runs unattended: every plugin is opt-in (all toggles start
+	 * switched off), activation is a second, separate opt-in, and both steps are
+	 * gated on the matching capability. Only slugs on the plugin's own
+	 * allow-list can be installed or activated.
+	 */
 	public function install_plugins() {
-		check_ajax_referer( 'setup_wizard_nonce', 'nonce' );
-
-		$plugin_slugs = isset( $_POST['plugins'] ) ? array_map( 'sanitize_text_field', wp_unslash( (array) $_POST['plugins'] ) ) : array();
-
-		if ( empty( $plugin_slugs ) || ! is_array( $plugin_slugs ) ) {
-			wp_send_json_error( array( 'message' => 'Invalid plugins array' ) );
-		}
+		check_ajax_referer( 'bdtpg_setup_wizard_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'install_plugins' ) ) {
-			wp_send_json_error( array( 'message' => 'Unauthorized' ) );
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to install plugins.', 'pixel-gallery' ) ), 403 );
 		}
 
 		include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 		include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-		include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php';
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
+		$requested = isset( $_POST['plugins'] ) ? array_map( 'sanitize_text_field', wp_unslash( (array) $_POST['plugins'] ) ) : array();
+		$allowed   = \PixelGallery\SetupWizard\Remote_Data_Handler::get_plugin_slugs();
+
+		// Normalise "dir/file.php" to the directory slug and keep only slugs this
+		// plugin actually offers, so an arbitrary plugin can never be targeted.
+		$plugin_slugs = array();
+		foreach ( $requested as $raw_slug ) {
+			$slug = ( false !== strpos( $raw_slug, '/' ) ) ? dirname( $raw_slug ) : $raw_slug;
+			$slug = sanitize_key( $slug );
+
+			if ( '' !== $slug && in_array( $slug, $allowed, true ) && ! in_array( $slug, $plugin_slugs, true ) ) {
+				$plugin_slugs[] = $slug;
+			}
+		}
+
+		if ( empty( $plugin_slugs ) ) {
+			wp_send_json_error( array( 'message' => __( 'No valid plugin was selected.', 'pixel-gallery' ) ) );
+		}
+
+		/*
+		 * Activation is a separate, explicit consent: the user has to tick the
+		 * "activate after installing" box in the wizard, and must be allowed to
+		 * activate plugins. Otherwise the plugin is only installed and the user
+		 * activates it themselves from the Plugins screen.
+		 */
+		$activation_consent = isset( $_POST['activate'] ) && '1' === sanitize_text_field( wp_unslash( $_POST['activate'] ) );
+		$may_activate       = $activation_consent && current_user_can( 'activate_plugins' );
+
 		// Replace new \Plugin_Installer_Skin with new Quiet_Upgrader_Skin when output needs to be suppressed.
-		$skin = new Quiet_Upgrader_Skin();
-		// $skin     = new \Plugin_Installer_Skin( array( 'api' => $api ) );
+		$skin     = new Quiet_Upgrader_Skin();
 		$upgrader = new \Plugin_Upgrader( $skin );
 
-		// $upgrader = new \Plugin_Upgrader();
-
-        $installedPlugins = get_plugins();
 		$results = array();
 
 		foreach ( $plugin_slugs as $plugin_slug ) {
-            // skip when the plugin is already active
-            if (is_plugin_active($plugin_slug)) {
-                $results[] = array(
-                    'slug'    => $plugin_slug,
-                    'success' => true,
-                    'message' => 'Installed and activated successfully',
-                );
-                continue;
-            }
+			$plugin_file = $this->get_plugin_file( $plugin_slug );
 
-            // Download the plugin if the plugin is not installed
-            if (!isset($installedPlugins[$plugin_slug])) {
-                $slug = explode('/', $plugin_slug)[0];
-                $api = plugins_api( 'plugin_information', array( 'slug' => $slug ) );
+			// Already active: nothing to do.
+			if ( $plugin_file && is_plugin_active( $plugin_file ) ) {
+				$results[] = array(
+					'slug'      => $plugin_slug,
+					'success'   => true,
+					'activated' => true,
+					'message'   => __( 'Already installed and active.', 'pixel-gallery' ),
+				);
+				continue;
+			}
 
-                if ( is_wp_error( $api ) ) {
-                    $results[] = array(
-                        'slug'    => $plugin_slug,
-                        'success' => false,
-                        'message' => $api->get_error_message(),
-                    );
-                    continue;
-                }
+			// Not installed yet: download it from WordPress.org.
+			if ( ! $plugin_file ) {
+				$api = plugins_api( 'plugin_information', array( 'slug' => $plugin_slug, 'fields' => array( 'sections' => false ) ) );
 
-                $result = $upgrader->install( $api->download_link );
-                if ( is_wp_error( $result ) ) {
-                    $results[] = array(
-                        'slug'    => $plugin_slug,
-                        'success' => false,
-                        'message' => $result->get_error_message(),
-                    );
-                    continue;
-                }
-            }
+				if ( is_wp_error( $api ) ) {
+					$results[] = array(
+						'slug'    => $plugin_slug,
+						'success' => false,
+						'message' => $api->get_error_message(),
+					);
+					continue;
+				}
 
-            // active the plugin
-            if ( is_plugin_inactive($plugin_slug) ) {
-                $activation_result = activate_plugin( $plugin_slug );
-                if ( is_wp_error( $activation_result ) ) {
-                    $results[] = array(
-                        'slug'    => $slug,
-                        'success' => false,
-                        'message' => $activation_result->get_error_message(),
-                    );
-                    continue;
-                }
+				$result = $upgrader->install( $api->download_link );
 
-                $results[] = array(
-                    'slug'    => $plugin_slug,
-                    'success' => true,
-                    'message' => 'Installed and activated successfully',
-                );
-            }
+				if ( is_wp_error( $result ) ) {
+					$results[] = array(
+						'slug'    => $plugin_slug,
+						'success' => false,
+						'message' => $result->get_error_message(),
+					);
+					continue;
+				}
+
+				if ( true !== $result ) {
+					$results[] = array(
+						'slug'    => $plugin_slug,
+						'success' => false,
+						'message' => __( 'Installation failed. Please install this plugin from the Plugins screen.', 'pixel-gallery' ),
+					);
+					continue;
+				}
+
+				wp_clean_plugins_cache( false );
+				$plugin_file = $this->get_plugin_file( $plugin_slug );
+			}
+
+			if ( ! $plugin_file ) {
+				$results[] = array(
+					'slug'    => $plugin_slug,
+					'success' => false,
+					'message' => __( 'The plugin was downloaded but could not be located afterwards.', 'pixel-gallery' ),
+				);
+				continue;
+			}
+
+			// Installed. Activate only if the user explicitly asked us to.
+			if ( ! $may_activate ) {
+				$results[] = array(
+					'slug'      => $plugin_slug,
+					'success'   => true,
+					'activated' => false,
+					'message'   => __( 'Installed. You can activate it from the Plugins screen.', 'pixel-gallery' ),
+				);
+				continue;
+			}
+
+			$activation_result = activate_plugin( $plugin_file );
+
+			if ( is_wp_error( $activation_result ) ) {
+				$results[] = array(
+					'slug'      => $plugin_slug,
+					'success'   => true,
+					'activated' => false,
+					'message'   => $activation_result->get_error_message(),
+				);
+				continue;
+			}
+
+			$results[] = array(
+				'slug'      => $plugin_slug,
+				'success'   => true,
+				'activated' => true,
+				'message'   => __( 'Installed and activated.', 'pixel-gallery' ),
+			);
 		}
 
-		ob_clean();
 		wp_send_json_success( array( 'results' => $results ) );
-		wp_die();
 	}
 
 	/**
@@ -341,10 +399,14 @@ class Setup_Wizard {
 	 * @return string|false Plugin file path or false if not found.
 	 */
 	private function get_plugin_file( $slug ) {
-		$plugins = get_plugins();
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
 
-		foreach ( $plugins as $file => $plugin ) {
-			if ( strpos( $file, $slug ) !== false ) {
+		foreach ( array_keys( get_plugins() ) as $file ) {
+			// Compare the directory exactly: a substring match would happily
+			// return "ultimate-post-kit-pro" for the slug "ultimate-post-kit".
+			if ( dirname( $file ) === $slug ) {
 				return $file;
 			}
 		}

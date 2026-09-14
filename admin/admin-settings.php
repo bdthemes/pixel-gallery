@@ -45,7 +45,7 @@ class PixelGallery_Admin_Settings
 		}
 
 		// Plugin installation (admin only)
-		add_action('wp_ajax_pg_install_plugin', [$this, 'install_plugin_ajax']);
+		add_action('wp_ajax_bdtpg_install_plugin', [$this, 'install_plugin_ajax']);
 	}
 
 	/**
@@ -1658,7 +1658,7 @@ class PixelGallery_Admin_Settings
 					url: '<?php echo esc_url( admin_url('admin-ajax.php') ); ?>',
 					type: 'POST',
 					data: {
-						action: 'pg_install_plugin',
+						action: 'bdtpg_install_plugin',
 						plugin_slug: pluginSlug,
 						nonce: nonce
 					},
@@ -2186,7 +2186,7 @@ class PixelGallery_Admin_Settings
 		// Check nonce
 		$nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
 
-		if (!wp_verify_nonce($nonce, 'pg_install_plugin_nonce')) {
+		if (!wp_verify_nonce($nonce, 'bdtpg_install_plugin_nonce')) {
 			wp_send_json_error(['message' => __('Security check failed', 'pixel-gallery')]);
 		}
 
@@ -2283,7 +2283,7 @@ class PixelGallery_Admin_Settings
 			case 'not_installed':
 			default:
 				$plugin_slug = $this->extract_plugin_slug_from_path($plugin_path);
-				$nonce = wp_create_nonce('pg_install_plugin_nonce');
+				$nonce = wp_create_nonce('bdtpg_install_plugin_nonce');
 				return '<a class="bdt-button bdt-welcome-button pg-install-plugin" 
 				          data-plugin-slug="' . esc_attr($plugin_slug) . '" 
 				          data-nonce="' . esc_attr($nonce) . '" 
