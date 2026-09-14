@@ -65,7 +65,6 @@ class Module extends Pixel_Gallery_Module_Base {
 				],
 				'separator' => 'before',
 				'render_type' => 'template',
-				'classes' => BDTPG_IS_PC
 			]
 		);
 
@@ -85,7 +84,6 @@ class Module extends Pixel_Gallery_Module_Base {
 					'pg_in_animation_show' => 'yes',
 				],
 				'render_type' => 'template',
-				'classes' => BDTPG_IS_PC
 			]
 		);
 		
@@ -108,7 +106,6 @@ class Module extends Pixel_Gallery_Module_Base {
 					'{{WRAPPER}}' => '--pg-transition-duration: {{SIZE}}ms;'
 				],
 				'render_type' => 'template',
-				'classes' => BDTPG_IS_PC
 			]
 		);
 
@@ -125,7 +122,6 @@ class Module extends Pixel_Gallery_Module_Base {
 					'{{WRAPPER}}' => '--pg-transform-origin: {{VALUE}};'
 				],
 				'render_type' => 'template',
-				'classes' => BDTPG_IS_PC
 			]
 		);
 
@@ -151,7 +147,6 @@ class Module extends Pixel_Gallery_Module_Base {
 					'pg_in_animation_show' => 'yes',
 				],
 				'render_type' => 'template',
-				'classes' => BDTPG_IS_PC
 			]
 		);
 
@@ -231,7 +226,6 @@ class Module extends Pixel_Gallery_Module_Base {
 					'pg_in_animation_show' => 'yes',
 				],
 				'render_type' => 'template',
-				'classes' => BDTPG_IS_PC
 			]
 		);
 
@@ -324,7 +318,6 @@ class Module extends Pixel_Gallery_Module_Base {
 					'pg_in_animation_show' => 'yes',
 				],
 				'render_type' => 'template',
-				'classes' => BDTPG_IS_PC
 			]
 		);
 
@@ -390,7 +383,6 @@ class Module extends Pixel_Gallery_Module_Base {
 					'pg_in_animation_show' => 'yes',
 				],
 				'render_type' => 'template',
-				'classes' => BDTPG_IS_PC
 			]
 		);
 

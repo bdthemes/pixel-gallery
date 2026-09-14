@@ -23,8 +23,8 @@ class PixelGallery_Others_Plugin_Manager {
      */
     public function __construct() {
         // Add AJAX handlers
-        add_action('wp_ajax_pg_get_plugins', [$this, 'ajax_get_plugins']);
-        add_action('wp_ajax_pg_install_plugin', [$this, 'install_plugin_ajax']);
+        add_action('wp_ajax_bdtpg_get_plugins', [$this, 'ajax_get_plugins']);
+        add_action('wp_ajax_bdtpg_install_plugin', [$this, 'install_plugin_ajax']);
     }
 
     /**
@@ -194,8 +194,8 @@ class PixelGallery_Others_Plugin_Manager {
                     url: ajaxurl,
                     type: 'POST',
                     data: {
-                        action: 'pg_get_plugins',
-                        nonce: '<?php echo esc_attr( wp_create_nonce("pg_get_plugins_nonce") ); ?>'
+                        action: 'bdtpg_get_plugins',
+                        nonce: '<?php echo esc_attr( wp_create_nonce("bdtpg_get_plugins_nonce") ); ?>'
                     },
                     success: function(response) {
                         if (response.success && response.data) {
@@ -320,7 +320,7 @@ class PixelGallery_Others_Plugin_Manager {
                                 '<?php esc_html_e("Activate", "pixel-gallery"); ?>' +
                                 '</a>';
                         } else {
-                            html += '<button class="bdt-button bdt-welcome-button pg-install-plugin" data-plugin-slug="' + pluginSlug + '" data-nonce="<?php echo esc_attr( wp_create_nonce('pg_install_plugin_nonce') ); ?>">' +
+                            html += '<button class="bdt-button bdt-welcome-button pg-install-plugin" data-plugin-slug="' + pluginSlug + '" data-nonce="<?php echo esc_attr( wp_create_nonce('bdtpg_install_plugin_nonce') ); ?>">' +
                                 '<?php esc_html_e("Install", "pixel-gallery"); ?>' +
                                 '</button>';
                         }
@@ -356,7 +356,7 @@ class PixelGallery_Others_Plugin_Manager {
                         url: '<?php echo esc_url( admin_url('admin-ajax.php') ); ?>',
                         type: 'POST',
                         data: {
-                            action: 'pg_install_plugin',
+                            action: 'bdtpg_install_plugin',
                             plugin_slug: pluginSlug,
                             nonce: nonce
                         },
@@ -457,8 +457,13 @@ class PixelGallery_Others_Plugin_Manager {
      */
     public function ajax_get_plugins() {
         // Verify nonce
-        if (!check_ajax_referer('pg_get_plugins_nonce', 'nonce', false)) {
-            wp_die(esc_html__('Security check failed.', 'pixel-gallery'));
+        if (!check_ajax_referer('bdtpg_get_plugins_nonce', 'nonce', false)) {
+            wp_send_json_error(['message' => __('Security check failed.', 'pixel-gallery')], 403);
+        }
+
+        // Only users who could act on this list are allowed to request it.
+        if (!current_user_can('install_plugins')) {
+            wp_send_json_error(['message' => __('You do not have permission to view this list.', 'pixel-gallery')], 403);
         }
 
         // Get cached data
@@ -490,7 +495,7 @@ class PixelGallery_Others_Plugin_Manager {
      */
     public function install_plugin_ajax() {
         // Check nonce
-        if (!wp_verify_nonce(isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '', 'pg_install_plugin_nonce')) {
+        if (!wp_verify_nonce(isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '', 'bdtpg_install_plugin_nonce')) {
             wp_send_json_error(['message' => __('Security check failed', 'pixel-gallery')]);
         }
 

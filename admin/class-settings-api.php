@@ -1200,11 +1200,11 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
                             wp_nonce_field('pixel-gallery-settings-save-nonce');
 
-                            do_action('wsa_form_top_' . $form['id'], $form);
+                            do_action('pixel_gallery_settings_form_top_' . $form['id'], $form);
 
                             $this->do_settings_sections($form['id']);
 
-                            do_action('wsa_form_bottom_' . $form['id'], $form);
+                            do_action('pixel_gallery_settings_form_bottom_' . $form['id'], $form);
 
                             ?>
 
@@ -1358,11 +1358,11 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
 							wp_nonce_field('pixel-gallery-settings-save-nonce');
 
-							do_action('wsa_form_top_' . $form['id'], $form);
+							do_action('pixel_gallery_settings_form_top_' . $form['id'], $form);
 
 							$this->do_settings_sections($form['id']);
 
-							do_action('wsa_form_bottom_' . $form['id'], $form);
+							do_action('pixel_gallery_settings_form_bottom_' . $form['id'], $form);
 
 							?>
 
