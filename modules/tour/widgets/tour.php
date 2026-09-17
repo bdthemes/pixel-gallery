@@ -630,13 +630,13 @@ class Tour extends Module_Base {
 		gridClass += ' pg-in-animation';
 	}
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-tour-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 										<div class="pg-tour-image-wrap bdt-pg-img-mask">
 						<# if ( item.media_type === 'video' ) { #>
@@ -652,17 +652,36 @@ class Tour extends Module_Base {
 							</span>
 						<# } #>
 					</div>
-					<# if ( item.price ) { #>
-						<div class="pg-tour-price"><span>{{{ item.price }}}</span></div>
+					<# if ( settings.show_price === 'yes' && item.price ) { #>
+						<div class="pg-tour-price"><span>{{{ elementor.helpers.sanitize( item.price ) }}}</span></div>
 					<# } #>
 					<div class="pg-tour-content">
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-tour-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-tour-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 						<# } #>
 						<div class="pg-tour-line"></div>
-						<# if ( settings.show_meta === 'yes' && item.meta ) { #>
-							<div class="pg-tour-meta">{{{ item.meta }}}</div>
+						<# if ( settings.show_meta === 'yes' && ( item.meta_days || item.meta_member || item.meta_location ) ) { #>
+							<div class="pg-tour-meta">
+								<# if ( item.meta_days ) { #>
+									<div class="pg-tour-days">
+										<i class="pg-icon-calendar"></i>
+										<span>{{{ elementor.helpers.sanitize( item.meta_days ) }}}</span>
+									</div>
+								<# } #>
+								<# if ( item.meta_member ) { #>
+									<div class="pg-tour-member">
+										<i class="pg-icon-user"></i>
+										<span>{{{ elementor.helpers.sanitize( item.meta_member ) }}}</span>
+									</div>
+								<# } #>
+								<# if ( item.meta_location ) { #>
+									<div class="pg-tour-location">
+										<i class="pg-icon-globe"></i>
+										<span>{{{ elementor.helpers.sanitize( item.meta_location ) }}}</span>
+									</div>
+								<# } #>
+							</div>
 						<# } #>
 					</div>
 <?php $this->print_content_template_lightbox_overlay( 'tour' ); ?>

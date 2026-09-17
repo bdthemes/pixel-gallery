@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Axen",
+    "is_pro": 0,
+    "thumbnail": "/templates/axen.jpg",
+    "demo_url": "https://pixelgallery.pro/demo/axen/",
+    "import_url": "/templates/axen.zip"
+  },
+  {
+    "title": "Flash",
+    "is_pro": 1,
+    "thumbnail": "/templates/flash.jpg",
+    "demo_url": "https://pixelgallery.pro/demo/flash/",
+    "import_url": "/templates/flash.zip"
+  },
+  {
+    "title": "Fluid",
+    "is_pro": 0,
+    "thumbnail": "/templates/fluid.jpg",
+    "demo_url": "https://pixelgallery.pro/demo/fluid/",
+    "import_url": "/templates/fluid.zip"
+  },
+  {
+    "title": "Lytical",
+    "is_pro": 0,
+    "thumbnail": "/templates/lytical.jpg",
+    "demo_url": "https://pixelgallery.pro/demo/lytical/",
+    "import_url": "/templates/lytical.zip"
+  },
+  {
+    "title": "Ocean",
+    "is_pro": 0,
+    "thumbnail": "/templates/ocean.jpg",
+    "demo_url": "https://pixelgallery.pro/demo/ocean/",
+    "import_url": "/templates/ocean.zip"
+  },
+  {
+    "title": "Ranch",
+    "is_pro": 0,
+    "thumbnail": "/templates/ranch.jpg",
+    "demo_url": "https://pixelgallery.pro/demo/ranch/",
+    "import_url": "/templates/ranch.zip"
+  },
+  {
+    "title": "Tread",
+    "is_pro": 1,
+    "thumbnail": "/templates/tread.jpg",
+    "demo_url": "https://pixelgallery.pro/demo/tread/",
+    "import_url": "/templates/tread.zip"
+  },
+  {
+    "title": "Walden",
+    "is_pro": 0,
+    "thumbnail": "/templates/walden.jpg",
+    "demo_url": "https://pixelgallery.pro/demo/walden/",
+    "import_url": "/templates/walden.zip"
+  }
+]

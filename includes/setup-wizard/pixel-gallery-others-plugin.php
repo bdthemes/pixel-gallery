@@ -226,44 +226,55 @@ class PixelGallery_Others_Plugin_Manager {
                     plugins.forEach(function(plugin) {
                         // Skip own plugin (Pixel Gallery) when printing only; data still includes it for other plugins
                         if (plugin.slug === 'pixel-gallery') return;
-                        var isActive = false; // We'll determine this via PHP in the actual implementation
                         var pluginName = plugin.name || '';
                         var pluginSlug = plugin.slug || '';
-                        // Icons are rendered locally from the plugin name; nothing is
-                        // loaded from a remote server.
-                        var pluginInitial = pluginName.replace(/<[^>]*>/g, '').trim().charAt(0).toUpperCase() || '#';
-                        pluginInitial = pluginInitial.replace(/[&<>"']/g, function (c) {
-                            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-                        });
-                        
-                        html += '<div class="bdt-card bdt-card-body bdt-flex bdt-flex-middle bdt-flex-between">' +
+                        var escapeHtml = function (value) {
+                            return String(value).replace(/[&<>"']/g, function (c) {
+                                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+                            });
+                        };
+
+                        // Logos are bundled with Pixel Gallery; plugins without one fall
+                        // back to an initial letter. Nothing is loaded from a remote server.
+                        var pluginLogo;
+                        if (plugin.logo) {
+                            pluginLogo = '<img src="' + escapeHtml(plugin.logo) + '" alt="" width="48" height="48">';
+                        } else {
+                            var pluginInitial = pluginName.replace(/<[^>]*>/g, '').trim().charAt(0).toUpperCase() || '#';
+                            pluginLogo = '<div class="pg-default-plugin-icon" aria-hidden="true">' + escapeHtml(pluginInitial) + '</div>';
+                        }
+
+                        // Same card layout as the setup wizard's integration step: logo,
+                        // name, then installs, downloads, rating and last updated.
+                        html += '<div class="bdt-card bdt-card-body">' +
                             '<div class="bdt-others-plugin-content">' +
-                                '<div class="bdt-plugin-logo-wrap bdt-flex bdt-flex-middle">' +
-                                    '<div class="bdt-plugin-logo-container">' +
-                                        '<div class="default-plugin-icon" aria-hidden="true">' + pluginInitial + '</div>' +
-                                    '</div>' +
+                                '<div class="bdt-plugin-logo-wrap bdt-flex">' +
+                                    '<div class="bdt-plugin-logo-container">' + pluginLogo + '</div>' +
                                     '<div class="bdt-others-plugin-user-wrap bdt-flex bdt-flex-middle">' +
                                         '<h1 class="pg-feature-title">' + pluginName + '</h1>' +
                                     '</div>' +
                                 '</div>' +
-                                '<div class="bdt-others-plugin-content-text bdt-margin-top">';
-                        
-                        if (plugin.description) {
-                            html += '<p>' + plugin.description + '</p>';
-                        }
-                        
+                                '<div class="bdt-others-plugin-content-text">';
+
                         // Active installs
-                        html += '<span class="active-installs bdt-margin-small-top">' +
+                        html += '<span class="pg-active-installs">' +
                             '<?php esc_html_e("Active Installs: ", "pixel-gallery"); ?> ';
                         if (plugin.active_installs_count > 0) {
-                            html += '<span class="installs-count">' + plugin.active_installs_count.toLocaleString() + '+</span>';
+                            html += '<span class="pg-installs-count">' + plugin.active_installs_count.toLocaleString() + '+</span>';
                         } else {
-                            html += '<span class="installs-count">Fewer than 10</span>';
+                            html += '<span class="pg-installs-count">Fewer than 10</span>';
                         }
                         html += '</span>';
-                        
+
+                        // Downloads
+                        if (plugin.downloaded_formatted) {
+                            html += '<div class="bdt-others-plugin-downloads">' +
+                                '<span><?php esc_html_e("Downloads: ", "pixel-gallery"); ?>' + plugin.downloaded_formatted + '</span>' +
+                                '</div>';
+                        }
+
                         // Rating
-                        html += '<div class="bdt-others-plugin-rating bdt-margin-small-top bdt-flex bdt-flex-middle">' +
+                        html += '<div class="bdt-others-plugin-rating bdt-flex bdt-flex-middle">' +
                             '<span class="bdt-others-plugin-rating-stars">';
                         
                         var rating = parseFloat(plugin.rating) || 0;
@@ -282,25 +293,18 @@ class PixelGallery_Others_Plugin_Manager {
                         }
                         
                         html += '</span>' +
-                            '<span class="bdt-others-plugin-rating-text bdt-margin-small-left">' +
+                            '<span class="bdt-others-plugin-rating-text">' +
                                 rating + ' <?php esc_html_e("out of 5 stars.", "pixel-gallery"); ?>';
-                        
+
                         if (plugin.num_ratings > 0) {
-                            html += '<span class="rating-count">(' + plugin.num_ratings.toLocaleString() + ' <?php esc_html_e("ratings", "pixel-gallery"); ?>)</span>';
+                            html += '<span class="pg-rating-count">(' + plugin.num_ratings.toLocaleString() + ' <?php esc_html_e("ratings", "pixel-gallery"); ?>)</span>';
                         }
-                        
+
                         html += '</span></div>';
-                        
-                        // Downloads
-                        if (plugin.downloaded_formatted) {
-                            html += '<div class="bdt-others-plugin-downloads bdt-margin-small-top">' +
-                                '<span><?php esc_html_e("Downloads: ", "pixel-gallery"); ?>' + plugin.downloaded_formatted + '</span>' +
-                                '</div>';
-                        }
-                        
+
                         // Last updated
                         if (plugin.last_updated_formatted) {
-                            html += '<div class="bdt-others-plugin-updated bdt-margin-small-top">' +
+                            html += '<div class="bdt-others-plugin-updated">' +
                                 '<span><?php esc_html_e("Last Updated: ", "pixel-gallery"); ?>' + plugin.last_updated_formatted + '</span>' +
                                 '</div>';
                         }
@@ -431,7 +435,8 @@ class PixelGallery_Others_Plugin_Manager {
                         '<p class="bdt-margin-small-top bdt-text-muted"><?php esc_html_e("Loading plugin data...", "pixel-gallery"); ?></p>' +
                     '</div>'
                 );
-                $list.show();
+                // Clear the inline display:none and let the stylesheet's grid apply.
+                $list.css('display', '');
             }
             
             // Function to show error

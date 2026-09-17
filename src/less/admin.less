@@ -401,7 +401,7 @@
       .pixel-gallery-3pp-install,
       .pixel-gallery-3pp-active,
       .pixel-gallery-3pp-download,
-      .switch {
+      .pg-switch {
         display: none;
       }
     }
@@ -852,7 +852,11 @@
     position: relative;
   }
 
-  .switch {
+  // The legacy .switch selector only covers Pixel Gallery Pro's Extra Options
+  // tab, whose White Label toggles still render label.switch. Drop it once Pro
+  // ships the prefixed class.
+  .pg-switch,
+  #pixel_gallery_extra_options_page .switch {
     position: relative;
     display: inline-block;
     inline-size: 44px;
@@ -864,7 +868,8 @@
     cursor: pointer;
   }
 
-  .switch::after {
+  .pg-switch::after,
+  #pixel_gallery_extra_options_page .switch::after {
     content: "";
     position: absolute;
     inline-size: 20px;
@@ -876,7 +881,7 @@
     transition: all 0.3s cubic-bezier(0.24, 0.85, 0.58, 1);
   }
 
-  input[type="checkbox"]:checked + .switch::after {
+  input[type="checkbox"]:checked + .pg-switch::after {
     transform: translateX(18px);
 
     [dir="rtl"] & {
@@ -884,7 +889,7 @@
     }
   }
 
-  input[type="checkbox"]:checked + .switch {
+  input[type="checkbox"]:checked + .pg-switch {
     background-color: @global-link-color;
   }
 
@@ -893,16 +898,16 @@
     inset-inline-start: -9999px;
   }
 
-  .pg-widget-pro input[type="checkbox"]:checked + .switch {
+  .pg-widget-pro input[type="checkbox"]:checked + .pg-switch {
     background-color: @red-color;
   }
 
-  .pg-widget-free input[type="checkbox"]:checked + .switch {
+  .pg-widget-free input[type="checkbox"]:checked + .pg-switch {
     background-color: @green-color;
   }
 
   .pg-system-requirement {
-    .check-system-status {
+    .pg-check-system-status {
       font-size: 13px;
 
       li > div {
@@ -912,17 +917,17 @@
       }
     }
 
-    .check-system-status .label1 {
+    .pg-check-system-status .pg-label1 {
       inline-size: 200px;
     }
 
-    .check-system-status span {
+    .pg-check-system-status span {
       display: inline-block;
       line-height: 1.6;
     }
 
-    .check-system-status .valid,
-    .check-system-status .invalid {
+    .pg-check-system-status .pg-valid,
+    .pg-check-system-status .pg-invalid {
       font-size: 15px;
       inline-size: 20px;
       block-size: 18px;
@@ -932,12 +937,12 @@
       border-radius: 3px;
     }
 
-    .check-system-status .invalid {
+    .pg-check-system-status .pg-invalid {
       background: red;
       color: #fff;
     }
 
-    .check-system-status .valid {
+    .pg-check-system-status .pg-valid {
       background: @green-color;
       color: #fff;
 
@@ -946,7 +951,7 @@
       }
     }
 
-    .check-system-status i::before {
+    .pg-check-system-status i::before {
       font-size: 15px;
       line-height: 20px;
     }
@@ -957,6 +962,16 @@
     position: absolute;
     inset: 50% auto auto 50%;
     transform: translate(-50%, -50%) !important;
+  }
+
+  // Shown inside the widget grid: centring it absolutely against a static parent
+  // put it underneath the sticky filter bar where nobody could see it.
+  .pg-options .pg-no-result.bdt-animation-shake {
+    position: static;
+    transform: none !important;
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-block: 40px;
   }
 
   .bdt-animation-shake {
@@ -1048,7 +1063,6 @@
   }
 
   #pixel_gallery_elementor_extend_page,
-  #pixel_gallery_other_settings_page,
   #pixel_gallery_third_party_widget_page,
   #pixel_gallery_active_modules_page {
     .pg-option-item-inner {
@@ -1056,25 +1070,7 @@
     }
   }
 
-  #pixel_gallery_other_settings_page {
-    .pg-options {
-      > .pg-option-item {
-        > .pg-option-item-inner {
-          > label > .pg-option-label {
-            font-weight: 700;
-            font-size: 22px;
-          }
-
-          .description {
-            margin-block-start: 20px;
-          }
-        }
-      }
-    }
-  }
-
-  #pixel_gallery_elementor_extend_page,
-  #pixel_gallery_other_settings_page {
+  #pixel_gallery_elementor_extend_page {
     .pg-widget-count-text {
       display: none;
     }
@@ -1177,14 +1173,40 @@
   }
 
   .pg-dashboard-panel {
+    // Other Plugins uses the same card grid as the setup wizard's integration
+    // step, so the two screens read as one design. One column by default; the
+    // breakpoints below step it up to two and three.
     .pg-dashboard-others-plugin {
-      display: flex;
-      flex-direction: column;
-      gap: @pg-dashboard-gap-size;
+      // The cards are injected into .pg-plugins-list, so the grid lives there --
+      // the container also holds the loading and error states.
+      .pg-plugins-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: @pg-dashboard-gap-size;
+
+        // Loading, empty and error messages span the whole row.
+        > :not(.bdt-card) {
+          grid-column: 1 / -1;
+        }
+      }
 
       .bdt-card {
+        display: flex;
         flex-direction: column;
-        gap: 20px;
+        align-items: flex-start;
+        gap: 8px;
+        block-size: 100%;
+        padding: 25px 20px;
+        background: var(--pg-white, #ffffff);
+        border: 1px solid var(--pg-gray-medium, #e8f0f3);
+        border-radius: var(--pg-border-radius, 10px);
+        transition: var(--pg-transition, all 0.3s ease);
+
+        &:hover {
+          border-color: var(--pg-primary, #6c5ce7);
+          box-shadow: var(--pg-shadow, 0 10px 20px rgba(108, 92, 231, 0.1));
+          transform: translateY(-3px);
+        }
       }
     }
 
@@ -1214,6 +1236,15 @@
         flex: none;
       }
 
+      // Chart.js sizes a responsive chart from its container, so give the
+      // System Status doughnuts a box to fill.
+      .pg-canvas-wrap {
+        position: relative;
+        flex: none;
+        inline-size: 100px;
+        block-size: 100px;
+      }
+
       .pg-widget-count {
         color: #a1a8ad;
         font-size: 12px;
@@ -1222,58 +1253,92 @@
       }
 
       .bdt-others-plugin-content {
+        display: flex;
         inline-size: 100%;
-        gap: 20px;
+        gap: 8px;
         flex-direction: column;
         align-items: flex-start;
 
         .pg-feature-title {
-          font-weight: 500;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 1.4;
+          color: var(--pg-text-dark, #2d3436);
           margin-block-end: 0;
         }
 
+        // Logo on its own line with the name under it, like the wizard's cards.
         .bdt-plugin-logo-wrap {
-          gap: 15px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+          inline-size: 100%;
         }
 
+        // Same 48px logo as the wizard, so both screens line up.
         img {
-          inline-size: clamp(50px, 8vw, 70px);
-          block-size: auto;
+          inline-size: 48px;
+          block-size: 48px;
+          flex: none;
+          object-fit: contain;
           vertical-align: middle;
+          border-radius: 4px;
         }
 
-        p {
-          margin: 0 0 10px 0;
-          font-size: 15px;
-          line-height: 1.5;
-          color: #656a71;
-          max-inline-size: 600px;
-          font-weight: 300;
+        .pg-default-plugin-icon {
+          inline-size: 48px;
+          block-size: 48px;
+          background: var(--pg-gray-light, #f5f6fa);
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 22px;
+          font-weight: 700;
+          line-height: 1;
+          text-transform: uppercase;
+          color: var(--pg-text-light, #636e72);
         }
 
-        span.active-installs {
-          font-size: 14px;
+        .bdt-others-plugin-content-text {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        span.pg-active-installs {
+          font-size: 13px;
           font-weight: 500;
           color: #9c27b0;
 
-          .installs-count {
+          .pg-installs-count {
             color: #9c27b0;
           }
         }
 
+        .bdt-others-plugin-downloads {
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--pg-success, #00b894);
+        }
+
         .bdt-others-plugin-updated {
+          font-size: 13px;
+          font-style: italic;
           color: #656a71;
         }
       }
 
+      // Actions sit at the foot of the card; margin-block-start: auto keeps them
+      // aligned across a row. No min-width here: it would blow out the grid columns.
       .bdt-others-plugins-link {
         display: flex;
         flex-wrap: wrap;
         justify-content: start;
         gap: 8px;
         inline-size: 100%;
-        flex: 1;
-        min-inline-size: 300px;
+        margin-block-start: auto;
+        padding-block-start: 5px;
 
         .bdt-dashboard-sec-btn {
           padding-block: 9px !important;
@@ -1333,6 +1398,28 @@
           &:hover {
             border-color: #0d3b54;
             color: #0d3b54;
+          }
+        }
+
+        // "Active" status pill on Other Plugins. bdt-button-success is not
+        // defined by UIkit here, so without this it rendered white text on the
+        // white card.
+        &.bdt-button-success {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 4px;
+          background: rgba(0, 168, 92, 0.12);
+          color: #00a85c;
+          border: 1px solid rgba(0, 168, 92, 0.25);
+          cursor: default;
+
+          .dashicons {
+            color: inherit;
+            font-size: 16px;
+            inline-size: 16px;
+            block-size: 16px;
+            line-height: 1;
           }
         }
 
@@ -1440,7 +1527,7 @@
         }
       }
 
-      .check-system-status {
+      .pg-check-system-status {
         margin-block-start: 20px;
       }
 
@@ -1573,8 +1660,8 @@
     }
   }
 
-  #pixel_gallery_active_modules_page .checkbox,
-  #pixel_gallery_third_party_widget_page .checkbox {
+  #pixel_gallery_active_modules_page .pg-checkbox,
+  #pixel_gallery_third_party_widget_page .pg-checkbox {
     margin-block-start: 5px;
   }
 
@@ -2364,7 +2451,7 @@
           );
           inset-block-start: -70px;
           inset-inline-end: 5%;
-          animation: floatingShape 6s ease-in-out infinite;
+          animation: pg-floating-shape 6s ease-in-out infinite;
         }
 
         &.pg-filter-dots {
@@ -2377,7 +2464,7 @@
             transparent 2px
           );
           background-size: 8px 8px;
-          animation: fadeInOut 4s ease-in-out infinite;
+          animation: pg-fade-in-out 4s ease-in-out infinite;
         }
 
         &.pg-filter-wave {
@@ -2392,7 +2479,7 @@
             rgba(@shape-primary-color, 0) 4px
           );
           transform: rotate(-15deg);
-          animation: waveMotion 3s ease-in-out infinite;
+          animation: pg-wave-motion 3s ease-in-out infinite;
         }
 
         &.pg-filter-hexagon {
@@ -2437,7 +2524,7 @@
             transparent 55%
           );
           background-size: 10px 10px;
-          animation: zigzagFloat 5s ease-in-out infinite;
+          animation: pg-zigzag-float 5s ease-in-out infinite;
         }
       }
     }
@@ -2855,7 +2942,7 @@
     z-index: 999;
     border-radius: 4px;
     opacity: 0;
-    animation: slideDown 0.5s ease-out forwards;
+    animation: pg-slide-down 0.5s ease-out forwards;
 
     .bdt-alert {
       padding-inline-end: 40px;
@@ -2863,7 +2950,7 @@
   }
 
   /* Slide-down animation keyframes */
-  @keyframes slideDown {
+  @keyframes pg-slide-down {
     to {
       inset-block-start: 20px; /* logical top */
       opacity: 1;
@@ -2992,14 +3079,29 @@
 
   /* Dashboard Rating */
   .bdt-others-plugin-rating {
+    gap: 8px;
+
+    .bdt-others-plugin-rating-stars {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
     .bdt-others-plugin-rating-stars i {
       color: #e26f56;
-      font-size: 17px;
+      font-size: 16px;
+      inline-size: 16px;
+      block-size: 16px;
     }
 
     .bdt-others-plugin-rating-text {
       font-size: 13px;
       color: #656a71;
+    }
+
+    .pg-rating-count {
+      font-size: 12px;
+      margin-inline-start: 4px;
     }
   }
 
@@ -3021,7 +3123,7 @@
       border: 2px solid #ffffff;
       border-top: 2px solid transparent;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      animation: pg-spin 1s linear infinite;
       margin-inline-end: 5px;
     }
   }
@@ -3116,7 +3218,7 @@
 /* Keyframes Animations */
 
 /* Horizontal / Vertical Animations */
-@keyframes animate1 {
+@keyframes pg-animate1 {
   0% {
     transform: translateX(-100%);
   }
@@ -3125,7 +3227,7 @@
   }
 }
 
-@keyframes animate2 {
+@keyframes pg-animate2 {
   0% {
     transform: translateY(-100%);
   }
@@ -3134,7 +3236,7 @@
   }
 }
 
-@keyframes animate3 {
+@keyframes pg-animate3 {
   0% {
     transform: translateX(100%);
   }
@@ -3143,7 +3245,7 @@
   }
 }
 
-@keyframes animate4 {
+@keyframes pg-animate4 {
   0% {
     transform: translateY(100%);
   }
@@ -3153,7 +3255,7 @@
 }
 
 /* Custom Code Editor Animations */
-@keyframes spin {
+@keyframes pg-spin {
   0% {
     transform: rotate(0deg);
   }
@@ -3162,7 +3264,7 @@
   }
 }
 
-@keyframes floatingShape {
+@keyframes pg-floating-shape {
   0%,
   100% {
     transform: translateY(0);
@@ -3172,7 +3274,7 @@
   }
 }
 
-@keyframes fadeInOut {
+@keyframes pg-fade-in-out {
   0%,
   100% {
     opacity: 0.3;
@@ -3182,7 +3284,7 @@
   }
 }
 
-@keyframes waveMotion {
+@keyframes pg-wave-motion {
   0%,
   100% {
     transform: rotate(-15deg) translateX(0);
@@ -3192,7 +3294,7 @@
   }
 }
 
-@keyframes zigzagFloat {
+@keyframes pg-zigzag-float {
   0%,
   100% {
     transform: translateX(0);
@@ -3217,7 +3319,7 @@
       }
     }
 
-    .pg-system-requirement .check-system-status {
+    .pg-system-requirement .pg-check-system-status {
       font-size: 14px;
     }
   }
@@ -3296,6 +3398,44 @@
     .pg-content-type-filter {
       display: block;
     }
+
+    // Two-column Other Plugins grid, the same step the wizard's integration list takes.
+    .pg-dashboard-panel .pg-dashboard-others-plugin .pg-plugins-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+// Below 1200px there is no room for the side navigation, so the same tabs
+// become a wrapping bar above the content instead of disappearing.
+@media (max-width: 1199px) {
+  .pixel-gallery-dashboard.wrap {
+    .pg-dashboard-container {
+      flex-direction: column;
+    }
+
+    .pg-dashboard-nav-container-wrapper {
+      display: block;
+    }
+
+    .pg-dashboard-nav-container-inner {
+      min-block-size: 0;
+      padding-block: 8px;
+
+      .pg-nav-elements {
+        display: none;
+      }
+    }
+
+    .bdt-dashboard-navigation {
+      min-inline-size: 0;
+      max-inline-size: none;
+
+      .bdt-tab {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
   }
 }
 
@@ -3314,12 +3454,11 @@
       grid-column: span 5 / auto;
     }
 
-    .pg-dashboard-panel .pg-dashboard-others-plugin .bdt-card {
-      flex-direction: row;
-
-      .bdt-others-plugins-link {
-        justify-content: end;
-      }
+    // Third column for Other Plugins, matching the wizard's integration grid.
+    // The card stays a vertical stack here -- it used to flip to a horizontal
+    // row, which is what made this screen look unlike the wizard.
+    .pg-dashboard-panel .pg-dashboard-others-plugin .pg-plugins-list {
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 }

@@ -613,14 +613,14 @@ class Verse extends Module_Base {
 	var gridClass = 'pg-verse-grid pg-grid';
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
-			var eff = settings.verse_layout_style ? ' pg-verse-effect-' + settings.verse_layout_style : '';
+			var eff = ( settings.verse_layout_style && 'left' !== settings.verse_layout_style ) ? ' pg-verse-effect-' + settings.verse_layout_style : '';
 			var itemClass = 'pg-verse-item pg-item elementor-repeater-item-' + item._id + eff;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 										<div class="pg-verse-image-wrap bdt-pg-img-mask">
 						<# if ( item.media_type === 'video' ) { #>
@@ -638,23 +638,23 @@ class Verse extends Module_Base {
 					</div>
 					<div class="pg-verse-content">
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-verse-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-verse-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 						<# } #>
 						<# if ( settings.show_text === 'yes' && item.text ) { #>
-							<div class="pg-verse-text">{{{ item.text }}}</div>
+							<div class="pg-verse-text">{{{ elementor.helpers.sanitize( item.text ) }}}</div>
 						<# } #>
-						<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' && item.readmore_text ) { #>
-							<div class="pg-verse-readmore">
+					</div>
+					<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' && item.readmore_text ) { #>
+						<div class="pg-verse-readmore">
 <?php $this->print_content_template_item_link_prepare( 'verse' ); ?>
 <?php $this->print_content_template_item_link_wrap_open(); ?>
 <?php $this->print_content_template_item_link_a_open(); ?>
-							{{{ item.readmore_text }}}
+						{{ item.readmore_text }}
 <?php $this->print_content_template_item_link_a_close(); ?>
 <?php $this->print_content_template_item_link_wrap_close(); ?>
-						</div>
-						<# } #>
 					</div>
+					<# } #>
 					<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'whole_item' ) { #>
 <?php $this->print_content_template_lightbox_overlay( 'verse' ); ?>
 					<# } #>

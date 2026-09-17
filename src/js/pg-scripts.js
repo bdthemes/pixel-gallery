@@ -48,7 +48,7 @@ var debounce = function(func, wait, immediate) {
         var spanText = $scope.find('.pg-turbo-content'),
             gridItem = $scope.find('.pg-turbo-item');
 
-         $(gridItem).mousemove(function(e){
+         $(gridItem).on('mousemove', function(e){
             var x = e.clientX,
                 y = e.clientY;
 
@@ -68,7 +68,9 @@ var debounce = function(func, wait, immediate) {
 
     var widgetlumen = function ($scope, $) {
 
-        var nodes = [].slice.call(document.querySelectorAll('.pg-lumen-item'), 0);
+        // Scope to this widget; a document-wide query re-binds every Lumen item on
+        // the page each time any Lumen widget becomes ready (or re-renders in the editor).
+        var nodes = [].slice.call($scope[0].querySelectorAll('.pg-lumen-item'), 0);
         var directions = { 0: 'top', 1: 'right', 2: 'bottom', 3: 'left' };
         var classNames = ['in', 'out'].map(p => Object.values(directions).map(d => `${p}-${d}`)).reduce((a, b) => a.concat(b));
 
@@ -110,9 +112,14 @@ var debounce = function(func, wait, immediate) {
 			arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 		// Set the rootMargin to trigger when the target is 10% past the viewport
 		options.rootMargin = options.rootMargin || "10% 0px 0px 0px";
+		var isReady =
+			options.isReady ||
+			function (entry) {
+				return entry.isIntersecting;
+			};
 		var observer = new IntersectionObserver(function (entries, observer) {
 			entries.forEach(function (entry) {
-				if (entry.isIntersecting) {
+				if (isReady(entry)) {
 					callback(entry);
 
 					if (!options.loop) observer.unobserve(entry.target); // Unobserve after the first intersection
@@ -129,10 +136,19 @@ var debounce = function(func, wait, immediate) {
 			return;
 		}
 
+		var $items = $($animations[0]).find(".pg-item");
+
+		if (!$items.length) {
+			return;
+		}
+
 		var itemQueue = [];
-		var delay = $animations.data("in-animation-delay")
-			? $animations.data("in-animation-delay")
-			: 200;
+		var delayData = $animations.data("in-animation-delay");
+		// An explicit 0 means no delay; only a missing value falls back to 200ms.
+		var delay =
+			undefined === delayData || "" === delayData
+				? 200
+				: parseInt(delayData, 10) || 0;
 		var queueTimer;
 
 		function processItemQueue() {
@@ -149,16 +165,38 @@ var debounce = function(func, wait, immediate) {
 			}, delay);
 		}
 
+		var thresholds = [];
+		for (var i = 0; i <= 20; i++) {
+			thresholds.push(i / 20);
+		}
+
 		pgObserveTarget(
-			$($animations[0]).find(".pg-item")[0],
+			$items[0],
 			function () {
-				itemQueue.push($($animations[0]).find(".pg-item"));
+				itemQueue.push($items);
 				processItemQueue();
 			},
 			{
 				root: null,
 				rootMargin: "0px",
-				threshold: 0.8,
+				threshold: thresholds,
+				// Reveal when 80% of the first item is visible. An item taller than
+				// the viewport can never reach that ratio, so also reveal it once it
+				// fills 80% of the viewport; otherwise the gallery stays invisible.
+				isReady: function (entry) {
+					if (!entry.isIntersecting) {
+						return false;
+					}
+
+					var viewportHeight = entry.rootBounds
+						? entry.rootBounds.height
+						: window.innerHeight;
+
+					return (
+						entry.intersectionRatio >= 0.8 ||
+						entry.intersectionRect.height >= viewportHeight * 0.8
+					);
+				},
 			}
 		);
 	};

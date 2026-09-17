@@ -32,7 +32,9 @@ class Admin {
 
         register_deactivation_hook(BDTPG__FILE__, [$this, 'pixel_gallery_plugin_on_deactivate']);
 
-        add_action('after_setup_theme', [$this, 'plugin_meta_links']);
+        // This class is created on "init", after "after_setup_theme" has already run,
+        // so register the row links directly.
+        add_filter('plugin_row_meta', [$this, 'plugin_row_meta'], 10, 2);
 
         add_filter('plugin_action_links_' . BDTPG_PBNAME, [$this, 'plugin_action_links']);
         
@@ -45,15 +47,6 @@ class Admin {
         wp_safe_redirect(admin_url('admin.php?page=pixel_gallery_options'));
         exit;
         // You could use a header(sprintf('Location: %s', admin_url(...)); here instead too.
-    }
-
-    /**
-     * Register the plugin row meta and action links.
-     * @access public
-     */
-    public function plugin_meta_links() {
-        add_filter('plugin_row_meta', [$this, 'plugin_row_meta'], 10, 2);
-        add_filter('plugin_action_links_' . BDTPG_PBNAME, [$this, 'plugin_action_meta']);
     }
 
     /**
@@ -101,34 +94,12 @@ class Admin {
     public function plugin_action_links( $plugin_meta ) {
 
         $row_meta = [
-            'settings' => '<a href="'.admin_url( 'admin.php?page=pixel_gallery_options' ) .'" aria-label="' . esc_attr(__('Go to settings', 'pixel-gallery')) . '" >' . __('Settings', 'pixel-gallery') . '</b></a>',
+            'settings' => '<a href="' . esc_url( admin_url( 'admin.php?page=pixel_gallery_options' ) ) . '" aria-label="' . esc_attr__( 'Go to settings', 'pixel-gallery' ) . '">' . esc_html__( 'Settings', 'pixel-gallery' ) . '</a>',
         ];
 
         $plugin_meta = array_merge($plugin_meta, $row_meta);
 
         return $plugin_meta;
-    }
-
-    /**
-     * Action meta
-     * @access public
-     * @return array
-     */
-
-
-    public function plugin_action_meta($links) {
-
-        $links = array_merge([sprintf('<a href="%s">%s</a>', pixel_gallery_dashboard_link('#pixel_gallery_welcome'), esc_html__('Settings', 'pixel-gallery'))], $links);
-
-        $links = array_merge($links, [
-            sprintf(
-                '<a href="%s">%s</a>',
-                pixel_gallery_dashboard_link('#pixel_gallery_license_settings'),
-                esc_html__('License', 'pixel-gallery')
-            )
-        ]);
-
-        return $links;
     }
 
     /**

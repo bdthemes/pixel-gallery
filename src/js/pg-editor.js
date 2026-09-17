@@ -33,14 +33,18 @@
 
     elementor.hooks.addFilter("panel/elements/regionViews", function (panel) {
 
+        // This filter runs every time the panel is built; only add the style once.
         jQuery(document).ready(function () {
-            jQuery('body').append(`<style>.bdt-pro-unlock-icon:after{right: auto !important; left: 5px !important;}</style>`);
+            if (!document.getElementById('pg-pro-unlock-icon-style')) {
+                jQuery('body').append(`<style id="pg-pro-unlock-icon-style">.bdt-pro-unlock-icon:after{right: auto !important; left: 5px !important;}</style>`);
+            }
         });
 
-        if (PixelGalleryConfigEditor.pro_license_activated || PixelGalleryConfigEditor.promotional_widgets <= 0) return panel;
+        var promotionalWidgets = PixelGalleryConfigEditor.promotional_widgets || [];
+
+        if (PixelGalleryConfigEditor.pro_license_activated || !promotionalWidgets.length) return panel;
 
         var promotionalWidgetHandler,
-            promotionalWidgets = PixelGalleryConfigEditor.promotional_widgets,
             elementsCollection = panel.elements.options.collection,
             categories = panel.categories.options.collection,
             categoriesView = panel.categories.view,
@@ -66,13 +70,13 @@
             name: "pixel-gallery"
         });
 
-        freeCategoryIndex && categories.add({
+        categories.add({
             name: "pixel-gallery-pro",
             title: "Pixel Gallery Pro",
             defaultActive: !1,
             items: proWidgets
         }, {
-            at: freeCategoryIndex + 1
+            at: freeCategoryIndex >= 0 ? freeCategoryIndex + 1 : categories.length
         });
 
         promotionalWidgetHandler = {
@@ -92,12 +96,22 @@
                 return className;
             },
 
-            onMouseDown: function () {
-                void this.constructor.__super__.onMouseDown.call(this);
+            onMouseDown: function (event) {
+                // Elementor's own handler needs the event and would also open the Elementor Pro
+                // upsell, so only stop propagation here and show the Pixel Gallery dialog.
+                if (event && event.stopPropagation) {
+                    event.stopPropagation();
+                }
+
                 var promotion = this.getWedgetOption(this.model.get("name"));
+                // There is no global sprintf() in the Elementor editor; use the wp-i18n one.
                 elementor.promotion.showDialog({
-                    title: sprintf(wp.i18n.__('%s', 'pixel-gallery'), this.model.get("title")),
-                    content: sprintf(wp.i18n.__('Use %s widget and dozens more pro features to extend your toolbox and build sites faster and better.', 'pixel-gallery'), this.model.get("title")),
+                    title: this.model.get("title"),
+                    content: wp.i18n.sprintf(
+                        /* translators: %s: Widget title. */
+                        wp.i18n.__('Use %s widget and dozens more pro features to extend your toolbox and build sites faster and better.', 'pixel-gallery'),
+                        this.model.get("title")
+                    ),
                     targetElement: this.el,
                     position: {
                         blockStart: '-7'

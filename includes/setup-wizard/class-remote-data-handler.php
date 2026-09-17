@@ -32,6 +32,59 @@ class Remote_Data_Handler {
     const CRON_HOOK = 'bdtpg_fetch_remote_plugins_cron';
 
     /**
+     * wordpress.org slugs whose bundled logo file name differs from the slug.
+     *
+     * Every other slug maps straight to <slug>.png inside
+     * assets/images/others-plugin-logo/.
+     *
+     * @var array<string, string>
+     */
+    const LOCAL_PLUGIN_LOGO_ALIASES = [
+        'bdthemes-element-pack-lite' => 'element-pack',
+        'bdthemes-element-pack'      => 'element-pack',
+        'bdthemes-prime-slider-lite' => 'prime-slider',
+        'bdthemes-prime-slider'      => 'prime-slider',
+        'website-accessibility'      => 'one-accessibility',
+    ];
+
+    /**
+     * Resolve a plugin slug to the brand logo bundled with Pixel Gallery.
+     *
+     * The logos ship inside the plugin, so nothing is loaded from a remote
+     * server (WordPress.org disallows offloading assets).
+     *
+     * @param string $slug wordpress.org plugin slug (accepts "slug/file.php" too).
+     * @return string Logo URL, or '' when nothing is bundled for that slug.
+     */
+    public static function get_local_plugin_logo($slug) {
+        if (!is_string($slug) || '' === $slug) {
+            return '';
+        }
+
+        // Callers may pass either a bare slug or "slug/file.php".
+        if (false !== strpos($slug, '/')) {
+            $slug = dirname($slug);
+        }
+
+        $file = self::LOCAL_PLUGIN_LOGO_ALIASES[$slug] ?? $slug;
+
+        // Never let a slug escape the logo folder: only a plain lowercase name.
+        if (!preg_match('/^[a-z0-9-]+$/', $file)) {
+            return '';
+        }
+
+        $relative = 'images/others-plugin-logo/' . $file . '.png';
+
+        // Only advertise the file if it actually shipped, so a trimmed build
+        // falls back to the initial-letter icon instead of a broken image.
+        if (!is_file(BDTPG_ASSETS_PATH . $relative)) {
+            return '';
+        }
+
+        return BDTPG_ASSETS_URL . $relative;
+    }
+
+    /**
      * Initialize the remote data handler
      */
     public static function init() {
@@ -234,6 +287,9 @@ class Remote_Data_Handler {
                 'last_updated' => $data['last_updated'] ?? '',
                 'last_updated_formatted' => $last_updated_formatted,
                 'homepage' => $data['homepage'] ?? '',
+                // Resolved per request rather than cached, so the URL always
+                // matches the current site address.
+                'logo' => self::get_local_plugin_logo($slug),
                 'status' => $plugin_status,
                 'plugin_file' => $plugin_file,
                 'activate_nonce' => $plugin_file ? wp_create_nonce('activate-plugin_' . $plugin_file) : '',
@@ -264,7 +320,7 @@ class Remote_Data_Handler {
      * @param string $slug Plugin slug
      * @return string Plugin status: 'active', 'installed', 'not_installed'
      */
-    private static function get_plugin_status_by_slug($slug) {
+    public static function get_plugin_status_by_slug($slug) {
         if (!function_exists('is_plugin_active')) {
             require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
@@ -277,7 +333,24 @@ class Remote_Data_Handler {
         
         if ($plugin_file && is_plugin_active($plugin_file)) {
             return 'active';
-        } elseif ($plugin_file && isset($installed_plugins[$plugin_file])) {
+        }
+
+        // An active Pro edition already includes the free plugin, so don't offer
+        // to install or activate the free one next to it.
+        $pro_editions = [
+            'bdthemes-element-pack-lite' => 'bdthemes-element-pack',
+            'bdthemes-prime-slider-lite' => 'bdthemes-prime-slider',
+        ];
+
+        if (isset($pro_editions[$slug])) {
+            $pro_file = self::get_plugin_file_by_slug($pro_editions[$slug]);
+
+            if ($pro_file && is_plugin_active($pro_file)) {
+                return 'active';
+            }
+        }
+
+        if ($plugin_file && isset($installed_plugins[$plugin_file])) {
             return 'installed';
         }
         

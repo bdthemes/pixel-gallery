@@ -990,13 +990,13 @@ class Fluid extends Module_Base {
 	var gridClass = 'pg-fluid-grid pg-grid';
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-fluid-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 					<div class="pg-fluid-content">
 											<div class="pg-fluid-image-wrap bdt-pg-img-mask">
@@ -1014,15 +1014,15 @@ class Fluid extends Module_Base {
 						<# } #>
 					</div>
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-fluid-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-fluid-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 						<# } #>
 						<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' && item.readmore_text ) { #>
 							<div class="pg-fluid-readmore">
 <?php $this->print_content_template_item_link_prepare( 'fluid' ); ?>
 <?php $this->print_content_template_item_link_wrap_open(); ?>
 <?php $this->print_content_template_item_link_a_open(); ?>
-							<span>{{{ item.readmore_text }}}</span>
+							<span>{{ item.readmore_text }}</span>
 <?php $this->print_content_template_item_link_a_close(); ?>
 <?php $this->print_content_template_item_link_wrap_close(); ?>
 						</div>
@@ -1031,7 +1031,13 @@ class Fluid extends Module_Base {
 					<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'whole_item' ) { #>
 <?php $this->print_content_template_lightbox_overlay( 'fluid' ); ?>
 					<# } #>
-					<div class="pg-fluid-social-link"></div>
+					<# if ( settings.show_social_link === 'yes' && settings.social_link_list && settings.social_link_list.length ) { #>
+						<div class="pg-fluid-social-link">
+							<# _.each( settings.social_link_list, function( link ) { #>
+								<a class="elementor-repeater-item-{{ link._id }}" href="{{ elementor.helpers.sanitizeUrl( link.social_link ) }}" target="_blank">{{ link.social_link_title }}</a>
+							<# } ); #>
+						</div>
+					<# } #>
 				<# } #>
 			</div>
 		<# } ); #>

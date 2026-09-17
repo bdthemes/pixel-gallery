@@ -6,9 +6,14 @@
 			arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 		// Set the rootMargin to trigger when the target is 10% past the viewport
 		options.rootMargin = options.rootMargin || "10% 0px 0px 0px";
+		var isReady =
+			options.isReady ||
+			function (entry) {
+				return entry.isIntersecting;
+			};
 		var observer = new IntersectionObserver(function (entries, observer) {
 			entries.forEach(function (entry) {
-				if (entry.isIntersecting) {
+				if (isReady(entry)) {
 					callback(entry);
 
 					if (!options.loop) observer.unobserve(entry.target); // Unobserve after the first intersection
@@ -25,10 +30,19 @@
 			return;
 		}
 
+		var $items = $($animations[0]).find(".pg-item");
+
+		if (!$items.length) {
+			return;
+		}
+
 		var itemQueue = [];
-		var delay = $animations.data("in-animation-delay")
-			? $animations.data("in-animation-delay")
-			: 200;
+		var delayData = $animations.data("in-animation-delay");
+		// An explicit 0 means no delay; only a missing value falls back to 200ms.
+		var delay =
+			undefined === delayData || "" === delayData
+				? 200
+				: parseInt(delayData, 10) || 0;
 		var queueTimer;
 
 		function processItemQueue() {
@@ -45,16 +59,38 @@
 			}, delay);
 		}
 
+		var thresholds = [];
+		for (var i = 0; i <= 20; i++) {
+			thresholds.push(i / 20);
+		}
+
 		pgObserveTarget(
-			$($animations[0]).find(".pg-item")[0],
+			$items[0],
 			function () {
-				itemQueue.push($($animations[0]).find(".pg-item"));
+				itemQueue.push($items);
 				processItemQueue();
 			},
 			{
 				root: null,
 				rootMargin: "0px",
-				threshold: 0.8,
+				threshold: thresholds,
+				// Reveal when 80% of the first item is visible. An item taller than
+				// the viewport can never reach that ratio, so also reveal it once it
+				// fills 80% of the viewport; otherwise the gallery stays invisible.
+				isReady: function (entry) {
+					if (!entry.isIntersecting) {
+						return false;
+					}
+
+					var viewportHeight = entry.rootBounds
+						? entry.rootBounds.height
+						: window.innerHeight;
+
+					return (
+						entry.intersectionRatio >= 0.8 ||
+						entry.intersectionRect.height >= viewportHeight * 0.8
+					);
+				},
 			}
 		);
 	};

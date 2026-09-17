@@ -751,7 +751,7 @@ class Ranch extends Module_Base
 			return;
 		}
 
-		$this->add_render_attribute('social-icon', 'class', 'pg-social-icon');
+		$this->add_render_attribute('social-icon', 'class', 'pg-social-icon', true);
 
 		?>
 		<div <?php $this->print_render_attribute_string('social-icon'); ?>>
@@ -842,13 +842,13 @@ class Ranch extends Module_Base
 	var gridClass = 'pg-ranch-grid pg-grid';
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-ranch-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 										<div class="pg-ranch-image-wrap bdt-pg-img-mask">
 						<# if ( item.media_type === 'video' ) { #>
@@ -866,14 +866,24 @@ class Ranch extends Module_Base
 					</div>
 					<div class="pg-ranch-content">
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-ranch-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-ranch-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 						<# } #>
 						<# if ( settings.show_meta === 'yes' && item.meta ) { #>
-							<div class="pg-ranch-meta">{{{ item.meta }}}</div>
+							<div class="pg-ranch-meta"><span>{{{ elementor.helpers.sanitize( item.meta ) }}}</span></div>
 						<# } #>
-						<div class="pg-ranch-social-link"></div>
 					</div>
+					<# if ( settings.show_social_icon === 'yes' && settings.social_link_list && settings.social_link_list.length ) { #>
+							<div class="pg-social-icon">
+								<# _.each( settings.social_link_list, function( link ) {
+									var pgSocialIcon = elementor.helpers.renderIcon( view, link.social_icon, { 'aria-hidden': 'true', 'class': 'fa-fw' }, 'i', 'object' );
+								#>
+									<a href="{{ elementor.helpers.sanitizeUrl( link.social_link ) }}" target="_blank"<# if ( settings.social_icon_tooltip === 'yes' ) { #> title="{{ link.social_link_title }}" pg-tooltip="pos: right;"<# } #>>
+										<span><# if ( pgSocialIcon && pgSocialIcon.rendered ) { #>{{{ pgSocialIcon.value }}}<# } #></span>
+									</a>
+								<# } ); #>
+							</div>
+						<# } #>
 					<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'whole_item' ) { #>
 <?php $this->print_content_template_lightbox_overlay( 'ranch' ); ?>
 					<# } #>

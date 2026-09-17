@@ -1,5 +1,5 @@
 (function ($) {
-    if (!$('.bdt-setup-wizard').length) {
+    if (!$('.pg-setup-wizard').length) {
         return;
     }
 
@@ -12,13 +12,13 @@
             progressItems: document.querySelectorAll('.bdt-wizard-progress-item'),
             progressBar: document.getElementById('plugin-install-progress'),
             categorySelect: document.getElementById('category-select'),
-            searchInput: document.querySelector('.widget-search'),
-            activateAllButton: document.querySelector('.bulk-action.activate'),
-            deactivateAllButton: document.querySelector('.bulk-action.deactivate'),
+            searchInput: document.querySelector('.pg-widget-search'),
+            activateAllButton: document.querySelector('.pg-bulk-action.pg-activate'),
+            deactivateAllButton: document.querySelector('.pg-bulk-action.pg-deactivate'),
             saveButton: document.getElementById('save-and-continue'),
-            widgetList: document.querySelector('.widget-list'),
+            widgetList: document.querySelector('.pg-widget-list'),
             installButton: document.getElementById('pg-install-plugins-btn'),
-            filterButtons: document.querySelectorAll('.filter-button'),
+            filterButtons: document.querySelectorAll('.pg-filter-button'),
 
             init: function () {
                 this.setupStepAttributes();
@@ -41,7 +41,7 @@
                 const currentStep = this.steps[this.currentStep];
                 if (currentStep) {
                     setTimeout(() => {
-                        currentStep.classList.add('active');
+                        currentStep.classList.add('pg-wizard-active');
                         currentStep.style.display = 'block'; // Ensure display is set to block
                     }, 100);
                 }
@@ -100,8 +100,8 @@
                 if (this.filterButtons) {
                     this.filterButtons.forEach(button => {
                         button.addEventListener('click', () => {
-                            this.filterButtons.forEach(btn => btn.classList.remove('active'));
-                            button.classList.add('active');
+                            this.filterButtons.forEach(btn => btn.classList.remove('pg-wizard-active'));
+                            button.classList.add('pg-wizard-active');
                             this.filterItemsByType(button.dataset.filter);
                         });
                     });
@@ -167,7 +167,7 @@
             },
 
             getSelectedPluginSlugs: function () {
-                return $('#pg-install-plugins .plugin-slider-checkbox:checked')
+                return $('#pg-install-plugins .pg-plugin-slider-checkbox:checked')
                     .map(function () { return $(this).val(); })
                     .get()
                     .filter(Boolean);
@@ -177,11 +177,11 @@
                 const pluginSlugs = this.getSelectedPluginSlugs();
 
                 if(pluginSlugs.length){
-                    $("#pg-install-plugins-btn").removeClass('d-none').addClass('pulse-animation');
-                    $("#pg-activate-consent-wrap").removeClass('d-none');
+                    $("#pg-install-plugins-btn").removeClass('pg-d-none').addClass('pg-pulse-animation');
+                    $("#pg-activate-consent-wrap").removeClass('pg-d-none');
                 }else{
-                    $("#pg-install-plugins-btn").addClass('d-none').removeClass('pulse-animation');
-                    $("#pg-activate-consent-wrap").addClass('d-none');
+                    $("#pg-install-plugins-btn").addClass('pg-d-none').removeClass('pg-pulse-animation');
+                    $("#pg-activate-consent-wrap").addClass('pg-d-none');
                     // Activation consent never carries over to an empty selection.
                     $("#pg-activate-after-install").prop('checked', false);
                 }
@@ -189,13 +189,13 @@
 
             onChangedPluginSliderCheckbox: function(){
                 const vm = this;
-                $('#pg-install-plugins').on('change', '.plugin-slider-checkbox', function (e) {
+                $('#pg-install-plugins').on('change', '.pg-plugin-slider-checkbox', function (e) {
                     vm.pluginSliderCheckbox();
                     
-                    const pluginItem = $(this).closest('.plugin-item');
-                    pluginItem.addClass('item-highlight');
+                    const pluginItem = $(this).closest('.pg-plugin-item');
+                    pluginItem.addClass('pg-item-highlight');
                     setTimeout(() => {
-                        pluginItem.removeClass('item-highlight');
+                        pluginItem.removeClass('pg-item-highlight');
                     }, 600);
                 });
             },
@@ -203,14 +203,14 @@
             showStep: function (step) {
                 // Hide all steps first
                 this.steps.forEach((stepElement) => {
-                    stepElement.classList.remove('active');
+                    stepElement.classList.remove('pg-wizard-active');
                     stepElement.style.display = 'none'; // Ensure inactive steps are completely hidden
                 });
 
                 // Immediately show the current step without delay
                 const currentStep = this.steps[step];
                 if (currentStep) {
-                    currentStep.classList.add('active');
+                    currentStep.classList.add('pg-wizard-active');
                     currentStep.style.display = 'block'; // Make sure active step is visible
                 }
 
@@ -218,7 +218,7 @@
             },
 
             filterItemsByType: function(type) {
-                const items = document.querySelectorAll('.feature-item, .plugin-item');
+                const items = document.querySelectorAll('.pg-feature-item, .pg-plugin-item');
                 
                 items.forEach(item => {
                     if (type === 'all' || item.dataset.type === type) {
@@ -262,13 +262,13 @@
             updateProgress: function (step) {
                 this.progressItems.forEach((item, index) => {
                     if (index < step) {
-                        item.classList.remove('active');
-                        item.classList.add('completed');
+                        item.classList.remove('pg-wizard-active');
+                        item.classList.add('pg-wizard-completed');
                     } else if (index === step) {
-                        item.classList.add('active');
-                        item.classList.remove('completed');
+                        item.classList.add('pg-wizard-active');
+                        item.classList.remove('pg-wizard-completed');
                     } else {
-                        item.classList.remove('active', 'completed');
+                        item.classList.remove('pg-wizard-active', 'pg-wizard-completed');
                     }
                 });
             },
@@ -296,17 +296,17 @@
                 event.preventDefault();
                 const checkboxes = this.widgetList.querySelectorAll('input[type="checkbox"]');
                 
-                this.activateAllButton.classList.add('button-pulse');
+                this.activateAllButton.classList.add('pg-button-pulse');
                 setTimeout(() => {
-                    this.activateAllButton.classList.remove('button-pulse');
+                    this.activateAllButton.classList.remove('pg-button-pulse');
                 }, 500);
                 
                 checkboxes.forEach(checkbox => {
                     checkbox.checked = true;
                     const widgetItem = checkbox.closest('li');
-                    widgetItem.classList.add('item-highlight');
+                    widgetItem.classList.add('pg-item-highlight');
                     setTimeout(() => {
-                        widgetItem.classList.remove('item-highlight');
+                        widgetItem.classList.remove('pg-item-highlight');
                     }, 600);
                 });
             },
@@ -315,24 +315,24 @@
                 event.preventDefault();
                 const checkboxes = this.widgetList.querySelectorAll('input[type="checkbox"]');
                 
-                this.deactivateAllButton.classList.add('button-pulse');
+                this.deactivateAllButton.classList.add('pg-button-pulse');
                 setTimeout(() => {
-                    this.deactivateAllButton.classList.remove('button-pulse');
+                    this.deactivateAllButton.classList.remove('pg-button-pulse');
                 }, 500);
                 
                 checkboxes.forEach(checkbox => {
                     checkbox.checked = false;
                     const widgetItem = checkbox.closest('li');
-                    widgetItem.classList.add('item-highlight');
+                    widgetItem.classList.add('pg-item-highlight');
                     setTimeout(() => {
-                        widgetItem.classList.remove('item-highlight');
+                        widgetItem.classList.remove('pg-item-highlight');
                     }, 600);
                 });
             },
 
             saveSettingsSubmit: function () {
                 const vm = this;
-                $('#pg_setup_wizard_modules').submit(function (e) {
+                $('#pg_setup_wizard_modules').on('submit', function (e) {
                     e.preventDefault();
                     var data = $(this).serialize();
                     
@@ -342,7 +342,7 @@
                     
                     // Show loading state
                     saveBtn.prop('disabled', true)
-                         .html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...');
+                         .html('<span class="pg-spinner-border pg-spinner-border-sm" role="status" aria-hidden="true"></span> Saving...');
                     
                     $.ajax({
                         url: BDT_SetupWizard.ajax_url,
@@ -377,11 +377,11 @@
 
             installPlugins: function () {
                 const vm = this;
-                $('#pg-install-plugins').submit(function (e) {
+                $('#pg-install-plugins').on('submit', function (e) {
                     e.preventDefault();
                     
                     vm.installButton.disabled = true;
-                    vm.installButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Installing...';
+                    vm.installButton.innerHTML = '<span class="pg-spinner-border pg-spinner-border-sm" role="status" aria-hidden="true"></span> Installing...';
                     
                     const pluginSlugs = vm.getSelectedPluginSlugs();
 
@@ -392,21 +392,21 @@
                     let installedPlugins = 0;
                     const totalPluginsSlug = pluginSlugs.length;
                     
-                    let progressContainer = document.querySelector('.install-progress-container');
+                    let progressContainer = document.querySelector('.pg-install-progress-container');
                     if (!progressContainer) {
                         progressContainer = document.createElement('div');
-                        progressContainer.className = 'install-progress-container';
+                        progressContainer.className = 'pg-install-progress-container';
                         progressContainer.innerHTML = `
-                            <div class="progress-bar-wrapper">
-                                <div id="plugin-install-progress" class="progress-bar" style="width: 0%">0%</div>
+                            <div class="pg-progress-bar-wrapper">
+                                <div id="plugin-install-progress" class="pg-progress-bar" style="width: 0%">0%</div>
                             </div>
-                            <div class="install-status">Preparing to install plugins...</div>
+                            <div class="pg-install-status">Preparing to install plugins...</div>
                         `;
                         vm.installButton.parentNode.appendChild(progressContainer);
                     }
                     
                     const progressBar = document.getElementById('plugin-install-progress');
-                    const statusText = document.querySelector('.install-status');
+                    const statusText = document.querySelector('.pg-install-status');
 
                     const updateProgressBar = () => {
                         const progress = (installedPlugins / totalPluginsSlug) * 100;
@@ -436,18 +436,18 @@
                                         installedPlugins++;
                                         updateProgressBar();
                                         
-                                        statusText.innerHTML += ` <span class="success-indicator"><i class="dashicons dashicons-yes-alt"></i></span>`;
+                                        statusText.innerHTML += ` <span class="pg-success-indicator"><i class="dashicons dashicons-yes-alt"></i></span>`;
                                         
                                         const pluginItem = document.querySelector(`[data-slug="${slug}"]`);
                                         if (pluginItem) {
-                                            pluginItem.classList.add('plugin-installed');
+                                            pluginItem.classList.add('pg-plugin-installed');
                                         }
                                         
                                         setTimeout(() => {
                                             installNextPlugin();
                                         }, 500);
                                     } else {
-                                        statusText.innerHTML += ` <span class="error-indicator"><i class="dashicons dashicons-no"></i> Failed</span>`;
+                                        statusText.innerHTML += ` <span class="pg-error-indicator"><i class="dashicons dashicons-no"></i> Failed</span>`;
                                         installedPlugins++;
                                         updateProgressBar();
                                         setTimeout(() => {
@@ -456,7 +456,7 @@
                                     }
                                 },
                                 error: (error) => {
-                                    statusText.innerHTML += ` <span class="error-indicator"><i class="dashicons dashicons-no"></i> Error</span>`;
+                                    statusText.innerHTML += ` <span class="pg-error-indicator"><i class="dashicons dashicons-no"></i> Error</span>`;
                                     installedPlugins++;
                                     updateProgressBar();
                                     setTimeout(() => {
@@ -468,7 +468,7 @@
                             statusText.textContent = activateAfterInstall === '1'
                                 ? 'All selected plugins were installed and activated.'
                                 : 'All selected plugins were installed. Activate them from the Plugins screen whenever you are ready.';
-                            statusText.innerHTML += ' <span class="success-indicator"><i class="dashicons dashicons-yes-alt"></i></span>';
+                            statusText.innerHTML += ' <span class="pg-success-indicator"><i class="dashicons dashicons-yes-alt"></i></span>';
                             
                             setTimeout(() => {
                                 vm.installButton.disabled = false;
@@ -486,10 +486,117 @@
         wizard.init();
     });
 
+    // Ready-to-use templates on the "Good to Go" step.
+    const templateI18n = (window.BDT_SetupWizard && BDT_SetupWizard.i18n) || {};
+
+    function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+    }
+
+    function templateRequest(data) {
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: BDT_SetupWizard.ajax_url,
+                type: 'POST',
+                data: $.extend({ nonce: BDT_SetupWizard.nonce }, data),
+                success: resolve,
+                error: reject
+            });
+        });
+    }
+
+    $('body').on('click', '.pg-setup-wizard .pg-template-import', async function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const $button = $(this);
+        const $templateCard = $button.closest('.pg-choose-template');
+        const $title = $templateCard.find('.pg-template-title');
+        const template = $templateCard.data('template');
+        const templateName = String($templateCard.data('title') || $title.text()).trim();
+
+        // Prevent multiple clicks
+        if (!template || $button.prop('disabled')) {
+            return;
+        }
+
+        const originalButtonHtml = $button.html();
+
+        $button.prop('disabled', true)
+               .html('<i class="dashicons dashicons-update"></i> ' + escapeHtml(templateI18n.importing || 'Importing...'));
+        $templateCard.removeClass('pg-template-import-failed').addClass('pg-template-importing');
+        $title.html('<span class="pg-spinner-border pg-spinner-border-sm" role="status" aria-hidden="true"></span> ' +
+            escapeHtml((templateI18n.importing_template || 'Importing %s...').replace('%s', templateName)));
+
+        const fail = function (message) {
+            $button.html('<i class="dashicons dashicons-no"></i> ' + escapeHtml(templateI18n.failed || 'Failed'));
+            $templateCard.removeClass('pg-template-importing').addClass('pg-template-import-failed');
+            $title.html('<i class="dashicons dashicons-no"></i> ' + escapeHtml(message || templateI18n.import_failed || 'Import Failed'));
+
+            // Reset the card so the import can be retried.
+            setTimeout(function () {
+                $button.prop('disabled', false).html(originalButtonHtml);
+                $templateCard.removeClass('pg-template-import-failed');
+                $title.text(templateName);
+            }, 4000);
+        };
+
+        try {
+            const started = await templateRequest({
+                action: 'bdtpg_setup_wizard_import_template',
+                template: template
+            });
+
+            if (!started || !started.success) {
+                fail(started && started.data && started.data.message);
+                return;
+            }
+
+            // Elementor imports a kit in steps; run them one request at a time.
+            let finished = null;
+
+            for (const runner of started.data.runners || []) {
+                finished = await templateRequest({
+                    action: 'bdtpg_setup_wizard_import_template_runner',
+                    session: started.data.session,
+                    runner: runner
+                });
+
+                if (!finished || !finished.success) {
+                    fail(finished && finished.data && finished.data.message);
+                    return;
+                }
+            }
+
+            $button.html('<i class="dashicons dashicons-yes-alt"></i> ' + escapeHtml(templateI18n.imported || 'Imported'));
+            $templateCard.removeClass('pg-template-importing').addClass('pg-template-imported');
+            $title.html('<i class="dashicons dashicons-yes-alt"></i> ' +
+                escapeHtml((templateI18n.imported_template || '%s Imported').replace('%s', templateName)));
+
+            if (finished && finished.data && finished.data.edit_url) {
+                $title.append(' ', $('<a>', {
+                    href: finished.data.edit_url,
+                    target: '_blank',
+                    rel: 'noopener',
+                    text: templateI18n.edit_page || 'Edit Page'
+                }));
+            }
+        } catch (error) {
+            fail();
+        }
+    });
 
 })(jQuery);
 
 document.addEventListener('DOMContentLoaded', function() {
+    // These styles only serve the Pixel Gallery setup wizard, so never add them
+    // to other admin screens.
+    if (!document.querySelector('.pg-setup-wizard')) {
+        return;
+    }
+
     const style = document.createElement('style');
     style.textContent = `
         .bdt-wizard-step {
@@ -497,47 +604,47 @@ document.addEventListener('DOMContentLoaded', function() {
             display: none; /* Hide all steps by default */
         }
         
-        .bdt-wizard-step.active {
+        .bdt-wizard-step.pg-wizard-active {
             display: block; /* Show only active step */
             opacity: 1;
             transform: translateY(0);
         }
         
-        .item-highlight {
+        .pg-item-highlight {
             transition: all 0.3s ease;
             box-shadow: 0 0 0 2px var(--pg-primary);
             transform: translateY(-3px);
         }
         
-        .button-pulse {
-            animation: buttonPulse 0.5s ease;
+        .pg-button-pulse {
+            animation: pg-button-pulse 0.5s ease;
         }
         
-        .pulse-animation {
-            animation: pulse 1.5s infinite;
+        .pg-pulse-animation {
+            animation: pg-pulse-glow 1.5s infinite;
         }
         
         /* Spinner for plugin installation and template importing */
-        .spinner {
+        .pg-spinner {
             display: inline-block;
             width: 16px;
             height: 16px;
             border: 2px solid rgba(255,255,255,0.3);
             border-radius: 50%;
             border-top-color: #fff;
-            animation: spin 1s linear infinite;
+            animation: pg-spin 1s linear infinite;
             margin-right: 8px;
         }
         
         /* Plugin installation progress styles */
-        .install-progress-container {
+        .pg-install-progress-container {
             margin-top: 20px;
             padding: 15px;
             background: var(--pg-gray-light);
             border-radius: var(--pg-border-radius);
         }
         
-        .progress-bar-wrapper {
+        .pg-progress-bar-wrapper {
             height: 8px;
             background: var(--pg-gray-medium);
             border-radius: 4px;
@@ -545,7 +652,7 @@ document.addEventListener('DOMContentLoaded', function() {
             margin-bottom: 10px;
         }
         
-        .progress-bar {
+        .pg-progress-bar {
             height: 100%;
             background: var(--pg-primary);
             border-radius: 4px;
@@ -554,36 +661,36 @@ document.addEventListener('DOMContentLoaded', function() {
             font-size: 0;
         }
         
-        .install-status {
+        .pg-install-status {
             font-size: 14px;
             color: var(--pg-text-light);
         }
         
-        .success-indicator {
+        .pg-success-indicator {
             color: var(--pg-success);
         }
         
-        .error-indicator {
+        .pg-error-indicator {
             color: var(--pg-danger);
         }
         
-        .plugin-installed {
+        .pg-plugin-installed {
             border-color: var(--pg-success) !important;
         }
         
         /* Animations */
-        @keyframes buttonPulse {
+        @keyframes pg-button-pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
         
-        @keyframes pulse {
+        @keyframes pg-pulse-glow {
             0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4); }
             70% { box-shadow: 0 0 0 10px rgba(108, 92, 231, 0); }
             100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
         }
         
-        @keyframes spin {
+        @keyframes pg-spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }

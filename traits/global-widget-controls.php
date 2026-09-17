@@ -2087,7 +2087,7 @@ trait Global_Widget_Controls
 			 */
 
 			if ('custom' !== $settings['link_to'] && $item['media_type'] !== 'video') {
-				$this->add_lightbox_data_attributes('link' . $index, $item['image']['id'], $settings['open_lightbox'], '', true);
+				$this->add_lightbox_data_attributes('link' . $index, $item['image']['id'] ?? '', $settings['open_lightbox'], '', true);
 				$this->add_render_attribute(
 					'link' . $index,
 					[
@@ -2152,7 +2152,7 @@ trait Global_Widget_Controls
 			 */
 
 			if ('custom' !== $settings['link_to'] && $item['media_type'] !== 'video') {
-				$this->add_lightbox_data_attributes('link' . $index, $item['image']['id'], $settings['open_lightbox'], '', true);
+				$this->add_lightbox_data_attributes('link' . $index, $item['image']['id'] ?? '', $settings['open_lightbox'], '', true);
 				$this->add_render_attribute(
 					'link' . $index,
 					[
@@ -2186,7 +2186,7 @@ trait Global_Widget_Controls
 			 */
 
 			if ('custom' !== $settings['link_to'] && $item['media_type'] !== 'video') {
-				$this->add_lightbox_data_attributes('link' . $index, $item['image']['id'], $settings['open_lightbox'], '', true);
+				$this->add_lightbox_data_attributes('link' . $index, $item['image']['id'] ?? '', $settings['open_lightbox'], '', true);
 				$this->add_render_attribute(
 					'link' . $index,
 					[
@@ -2214,7 +2214,7 @@ trait Global_Widget_Controls
 			$this->add_render_attribute('link' . $index, 'aria-label', esc_attr__('Read More Button', 'pixel-gallery'));
 
 			if ('custom' !== $settings['link_to'] && $item['media_type'] !== 'video') {
-				$this->add_lightbox_data_attributes('link' . $index, $item['image']['id'], $settings['open_lightbox'], '', true);
+				$this->add_lightbox_data_attributes('link' . $index, $item['image']['id'] ?? '', $settings['open_lightbox'], '', true);
 				$this->add_render_attribute(
 					'link' . $index,
 					[
@@ -2238,10 +2238,17 @@ trait Global_Widget_Controls
 	{
 		$settings = $this->get_settings_for_display();
 
-		$thumb_url = Group_Control_Image_Size::get_attachment_image_src($item['image']['id'], 'thumbnail_size', $settings);
+		// The media control is null when its condition is not met (e.g. an unexpected media type).
+		$thumb_url = Group_Control_Image_Size::get_attachment_image_src($item['image']['id'] ?? '', 'thumbnail_size', $settings);
 		if (!$thumb_url) {
 			// Sanitize the image URL to prevent XSS
 			$image_url = isset($item['image']['url']) ? esc_url($item['image']['url']) : '';
+
+			// A removed image has no URL; an empty src would render a broken image.
+			if ('' === $image_url) {
+				return;
+			}
+
 			printf('<img src="%1$s" alt="%2$s" class="pg-%3$s-img">', esc_url($image_url), esc_html($item['title']), esc_attr($name));
 		} else {
 			print (wp_get_attachment_image(
@@ -2335,10 +2342,16 @@ trait Global_Widget_Controls
 	{
 		$settings = $this->get_settings_for_display();
 
-		$thumb_url = Group_Control_Image_Size::get_attachment_image_src($item['poster']['id'], 'thumbnail_size', $settings);
+		$thumb_url = Group_Control_Image_Size::get_attachment_image_src($item['poster']['id'] ?? '', 'thumbnail_size', $settings);
 		if (!$thumb_url) {
 			// Sanitize the poster URL to prevent XSS
 			$poster_url = isset($item['poster']['url']) ? esc_url($item['poster']['url']) : '';
+
+			// No poster selected; an empty src would render a broken image.
+			if ('' === $poster_url) {
+				return;
+			}
+
 			printf('<img src="%1$s" alt="%2$s" class="pg-%3$s-img">', esc_url($poster_url), esc_html($item['title']), esc_attr($name));
 		} else {
 			print (wp_get_attachment_image(

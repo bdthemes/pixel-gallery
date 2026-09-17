@@ -853,13 +853,13 @@ class Wisdom extends Module_Base {
 	var gridClass = 'pg-wisdom-grid pg-grid';
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-wisdom-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 					<div class="pg-wisdom-item-inner">
 						<div class="pg-wisdom-head-content">
@@ -870,17 +870,19 @@ class Wisdom extends Module_Base {
 								</div>
 							<# } #>
 							<# if ( settings.show_title === 'yes' && item.title ) { #>
-								<# var ttag = settings.title_tag || 'h3'; #>
-								<{{{ ttag }}} class="pg-wisdom-title">{{{ item.title }}}</{{{ ttag }}}>
+								<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+								<{{{ ttag }}} class="pg-wisdom-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 							<# } #>
 							<# if ( settings.show_text === 'yes' && item.text ) { #>
-								<div class="pg-wisdom-text">{{{ item.text }}}</div>
+								<div class="pg-wisdom-text">{{{ elementor.helpers.sanitize( item.text ) }}}</div>
 							<# } #>
 						</div>
 						<div class="pg-wisdom-image-wrap">
-							<# if ( item.media_type === 'video' && item.poster && item.poster.url ) { #>
+							<# if ( item.media_type === 'video' ) { #>
+							<# if ( item.poster && item.poster.url ) { #>
 								<img src="{{ item.poster.url }}" alt="{{ item.title }}" class="pg-wisdom-img">
-							<# } else if ( item.image && item.image.url ) { #>
+							<# } #>
+						<# } else if ( item.image && item.image.url ) { #>
 								<img src="{{ item.image.url }}" alt="{{ item.title }}" class="pg-wisdom-img">
 							<# } #>
 							<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' ) { #>
@@ -894,7 +896,17 @@ class Wisdom extends Module_Base {
 						</div>
 							<# } #>
 						</div>
-						<div class="pg-wisdom-social-link"></div>
+						<# if ( settings.show_social_link === 'yes' && settings.social_link_list && settings.social_link_list.length ) { #>
+							<div class="pg-wisdom-social-link">
+								<# _.each( settings.social_link_list, function( link ) {
+									var pgSocialIcon = elementor.helpers.renderIcon( view, link.social_icon, { 'aria-hidden': 'true', 'class': 'fa-fw' }, 'i', 'object' );
+								#>
+									<a href="{{ elementor.helpers.sanitizeUrl( link.social_link ) }}" target="_blank" aria-label="Social link {{ link.social_link_title }}">
+										<# if ( pgSocialIcon && pgSocialIcon.rendered ) { #>{{{ pgSocialIcon.value }}}<# } #>
+									</a>
+								<# } ); #>
+							</div>
+						<# } #>
 						<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'whole_item' ) { #>
 <?php $this->print_content_template_lightbox_overlay( 'wisdom' ); ?>
 						<# } #>

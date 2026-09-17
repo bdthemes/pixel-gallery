@@ -680,7 +680,8 @@ class Glam extends Module_Base {
 		}
 
 		if (!empty($item['title'])) {
-			printf('<%1$s class="pg-%3$s-title" data-title="%2$s"><span>%2$s</span></%1$s>', esc_attr( Utils::get_valid_html_tag($settings['title_tag']) ), wp_kses_post($item['title']), esc_attr($name));
+			// data-title feeds a CSS attr() hover label: plain text, escaped for the attribute.
+			printf('<%1$s class="pg-%3$s-title" data-title="%4$s"><span>%2$s</span></%1$s>', esc_attr( Utils::get_valid_html_tag($settings['title_tag']) ), wp_kses_post($item['title']), esc_attr($name), esc_attr( wp_strip_all_tags( $item['title'] ) ));
 		}
 	}
 
@@ -693,7 +694,7 @@ class Glam extends Module_Base {
 
 ?>
 		<?php if (!empty($item['meta'])) : ?>
-			<div class="pg-<?php echo esc_attr($name); ?>-meta" data-title="<?php echo wp_kses_post($item['meta']); ?>">
+			<div class="pg-<?php echo esc_attr($name); ?>-meta" data-title="<?php echo esc_attr( wp_strip_all_tags( $item['meta'] ) ); ?>">
 				<span><?php echo wp_kses_post($item['meta']); ?></span>
 			</div>
 		<?php endif;
@@ -768,13 +769,13 @@ class Glam extends Module_Base {
 	var gridClass = 'pg-glam-grid pg-grid';
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-glam-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 										<div class="pg-glam-image-wrap bdt-pg-img-mask">
 						<# if ( item.media_type === 'video' ) { #>
@@ -791,19 +792,25 @@ class Glam extends Module_Base {
 						<# } #>
 					</div>
 					<div class="pg-glam-content">
+						<#
+						// Mirrors render_meta()/render_title(): the hover label reads a plain-text data-title.
+						var glamPlainText = function ( html ) {
+							return new DOMParser().parseFromString( elementor.helpers.sanitize( html ), 'text/html' ).body.textContent.trim();
+						};
+						#>
 						<# if ( settings.show_meta === 'yes' && item.meta ) { #>
-							<div class="pg-glam-meta">{{{ item.meta }}}</div>
+							<div class="pg-glam-meta" data-title="{{ glamPlainText( item.meta ) }}"><span>{{{ elementor.helpers.sanitize( item.meta ) }}}</span></div>
 						<# } #>
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-glam-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-glam-title" data-title="{{ glamPlainText( item.title ) }}"><span>{{{ elementor.helpers.sanitize( item.title ) }}}</span></{{{ ttag }}}>
 						<# } #>
 						<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' && item.readmore_text ) { #>
 							<div class="pg-glam-readmore">
 <?php $this->print_content_template_item_link_prepare( 'glam' ); ?>
 <?php $this->print_content_template_item_link_wrap_open(); ?>
 <?php $this->print_content_template_item_link_a_open(); ?>
-							<span>{{{ item.readmore_text }}}</span>
+							<span>{{ item.readmore_text }}</span>
 <?php $this->print_content_template_item_link_a_close(); ?>
 <?php $this->print_content_template_item_link_wrap_close(); ?>
 						</div>

@@ -78,10 +78,6 @@ module.exports = function (grunt) {
 							return dest + src.replace(/(.+)\.css$/, 'pg-$1.css');
 						},
 					},
-					{
-						// combine all css files in assets/css to pg-styles.css
-						'assets/css/pg-styles.css': ['src/less/widgets/*.less', '!assets/css/pg-styles.css'],
-					},
 				],
 			},
 		},

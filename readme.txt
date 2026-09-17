@@ -1,11 +1,11 @@
-=== Pixel Gallery ===
+=== Pixel Gallery Addons for Elementor ===
 Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, maudud, shmusuf, arafatakashakku, shaikatazim, shamim496
 Donate link: https://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 4.0.0
@@ -298,7 +298,6 @@ Bundled third-party libraries:
 
 * UIkit 3.25.22 (admin UI framework) — https://github.com/uikit/uikit — source: `src/admin/js/bdt-uikit.js`, built to `admin/assets/js/bdt-uikit.min.js`. The JavaScript is UIkit's stock `dist/uikit.js` with the `uk-` prefix rebranded to `bdt-` (so it cannot collide with a theme or another plugin shipping stock UIkit) plus one patch that sanitises lightbox captions. The matching stylesheets, `admin/assets/css/bdt-uikit.css` and `bdt-uikit.rtl.css`, are UIkit's stock CSS trimmed to the components the admin UI uses and rebranded the same way; their readable sources are in `src/admin/css/`.
 * Chart.js 4.5.1 (admin dashboard charts) — https://github.com/chartjs/Chart.js — source: `src/admin/js/chart.js`, built to `admin/assets/js/chart.min.js`
-* matthiasmullie/minify 1.3.75 (optional asset optimizer) — https://github.com/matthiasmullie/minify — bundled unmodified under `admin/optimizer/vendor/`
 
 == Installation ==
 
@@ -330,6 +329,37 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 2.2.3 [17th September 2026] =
+
+* Added: Ready-to-use template import on the setup wizard's "Good to Go" step (Pro templates are listed only when Pixel Gallery Pro is active)
+* Added: Bundled logos for the plugins listed in the setup wizard and the dashboard's Other Plugins tab
+* Updated: Other Plugins tab now uses the same card grid as the setup wizard's Integration step, without the short description
+* Updated: Admin and setup wizard CSS classes and animation names now use the pg- prefix to avoid conflicts with other plugins
+* Updated: Setup wizard assets are now versioned with the plugin, so browsers load the new files after an update
+* Updated: Setup wizard welcome step shows the real number of available gallery widgets
+* Updated: Dashboard header and navigation adapt to small screens
+* Fixed: Stored XSS in the Glam widget, where a title or meta containing quotes could inject HTML attributes
+* Fixed: Widget editor previews now escape and sanitize titles, text and title tags the same way the published page does
+* Fixed: Editor preview did not match the published page in several widgets (social links in Fluid, Insta, Ranch and Wisdom; meta in Tour and Elixir; Read More position in Fever and Verse; category, date, price, follow and like toggles; video posters)
+* Fixed: Removing an item's image or video poster rendered a broken image
+* Fixed: Pro widget promotion dialog did not open in the Elementor 4 editor
+* Fixed: Query "Search & Select" controls showed saved posts, terms and authors as blank after reopening the editor
+* Fixed: Entrance Animation never revealed items taller than the screen, and a 0 ms delay still waited 200 ms
+* Fixed: Lumen hover effect was bound to every Lumen widget on the page, and Turbo used a deprecated jQuery method
+* Fixed: PHP 8.1 deprecation notice in the Zilax widget and PHP warnings when an item's media was missing
+* Fixed: Saving the setup wizard's Features step without changes no longer turns off widgets that are active by default
+* Fixed: Core Widgets tab showed some default-active widgets as disabled on new installs
+* Fixed: Setup wizard Integration step now shows Element Pack Pro and Prime Slider Pro as active
+* Fixed: Dashboard widget search and System Status charts
+* Fixed: "Get Support" and "Video Tutorials" links were missing from the Plugins screen
+* Fixed: Broken "Contact Us" link on the dashboard
+* Fixed: Setup wizard styles are no longer added to every admin page, so WordPress core spinners display correctly again
+* Fixed: "Active" button on Other Plugins cards was invisible
+* Removed: Asset Manager and the Special Features tab that contained it
+* Removed: Bundled matthiasmullie/minify library, which was only used by the Asset Manager
+* Removed: Combined pg-styles.css stylesheet, which was only loaded by the Asset Manager
+* Removed: Empty "Grid" filter from the Core Widgets tab and the setup wizard
 
 = 2.2.2 [14th September 2026] =
 
