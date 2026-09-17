@@ -4,7 +4,9 @@
 
     var widgetlumen = function ($scope, $) {
 
-        var nodes = [].slice.call(document.querySelectorAll('.pg-lumen-item'), 0);
+        // Scope to this widget; a document-wide query re-binds every Lumen item on
+        // the page each time any Lumen widget becomes ready (or re-renders in the editor).
+        var nodes = [].slice.call($scope[0].querySelectorAll('.pg-lumen-item'), 0);
         var directions = { 0: 'top', 1: 'right', 2: 'bottom', 3: 'left' };
         var classNames = ['in', 'out'].map(p => Object.values(directions).map(d => `${p}-${d}`)).reduce((a, b) => a.concat(b));
 

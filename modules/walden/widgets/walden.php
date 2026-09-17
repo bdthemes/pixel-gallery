@@ -527,13 +527,13 @@ class Walden extends Module_Base {
 	if ( settings.layout_style ) { gridClass += ' pg-walden-effect-style-' + settings.layout_style; }
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-walden-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 										<div class="pg-walden-image-wrap bdt-pg-img-mask">
 						<# if ( item.media_type === 'video' ) { #>
@@ -551,8 +551,8 @@ class Walden extends Module_Base {
 					</div>
 					<div class="pg-walden-head-content">
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-walden-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-walden-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 						<# } #>
 					</div>
 					<div class="pg-walden-center-content">
@@ -568,10 +568,10 @@ class Walden extends Module_Base {
 						<# } #>
 					</div>
 					<div class="pg-walden-bottom-content">
-						<# if ( settings.show_follow === 'yes' && item.follow ) { #>
+						<# if ( settings.show_follow === 'yes' ) { #>
 							<div class="pg-walden-follow-btn"><i class="pg-icon-preview"></i><span>{{ item.follow }}</span></div>
 						<# } #>
-						<# if ( settings.show_like === 'yes' && item.like ) { #>
+						<# if ( settings.show_like === 'yes' ) { #>
 							<div class="pg-walden-like-btn"><i class="pg-icon-heart"></i><span>{{ item.like }}</span></div>
 						<# } #>
 					</div>

@@ -485,13 +485,13 @@ class Alien extends Module_Base {
 	}
 	var animDelay = ( settings.pg_in_animation_delay && settings.pg_in_animation_delay.size ) ? settings.pg_in_animation_delay.size : '';
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-alien-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 					<div class="pg-alien-img-btn">
 											<div class="pg-alien-image-wrap bdt-pg-img-mask">
@@ -513,7 +513,7 @@ class Alien extends Module_Base {
 <?php $this->print_content_template_item_link_prepare( 'alien' ); ?>
 <?php $this->print_content_template_item_link_wrap_open(); ?>
 <?php $this->print_content_template_item_link_a_open(); ?>
-							<span>{{{ item.readmore_text }}}</span><i class="pg-icon-plus"></i><i class="pg-icon-plus"></i>
+							<span>{{ item.readmore_text }}</span><i class="pg-icon-plus"></i><i class="pg-icon-plus"></i>
 <?php $this->print_content_template_item_link_a_close(); ?>
 <?php $this->print_content_template_item_link_wrap_close(); ?>
 						</div>
@@ -521,11 +521,11 @@ class Alien extends Module_Base {
 					</div>
 					<div class="pg-alien-content">
 						<# if ( settings.show_meta === 'yes' && item.meta ) { #>
-							<div class="pg-alien-meta">{{{ item.meta }}}</div>
+							<div class="pg-alien-meta">{{{ elementor.helpers.sanitize( item.meta ) }}}</div>
 						<# } #>
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-alien-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-alien-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 						<# } #>
 					</div>
 					<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'whole_item' ) { #>

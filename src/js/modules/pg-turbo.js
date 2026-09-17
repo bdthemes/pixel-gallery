@@ -7,7 +7,7 @@
         var spanText = $scope.find('.pg-turbo-content'),
             gridItem = $scope.find('.pg-turbo-item');
 
-         $(gridItem).mousemove(function(e){
+         $(gridItem).on('mousemove', function(e){
             var x = e.clientX,
                 y = e.clientY;
 

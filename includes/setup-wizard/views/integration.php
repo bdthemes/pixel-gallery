@@ -90,8 +90,8 @@ if (!$has_cached_data) {
     <h2><?php esc_html_e('Add More Firepower', 'pixel-gallery'); ?></h2>
     <p><?php esc_html_e('You can onboard additional powerful plugins to extend your web design capabilities.', 'pixel-gallery'); ?></p>
 
-    <div class="progress-bar-container">
-        <div id="plugin-install-progress" class="progress-bar"></div>
+    <div class="pg-progress-bar-container">
+        <div id="plugin-install-progress" class="pg-progress-bar"></div>
     </div>
 
     <form method="POST" id="pg-install-plugins">
@@ -129,39 +129,36 @@ if (!$has_cached_data) {
                 foreach ($pg_plugins as $slug_key => $plugin) :
                     // Skip own plugin (Pixel Gallery) when printing only; data still includes it for other plugins
                     if ($slug_key === 'pixel-gallery') continue;
-                    // Use enhanced status if available, otherwise fall back to old method
-                    $plugin_status = $plugin['status'] ?? 'unknown';
-                    if ($plugin_status === 'unknown') {
-                        // Fallback to old method for compatibility
-                        $is_active = is_plugin_active($plugin['slug']);
-                    } else {
-                        // Use enhanced status
-                        $is_active = ($plugin_status === 'active');
-                    }
+                    $is_active = 'active' === Remote_Data_Handler::get_plugin_status_by_slug($slug_key);
                     $plugin_recommended = !empty($recommended_by_slug[ $slug_key ]);
                     $is_recommended = $plugin_recommended && !$is_active;
+                    $plugin_logo = Remote_Data_Handler::get_local_plugin_logo($slug_key);
                 ?>
-                    <label class="plugin-item" data-slug="<?php echo esc_attr($plugin['slug']); ?>">
+                    <label class="pg-plugin-item" data-slug="<?php echo esc_attr($plugin['slug']); ?>">
                         <span class="bdt-flex bdt-flex-middle bdt-flex-between bdt-margin-small-bottom">
                             <span class="bdt-plugin-logo">
-                                <div class="default-plugin-icon" aria-hidden="true"><?php echo esc_html(pixel_gallery_plugin_icon_initial($plugin['name'] ?? '')); ?></div>
+                                <?php if ($plugin_logo) : ?>
+                                    <img src="<?php echo esc_url($plugin_logo); ?>" alt="" width="48" height="48">
+                                <?php else : ?>
+                                    <div class="pg-default-plugin-icon" aria-hidden="true"><?php echo esc_html(pixel_gallery_plugin_icon_initial($plugin['name'] ?? '')); ?></div>
+                                <?php endif; ?>
                             </span>
-                            
+
                             <div class="bdt-plugin-badge-switch-wrap">
 
                             <?php if ($is_recommended) : ?>
-                                <span class="recommended-badge"><?php esc_html_e('Recommended', 'pixel-gallery'); ?></span>
+                                <span class="pg-recommended-badge"><?php esc_html_e('Recommended', 'pixel-gallery'); ?></span>
                             <?php endif; ?>
-                            
+
                             <?php if ($is_active) : ?>
-                                <span class="active-badge"><?php esc_html_e('ACTIVE', 'pixel-gallery'); ?></span>
+                                <span class="pg-active-badge"><?php esc_html_e('ACTIVE', 'pixel-gallery'); ?></span>
                             <?php endif; ?>
                              <?php
                              if (!$is_active) : ?>
-                                 <label class="switch">
-                                     <input type="checkbox" class="plugin-slider-checkbox"
+                                 <label class="pg-switch">
+                                     <input type="checkbox" class="pg-plugin-slider-checkbox"
                                             name="plugins[]" value="<?php echo isset($plugin['slug']) ? esc_attr($plugin['slug']) : ''; ?>">
-                                     <span class="slider round"></span>
+                                     <span class="pg-slider pg-round"></span>
                                  </label>
                              <?php
                              endif;
@@ -173,23 +170,23 @@ if (!$has_cached_data) {
                                     <?php echo esc_html($plugin['name']); ?>
                                 </span>
                             </div>
-                            
-                        <span class="active-installs">
-                            <?php esc_html_e('Active Installs: ', 'pixel-gallery'); 
+
+                        <span class="pg-active-installs">
+                            <?php esc_html_e('Active Installs: ', 'pixel-gallery');
                             if (isset($plugin['active_installs_count']) && $plugin['active_installs_count'] > 0) {
-                                echo ' <span class="installs-count">' . esc_html(number_format($plugin['active_installs_count'])) . '+</span>';
+                                echo ' <span class="pg-installs-count">' . esc_html(number_format($plugin['active_installs_count'])) . '+</span>';
                             } else {
-                                echo '<span class="installs-count">Fewer than 10</span>';
+                                echo '<span class="pg-installs-count">Fewer than 10</span>';
                             }
                             ?>
                         </span>
 
                         <?php if (isset($plugin['downloaded_formatted']) && !empty($plugin['downloaded_formatted'])): ?>
-                        <span class="downloads"><?php esc_html_e('Downloads: ', 'pixel-gallery'); echo esc_html($plugin['downloaded_formatted']); ?></span>
+                        <span class="pg-downloads"><?php esc_html_e('Downloads: ', 'pixel-gallery'); echo esc_html($plugin['downloaded_formatted']); ?></span>
                         <?php endif; ?>
-                        
-                        <div class="rating-section">
-                            <div class="wporg-ratings" title="<?php echo esc_attr($plugin['rating'] ?? '0'); ?> out of 5 stars" style="color:var(--wp--preset--color--pomegrade-1, #e26f56);">
+
+                        <div class="pg-rating-section">
+                            <div class="pg-wporg-ratings" title="<?php echo esc_attr($plugin['rating'] ?? '0'); ?> out of 5 stars" style="color:var(--wp--preset--color--pomegrade-1, #e26f56);">
                                 <?php 
                                 $rating = floatval($plugin['rating'] ?? 0);
                                 $full_stars = floor($rating);
@@ -212,20 +209,20 @@ if (!$has_cached_data) {
                                 }
                                 ?>
                             </div>
-                            <span class="rating-text">
+                            <span class="pg-rating-text">
                                 <?php echo esc_html($plugin['rating'] ?? '0'); ?> out of 5 stars.
                                 <?php if (isset($plugin['num_ratings']) && $plugin['num_ratings'] > 0): ?>
-                                    <span class="rating-count">(<?php echo esc_html(number_format($plugin['num_ratings'])); ?> ratings)</span>
+                                    <span class="pg-rating-count">(<?php echo esc_html(number_format($plugin['num_ratings'])); ?> ratings)</span>
                                 <?php endif; ?>
                             </span>
                         </div>
-                        
-                        <?php 
+
+                        <?php
                         // Use the enhanced last_updated_formatted if available, otherwise fall back to formatting
                         if (isset($plugin['last_updated_formatted']) && !empty($plugin['last_updated_formatted'])): ?>
-                        <span class="last-updated"><?php esc_html_e('Last Updated: ', 'pixel-gallery'); echo esc_html($plugin['last_updated_formatted']); ?></span>
+                        <span class="pg-last-updated"><?php esc_html_e('Last Updated: ', 'pixel-gallery'); echo esc_html($plugin['last_updated_formatted']); ?></span>
                         <?php elseif (isset($plugin['last_updated']) && !empty($plugin['last_updated'])): ?>
-                        <span class="last-updated"><?php esc_html_e('Last Updated: ', 'pixel-gallery'); echo esc_html(pixel_gallery_format_last_updated($plugin['last_updated'])); ?></span>
+                        <span class="pg-last-updated"><?php esc_html_e('Last Updated: ', 'pixel-gallery'); echo esc_html(pixel_gallery_format_last_updated($plugin['last_updated'])); ?></span>
                         <?php endif; ?>
 
                     </label>
@@ -238,7 +235,7 @@ if (!$has_cached_data) {
             <?php esc_html_e('Nothing is selected by default. Pixel Gallery only installs the plugins you switch on here, and never activates a plugin unless you also tick the box below.', 'pixel-gallery'); ?>
         </p>
 
-        <div class="bdt-plugin-activate-consent d-none" id="pg-activate-consent-wrap">
+        <div class="bdt-plugin-activate-consent pg-d-none" id="pg-activate-consent-wrap">
             <label for="pg-activate-after-install">
                 <input type="checkbox" id="pg-activate-after-install" name="pg_activate_after_install" value="1">
                 <?php esc_html_e('Also activate the selected plugins after installing them', 'pixel-gallery'); ?>
@@ -248,11 +245,11 @@ if (!$has_cached_data) {
             </span>
         </div>
 
-        <div class="wizard-navigation bdt-margin-top">
-            <button class="bdt-button bdt-button-primary d-none" type="submit" id="pg-install-plugins-btn">
+        <div class="pg-wizard-navigation bdt-margin-top">
+            <button class="bdt-button bdt-button-primary pg-d-none" type="submit" id="pg-install-plugins-btn">
                 <?php esc_html_e('Install Selected Plugins', 'pixel-gallery'); ?>
             </button>
-            <div class="bdt-close-button bdt-margin-left bdt-wizard-next" data-step="finish"><?php esc_html_e('Skip', 'pixel-gallery'); ?></div>
+            <button type="button" class="bdt-close-button bdt-margin-left bdt-wizard-next" data-step="finish"><?php esc_html_e('Skip', 'pixel-gallery'); ?></button>
         </div>
     </form>
 
@@ -388,18 +385,18 @@ jQuery(document).ready(function($) {
                 const isRecommended = plugin.recommended && !isActive;
                 
                 html += `
-                    <label class="plugin-item" data-slug="${plugin.slug}">
+                    <label class="pg-plugin-item" data-slug="${plugin.slug}">
                         <span class="bdt-flex bdt-flex-middle bdt-flex-between bdt-margin-small-bottom">
                             <span class="bdt-plugin-logo">
                                 ${generatePluginLogo(plugin)}
                             </span>
                             <div class="bdt-plugin-badge-switch-wrap">
-                                ${isRecommended ? '<span class="recommended-badge">Recommended</span>' : ''}
-                                ${isActive ? '<span class="active-badge">ACTIVE</span>' : ''}
+                                ${isRecommended ? '<span class="pg-recommended-badge">Recommended</span>' : ''}
+                                ${isActive ? '<span class="pg-active-badge">ACTIVE</span>' : ''}
                                 ${!isActive ? `
-                                    <label class="switch">
-                                        <input type="checkbox" class="plugin-slider-checkbox" name="plugins[]" value="${plugin.slug}">
-                                        <span class="slider round"></span>
+                                    <label class="pg-switch">
+                                        <input type="checkbox" class="pg-plugin-slider-checkbox" name="plugins[]" value="${plugin.slug}">
+                                        <span class="pg-slider pg-round"></span>
                                     </label>
                                 ` : ''}
                             </div>
@@ -407,21 +404,21 @@ jQuery(document).ready(function($) {
                         <div class="bdt-flex bdt-flex-middle">
                             <span class="bdt-plugin-name">${plugin.name}</span>
                         </div>
-                        <span class="active-installs">
-                            Active Installs: 
-                            <span class="installs-count">${plugin.active_installs_count > 0 ? plugin.active_installs_count.toLocaleString() + '+' : 'Fewer than 10'}</span>
+                        <span class="pg-active-installs">
+                            Active Installs:
+                            <span class="pg-installs-count">${plugin.active_installs_count > 0 ? plugin.active_installs_count.toLocaleString() + '+' : 'Fewer than 10'}</span>
                         </span>
-                        ${plugin.downloaded_formatted ? `<span class="downloads">Downloads: ${plugin.downloaded_formatted}</span>` : ''}
-                        <div class="rating-section">
-                            <div class="wporg-ratings" title="${plugin.rating} out of 5 stars" style="color:var(--wp--preset--color--pomegrade-1, #e26f56);">
+                        ${plugin.downloaded_formatted ? `<span class="pg-downloads">Downloads: ${plugin.downloaded_formatted}</span>` : ''}
+                        <div class="pg-rating-section">
+                            <div class="pg-wporg-ratings" title="${plugin.rating} out of 5 stars" style="color:var(--wp--preset--color--pomegrade-1, #e26f56);">
                                 ${generateStarRating(plugin.rating)}
                             </div>
-                            <span class="rating-text">
+                            <span class="pg-rating-text">
                                 ${plugin.rating} out of 5 stars.
-                                ${plugin.num_ratings > 0 ? `<span class="rating-count">(${plugin.num_ratings.toLocaleString()} ratings)</span>` : ''}
+                                ${plugin.num_ratings > 0 ? `<span class="pg-rating-count">(${plugin.num_ratings.toLocaleString()} ratings)</span>` : ''}
                             </span>
                         </div>
-                        ${plugin.last_updated_formatted ? `<span class="last-updated">Last Updated: ${plugin.last_updated_formatted}</span>` : ''}
+                        ${plugin.last_updated_formatted ? `<span class="pg-last-updated">Last Updated: ${plugin.last_updated_formatted}</span>` : ''}
                     </label>
                 `;
             });
@@ -430,16 +427,23 @@ jQuery(document).ready(function($) {
         $pluginList.html(html);
     }
     
-    // Helper function to generate plugin logo.
-    // Icons are rendered locally from the plugin name; nothing is loaded from a
-    // remote server (WordPress.org disallows offloading assets).
-    function generatePluginLogo(plugin) {
-        const name = (plugin.name || '').replace(/<[^>]*>/g, '').trim();
-        const initial = name ? name.charAt(0).toUpperCase() : '#';
-        const safeInitial = initial.replace(/[&<>"']/g, function (c) {
+    function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function (c) {
             return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
         });
-        return `<div class="default-plugin-icon" aria-hidden="true">${safeInitial}</div>`;
+    }
+
+    // Helper function to generate plugin logo.
+    // Logos are bundled with Pixel Gallery, and plugins without one fall back to
+    // an initial letter; nothing is loaded from a remote server (WordPress.org
+    // disallows offloading assets).
+    function generatePluginLogo(plugin) {
+        if (plugin.logo) {
+            return `<img src="${escapeHtml(plugin.logo)}" alt="" width="48" height="48">`;
+        }
+        const name = (plugin.name || '').replace(/<[^>]*>/g, '').trim();
+        const initial = name ? name.charAt(0).toUpperCase() : '#';
+        return `<div class="pg-default-plugin-icon" aria-hidden="true">${escapeHtml(initial)}</div>`;
     }
     
     // Helper function to generate star rating

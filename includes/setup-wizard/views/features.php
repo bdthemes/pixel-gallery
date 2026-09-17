@@ -32,46 +32,50 @@ $active_modules = get_option( 'pixel_gallery_active_modules', array() );
 		<input type="hidden" name="action" value="pixel_gallery_settings_save">
 
 		<div class="bdt-features-list">
-			<div class="widget-filter bdt-flex bdt-flex-wrap bdt-flex-between bdt-flex-middle">
-				<div class="category-dropdown">
+			<div class="pg-wizard-widget-filter bdt-flex bdt-flex-wrap bdt-flex-between bdt-flex-middle">
+				<div class="pg-category-dropdown">
 					<label for="category-select"><?php esc_html_e('Filter by:', 'pixel-gallery'); ?></label>
 					<select id="category-select">
 						<option value="all"><?php esc_html_e('All', 'pixel-gallery'); ?></option>
 						<option value="new"><?php esc_html_e('New', 'pixel-gallery'); ?></option>
-						<option value="grid"><?php esc_html_e('Grid', 'pixel-gallery'); ?></option>
 						<option value="custom"><?php esc_html_e('Custom', 'pixel-gallery'); ?></option>
 						<option value="others"><?php esc_html_e('Others', 'pixel-gallery'); ?></option>
 					</select>
 				</div>
-				<div class="input-btn-wrap bdt-flex bdt-flex-wrap bdt-flex-between">
-					<input type="text" placeholder="<?php esc_attr_e('Search widgets...', 'pixel-gallery'); ?>" class="widget-search" value="">
-					<div class="bulk-action-buttons bdt-flex">
-						<button class="bulk-action activate"><?php esc_html_e('Activate All', 'pixel-gallery'); ?></button>
-						<button class="bulk-action deactivate"><?php esc_html_e('Deactivate All', 'pixel-gallery'); ?></button>
+				<div class="pg-input-btn-wrap bdt-flex bdt-flex-wrap bdt-flex-between">
+					<input type="text" placeholder="<?php esc_attr_e('Search widgets...', 'pixel-gallery'); ?>" class="pg-widget-search" value="">
+					<div class="pg-bulk-action-buttons bdt-flex">
+						<button class="pg-bulk-action pg-activate"><?php esc_html_e('Activate All', 'pixel-gallery'); ?></button>
+						<button class="pg-bulk-action pg-deactivate"><?php esc_html_e('Deactivate All', 'pixel-gallery'); ?></button>
 					</div>
 				</div>
 			</div>
-			
-			<div class="widget-list-container">
-				<ul class="widget-list">
+
+			<div class="pg-widget-list-container">
+				<ul class="pg-widget-list">
 					<?php foreach ( $widget_map as $widget ) : ?>
 						<?php
-						$is_checked = isset( $active_modules[ $widget['name'] ] ) && 'on' === $active_modules[ $widget['name'] ] ? 'checked' : '';
+						// Widgets never saved yet use their default, exactly like the dashboard,
+						// so saving this step unchanged keeps every widget as it is.
+						$is_enabled = isset( $active_modules[ $widget['name'] ] )
+							? 'on' === $active_modules[ $widget['name'] ]
+							: ( isset( $widget['default'] ) && 'on' === $widget['default'] );
+						$is_checked = $is_enabled ? 'checked' : '';
 
 						$pro_class = '';
 						if (!empty($widget['widget_type']) && 'pro' == $widget['widget_type'] && true !== _is_pg_pro_activated()) {
 							$pro_class = ' pg-setup-wizard-pro-widget';
 						}
 						?>
-						<li class="<?php echo esc_attr( $widget['widget_type'] . $pro_class ); ?>"
+						<li class="<?php echo esc_attr( 'pg-' . $widget['widget_type'] . $pro_class ); ?>"
 							data-type="<?php echo isset( $widget['content_type'] ) ? esc_attr( $widget['content_type'] ) : ''; ?>"
 							data-label="<?php echo esc_attr( strtolower( $widget['label'] ) ); ?>">
-							<div class="widget-item-clickable bdt-flex bdt-flex-middle bdt-flex-between">
+							<div class="pg-widget-item-clickable bdt-flex bdt-flex-middle bdt-flex-between">
 								<span class="bdt-flex bdt-text-left"><?php echo esc_html( $widget['label'] ); ?></span>
-								<label class="switch">
+								<label class="pg-switch">
 									<input type="hidden" name="pixel_gallery_active_modules[<?php echo esc_attr( $widget['name'] ); ?>]" value="off">
-									<input type="checkbox" name="pixel_gallery_active_modules[<?php echo esc_attr( $widget['name'] ); ?>]" <?php echo esc_html( $is_checked ); ?> value="on" class="checkbox" id="bdt_pg_pixel_gallery_active_modules[<?php echo esc_attr( $widget['name'] ); ?>]">
-									<span class="slider"></span>
+									<input type="checkbox" name="pixel_gallery_active_modules[<?php echo esc_attr( $widget['name'] ); ?>]" <?php echo esc_html( $is_checked ); ?> value="on" class="pg-checkbox" id="bdt_pg_pixel_gallery_active_modules[<?php echo esc_attr( $widget['name'] ); ?>]">
+									<span class="pg-slider"></span>
 								</label>
 							</div>
 						</li>
@@ -79,12 +83,12 @@ $active_modules = get_option( 'pixel_gallery_active_modules', array() );
 				</ul>
 			</div>
 		</div>
-		
-		<div class="wizard-navigation bdt-margin-top">
+
+		<div class="pg-wizard-navigation bdt-margin-top">
 			<button class="bdt-button bdt-button-primary" type="submit" id="save-and-continue">
 				<?php esc_html_e('Save and Continue', 'pixel-gallery'); ?>
 			</button>
-			<div class="bdt-close-button bdt-margin-left bdt-wizard-next" data-step="integration"><?php esc_html_e('Skip', 'pixel-gallery'); ?></div>
+			<button type="button" class="bdt-close-button bdt-margin-left bdt-wizard-next" data-step="integration"><?php esc_html_e('Skip', 'pixel-gallery'); ?></button>
 		</div>
 	</form>
 

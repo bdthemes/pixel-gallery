@@ -517,13 +517,13 @@ class Mystic extends Module_Base
 		gridClass += ' pg-in-animation';
 	}
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-mystic-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 										<div class="pg-mystic-image-wrap bdt-pg-img-mask">
 						<# if ( item.media_type === 'video' ) { #>
@@ -541,11 +541,11 @@ class Mystic extends Module_Base
 					</div>
 					<div class="pg-mystic-content">
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-mystic-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-mystic-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 						<# } #>
 						<# if ( settings.show_meta === 'yes' && item.meta ) { #>
-							<div class="pg-mystic-meta">{{{ item.meta }}}</div>
+							<div class="pg-mystic-meta">{{{ elementor.helpers.sanitize( item.meta ) }}}</div>
 						<# } #>
 					</div>
 					<# if ( alwaysLb || ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'whole_item' ) ) { #>

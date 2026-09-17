@@ -60,11 +60,17 @@ if (!function_exists('pixel_gallery_is_third_party_enabled')) {
 }
 
 if (!function_exists('pixel_gallery_is_asset_optimization_enabled')) {
+    /**
+     * The Asset Manager has been removed, so asset optimization is never enabled.
+     *
+     * Kept because released Pixel Gallery Pro versions still call this on every
+     * frontend request; removing it would fatal those sites.
+     *
+     * @deprecated
+     * @return bool Always false.
+     */
     function pixel_gallery_is_asset_optimization_enabled() {
-        $asset_manager = pixel_gallery_option('asset-manager', 'pixel_gallery_other_settings', 'off');
-        if( $asset_manager == 'on'){
-            return apply_filters("pixel_gallery/optimization/asset_manager", true);
-        }
+        return false;
     }
 }
 

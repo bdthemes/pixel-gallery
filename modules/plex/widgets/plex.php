@@ -566,13 +566,13 @@ class Plex extends Module_Base
 	var gridClass = 'pg-plex-grid pg-grid';
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-plex-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 										<div class="pg-plex-image-wrap bdt-pg-img-mask">
 						<# if ( item.media_type === 'video' ) { #>
@@ -590,13 +590,13 @@ class Plex extends Module_Base
 					</div>
 					<div class="pg-plex-meta-wrap">
 						<# if ( settings.show_meta === 'yes' && item.meta ) { #>
-							<div class="pg-plex-meta">{{{ item.meta }}}</div>
+							<div class="pg-plex-meta">{{{ elementor.helpers.sanitize( item.meta ) }}}</div>
 						<# } #>
 					</div>
 					<div class="pg-plex-content">
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-plex-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-plex-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 						<# } #>
 						<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' ) { #>
 							<div class="pg-plex-readmore">

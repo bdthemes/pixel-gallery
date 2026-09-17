@@ -31,14 +31,6 @@ class Pixel_Gallery_Loader {
         'widgets'  => [],
     ];
 
-    private function get_upload_dir() {
-        return trailingslashit(wp_upload_dir()['basedir']) . 'pixel-gallery/minified/';
-    }
-
-    private function get_upload_url() {
-        return trailingslashit(wp_upload_dir()['baseurl']) . 'pixel-gallery/minified/';
-    }
-
     /**
      * @return string
      * @deprecated
@@ -112,8 +104,6 @@ class Pixel_Gallery_Loader {
 
         // Admin settings controller
         require_once BDTPG_ADMIN_PATH . 'module-settings.php';
-        //Assets Manager
-        require_once 'admin/optimizer/asset-minifier-manager.php';
 
         // Dynamic Select control
         require_once BDTPG_INC_PATH . 'controls/select-input/dynamic-select-input-module.php';
@@ -177,6 +167,7 @@ class Pixel_Gallery_Loader {
      */
     public function register_site_scripts() {
         wp_register_script('pg-animations', BDTPG_ASSETS_URL . 'js/extensions/pg-animations.min.js', ['jquery'], BDTPG_VER, true);
+        wp_register_script('pg-scripts', BDTPG_ASSETS_URL . 'js/pg-scripts.min.js', ['elementor-frontend'], BDTPG_VER, true);
     }
 
     /**
@@ -200,6 +191,7 @@ class Pixel_Gallery_Loader {
                 'backbone-marionette',
                 'elementor-common-modules',
                 'elementor-editor-modules',
+                'wp-i18n',
             ],
             BDTPG_VER,
             true
@@ -236,43 +228,6 @@ class Pixel_Gallery_Loader {
                 . '--pg-badge-pro:' . wp_json_encode( __( 'PRO', 'pixel-gallery' ) ) . ';'
             . '}'
         );
-    }
-
-
-    public function enqueue_minified_css() {
-        $direction_suffix = is_rtl() ? '.rtl' : '';
-
-        $upload_dir = $this->get_upload_dir() . 'css/pg-styles.css';
-        $version    = get_option('pixel-gallery-minified-asset-manager-version');
-
-        if (pixel_gallery_is_asset_optimization_enabled() && file_exists($upload_dir)) {
-            $upload_url = $this->get_upload_url() . 'css/pg-styles.css';
-            wp_register_style('pg-styles', $upload_url, [], $version);
-        } else {
-            wp_register_style('pg-styles', BDTPG_URL . 'assets/css/pg-styles.css', [], BDTPG_VER);
-        }
-
-        if (pixel_gallery_is_asset_optimization_enabled()) {
-            wp_enqueue_style('pg-styles');
-        }
-    }
-
-    public function enqueue_minified_js() {
-
-        $upload_dir = $this->get_upload_dir() . 'js/pg-scripts.js';
-        $version    = get_option('pixel-gallery-minified-asset-manager-version');
-
-        if (pixel_gallery_is_asset_optimization_enabled() && file_exists($upload_dir)) {
-            $upload_url = $this->get_upload_url() . 'js/pg-scripts.min.js';
-
-            wp_register_script('pg-scripts', $upload_url, ['elementor-frontend'], $version, true);
-        } else {
-            wp_register_script('pg-scripts', BDTPG_URL . 'assets/js/pg-scripts.min.js', ['elementor-frontend'], BDTPG_VER, true);
-        }
-
-        if (pixel_gallery_is_asset_optimization_enabled()) {
-            wp_enqueue_script('pg-scripts');
-        }
     }
 
 
@@ -422,11 +377,6 @@ class Pixel_Gallery_Loader {
         add_action('elementor/editor/after_enqueue_scripts', [$this, 'enqueue_editor_scripts']);
 
         add_action('elementor/frontend/after_register_styles', [$this, 'enqueue_site_styles']);
-
-        // For frontend css load
-        add_action('elementor/frontend/after_enqueue_styles', [$this, 'enqueue_minified_css']);
-        add_action('elementor/frontend/after_enqueue_scripts', [$this, 'enqueue_minified_js']);
-
 
         add_shortcode('pixel_gallery_custom_template', [$this, 'shortcode_template']);
 

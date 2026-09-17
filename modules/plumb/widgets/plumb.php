@@ -373,29 +373,29 @@ class Plumb extends Module_Base
 	var gridClass = 'pg-plumb-grid pg-grid';
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-plumb-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 					<div class="pg-plumb-content-wrap">
 						<div class="pg-plumb-content">
 							<# if ( settings.show_title === 'yes' && item.title ) { #>
-								<# var ttag = settings.title_tag || 'h3'; #>
-								<{{{ ttag }}} class="pg-plumb-title">{{{ item.title }}}</{{{ ttag }}}>
+								<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+								<{{{ ttag }}} class="pg-plumb-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 							<# } #>
 							<# if ( settings.show_text === 'yes' && item.text ) { #>
-								<div class="pg-plumb-text">{{{ item.text }}}</div>
+								<div class="pg-plumb-text">{{{ elementor.helpers.sanitize( item.text ) }}}</div>
 							<# } #>
 							<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' && item.readmore_text ) { #>
 								<div class="pg-plumb-readmore">
 <?php $this->print_content_template_item_link_prepare( 'plumb' ); ?>
 <?php $this->print_content_template_item_link_wrap_open(); ?>
 <?php $this->print_content_template_item_link_a_open(); ?>
-							{{{ item.readmore_text }}}
+							{{ item.readmore_text }}
 <?php $this->print_content_template_item_link_a_close(); ?>
 <?php $this->print_content_template_item_link_wrap_close(); ?>
 						</div>

@@ -340,15 +340,6 @@ class PixelGallery_Admin_Settings
 		add_submenu_page(
 			self::PAGE_ID,
 			BDTPG_TITLE,
-			esc_html__('Special Features', 'pixel-gallery'),
-			'manage_options',
-			self::PAGE_ID . '#pixel_gallery_other_settings',
-			[$this, 'plugin_page']
-		);
-
-		add_submenu_page(
-			self::PAGE_ID,
-			BDTPG_TITLE,
 			esc_html__('System Status', 'pixel-gallery'),
 			'manage_options',
 			self::PAGE_ID . '#pixel_gallery_analytics_system_req',
@@ -395,10 +386,6 @@ class PixelGallery_Admin_Settings
 			[
 				'id' => 'pixel_gallery_elementor_extend',
 				'title' => esc_html__('Extensions', 'pixel-gallery')
-			],
-			[
-				'id' => 'pixel_gallery_other_settings',
-				'title' => esc_html__('Special Features', 'pixel-gallery'),
 			],
 		];
 
@@ -625,7 +612,6 @@ class PixelGallery_Admin_Settings
 						<p><?php esc_html_e('Don\'t need more plugins. This pro addon helps you build complex or professional websites—visually stunning, functional and customizable.', 'pixel-gallery'); ?>
 						</p>
 						<ul>
-							<li><?php esc_html_e('Asset Manager', 'pixel-gallery'); ?></li>
 							<li><?php esc_html_e('Entrance Animation', 'pixel-gallery'); ?></li>
 							<li><?php esc_html_e('Custom CSS & JS', 'pixel-gallery'); ?></li>
 							<li><?php esc_html_e('White Label Branding', 'pixel-gallery'); ?></li>
@@ -662,7 +648,7 @@ class PixelGallery_Admin_Settings
 							<?php esc_html_e('Getting Started with Quick Access', 'pixel-gallery'); ?>
 						</h1>
 						<ul>
-							<li><a href="https://pixelgallery.pro/contact/"
+							<li><a href="https://bdthemes.com/contact/"
 									target="_blank"><?php esc_html_e('Contact Us', 'pixel-gallery'); ?></a></li>
 							<li><a href="https://bdthemes.com/support/"
 									target="_blank"><?php esc_html_e('Help Centre', 'pixel-gallery'); ?></a></li>
@@ -949,7 +935,7 @@ class PixelGallery_Admin_Settings
 
 			<div class="pg-dashboard-wrapper bdt-margin-top">
 				<div class="pg-dashboard-header bdt-flex bdt-flex-wrap bdt-flex-between bdt-flex-middle"
-					bdt-sticky="offset: 32; animation: bdt-animation-slide-top-small; duration: 300">
+					bdt-sticky="offset: 32; animation: bdt-animation-slide-top-small; duration: 300; media: 960">
 
 					<div class="bdt-flex bdt-flex-wrap bdt-flex-middle">
 						<!-- Header Shape Elements -->
@@ -1012,7 +998,7 @@ class PixelGallery_Admin_Settings
 				<div class="pg-dashboard-container bdt-flex">
 					<div class="pg-dashboard-nav-container-wrapper">
 						<div class="pg-dashboard-nav-container-inner"
-							bdt-sticky="end: !.pg-dashboard-container; offset: 115; animation: bdt-animation-slide-top-small; duration: 300">
+							bdt-sticky="end: !.pg-dashboard-container; offset: 115; animation: bdt-animation-slide-top-small; duration: 300; media: 1200">
 
 							<!-- Navigation Shape Elements -->
 							<div class="pg-nav-elements">
@@ -1031,26 +1017,26 @@ class PixelGallery_Admin_Settings
 
 
 					<div class="bdt-switcher bdt-tab-container bdt-container-xlarge bdt-flex-1">
-						<div id="pixel_gallery_welcome_page" class="pg-option-page group">
+						<div id="pixel_gallery_welcome_page" class="pg-option-page pg-group">
 							<?php $this->pixel_gallery_welcome(); ?>
 						</div>
 
 						<?php $this->settings_api->show_forms(); ?>
 
-						<div id="pixel_gallery_analytics_system_req_page" class="pg-option-page group">
+						<div id="pixel_gallery_analytics_system_req_page" class="pg-option-page pg-group">
 							<?php $this->pixel_gallery_analytics_system_req_content(); ?>
 						</div>
 
-						<div id="pixel_gallery_other_plugins_page" class="pg-option-page group">
+						<div id="pixel_gallery_other_plugins_page" class="pg-option-page pg-group">
 							<?php $this->pixel_gallery_others_plugin(); ?>
 						</div>
 
-						<!-- <div id="pixel_gallery_affiliate_page" class="pg-option-page group">
+						<!-- <div id="pixel_gallery_affiliate_page" class="pg-option-page pg-group">
 							<?php //$this->pixel_gallery_affiliate_content(); ?>
 						</div> -->
 
 						<?php if (_is_pg_pro_activated() !== true): ?>
-							<div id="pixel_gallery_get_pro" class="pg-option-page group">
+							<div id="pixel_gallery_get_pro" class="pg-option-page pg-group">
 								<?php $this->pixel_gallery_get_pro(); ?>
 							</div>
 						<?php endif; ?>
@@ -1068,7 +1054,7 @@ class PixelGallery_Admin_Settings
 
 						<?php if ($this->settings_api->has_section('pixel_gallery_license_settings')) : ?>
 							<?php /* License is the last tab, so its panel is the last pane too. */ ?>
-							<div id="pixel_gallery_license_settings_page" class="pg-option-page group">
+							<div id="pixel_gallery_license_settings_page" class="pg-option-page pg-group">
 
 								<?php
 								if (has_filter('pixel_gallery_license_page')) {
@@ -1110,21 +1096,22 @@ class PixelGallery_Admin_Settings
 			});
 
 			function filterSearch(e) {
-				var parentID = '#' + jQuery(e).data('id');
-				var search = jQuery(parentID).find('.bdt-search-input').val().toLowerCase();
+				var $parent = jQuery('#' + jQuery(e).data('id'));
+				var search = String(jQuery(e).val() || '').toLowerCase().trim();
+				var $items = $parent.find('.pg-options .pg-option-item');
 
-				jQuery(".pg-options .pg-option-item").filter(function () {
-					jQuery(this).toggle(jQuery(this).attr('data-widget-name').toLowerCase().indexOf(search) > -1)
+				// UIkit's filter only reacts to clicks on links and buttons, so the
+				// search shows and hides the widgets itself.
+				$items.each(function () {
+					var name = String(jQuery(this).attr('data-widget-name') || '').toLowerCase();
+					jQuery(this).toggle(name.indexOf(search) > -1);
 				});
 
 				if (!search) {
-					jQuery(parentID).find('.bdt-search-input').attr('bdt-filter-control', "");
-					jQuery(parentID).find('.pg-widget-all').trigger('click');
-				} else {
-					jQuery(parentID).find('.bdt-search-input').attr('bdt-filter-control', "filter: [data-widget-name*='" + search + "']");
-					jQuery(parentID).find('.bdt-search-input').removeClass('bdt-active'); // Thanks to Bar-Rabbas
-					jQuery(parentID).find('.bdt-search-input').trigger('click');
+					$parent.find('.pg-widget-all a').trigger('click');
 				}
+
+				$parent.find('.pg-no-result').toggleClass('bdt-animation-shake', '' !== search && 0 === $items.filter(':visible').length);
 			}
 
 			jQuery('.pg-options-parent').each(function (e, item) {
@@ -1223,7 +1210,7 @@ class PixelGallery_Admin_Settings
 				jQuery('#pixel_gallery_active_modules_page a.pg-active-all-widget').on('click', function (e) {
 					e.preventDefault();
 
-					jQuery('#pixel_gallery_active_modules_page .pg-option-item:not(.pg-pro-inactive) .checkbox:visible').each(function () {
+					jQuery('#pixel_gallery_active_modules_page .pg-option-item:not(.pg-pro-inactive) .pg-checkbox:visible').each(function () {
 						jQuery(this).attr('checked', 'checked').prop("checked", true);
 					});
 
@@ -1233,7 +1220,7 @@ class PixelGallery_Admin_Settings
 
 				jQuery('#pixel_gallery_active_modules_page a.pg-deactive-all-widget').on('click', function (e) {
 					e.preventDefault();
-					jQuery('#pixel_gallery_active_modules_page .pg-option-item:not(.pg-pro-inactive) .checkbox:visible').each(function () {
+					jQuery('#pixel_gallery_active_modules_page .pg-option-item:not(.pg-pro-inactive) .pg-checkbox:visible').each(function () {
 						jQuery(this).removeAttr('checked');
 					});
 
@@ -1244,7 +1231,7 @@ class PixelGallery_Admin_Settings
 				jQuery('#pixel_gallery_elementor_extend_page a.pg-active-all-widget').on('click', function (e) {
 					e.preventDefault();
 
-					jQuery('#pixel_gallery_elementor_extend_page .checkbox:visible').each(function () {
+					jQuery('#pixel_gallery_elementor_extend_page .pg-checkbox:visible').each(function () {
 						jQuery(this).attr('checked', 'checked').prop("checked", true);
 					});
 
@@ -1254,7 +1241,7 @@ class PixelGallery_Admin_Settings
 
 				jQuery('#pixel_gallery_elementor_extend_page a.pg-deactive-all-widget').on('click', function (e) {
 					e.preventDefault();
-					jQuery('#pixel_gallery_elementor_extend_page .checkbox:visible').each(function () {
+					jQuery('#pixel_gallery_elementor_extend_page .pg-checkbox:visible').each(function () {
 						jQuery(this).removeAttr('checked');
 					});
 
@@ -1266,7 +1253,7 @@ class PixelGallery_Admin_Settings
 				$('#pixel_gallery_active_modules_page a.pg-active-all-widget').on('click', function (e) {
 					e.preventDefault();
 
-					$('#pixel_gallery_active_modules_page .pg-option-item:not(.pg-pro-inactive) .checkbox:visible').each(function () {
+					$('#pixel_gallery_active_modules_page .pg-option-item:not(.pg-pro-inactive) .pg-checkbox:visible').each(function () {
 						$(this).attr('checked', 'checked').prop("checked", true);
 					});
 
@@ -1282,7 +1269,7 @@ class PixelGallery_Admin_Settings
 				$('#pixel_gallery_active_modules_page a.pg-deactive-all-widget').on('click', function (e) {
 					e.preventDefault();
 
-					$('#pixel_gallery_active_modules_page .checkbox:visible').each(function () {
+					$('#pixel_gallery_active_modules_page .pg-checkbox:visible').each(function () {
 						$(this).removeAttr('checked').prop("checked", false);
 					});
 
@@ -1298,7 +1285,7 @@ class PixelGallery_Admin_Settings
 				$('#pixel_gallery_elementor_extend_page a.pg-active-all-widget').on('click', function (e) {
 					e.preventDefault();
 
-					$('#pixel_gallery_elementor_extend_page .pg-option-item:not(.pg-pro-inactive) .checkbox:visible').each(function () {
+					$('#pixel_gallery_elementor_extend_page .pg-option-item:not(.pg-pro-inactive) .pg-checkbox:visible').each(function () {
 						$(this).attr('checked', 'checked').prop("checked", true);
 					});
 
@@ -1314,7 +1301,7 @@ class PixelGallery_Admin_Settings
 				$('#pixel_gallery_elementor_extend_page a.pg-deactive-all-widget').on('click', function (e) {
 					e.preventDefault();
 
-					$('#pixel_gallery_elementor_extend_page .checkbox:visible').each(function () {
+					$('#pixel_gallery_elementor_extend_page .pg-checkbox:visible').each(function () {
 						$(this).removeAttr('checked').prop("checked", false);
 					});
 
@@ -1327,7 +1314,7 @@ class PixelGallery_Admin_Settings
 					}, 100);
 				});
 
-				jQuery('#pixel_gallery_active_modules_page .pg-pro-inactive .checkbox').each(function () {
+				jQuery('#pixel_gallery_active_modules_page .pg-pro-inactive .pg-checkbox').each(function () {
 					jQuery(this).removeAttr('checked');
 					jQuery(this).attr("disabled", true);
 				});
@@ -1355,7 +1342,6 @@ class PixelGallery_Admin_Settings
 				const pagesWithSave = [
 					'pixel_gallery_active_modules',        // Core widgets
 					'pixel_gallery_elementor_extend',      // Extensions
-					'pixel_gallery_other_settings',        // Special features
 					'pixel_gallery_api_settings'           // API settings
 				];
 
@@ -1405,7 +1391,7 @@ class PixelGallery_Admin_Settings
 				});
 
 				// Listen for individual checkbox changes to maintain save button visibility
-				$(document).on('change', '#pixel_gallery_elementor_extend_page .checkbox, #pixel_gallery_active_modules_page .checkbox', function () {
+				$(document).on('change', '#pixel_gallery_elementor_extend_page .pg-checkbox, #pixel_gallery_active_modules_page .pg-checkbox', function () {
 					setTimeout(forceSaveButtonVisible, 50);
 				});
 
@@ -1437,11 +1423,11 @@ class PixelGallery_Admin_Settings
 					// Look for forms in the active tab content
 					if (currentHash) {
 						// Try to find form in the specific tab page
-						targetForm = $('#' + currentHash + '_page form.settings-save');
+						targetForm = $('#' + currentHash + '_page form.pg-settings-save');
 
 						// If not found, try without _page suffix
 						if (!targetForm || targetForm.length === 0) {
-							targetForm = $('#' + currentHash + ' form.settings-save');
+							targetForm = $('#' + currentHash + ' form.pg-settings-save');
 						}
 
 						// Try to find any form in the active tab content
@@ -1450,14 +1436,14 @@ class PixelGallery_Admin_Settings
 						}
 					}
 
-					// Fallback to any visible form with settings-save class
+					// Fallback to any visible form with pg-settings-save class
 					if (!targetForm || targetForm.length === 0) {
-						targetForm = $('form.settings-save:visible').first();
+						targetForm = $('form.pg-settings-save:visible').first();
 					}
 
 					// Last fallback - any visible form
 					if (!targetForm || targetForm.length === 0) {
-						targetForm = $('.bdt-switcher .group:visible form').first();
+						targetForm = $('.bdt-switcher .pg-option-page:visible form').first();
 					}
 
 					if (targetForm && targetForm.length > 0) {
@@ -1614,25 +1600,40 @@ class PixelGallery_Admin_Settings
 					});
 				}
 
-				// Check if we're currently on system status tab and initialize
-				function checkAndInitIfOnSystemStatus() {
+				// Charts can only be measured once the System Status tab is on screen,
+				// so wait until it is visible before drawing them.
+				function renderChartsWhenVisible(attempt) {
+					var pane = document.getElementById('pixel_gallery_analytics_system_req_page');
+					attempt = attempt || 0;
+
+					if (!pane) {
+						return;
+					}
+
+					if (pane.offsetParent === null) {
+						if (attempt < 40) {
+							setTimeout(function () {
+								renderChartsWhenVisible(attempt + 1);
+							}, 100);
+						}
+						return;
+					}
+
+					initAllCharts();
+				}
+
+				function renderChartsIfOnSystemStatus() {
 					if (window.location.hash === '#pixel_gallery_analytics_system_req') {
-						setTimeout(initAllCharts, 300);
+						renderChartsWhenVisible();
 					}
 				}
 
-				// Initialize charts when DOM is ready
-				jQuery(document).ready(function () {
-					// Only initialize if we're on the system status tab
-					setTimeout(checkAndInitIfOnSystemStatus, 500);
-				});
+				// Covers loading the page on the tab, the admin menu links and back/forward.
+				renderChartsIfOnSystemStatus();
+				jQuery(window).on('hashchange', renderChartsIfOnSystemStatus);
 
-				// Add click handler for System Status tab to create/refresh charts
 				jQuery(document).on('click', 'a[href="#pixel_gallery_analytics_system_req"], a[href*="pixel_gallery_analytics_system_req"]', function () {
-					setTimeout(function () {
-						// Always recreate charts when tab is clicked to ensure they're visible
-						initAllCharts();
-					}, 200);
+					renderChartsWhenVisible();
 				});
 			}
 
@@ -1948,24 +1949,24 @@ class PixelGallery_Admin_Settings
 		$post_limit = ini_get('post_max_size');
 		$uploads = wp_upload_dir();
 		$upload_path = $uploads['basedir'];
-		$yes_icon = '<span class="valid"><i class="dashicons-before dashicons-yes"></i></span>';
-		$no_icon = '<span class="invalid"><i class="dashicons-before dashicons-no-alt"></i></span>';
+		$yes_icon = '<span class="pg-valid"><i class="dashicons-before dashicons-yes"></i></span>';
+		$no_icon = '<span class="pg-invalid"><i class="dashicons-before dashicons-no-alt"></i></span>';
 
 		$environment = Utils::get_environment_info();
 
 		?>
-		<ul class="check-system-status bdt-grid bdt-child-width-1-2@m  bdt-grid-small ">
+		<ul class="pg-check-system-status bdt-grid bdt-child-width-1-2@m  bdt-grid-small ">
 			<li>
 				<div>
-					<span class="label1"><?php esc_html_e('PHP Version:', 'pixel-gallery'); ?></span>
+					<span class="pg-label1"><?php esc_html_e('PHP Version:', 'pixel-gallery'); ?></span>
 
 					<?php
 					if (version_compare($php_version, '7.4.0', '<')) {
 						echo wp_kses_post($no_icon);
-						echo '<span class="label2" title="' . esc_attr__('Min: 7.4 Recommended', 'pixel-gallery') . '" bdt-tooltip>' . esc_html__('Currently:', 'pixel-gallery') . ' ' . esc_html($php_version) . '</span>';
+						echo '<span class="pg-label2" title="' . esc_attr__('Min: 7.4 Recommended', 'pixel-gallery') . '" bdt-tooltip>' . esc_html__('Currently:', 'pixel-gallery') . ' ' . esc_html($php_version) . '</span>';
 					} else {
 						echo wp_kses_post($yes_icon);
-						echo '<span class="label2">' . esc_html__('Currently:', 'pixel-gallery') . ' ' . esc_html($php_version) . '</span>';
+						echo '<span class="pg-label2">' . esc_html__('Currently:', 'pixel-gallery') . ' ' . esc_html($php_version) . '</span>';
 					}
 					?>
 				</div>
@@ -1974,29 +1975,29 @@ class PixelGallery_Admin_Settings
 
 			<li>
 				<div>
-					<span class="label1"><?php esc_html_e('Max execution time:', 'pixel-gallery'); ?> </span>
+					<span class="pg-label1"><?php esc_html_e('Max execution time:', 'pixel-gallery'); ?> </span>
 					<?php
 					if ($max_execution_time < '90') {
 						echo wp_kses_post($no_icon);
-						echo '<span class="label2" title="' . esc_attr__( 'Min: 90 Recommended', 'pixel-gallery' ) . '" bdt-tooltip>' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $max_execution_time ) . '</span>';
+						echo '<span class="pg-label2" title="' . esc_attr__( 'Min: 90 Recommended', 'pixel-gallery' ) . '" bdt-tooltip>' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $max_execution_time ) . '</span>';
 					} else {
 						echo wp_kses_post($yes_icon);
-						echo '<span class="label2">' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $max_execution_time ) . '</span>';
+						echo '<span class="pg-label2">' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $max_execution_time ) . '</span>';
 					}
 					?>
 				</div>
 			</li>
 			<li>
 				<div>
-					<span class="label1"><?php esc_html_e('Memory Limit:', 'pixel-gallery'); ?> </span>
+					<span class="pg-label1"><?php esc_html_e('Memory Limit:', 'pixel-gallery'); ?> </span>
 
 					<?php
 					if (intval($memory_limit) < '512') {
 						echo wp_kses_post($no_icon);
-						echo '<span class="label2" title="' . esc_attr__( 'Min: 512M Recommended', 'pixel-gallery' ) . '" bdt-tooltip>' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $memory_limit ) . '</span>';
+						echo '<span class="pg-label2" title="' . esc_attr__( 'Min: 512M Recommended', 'pixel-gallery' ) . '" bdt-tooltip>' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $memory_limit ) . '</span>';
 					} else {
 						echo wp_kses_post($yes_icon);
-						echo '<span class="label2">' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $memory_limit ) . '</span>';
+						echo '<span class="pg-label2">' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $memory_limit ) . '</span>';
 					}
 					?>
 				</div>
@@ -2004,15 +2005,15 @@ class PixelGallery_Admin_Settings
 
 			<li>
 				<div>
-					<span class="label1"><?php esc_html_e('Max Post Limit:', 'pixel-gallery'); ?> </span>
+					<span class="pg-label1"><?php esc_html_e('Max Post Limit:', 'pixel-gallery'); ?> </span>
 
 					<?php
 					if (intval($post_limit) < '32') {
 						echo wp_kses_post($no_icon);
-						echo '<span class="label2" title="' . esc_attr__( 'Min: 32M Recommended', 'pixel-gallery' ) . '" bdt-tooltip>' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $post_limit ) . '</span>';
+						echo '<span class="pg-label2" title="' . esc_attr__( 'Min: 32M Recommended', 'pixel-gallery' ) . '" bdt-tooltip>' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $post_limit ) . '</span>';
 					} else {
 						echo wp_kses_post($yes_icon);
-						echo '<span class="label2">' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $post_limit ) . '</span>';
+						echo '<span class="pg-label2">' . esc_html__( 'Currently:', 'pixel-gallery' ) . ' ' . esc_html( $post_limit ) . '</span>';
 					}
 					?>
 				</div>
@@ -2020,7 +2021,7 @@ class PixelGallery_Admin_Settings
 
 			<li>
 				<div>
-					<span class="label1"><?php esc_html_e('Uploads folder writable:', 'pixel-gallery'); ?></span>
+					<span class="pg-label1"><?php esc_html_e('Uploads folder writable:', 'pixel-gallery'); ?></span>
 
 					<?php
 					if (!wp_is_writable($upload_path)) {
@@ -2035,15 +2036,15 @@ class PixelGallery_Admin_Settings
 
 			<li>
 				<div>
-					<span class="label1"><?php esc_html_e('MultiSite:', 'pixel-gallery'); ?></span>
+					<span class="pg-label1"><?php esc_html_e('MultiSite:', 'pixel-gallery'); ?></span>
 
 					<?php
 					if ($environment['wp_multisite']) {
 						echo wp_kses_post($yes_icon);
-						echo '<span class="label2">' . esc_html__('MultiSite Enabled', 'pixel-gallery') . '</span>';
+						echo '<span class="pg-label2">' . esc_html__('MultiSite Enabled', 'pixel-gallery') . '</span>';
 					} else {
 						echo wp_kses_post($yes_icon);
-						echo '<span class="label2">' . esc_html__('Single Site', 'pixel-gallery') . '</span>';
+						echo '<span class="pg-label2">' . esc_html__('Single Site', 'pixel-gallery') . '</span>';
 					}
 					?>
 				</div>
@@ -2051,7 +2052,7 @@ class PixelGallery_Admin_Settings
 
 			<li>
 				<div>
-					<span class="label1"><?php esc_html_e('GZip Enabled:', 'pixel-gallery'); ?></span>
+					<span class="pg-label1"><?php esc_html_e('GZip Enabled:', 'pixel-gallery'); ?></span>
 
 					<?php
 					if ($environment['gzip_enabled']) {
@@ -2066,14 +2067,14 @@ class PixelGallery_Admin_Settings
 
 			<li>
 				<div>
-					<span class="label1"><?php esc_html_e('Debug Mode:', 'pixel-gallery'); ?></span>
+					<span class="pg-label1"><?php esc_html_e('Debug Mode:', 'pixel-gallery'); ?></span>
 					<?php
 					if ($environment['wp_debug_mode']) {
 						echo wp_kses_post($no_icon);
-						echo '<span class="label2">' . esc_html__('Currently Turned On', 'pixel-gallery') . '</span>';
+						echo '<span class="pg-label2">' . esc_html__('Currently Turned On', 'pixel-gallery') . '</span>';
 					} else {
 						echo wp_kses_post($yes_icon);
-						echo '<span class="label2">' . esc_html__('Currently Turned Off', 'pixel-gallery') . '</span>';
+						echo '<span class="pg-label2">' . esc_html__('Currently Turned Off', 'pixel-gallery') . '</span>';
 					}
 					?>
 				</div>

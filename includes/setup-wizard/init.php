@@ -49,8 +49,9 @@ class Setup_Wizard {
 	// Initialize hooks
 	private function init_hooks() {
 		add_action( 'wp_ajax_bdtpg_setup_wizard_install_plugins', array( $this, 'install_plugins' ) );
+		add_action( 'wp_ajax_bdtpg_setup_wizard_import_template', array( $this, 'import_template' ) );
+		add_action( 'wp_ajax_bdtpg_setup_wizard_import_template_runner', array( $this, 'import_template_runner' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'admin_init', array( $this, 'activate_default_widgets' ) );
 		add_action( 'admin_init', array( $this, 'maybe_display_setup_wizard' ) );
 		add_action( 'admin_init', array( $this, 'check_manual_wizard_request' ) );
 	}
@@ -136,7 +137,7 @@ class Setup_Wizard {
 		ob_start();
 		?>
 		<div class="bdt-setup-wizard-overlay pg-setup-wizard">
-			<div class="bdt-setup-wizard content-loaded">
+			<div class="bdt-setup-wizard pg-content-loaded">
 				<?php
 				require_once plugin_dir_path( BDTPG__FILE__ ) . 'includes/setup-wizard/views/render.php';
 				?>
@@ -200,7 +201,7 @@ class Setup_Wizard {
 	public function display_page() {
 		?>
 		<div class="bdt-setup-wizard-overlay pg-setup-wizard">
-			<div class="bdt-setup-wizard content-loaded">
+			<div class="bdt-setup-wizard pg-content-loaded">
 				<?php
 				require_once plugin_dir_path( BDTPG__FILE__ ) . 'includes/setup-wizard/views/render.php';
 				?>
@@ -217,8 +218,9 @@ class Setup_Wizard {
         wp_enqueue_style('bdt-uikit', BDTPG_ADMIN_URL . 'assets/css/bdt-uikit'. $direction_suffix .'.css', [], BDTPG_VER);
 		wp_enqueue_script('bdt-uikit', BDTPG_ADMIN_URL . 'assets/js/bdt-uikit.min.js', ['jquery'], '3.25.22', true);
 
-		wp_register_script( 'pg-setup-wizard', plugins_url( 'assets/js/setup-wizard.js', __FILE__ ), array( 'jquery' ), '1.0.0', true );
-		wp_register_style( 'pg-setup-wizard', plugins_url( 'assets/css/setup-wizard.css', __FILE__ ), array(), '1.0.0' );
+		// Versioned with the plugin so browsers never pair cached wizard assets with newer markup.
+		wp_register_script( 'pg-setup-wizard', plugins_url( 'assets/js/setup-wizard.js', __FILE__ ), array( 'jquery' ), BDTPG_VER, true );
+		wp_register_style( 'pg-setup-wizard', plugins_url( 'assets/css/setup-wizard.css', __FILE__ ), array(), BDTPG_VER );
 
 		wp_enqueue_script( 'pg-setup-wizard' );
 		wp_enqueue_style( 'pg-setup-wizard' );
@@ -229,7 +231,18 @@ class Setup_Wizard {
 			array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( 'bdtpg_setup_wizard_nonce' ),
-				'is_fullscreen' => true
+				'is_fullscreen' => true,
+				'i18n'     => array(
+					'importing'         => __( 'Importing...', 'pixel-gallery' ),
+					/* translators: %s: template name. */
+					'importing_template' => __( 'Importing %s...', 'pixel-gallery' ),
+					'imported'          => __( 'Imported', 'pixel-gallery' ),
+					/* translators: %s: template name. */
+					'imported_template' => __( '%s Imported', 'pixel-gallery' ),
+					'failed'            => __( 'Failed', 'pixel-gallery' ),
+					'import_failed'     => __( 'Import Failed', 'pixel-gallery' ),
+					'edit_page'         => __( 'Edit Page', 'pixel-gallery' ),
+				),
 			)
 		);
 	}
@@ -413,71 +426,241 @@ class Setup_Wizard {
 
 		return false;
 	}
-    
-    /**
-     * Activate default widgets in setup wizard
-     */
-    public function activate_default_widgets() {
-        // List of widgets to activate by default
-        $default_active_widgets = array(
-            'accordion',
-            'advanced-button',
-            'advanced-heading',
-            'advanced-icon-box',
-            'advanced-image-gallery',
-            'audio-player',
-            'brand-grid',
-            'call-out',
-            'carousel',
-            'custom-gallery',
-            'custom-carousel',
-            'contact-form',
-            'dropbar',
-            'iconnav',
-            'lightbox',
-            'modal',
-            'member',
-            'navbar',
-            'price-list',
-            'price-table',
-            'panel-slider',
-            'slider',
-            'post-grid',
-            'post-list',
-            'product-grid',
-            'search',
-            'scroll-button',
-            'social-share',
-            'tabs',
-            'trailer-box',
-            'user-login'
-        );
-        
-        // Get current active modules
-        $active_modules = get_option('pixel_gallery_active_modules', array());
-        
-        // Make sure $active_modules is an array
-        if (!is_array($active_modules)) {
-            $active_modules = array();
-        }
-        
-        // Check if active_modules option exists and is not empty
-        // If it's a new installation or option doesn't exist, we'll set our defaults
-        $modified = false;
-        
-        foreach ($default_active_widgets as $widget) {
-            // Only set if not already defined (prevents overriding user settings on existing installations)
-            if (!isset($active_modules[$widget])) {
-                $active_modules[$widget] = 'on';
-                $modified = true;
-            }
-        }
-        
-        // Update the option if changes were made
-        if ($modified) {
-            update_option('pixel_gallery_active_modules', $active_modules);
-        }
-    }
+
+	/**
+	 * Ready-to-use templates offered on the "Good to Go" step.
+	 *
+	 * Each template is an Elementor kit bundled in assets/templates/ and listed in
+	 * assets/data.json. Templates built on Pixel Gallery Pro widgets are only
+	 * offered while Pro is active, so every template shown can be imported.
+	 *
+	 * @return array[] Template data keyed by slug: title, thumbnail, demo_url and file.
+	 */
+	public static function get_templates() {
+		$assets_path = __DIR__ . '/assets/';
+		$data        = wp_json_file_decode( $assets_path . 'data.json', array( 'associative' => true ) );
+		$templates   = array();
+
+		foreach ( (array) $data as $template ) {
+			$import_path = isset( $template['import_url'] ) ? (string) $template['import_url'] : '';
+
+			if ( 'zip' !== strtolower( pathinfo( $import_path, PATHINFO_EXTENSION ) ) ) {
+				continue;
+			}
+
+			if ( ! empty( $template['is_pro'] ) && true !== _is_pg_pro_activated() ) {
+				continue;
+			}
+
+			$slug = sanitize_key( basename( $import_path, '.zip' ) );
+			$file = $assets_path . 'templates/' . $slug . '.zip';
+
+			if ( '' === $slug || ! is_file( $file ) ) {
+				continue;
+			}
+
+			$templates[ $slug ] = array(
+				'title'     => isset( $template['title'] ) ? (string) $template['title'] : $slug,
+				'thumbnail' => plugins_url( 'assets/' . ltrim( (string) ( $template['thumbnail'] ?? '' ), '/' ), __FILE__ ),
+				'demo_url'  => isset( $template['demo_url'] ) ? (string) $template['demo_url'] : '',
+				'file'      => $file,
+			);
+		}
+
+		return $templates;
+	}
+
+	/**
+	 * Start importing a bundled template kit with Elementor's kit importer.
+	 *
+	 * Only a template slug is accepted, never a URL, and it must be one of
+	 * get_templates(). Returns the Elementor import session and the runners the
+	 * browser then executes one request at a time.
+	 */
+	public function import_template() {
+		check_ajax_referer( 'bdtpg_setup_wizard_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to import templates.', 'pixel-gallery' ) ), 403 );
+		}
+
+		$slug      = isset( $_POST['template'] ) ? sanitize_key( wp_unslash( $_POST['template'] ) ) : '';
+		$templates = self::get_templates();
+
+		if ( '' === $slug || ! isset( $templates[ $slug ] ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Unknown template.', 'pixel-gallery' ) ) );
+		}
+
+		$import_export = $this->get_elementor_import_export();
+
+		if ( ! $import_export ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Elementor\'s kit importer is not available. Please update Elementor and try again.', 'pixel-gallery' ) ) );
+		}
+
+		$kit_file = $templates[ $slug ]['file'];
+
+		try {
+			// Elementor extracts and cleans up the kit it is given, so hand it a
+			// temporary copy and leave the bundled archive untouched.
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reads a kit that ships inside this plugin; the path comes from get_templates().
+			$kit_zip_path = Plugin::$instance->uploads_manager->create_temp_file( file_get_contents( $kit_file ), 'kit.zip' );
+
+			if ( is_wp_error( $kit_zip_path ) ) {
+				wp_send_json_error( array( 'message' => esc_html__( 'Could not prepare the template for import.', 'pixel-gallery' ) ) );
+			}
+
+			$upload   = $import_export->upload_kit( $kit_zip_path, 'local' );
+			$manifest = ( isset( $upload['manifest'] ) && is_array( $upload['manifest'] ) ) ? $upload['manifest'] : array();
+
+			$missing_plugins = array();
+
+			foreach ( (array) ( $manifest['plugins'] ?? array() ) as $plugin ) {
+				if ( empty( $plugin['plugin'] ) || ! is_plugin_active( $plugin['plugin'] . '.php' ) ) {
+					$missing_plugins[] = isset( $plugin['name'] ) ? (string) $plugin['name'] : (string) ( $plugin['plugin'] ?? '' );
+				}
+			}
+
+			if ( $missing_plugins ) {
+				wp_send_json_error(
+					array(
+						/* translators: %s: comma-separated list of plugin names. */
+						'message' => sprintf( esc_html__( 'Please activate these plugins first: %s', 'pixel-gallery' ), esc_html( implode( ', ', $missing_plugins ) ) ),
+					)
+				);
+			}
+
+			$include = array();
+
+			foreach ( array( 'templates' => 'templates', 'content' => 'content', 'site-settings' => 'settings' ) as $manifest_key => $part ) {
+				if ( isset( $manifest[ $manifest_key ] ) ) {
+					$include[] = $part;
+				}
+			}
+
+			$import = $import_export->import_kit(
+				$upload['session'],
+				array(
+					'id'                      => '',
+					'session'                 => $upload['session'],
+					'include'                 => $include,
+					'overrideConditions'      => array(),
+					'selectedCustomPostTypes' => isset( $manifest['custom-post-type-title'] ) ? array_keys( (array) $manifest['custom-post-type-title'] ) : array(),
+				),
+				true
+			);
+
+			// Remember the session so the runner requests can only continue an
+			// import this wizard started.
+			set_transient(
+				self::template_import_key( $import['session'] ),
+				array(
+					'runners' => array_values( (array) $import['runners'] ),
+					'title'   => $templates[ $slug ]['title'],
+				),
+				HOUR_IN_SECONDS
+			);
+
+			wp_send_json_success(
+				array(
+					'session' => $import['session'],
+					'runners' => array_values( (array) $import['runners'] ),
+				)
+			);
+		} catch ( \Throwable $error ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Import failed: ', 'pixel-gallery' ) . esc_html( $error->getMessage() ) ) );
+		}
+	}
+
+	/**
+	 * Run one step ("runner") of a template import started by import_template().
+	 */
+	public function import_template_runner() {
+		check_ajax_referer( 'bdtpg_setup_wizard_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to import templates.', 'pixel-gallery' ) ), 403 );
+		}
+
+		$session = isset( $_POST['session'] ) ? sanitize_text_field( wp_unslash( $_POST['session'] ) ) : '';
+		$runner  = isset( $_POST['runner'] ) ? sanitize_text_field( wp_unslash( $_POST['runner'] ) ) : '';
+		$state   = '' !== $session ? get_transient( self::template_import_key( $session ) ) : false;
+
+		if ( ! is_array( $state ) || ! in_array( $runner, (array) $state['runners'], true ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'This import has expired. Please try again.', 'pixel-gallery' ) ) );
+		}
+
+		$import_export = $this->get_elementor_import_export();
+
+		if ( ! $import_export ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Elementor\'s kit importer is not available. Please update Elementor and try again.', 'pixel-gallery' ) ) );
+		}
+
+		try {
+			$result = $import_export->import_kit_by_runner( $session, $runner );
+
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Elementor's own action, fired after each runner as Elementor does.
+			do_action( 'elementor/import-export/import-kit/runner/after-run', $result );
+		} catch ( \Throwable $error ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Import failed: ', 'pixel-gallery' ) . esc_html( $error->getMessage() ) ) );
+		}
+
+		$response = array( 'runner' => $runner );
+		$runners  = (array) $state['runners'];
+
+		if ( end( $runners ) === $runner ) {
+			delete_transient( self::template_import_key( $session ) );
+
+			$page_ids = $result['content']['page']['succeed'] ?? array();
+			$page_id  = is_array( $page_ids ) ? absint( reset( $page_ids ) ) : 0;
+
+			if ( $page_id && 'page' === get_post_type( $page_id ) ) {
+				// Kits keep the placeholder title they were exported with ("Demo 08"),
+				// so name the page after the template the user picked.
+				if ( ! empty( $state['title'] ) ) {
+					wp_update_post(
+						array(
+							'ID'         => $page_id,
+							'post_title' => sanitize_text_field( $state['title'] ),
+						)
+					);
+				}
+
+				$response['edit_url'] = admin_url( 'post.php?post=' . $page_id . '&action=elementor' );
+			}
+		}
+
+		wp_send_json_success( $response );
+	}
+
+	/**
+	 * Transient key that tracks one template import session.
+	 *
+	 * @param string $session Elementor import session id.
+	 * @return string
+	 */
+	private static function template_import_key( $session ) {
+		return 'bdtpg_template_import_' . md5( (string) $session );
+	}
+
+	/**
+	 * Elementor's kit import/export component, or null when it is unavailable.
+	 *
+	 * @return object|null
+	 */
+	private function get_elementor_import_export() {
+		if ( ! did_action( 'elementor/loaded' ) || ! class_exists( '\Elementor\Plugin' ) || empty( Plugin::$instance->app ) ) {
+			return null;
+		}
+
+		$import_export = Plugin::$instance->app->get_component( 'import-export' );
+
+		if ( ! $import_export || ! method_exists( $import_export, 'upload_kit' ) || ! method_exists( $import_export, 'import_kit_by_runner' ) ) {
+			return null;
+		}
+
+		return $import_export;
+	}
+
 }
 
 // Initialize the Setup Wizard

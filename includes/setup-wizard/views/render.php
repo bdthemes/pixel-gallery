@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	
 	<div class="bdt-wizard-progress-header">
 		<ul class="bdt-wizard-progress">
-			<li class="bdt-wizard-progress-item active" data-step="welcome"><?php esc_html_e( 'Welcome', 'pixel-gallery' ); ?></li>
+			<li class="bdt-wizard-progress-item pg-wizard-active" data-step="welcome"><?php esc_html_e( 'Welcome', 'pixel-gallery' ); ?></li>
 			<li class="bdt-wizard-progress-item" data-step="features"><?php esc_html_e( 'Choose Features', 'pixel-gallery' ); ?></li>
 			<li class="bdt-wizard-progress-item" data-step="integration"><?php esc_html_e( 'Integration', 'pixel-gallery' ); ?></li>
 			<li class="bdt-wizard-progress-item" data-step="finish"><?php esc_html_e( 'Good to Go', 'pixel-gallery' ); ?></li>

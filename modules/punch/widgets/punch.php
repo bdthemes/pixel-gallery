@@ -457,13 +457,13 @@ class Punch extends Module_Base
 	var gridClass = 'pg-punch-grid pg-grid';
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-punch-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 										<div class="pg-punch-image-wrap bdt-pg-img-mask">
 						<# if ( item.media_type === 'video' ) { #>
@@ -480,17 +480,17 @@ class Punch extends Module_Base
 						<# } #>
 					</div>
 					<div class="pg-punch-top-content">
-						<# if ( settings.show_meta === 'yes' && item.meta ) { #><div class="pg-punch-meta">{{{ item.meta }}}</div><# } #>
+						<# if ( settings.show_meta === 'yes' && item.meta ) { #><div class="pg-punch-meta">{{{ elementor.helpers.sanitize( item.meta ) }}}</div><# } #>
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag2 = settings.title_tag || 'h3'; #>
-							<{{{ ttag2 }}} class="pg-punch-title">{{{ item.title }}}</{{{ ttag2 }}}>
+							<# var ttag2 = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag2 }}} class="pg-punch-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag2 }}}>
 						<# } #>
 					</div>
 					<div class="pg-punch-bottom-content">
-						<# if ( settings.show_meta === 'yes' && item.meta ) { #><div class="pg-punch-meta">{{{ item.meta }}}</div><# } #>
+						<# if ( settings.show_meta === 'yes' && item.meta ) { #><div class="pg-punch-meta">{{{ elementor.helpers.sanitize( item.meta ) }}}</div><# } #>
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-punch-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-punch-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 						<# } #>
 					</div>
 					<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' ) { #>

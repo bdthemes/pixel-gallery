@@ -755,13 +755,13 @@ class Elixir extends Module_Base {
 	var gridClass = 'pg-elixir-grid pg-grid';
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-elixir-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 										<div class="pg-elixir-image-wrap bdt-pg-img-mask">
 						<# if ( item.media_type === 'video' ) { #>
@@ -778,16 +778,24 @@ class Elixir extends Module_Base {
 						<# } #>
 					</div>
 					<div class="pg-elixir-content">
-						<# if ( item.category ) { #>
-							<div class="pg-elixir-category"><a href="#">{{{ item.category }}}</a></div>
+						<# if ( settings.show_category === 'yes' && item.category ) { #>
+							<div class="pg-elixir-category"><a href="javascript:void(0);">{{{ elementor.helpers.sanitize( item.category ) }}}</a></div>
 						<# } #>
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-elixir-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-elixir-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 						<# } #>
 					</div>
-					<# if ( settings.show_meta === 'yes' && item.meta ) { #>
-						<div class="pg-elixir-meta">{{{ item.meta }}}</div>
+					<# if ( settings.show_meta === 'yes' && ( item.author || item.date ) ) { #>
+						<div class="pg-elixir-meta">
+							<div class="pg-elixir-author">
+								<span><?php echo esc_html_x( 'by', 'Frontend', 'pixel-gallery' ); ?></span>
+								<a href="javascript:void(0);">{{{ elementor.helpers.sanitize( item.author ) }}}</a>
+							</div>
+							<div class="pg-elixir-date">
+								<span>{{{ elementor.helpers.sanitize( item.date ) }}}</span>
+							</div>
+						</div>
 					<# } #>
 <?php $this->print_content_template_lightbox_overlay( 'elixir' ); ?>
 				<# } #>

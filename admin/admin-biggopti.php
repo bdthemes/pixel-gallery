@@ -193,7 +193,7 @@ class Biggopties {
 		
 		if (isset($biggopti->image) && !empty($biggopti->image)) {
 			$background_style .= 'background-image: url(' . esc_url($biggopti->image) . ');';
-			$wrapper_classes .= ' has-background-image';
+			$wrapper_classes .= ' pg-has-background-image';
 		}
 		
 		?>
@@ -239,14 +239,14 @@ class Biggopties {
 						?>
 						<?php if ($show_countdown) : ?>
 							<div class="bdt-biggopti-countdown" data-end-date="<?php echo esc_attr($biggopti->end_date); ?>" data-timezone="<?php echo esc_attr($biggopti->timezone ? $biggopti->timezone : 'UTC'); ?>">
-								<div class="countdown-timer">Loading...</div>
+								<div class="pg-countdown-timer">Loading...</div>
 							</div>
 						<?php endif; ?>
 		
 						<?php if (isset($biggopti->link) && !empty($biggopti->link)) : ?>
 							<div class="bdt-biggopti-btn">
 								<a href="<?php echo esc_url($biggopti->link); ?>" target="_blank">
-									<div class="nm-biggopti-btn">
+									<div class="pg-nm-biggopti-btn">
 										<?php echo isset($biggopti->button_text) ? esc_html($biggopti->button_text) : 'Read More'; ?>
 										<span class="dashicons dashicons-arrow-right-alt"></span>
 									</div>

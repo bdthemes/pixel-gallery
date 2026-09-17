@@ -688,14 +688,14 @@ class Epoch extends Module_Base {
 	var gridClass = 'pg-epoch-grid pg-grid';
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var eff = settings.link_button_hover_effect || 'default';
 			var itemClass = 'pg-epoch-item pg-item elementor-repeater-item-' + item._id + ' pg-epoch-item-effect-' + eff;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 				<# if ( eff === 'alternate' ) { #>
 				<span class="pg-epoch-hover-fx" aria-hidden="true"></span>
@@ -716,21 +716,21 @@ class Epoch extends Module_Base {
 					</div>
 					<div class="pg-epoch-content">
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-epoch-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-epoch-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 						<# } #>
 						<# if ( settings.show_meta === 'yes' && item.meta ) { #>
-							<div class="pg-epoch-meta">{{{ item.meta }}}</div>
+							<div class="pg-epoch-meta">{{{ elementor.helpers.sanitize( item.meta ) }}}</div>
 						<# } #>
 						<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' ) { #>
 														<div class="pg-epoch-link-button">
 <?php $this->print_content_template_item_link_prepare( 'epoch' ); ?>
 <?php $this->print_content_template_item_link_wrap_open(); ?>
 <?php $this->print_content_template_item_link_a_open( 'pg-epoch-zoom-btn' ); ?>
-								{{{ item.link_button_zoom }}}
+								{{{ elementor.helpers.sanitize( item.link_button_zoom ) }}}
 <?php $this->print_content_template_item_link_a_close(); ?>
 <?php $this->print_content_template_item_link_a_open( 'pg-epoch-view-btn' ); ?>
-								{{{ item.link_button_view }}}
+								{{{ elementor.helpers.sanitize( item.link_button_view ) }}}
 <?php $this->print_content_template_item_link_a_close(); ?>
 <?php $this->print_content_template_item_link_wrap_close(); ?>
 							</div>

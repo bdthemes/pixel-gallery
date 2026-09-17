@@ -1,6 +1,6 @@
 {
 	"name": "pixel-gallery",
-	"version": "2.2.2",
+	"version": "2.2.3",
 	"main": "index.php",
 	"scripts": {
 		"dev": "cross-env NODE_ENV=development grunt watch",

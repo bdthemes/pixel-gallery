@@ -89,14 +89,8 @@ if (!class_exists('PixelGallery_Settings_API')) :
                 return;
             }
 
-            $matched_height = ' bdt-grid bdt-height-match="target: > div > .pg-option-item-inner"';
-            $data_settings = '';
-
             foreach ((array) $wp_settings_sections[$page] as $section) {
                 if ($section['id'] == 'pixel_gallery_api_settings') {
-                    $section_class = ' bdt-grid-small bdt-child-width-1-3@xl';
-                } elseif ($section['id'] == 'pixel_gallery_other_settings') {
-                    $data_settings = $matched_height;
                     $section_class = ' bdt-grid-small bdt-child-width-1-3@xl';
                 } else {
                     $section_class = ' bdt-grid-small bdt-child-width-1-4@xl';
@@ -111,9 +105,9 @@ if (!class_exists('PixelGallery_Settings_API')) :
                 if (!isset($wp_settings_fields) || !isset($wp_settings_fields[$page]) || !isset($wp_settings_fields[$page][$section['id']])) {
                     continue;
                 }
-                echo '<div class="pg-options" role="presentation" ' . esc_attr($data_settings) . '>';
+                echo '<div class="pg-options" role="presentation">';
 
-                echo '<p class="pg-no-result bdt-text-center bdt-width-1-1 bdt-margin-small-top bdt-h4">'.esc_html__('Ops! Your Searched widget not found! Do you have any idea? If yes, ', 'pixel-gallery').'<a href="https://feedback.elementpack.pro/b/3v2gg80n/feature-requests/idea/new" target="_blank">'.esc_html__('Submit here', 'pixel-gallery').'</a></p>';
+                echo '<p class="pg-no-result bdt-text-center bdt-width-1-1 bdt-margin-small-top bdt-h4">'.esc_html__('Oops! No widget matches your search. Have an idea for one? ', 'pixel-gallery').'<a href="https://feedback.bdthemes.com/b/6vr2250l/feature-requests/idea/new" target="_blank" rel="noopener">'.esc_html__('Submit it here', 'pixel-gallery').'</a></p>';
 
                 $this->do_settings_fields($page, $section['id']);
 
@@ -497,8 +491,8 @@ if (!class_exists('PixelGallery_Settings_API')) :
                     $html  .= '<fieldset>';
                     $html  .= sprintf('<label for="bdt_pg_%1$s[%2$s]">', $args['section'], $args['id']);
                     $html  .= sprintf('<input type="hidden" name="%1$s[%2$s]" value="off" />', $args['section'], $args['id']);
-                    $html  .= sprintf('<input type="checkbox" class="checkbox" id="bdt_pg_%1$s[%2$s]" name="%1$s[%2$s]" value="on" %3$s />', $args['section'], $args['id'], checked($value, 'on', false));
-                    $html    .= '<span class="switch"></span>';
+                    $html  .= sprintf('<input type="checkbox" class="pg-checkbox" id="bdt_pg_%1$s[%2$s]" name="%1$s[%2$s]" value="on" %3$s />', $args['section'], $args['id'], checked($value, 'on', false));
+                    $html    .= '<span class="pg-switch"></span>';
                     $html  .= '</label>';
                     $html  .= '</fieldset>';
                 }
@@ -506,8 +500,8 @@ if (!class_exists('PixelGallery_Settings_API')) :
                 $html  .= '<fieldset>';
                 $html  .= sprintf('<label for="bdt_pg_%1$s[%2$s]">', $args['section'], $args['id']);
                 $html  .= sprintf('<input type="hidden" name="%1$s[%2$s]" value="off" />', $args['section'], $args['id']);
-                $html  .= sprintf('<input type="checkbox" class="checkbox" id="bdt_pg_%1$s[%2$s]" name="%1$s[%2$s]" value="on" %3$s />', $args['section'], $args['id'], checked($value, 'on', false));
-                $html    .= '<span class="switch"></span>';
+                $html  .= sprintf('<input type="checkbox" class="pg-checkbox" id="bdt_pg_%1$s[%2$s]" name="%1$s[%2$s]" value="on" %3$s />', $args['section'], $args['id'], checked($value, 'on', false));
+                $html    .= '<span class="pg-switch"></span>';
                 $html  .= '</label>';
                 $html  .= '</fieldset>';
             }
@@ -538,8 +532,8 @@ if (!class_exists('PixelGallery_Settings_API')) :
             foreach ($args['options'] as $key => $label) {
                 $checked = isset($value[$key]) ? $value[$key] : '0';
                 $html    .= sprintf('<label for="bdt_pg_%1$s[%2$s][%3$s]">', $args['section'], $args['id'], $key);
-                $html    .= sprintf('<input type="checkbox" class="checkbox" id="bdt_pg_%1$s[%2$s][%3$s]" name="%1$s[%2$s][%3$s]" value="%3$s" %4$s />', $args['section'], $args['id'], $key, checked($checked, $key, false));
-                $html    .= '<span class="switch"></span>';
+                $html    .= sprintf('<input type="checkbox" class="pg-checkbox" id="bdt_pg_%1$s[%2$s][%3$s]" name="%1$s[%2$s][%3$s]" value="%3$s" %4$s />', $args['section'], $args['id'], $key, checked($checked, $key, false));
+                $html    .= '<span class="pg-switch"></span>';
                 $html    .= sprintf('%1$s</label><br>', $label);
             }
 
@@ -561,7 +555,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
             foreach ($args['options'] as $key => $label) {
                 $html .= sprintf('<label for="bdt_pg_%1$s[%2$s][%3$s]">', $args['section'], $args['id'], $key);
-                $html .= sprintf('<input type="radio" class="radio" id="bdt_pg_%1$s[%2$s][%3$s]" name="%1$s[%2$s]" value="%3$s" %4$s />', $args['section'], $args['id'], $key, checked($value, $key, false));
+                $html .= sprintf('<input type="radio" class="pg-radio" id="bdt_pg_%1$s[%2$s][%3$s]" name="%1$s[%2$s]" value="%3$s" %4$s />', $args['section'], $args['id'], $key, checked($value, $key, false));
                 $html .= sprintf('%1$s</label><br>', $label);
             }
 
@@ -636,8 +630,8 @@ if (!class_exists('PixelGallery_Settings_API')) :
             $id    = $args['section']  . '[' . $args['id'] . ']';
             $label = isset($args['options']['button_label']) ? $args['options']['button_label'] : __('Choose File', 'pixel-gallery');
 
-            $html  = sprintf('<input type="text" class="%1$s-text wpsa-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value);
-            $html  .= '<input type="button" class="button wpsa-browse" value="' . $label . '" />';
+            $html  = sprintf('<input type="text" class="%1$s-text pg-wpsa-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value);
+            $html  .= '<input type="button" class="button pg-wpsa-browse" value="' . $label . '" />';
             $html  .= $this->get_field_description($args);
 
             $this->get_control_output($html);
@@ -682,9 +676,9 @@ if (!class_exists('PixelGallery_Settings_API')) :
          */
         function callback_subheading($args) {
 
-            $html  = '<h3 class="setting_subheading column-merge">' . $args['name'] . '</h3>';
+            $html  = '<h3 class="pg-setting-subheading pg-column-merge">' . $args['name'] . '</h3>';
             $html .= $this->get_field_description($args);
-            $html .= '<hr class="setting_separator">';
+            $html .= '<hr class="pg-setting-separator">';
 
             $this->get_control_output($html);
         }
@@ -723,7 +717,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
          */
         function callback_separator($args) {
 
-            $html  = '<hr class="setting_separator column-merge">';
+            $html  = '<hr class="pg-setting-separator pg-column-merge">';
             $html .= $this->get_field_description($args);
 
 
@@ -1131,7 +1125,6 @@ if (!class_exists('PixelGallery_Settings_API')) :
                                                     <ul class="bdt-nav bdt-subnav-pill bdt-dropdown-nav pg-widget-filter pg-widget-content-type">
                                                         
                                                         <li class="pg-widget-new" bdt-filter-control="filter: [data-content-type*='new']; group: data-widget-type"><a href="#"><?php esc_html_e('New', 'pixel-gallery'); ?></a></li>
-                                                        <li class="pg-widget-grid" bdt-filter-control="filter: [data-content-type*='grid']; group: data-widget-type"><a href="#"><?php esc_html_e('Grid', 'pixel-gallery'); ?></a></li>
                                                         <li class="pg-widget-custom" bdt-filter-control="filter: [data-content-type*='custom']; group: data-widget-type"><a href="#"><?php esc_html_e('Custom', 'pixel-gallery'); ?></a></li>
                                                         <li class="pg-widget-others" bdt-filter-control="filter: [data-content-type*='others']; group: data-widget-type"><a href="#"><?php esc_html_e('Others', 'pixel-gallery'); ?></a></li>
                                                     </ul>
@@ -1162,7 +1155,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
                                 <div class="bdt-width-auto@l bdt-search-active-wrap bdt-flex bdt-flex-middle bdt-flex-between">
                                     <div class="bdt-widget-search">
-                                        <input data-id="pg-options-parent-<?php echo esc_attr($i); ?>" onkeyup="filterSearch(this);" bdt-filter-control="" class="bdt-search-input bdt-flex-middle" type="search" placeholder="Search widget..." autofocus>
+                                        <input data-id="pg-options-parent-<?php echo esc_attr($i); ?>" oninput="filterSearch(this);" class="bdt-search-input bdt-flex-middle" type="search" placeholder="Search widget..." autofocus>
                                     </div>
 
                                     <?php //if ($form['id'] == 'pixel_gallery_active_modules' or $form['id'] == 'pixel_gallery_third_party_widget' ) :
@@ -1189,7 +1182,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
                         <?php endif; ?>
 
-                        <form class="settings-save" method="post" action="admin-ajax.php?action=pixel_gallery_settings_save">
+                        <form class="pg-settings-save" method="post" action="admin-ajax.php?action=pixel_gallery_settings_save">
                             <input type="hidden" name="id" value="<?php echo esc_attr($form['id']); ?>">
 
                             <?php
@@ -1234,7 +1227,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
 						<?php if ($form['id'] == 'pixel_gallery_active_modules' or $form['id'] == 'pixel_gallery_elementor_extend'): ?>
 
 							<div class="bdt-widget-filter-wrapper bdt-flex bdt-flex-column bdt-flex-wrap"
-								bdt-sticky="end: !.pg-dashboard-container; offset: 115; animation: bdt-animation-slide-top-small; duration: 300">
+								bdt-sticky="end: !.pg-dashboard-container; offset: 115; animation: bdt-animation-slide-top-small; duration: 300; media: 960">
 
 								<!-- Filter Shape Elements -->
 								<div class="pg-filter-elements">
@@ -1302,8 +1295,8 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
 										<div class="bdt-width-auto@l bdt-search-active-wrap bdt-flex bdt-flex-middle bdt-flex-between">
 											<div class="bdt-widget-search">
-												<input data-id="pg-options-parent-<?php echo esc_attr($i); ?>" onkeyup="filterSearch(this);"
-													bdt-filter-control="" class="bdt-search-input bdt-flex-middle" type="search"
+												<input data-id="pg-options-parent-<?php echo esc_attr($i); ?>" oninput="filterSearch(this);"
+													class="bdt-search-input bdt-flex-middle" type="search"
 													placeholder="<?php esc_html_e('Search widget...', 'pixel-gallery'); ?>"
 													autofocus>
 											</div>
@@ -1331,9 +1324,8 @@ if (!class_exists('PixelGallery_Settings_API')) :
 												<div class="pg-filter-by-text bdt-visible@xl">
 													<?php esc_html_e('Filter By: ', 'pixel-gallery'); ?>
 												</div>
-												<ul class="bdt-nav xbdt-subnav-pill xbdt-dropdown-nav pg-widget-filter pg-widget-content-type bdt-flex bdt-flex-wrap ">
+												<ul class="bdt-nav pg-widget-filter pg-widget-content-type bdt-flex bdt-flex-wrap ">
 													<li class="pg-widget-new" bdt-filter-control="filter: [data-content-type*='new']; group: data-widget-type"><a href="#"><?php esc_html_e('New', 'pixel-gallery'); ?></a></li>
-                                                    <li class="pg-widget-grid" bdt-filter-control="filter: [data-content-type*='grid']; group: data-widget-type"><a href="#"><?php esc_html_e('Grid', 'pixel-gallery'); ?></a></li>
                                                     <li class="pg-widget-custom" bdt-filter-control="filter: [data-content-type*='custom']; group: data-widget-type"><a href="#"><?php esc_html_e('Custom', 'pixel-gallery'); ?></a></li>
                                                     <li class="pg-widget-others" bdt-filter-control="filter: [data-content-type*='others']; group: data-widget-type"><a href="#"><?php esc_html_e('Others', 'pixel-gallery'); ?></a></li>
 												</ul>
@@ -1347,7 +1339,7 @@ if (!class_exists('PixelGallery_Settings_API')) :
 
 						<?php endif; ?>
 
-						<form class="settings-save" method="post" action="admin-ajax.php?action=pixel_gallery_settings_save">
+						<form class="pg-settings-save" method="post" action="admin-ajax.php?action=pixel_gallery_settings_save">
 							<input type="hidden" name="id" value="<?php echo esc_attr($form['id']); ?>">
 
 							<?php

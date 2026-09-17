@@ -455,13 +455,13 @@ class Orbit extends Module_Base
 		gridClass += ' pg-in-animation';
 	}
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-orbit-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 										<div class="pg-orbit-image-wrap bdt-pg-img-mask">
 						<# if ( item.media_type === 'video' ) { #>
@@ -480,18 +480,18 @@ class Orbit extends Module_Base
 					<div class="pg-orbit-content">
 						<div class="pg-orbit-content-inner">
 							<# if ( settings.show_title === 'yes' && item.title ) { #>
-								<# var ttag = settings.title_tag || 'h3'; #>
-								<{{{ ttag }}} class="pg-orbit-title">{{{ item.title }}}</{{{ ttag }}}>
+								<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+								<{{{ ttag }}} class="pg-orbit-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 							<# } #>
 							<# if ( settings.show_meta === 'yes' && item.meta ) { #>
-								<div class="pg-orbit-meta">{{{ item.meta }}}</div>
+								<div class="pg-orbit-meta">{{{ elementor.helpers.sanitize( item.meta ) }}}</div>
 							<# } #>
 							<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' && item.readmore_text ) { #>
 							<div class="pg-orbit-readmore">
 <?php $this->print_content_template_item_link_prepare( 'orbit' ); ?>
 <?php $this->print_content_template_item_link_wrap_open(); ?>
 <?php $this->print_content_template_item_link_a_open(); ?>
-								{{{ item.readmore_text }}}
+								{{ item.readmore_text }}
 <?php $this->print_content_template_item_link_a_close(); ?>
 <?php $this->print_content_template_item_link_wrap_close(); ?>
 							</div>

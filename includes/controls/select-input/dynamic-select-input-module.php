@@ -109,7 +109,17 @@ class Dynamic_Select_Input_Module {
 	 * @return array|mixed
 	 */
 	protected function getselecedIds() {
-		return isset($_POST['ids']) ? sanitize_text_field(wp_unslash($_POST['ids'])) : []; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via wp_verify_nonce() in getSelectInputData().
+		// The control posts `ids` as an array; sanitize_text_field() on the whole array returned '',
+		// so saved selections never got their titles back when the editor reopened.
+		$ids = isset($_POST['ids']) ? wp_unslash($_POST['ids']) : []; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verified via wp_verify_nonce() in getSelectInputData(); each value is sanitized below.
+
+		if (!is_array($ids)) {
+			$ids = explode(',', (string) $ids);
+		}
+
+		$ids = array_map('sanitize_text_field', array_filter($ids, 'is_scalar'));
+
+		return array_values(array_filter($ids, 'strlen'));
 	}
 
 
@@ -150,7 +160,7 @@ class Dynamic_Select_Input_Module {
 		}
 
 		if (!empty($include)) {
-			$args['post__in']       = $include;
+			$args['post__in']       = array_map('absint', $include);
 			$args['posts_per_page'] = count($include);
 		} else {
 			$args['posts_per_page'] = 20;
@@ -208,7 +218,7 @@ class Dynamic_Select_Input_Module {
 
 
 		if (!empty($include)) {
-			$args['post__in']       = $include;
+			$args['post__in']       = array_map('absint', $include);
 			$args['posts_per_page'] = count($include);
 		} else {
 			$args['posts_per_page'] = 20;
@@ -275,9 +285,9 @@ class Dynamic_Select_Input_Module {
 		$taxonomies  = $this->getAllPublicTaxonomies();
 		$include     = $this->getselecedIds();
 
-		if ($this->getPostType() == '_related_post_type') {
-			$post_type = 'any';
-		} elseif ($this->getPostType()) {
+		$post_type = 'any';
+
+		if ($this->getPostType() && $this->getPostType() !== '_related_post_type') {
 			$post_type = $this->getPostType();
 		}
 		$post_taxonomies = get_object_taxonomies($post_type);
@@ -339,7 +349,7 @@ class Dynamic_Select_Input_Module {
 		];
 
 		if (!empty($include)) {
-			$args['include'] = $include;
+			$args['include'] = array_map('absint', $include);
 		}
 
 		if ($search_text) {

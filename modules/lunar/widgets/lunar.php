@@ -624,13 +624,13 @@ class Lunar extends Module_Base {
 	var gridClass = 'pg-lunar-grid pg-grid';
 	if ( settings.pg_in_animation_show === 'yes' ) { gridClass += ' pg-in-animation'; }
 	#>
-		<div class="{{{ gridClass }}}"
+		<div class="{{ gridClass }}"
 			<# if ( settings.pg_in_animation_show === 'yes' && animDelay !== '' ) { #> data-in-animation-delay="{{ animDelay }}"<# } #>
 		>
 		<# _.each( items, function( item, index ) {
 			var itemClass = 'pg-lunar-item pg-item elementor-repeater-item-' + item._id;
 		#>
-			<div class="{{{ itemClass }}}">
+			<div class="{{ itemClass }}">
 				<# if ( item.item_hidden !== 'yes' ) { #>
 										<div class="pg-lunar-image-wrap bdt-pg-img-mask">
 						<# if ( item.media_type === 'video' ) { #>
@@ -648,21 +648,21 @@ class Lunar extends Module_Base {
 					</div>
 					<div class="pg-lunar-title-wrap">
 						<# if ( settings.show_title === 'yes' && item.title ) { #>
-							<# var ttag = settings.title_tag || 'h3'; #>
-							<{{{ ttag }}} class="pg-lunar-title">{{{ item.title }}}</{{{ ttag }}}>
+							<# var ttag = elementor.helpers.validateHTMLTag( settings.title_tag || 'h3' ); #>
+							<{{{ ttag }}} class="pg-lunar-title">{{{ elementor.helpers.sanitize( item.title ) }}}</{{{ ttag }}}>
 						<# } #>
 					</div>
 					<div class="pg-lunar-icon"><i class="pg-icon-arrow-right"></i></div>
 					<div class="pg-lunar-content">
 						<# if ( settings.show_text === 'yes' && item.text ) { #>
-							<div class="pg-lunar-text">{{{ item.text }}}</div>
+							<div class="pg-lunar-text">{{{ elementor.helpers.sanitize( item.text ) }}}</div>
 						<# } #>
 						<# if ( settings.link_to !== 'none' && ( settings.link_target || 'whole_item' ) === 'only_button' && item.readmore_text ) { #>
 							<div class="pg-lunar-readmore">
 <?php $this->print_content_template_item_link_prepare( 'lunar' ); ?>
 <?php $this->print_content_template_item_link_wrap_open(); ?>
 <?php $this->print_content_template_item_link_a_open(); ?>
-							<span>{{{ item.readmore_text }}}</span>
+							<span>{{ item.readmore_text }}</span>
 <?php $this->print_content_template_item_link_a_close(); ?>
 <?php $this->print_content_template_item_link_wrap_close(); ?>
 						</div>
