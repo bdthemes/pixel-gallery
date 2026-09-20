@@ -156,18 +156,27 @@ if (!class_exists('PixelGallery_Settings_API')) :
                     $widget_used_status = ' pg-unused'; // replace by unused class
                 }
 
-                $data_type = ' data-widget-type="' . esc_attr($field['args']['widget_type']) . '" data-content-type="' . esc_attr($field['args']['content_type']) . esc_attr($widget_used_status) . '" data-widget-name="' . strtolower($field['args']['name']) . '"';
-
+                /*
+                 * Each attribute is escaped at the point it is printed rather than
+                 * pre-assembled into a string: a pre-built blob has to be echoed
+                 * unescaped, which needs a phpcs:ignore, and an ignore is what let
+                 * an unescaped data-widget-name sit here unnoticed.
+                 */
+                $tooltip = '';
 
                 if (!empty($field['args']['widget_type']) && 'pro' == $field['args']['widget_type'] && true !== _is_pg_pro_activated()) {
-                    $data_type .= ' bdt-tooltip="'.esc_html__('Pro widget only works with Pro version.', 'pixel-gallery').'"';
+                    $tooltip = esc_html__('Pro widget only works with Pro version.', 'pixel-gallery');
                 }
 
-                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $data_type is assembled from esc_attr()/esc_html__() escaped values above.
-                echo "<div class='pg-option-item " . esc_attr( $class ) . " " . esc_attr( $widget_used_status ) . "' " . $data_type . ">";
-
-
-                // printf('<div class="pg-option-item %1$s %5$s" data-widget-type="%2$s" data-content-type="%3$s %5$s" data-widget-name="%4$s">', $class, $field['args']['widget_type'], $field['args']['content_type'], strtolower($field['args']['name']), esc_attr($widget_used_status));
+                printf(
+                    '<div class="pg-option-item %1$s %2$s" data-widget-type="%3$s" data-content-type="%4$s %2$s" data-widget-name="%5$s"%6$s>',
+                    esc_attr($class),
+                    esc_attr(trim($widget_used_status)),
+                    esc_attr($field['args']['widget_type']),
+                    esc_attr($field['args']['content_type']),
+                    esc_attr(strtolower($field['args']['name'])),
+                    '' === $tooltip ? '' : sprintf(' bdt-tooltip="%s"', esc_attr($tooltip))
+                );
 
                 call_user_func($field['callback'], $field['args']);
 

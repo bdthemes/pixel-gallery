@@ -156,12 +156,17 @@ class Utils {
 
 	public static function print_html_attributes(array $attributes)
 	{
-		// PHPCS - the method render_html_attributes is safe.
-		echo self::render_html_attributes($attributes); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_html_attributes() escapes every value and only emits validated attribute names; see below.
+		echo self::render_html_attributes($attributes);
 	}
 
 	/**
 	 * Render html attributes
+	 *
+	 * Values are escaped with esc_attr(). Attribute names cannot be escaped the
+	 * same way - esc_attr() would leave a name such as `title onload=x` intact
+	 * and that alone injects a second attribute - so names are matched against
+	 * the characters HTML allows and anything else is dropped.
 	 *
 	 * @access public
 	 * @static
@@ -174,6 +179,12 @@ class Utils {
 		$rendered_attributes = [];
 
 		foreach ($attributes as $attribute_key => $attribute_values) {
+			$attribute_key = (string) $attribute_key;
+
+			if (!preg_match('/^[A-Za-z_:][A-Za-z0-9_:.-]*$/', $attribute_key)) {
+				continue;
+			}
+
 			if (is_array($attribute_values)) {
 				$attribute_values = implode(' ', $attribute_values);
 			}
