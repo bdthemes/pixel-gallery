@@ -6,7 +6,7 @@
 		"dev": "cross-env NODE_ENV=development grunt watch",
 		"build": "npm run && npm run clean && cross-env NODE_ENV=production grunt",
 		"clean": "rimraf ./assets",
-		"zip": "npm run && npm run clean && cross-env NODE_ENV=production grunt && rsync -av --exclude-from=.buildignore . pixel-gallery && zip -r pixel-gallery-v.$npm_package_version.zip pixel-gallery/* && rm -rf pixel-gallery"
+		"zip": "npm run && npm run clean && cross-env NODE_ENV=production grunt && rsync -av --exclude-from=.buildignore . pixel-gallery && rm -f ../pixel-gallery-v.$npm_package_version.zip && zip -r ../pixel-gallery-v.$npm_package_version.zip pixel-gallery/* && rm -rf pixel-gallery"
 	},
 	"keywords": [
 		"pixel-gallery",
