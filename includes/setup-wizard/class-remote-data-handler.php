@@ -602,27 +602,8 @@ add_action('init', function() {
     Remote_Data_Handler::init();
 });
 
-// Global functions for backward compatibility and ease of use
-if (!function_exists('pg_is_element_pack_page')) {
-    function pg_is_element_pack_page() {
-        return \PixelGallery\SetupWizard\Remote_Data_Handler::is_element_pack_page();
-    }
-}
-
-if (!function_exists('pg_get_remote_plugins')) {
-    function pg_get_remote_plugins() {
-        return \PixelGallery\SetupWizard\Remote_Data_Handler::get_remote_plugins();
-    }
-}
-
-if (!function_exists('pg_schedule_remote_fetch')) {
-    function pg_schedule_remote_fetch() {
-        return \PixelGallery\SetupWizard\Remote_Data_Handler::schedule_remote_fetch();
-    }
-}
-
-if (!function_exists('pg_fetch_remote_plugins_now')) {
-    function pg_fetch_remote_plugins_now() {
-        return \PixelGallery\SetupWizard\Remote_Data_Handler::fetch_remote_plugins_now();
-    }
-}
+/*
+ * The pg_* global wrappers that used to live here are gone: "pg" is too short a
+ * prefix to claim in the global namespace. Call the class directly instead, for
+ * example \PixelGallery\SetupWizard\Remote_Data_Handler::get_remote_plugins().
+ */

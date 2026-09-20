@@ -205,12 +205,13 @@ if (!function_exists('pixel_gallery_license_validation')) {
     }
 }
 
-if (!function_exists('pg_license_validation')) {
-    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Deprecated alias for pixel_gallery_license_validation(); kept for Pixel Gallery Pro back-compat.
-    function pg_license_validation() {
-        return pixel_gallery_license_validation();
-    }
-}
+/*
+ * The pg_license_validation() alias that used to sit here is gone: "pg" is too
+ * short a prefix to claim in the global namespace. Pixel Gallery Pro is the only
+ * caller and has carried its own function_exists()-guarded copy since its first
+ * release, so the name still resolves there. Use
+ * pixel_gallery_license_validation() from this plugin.
+ */
 
 
 /**

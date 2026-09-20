@@ -43,8 +43,8 @@
                 }
 
                 var params = {
-                    action  : pg_dynamic_select.action,
-                    security: pg_dynamic_select.nonce,
+                    action  : pixel_gallery_dynamic_select.action,
+                    security: pixel_gallery_dynamic_select.nonce,
                     ids     : ids
                 };
 
@@ -85,8 +85,8 @@
                         delay         : 300,
                         data          : function (data) {
                             var params = {
-                                action     : pg_dynamic_select.action,
-                                security   : pg_dynamic_select.nonce,
+                                action     : pixel_gallery_dynamic_select.action,
+                                security   : pixel_gallery_dynamic_select.nonce,
                                 search_text: data.term
                             };
                             return $.extend({}, params, self.getQueryData());

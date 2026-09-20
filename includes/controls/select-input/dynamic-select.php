@@ -110,9 +110,9 @@ class Dynamic_Select extends Base_Data_Control {
 
         wp_localize_script(
             'pg-dynamic-select',
-            'pg_dynamic_select',
+            'pixel_gallery_dynamic_select',
             [
-                'nonce'    => wp_create_nonce('pg_dynamic_select'),
+                'nonce'    => wp_create_nonce('pixel_gallery_dynamic_select'),
                 'action'   => 'pixel_gallery_dynamic_select_input_data',
                 'ajax_url' => admin_url('admin-ajax.php')
             ]
