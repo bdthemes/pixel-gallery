@@ -227,7 +227,7 @@ class Setup_Wizard {
 
 		wp_localize_script(
 			'pg-setup-wizard',
-			'BDT_SetupWizard',
+			'PG_SetupWizard',
 			array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( 'bdtpg_setup_wizard_nonce' ),
