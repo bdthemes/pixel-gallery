@@ -231,64 +231,6 @@ class Pixel_Gallery_Loader {
     }
 
 
-    /**
-     * Render an Elementor template by ID.
-     *
-     * The shortcode takes no free-form content: the only attribute is a post ID,
-     * which is cast to an integer and then validated below. A template is only
-     * rendered when it exists, is actually built with Elementor, and the current
-     * visitor is allowed to read it - so the shortcode can never be used to
-     * surface a private, draft or trashed post, nor a post of an unrelated type.
-     *
-     * @param array $atts Attributes for the shortcode.
-     * @return string Rendered Elementor markup, or an empty string.
-     */
-    public function shortcode_template($atts) {
-
-        $atts = shortcode_atts(
-            array(
-                'id' => '',
-            ),
-            $atts,
-            'pixel_gallery_custom_template'
-        );
-
-        $id = !empty($atts['id']) ? absint($atts['id']) : 0;
-
-        if (!$id || !did_action('elementor/loaded')) {
-            return '';
-        }
-
-        $post = get_post($id);
-
-        if (!$post) {
-            return '';
-        }
-
-        // Never render anything the visitor could not open on its own.
-        if ('publish' !== get_post_status($post) && !current_user_can('read_post', $id)) {
-            return '';
-        }
-
-        // Only Elementor-built content goes through Elementor's renderer.
-        $document = self::elementor()->documents->get($id);
-
-        if (!$document || !$document->is_built_with_elementor()) {
-            return '';
-        }
-
-        /*
-         * The return value is markup Elementor has already rendered and escaped
-         * through its own frontend pipeline - the very same call Elementor's core
-         * [elementor-template] shortcode makes. It intentionally contains style
-         * tags, SVG and data-* attributes, so running it through an escaping or
-         * wp_kses() pass here would strip Elementor's own output and break every
-         * template. The untrusted part of this shortcode is the ID, and that is
-         * cast with absint() and validated above.
-         */
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Pre-rendered, pre-escaped Elementor document markup; see the note above.
-        return self::elementor()->frontend->get_builder_content_for_display($id);
-    }
 
 
     /**
@@ -377,13 +319,6 @@ class Pixel_Gallery_Loader {
         add_action('elementor/editor/after_enqueue_scripts', [$this, 'enqueue_editor_scripts']);
 
         add_action('elementor/frontend/after_register_styles', [$this, 'enqueue_site_styles']);
-
-        add_shortcode('pixel_gallery_custom_template', [$this, 'shortcode_template']);
-
-        // Deprecated, unprefixed alias kept so content published with the older
-        // shortcode name keeps rendering. Both resolve to the same guarded callback.
-        add_shortcode('rooten_custom_template', [$this, 'shortcode_template']);
-
 
         // When user not login add this action
         if (!is_user_logged_in()) {

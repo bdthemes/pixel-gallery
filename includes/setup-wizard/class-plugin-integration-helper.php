@@ -155,8 +155,8 @@ class Plugin_Integration_Helper {
         
         // Use new non-blocking approach - get cached data only from Remote_Data_Handler
         $fetched_data = [];
-        if (function_exists('pg_get_remote_plugins')) {
-            $fetched_data = pg_get_remote_plugins();
+        if (class_exists('\PixelGallery\SetupWizard\Remote_Data_Handler')) {
+            $fetched_data = \PixelGallery\SetupWizard\Remote_Data_Handler::get_remote_plugins();
         }
         
         $plugins = [];

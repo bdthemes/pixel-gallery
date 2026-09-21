@@ -434,7 +434,12 @@ class Setup_Wizard {
 	 * assets/data.json. Templates built on Pixel Gallery Pro widgets are only
 	 * offered while Pro is active, so every template shown can be imported.
 	 *
-	 * @return array[] Template data keyed by slug: title, thumbnail, demo_url and file.
+	 * The kits ship unpacked, as the plain JSON and XML files Elementor writes
+	 * into a kit archive, because wordpress.org does not allow archives inside a
+	 * plugin. build_kit_archive() packs the directory back into a .zip when an
+	 * import actually runs.
+	 *
+	 * @return array[] Template data keyed by slug: title, thumbnail, demo_url and dir.
 	 */
 	public static function get_templates() {
 		$assets_path = __DIR__ . '/assets/';
@@ -444,7 +449,7 @@ class Setup_Wizard {
 		foreach ( (array) $data as $template ) {
 			$import_path = isset( $template['import_url'] ) ? (string) $template['import_url'] : '';
 
-			if ( 'zip' !== strtolower( pathinfo( $import_path, PATHINFO_EXTENSION ) ) ) {
+			if ( '' === $import_path ) {
 				continue;
 			}
 
@@ -452,10 +457,11 @@ class Setup_Wizard {
 				continue;
 			}
 
-			$slug = sanitize_key( basename( $import_path, '.zip' ) );
-			$file = $assets_path . 'templates/' . $slug . '.zip';
+			$slug = sanitize_key( basename( untrailingslashit( $import_path ) ) );
+			$dir  = $assets_path . 'templates/' . $slug . '/';
 
-			if ( '' === $slug || ! is_file( $file ) ) {
+			// A kit without its manifest cannot be imported, so do not offer it.
+			if ( '' === $slug || ! is_dir( $dir ) || ! is_file( $dir . 'manifest.json' ) ) {
 				continue;
 			}
 
@@ -463,11 +469,80 @@ class Setup_Wizard {
 				'title'     => isset( $template['title'] ) ? (string) $template['title'] : $slug,
 				'thumbnail' => plugins_url( 'assets/' . ltrim( (string) ( $template['thumbnail'] ?? '' ), '/' ), __FILE__ ),
 				'demo_url'  => isset( $template['demo_url'] ) ? (string) $template['demo_url'] : '',
-				'file'      => $file,
+				'dir'       => $dir,
 			);
 		}
 
 		return $templates;
+	}
+
+	/**
+	 * Pack a bundled template directory into a kit archive Elementor can read.
+	 *
+	 * Uses ZipArchive when the host has it and falls back to PclZip, which ships
+	 * with WordPress, so the import does not depend on an optional extension.
+	 *
+	 * @param string $template_dir Absolute path to the unpacked kit.
+	 * @return string|WP_Error Path to the archive, or an error.
+	 */
+	private function build_kit_archive( $template_dir ) {
+		$template_dir = trailingslashit( $template_dir );
+
+		if ( ! is_dir( $template_dir ) ) {
+			return new \WP_Error( 'pixel_gallery_kit_missing', esc_html__( 'The template is missing from this plugin.', 'pixel-gallery' ) );
+		}
+
+		$files = array();
+
+		$iterator = new \RecursiveIteratorIterator(
+			new \RecursiveDirectoryIterator( $template_dir, \FilesystemIterator::SKIP_DOTS )
+		);
+
+		foreach ( $iterator as $file ) {
+			if ( $file->isFile() ) {
+				$files[] = $file->getPathname();
+			}
+		}
+
+		if ( ! $files ) {
+			return new \WP_Error( 'pixel_gallery_kit_empty', esc_html__( 'The template is missing from this plugin.', 'pixel-gallery' ) );
+		}
+
+		$archive_path = wp_tempnam( 'pixel-gallery-kit.zip' );
+
+		if ( ! $archive_path ) {
+			return new \WP_Error( 'pixel_gallery_kit_tempfile', esc_html__( 'Could not prepare the template for import.', 'pixel-gallery' ) );
+		}
+
+		if ( class_exists( '\ZipArchive' ) ) {
+			$zip = new \ZipArchive();
+
+			if ( true !== $zip->open( $archive_path, \ZipArchive::OVERWRITE ) ) {
+				wp_delete_file( $archive_path );
+				return new \WP_Error( 'pixel_gallery_kit_zip', esc_html__( 'Could not prepare the template for import.', 'pixel-gallery' ) );
+			}
+
+			foreach ( $files as $file ) {
+				// Entry names are relative to the kit root, which is what Elementor expects.
+				$zip->addFile( $file, str_replace( $template_dir, '', $file ) );
+			}
+
+			$zip->close();
+
+			return $archive_path;
+		}
+
+		require_once ABSPATH . 'wp-admin/includes/class-pclzip.php';
+
+		$archive = new \PclZip( $archive_path );
+		$created = $archive->create( implode( ',', $files ), PCLZIP_OPT_REMOVE_PATH, untrailingslashit( $template_dir ) );
+
+		if ( 0 === $created ) {
+			wp_delete_file( $archive_path );
+			return new \WP_Error( 'pixel_gallery_kit_zip', esc_html__( 'Could not prepare the template for import.', 'pixel-gallery' ) );
+		}
+
+		return $archive_path;
 	}
 
 	/**
@@ -497,13 +572,20 @@ class Setup_Wizard {
 			wp_send_json_error( array( 'message' => esc_html__( 'Elementor\'s kit importer is not available. Please update Elementor and try again.', 'pixel-gallery' ) ) );
 		}
 
-		$kit_file = $templates[ $slug ]['file'];
+		// The kit ships unpacked, so pack it before handing it to Elementor.
+		$kit_archive = $this->build_kit_archive( $templates[ $slug ]['dir'] );
+
+		if ( is_wp_error( $kit_archive ) ) {
+			wp_send_json_error( array( 'message' => $kit_archive->get_error_message() ) );
+		}
 
 		try {
 			// Elementor extracts and cleans up the kit it is given, so hand it a
-			// temporary copy and leave the bundled archive untouched.
-			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reads a kit that ships inside this plugin; the path comes from get_templates().
-			$kit_zip_path = Plugin::$instance->uploads_manager->create_temp_file( file_get_contents( $kit_file ), 'kit.zip' );
+			// temporary copy and drop the archive we just built either way.
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reads the archive this request just built from files inside this plugin.
+			$kit_zip_path = Plugin::$instance->uploads_manager->create_temp_file( file_get_contents( $kit_archive ), 'kit.zip' );
+
+			wp_delete_file( $kit_archive );
 
 			if ( is_wp_error( $kit_zip_path ) ) {
 				wp_send_json_error( array( 'message' => esc_html__( 'Could not prepare the template for import.', 'pixel-gallery' ) ) );
@@ -567,6 +649,12 @@ class Setup_Wizard {
 				)
 			);
 		} catch ( \Throwable $error ) {
+			// The archive is normally deleted as soon as Elementor has its own
+			// copy; clean it up here too if we failed before reaching that point.
+			if ( file_exists( $kit_archive ) ) {
+				wp_delete_file( $kit_archive );
+			}
+
 			wp_send_json_error( array( 'message' => esc_html__( 'Import failed: ', 'pixel-gallery' ) . esc_html( $error->getMessage() ) ) );
 		}
 	}

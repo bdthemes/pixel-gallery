@@ -1,11 +1,11 @@
-=== Pixel Gallery Addons for Elementor ===
+=== Pixel Gallery ===
 Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, maudud, shmusuf, arafatakashakku, shaikatazim, shamim496
 Donate link: https://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.3
+Stable tag: 2.2.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 4.0.0
@@ -329,6 +329,15 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 2.2.4 [20th September 2026] =
+
+* Updated: Setup wizard templates now ship as plain template files instead of archives, and are packed for Elementor at the moment you import - imported templates are unchanged
+* Updated: Plugin name in readme now matches the plugin itself, "Pixel Gallery"
+* Fixed: HTML attribute names were written out without being checked, so a malformed name could add an unwanted attribute to a video tag
+* Fixed: Widget names on the Core Widgets screen were written out without escaping
+* Removed: The [pixel_gallery_custom_template] and [rooten_custom_template] shortcodes - use Elementor's own [elementor-template id="123"] instead
+* Removed: For developers, the pg_license_validation() function and the pg_ prefixed helpers for remote plugin data, and the dynamic select control's script data is now named pixel_gallery_dynamic_select
 
 = 2.2.3 [17th September 2026] =
 
