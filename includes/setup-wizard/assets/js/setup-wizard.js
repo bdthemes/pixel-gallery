@@ -345,7 +345,7 @@
                          .html('<span class="pg-spinner-border pg-spinner-border-sm" role="status" aria-hidden="true"></span> Saving...');
                     
                     $.ajax({
-                        url: BDT_SetupWizard.ajax_url,
+                        url: PG_SetupWizard.ajax_url,
                         type: 'POST',
                         data: data,
                         success: function (response) {
@@ -423,11 +423,11 @@
                             statusText.textContent = `Installing ${pluginName}...`;
                             
                             jQuery.ajax({
-                                url: BDT_SetupWizard.ajax_url,
+                                url: PG_SetupWizard.ajax_url,
                                 method: 'POST',
                                 data: {
                                     action: 'bdtpg_setup_wizard_install_plugins',
-                                    nonce: BDT_SetupWizard.nonce,
+                                    nonce: PG_SetupWizard.nonce,
                                     plugins: [slug],
                                     activate: activateAfterInstall
                                 },
@@ -487,7 +487,7 @@
     });
 
     // Ready-to-use templates on the "Good to Go" step.
-    const templateI18n = (window.BDT_SetupWizard && BDT_SetupWizard.i18n) || {};
+    const templateI18n = (window.PG_SetupWizard && PG_SetupWizard.i18n) || {};
 
     function escapeHtml(value) {
         return String(value).replace(/[&<>"']/g, function (c) {
@@ -498,9 +498,9 @@
     function templateRequest(data) {
         return new Promise(function (resolve, reject) {
             $.ajax({
-                url: BDT_SetupWizard.ajax_url,
+                url: PG_SetupWizard.ajax_url,
                 type: 'POST',
-                data: $.extend({ nonce: BDT_SetupWizard.nonce }, data),
+                data: $.extend({ nonce: PG_SetupWizard.nonce }, data),
                 success: resolve,
                 error: reject
             });
