@@ -592,19 +592,20 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     // These styles only serve the Pixel Gallery setup wizard, so never add them
-    // to other admin screens.
+    // to other admin screens. The step rules are scoped too: .bdt-wizard-step is
+    // shared with the other BdThemes plugins' wizards.
     if (!document.querySelector('.pg-setup-wizard')) {
         return;
     }
 
     const style = document.createElement('style');
     style.textContent = `
-        .bdt-wizard-step {
+        .pg-setup-wizard .bdt-wizard-step {
             transition: opacity 0.3s ease, transform 0.3s ease;
             display: none; /* Hide all steps by default */
         }
         
-        .bdt-wizard-step.pg-wizard-active {
+        .pg-setup-wizard .bdt-wizard-step.pg-wizard-active {
             display: block; /* Show only active step */
             opacity: 1;
             transform: translateY(0);

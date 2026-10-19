@@ -33,6 +33,14 @@ class Setup_Wizard {
 	// Singleton instance
 	private static $instance = null;
 
+	/**
+	 * Whether this request renders the wizard. Set on admin_init, read when
+	 * the assets are enqueued.
+	 *
+	 * @var bool
+	 */
+	private $is_wizard_request = false;
+
 	// Constructor
 	private function __construct() {
 		$this->init_hooks();
@@ -52,6 +60,7 @@ class Setup_Wizard {
 		add_action( 'wp_ajax_bdtpg_setup_wizard_import_template', array( $this, 'import_template' ) );
 		add_action( 'wp_ajax_bdtpg_setup_wizard_import_template_runner', array( $this, 'import_template_runner' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'dequeue_sibling_wizards' ), 100 );
 		add_action( 'admin_init', array( $this, 'maybe_display_setup_wizard' ) );
 		add_action( 'admin_init', array( $this, 'check_manual_wizard_request' ) );
 	}
@@ -61,7 +70,9 @@ class Setup_Wizard {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only request flag to display the setup wizard, no state change.
 		$is_setup_wizard_request = isset($_GET['pg_setup_wizard']) && 'show' === sanitize_text_field(wp_unslash($_GET['pg_setup_wizard']));
 		
-		if ( $is_setup_wizard_request ) {
+		if ( $is_setup_wizard_request && current_user_can( 'manage_options' ) ) {
+			$this->is_wizard_request = true;
+
 			// Use the same approach as first activation - completely override the page
 			add_action('admin_head', function() {
 				?>
@@ -149,10 +160,19 @@ class Setup_Wizard {
 
 	// Check if this is first activation and display setup wizard if needed
 	public function maybe_display_setup_wizard() {
+		// admin_init also runs for admin-ajax.php (the Heartbeat, for one). The
+		// wizard can only be shown on a page load, so an AJAX request must not
+		// use up the first-run flag, and neither may a user who cannot use it.
+		if ( wp_doing_ajax() || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		// Only check for first activation here
 		if ( get_option( 'bdtpg_setup_wizard_completed' ) === false ) {
 			// Set the flag so it doesn't run again
 			update_option( 'bdtpg_setup_wizard_completed', true );
+
+			$this->is_wizard_request = true;
 			
 			// Add a header to ensure proper full-page display
 			add_action('admin_head', function() {
@@ -213,6 +233,13 @@ class Setup_Wizard {
 	// Enqueue necessary scripts
 	public function enqueue_scripts() {
 
+		// Only the request that renders the wizard needs its assets. Loaded on
+		// every admin screen, the script also attached itself to the other
+		// BdThemes plugins' wizards, which share the .bdt-setup-wizard markup.
+		if ( ! $this->is_wizard_request ) {
+			return;
+		}
+
         $direction_suffix = is_rtl() ? '.rtl' : '';
 
         wp_enqueue_style('bdt-uikit', BDTPG_ADMIN_URL . 'assets/css/bdt-uikit'. $direction_suffix .'.css', [], BDTPG_VER);
@@ -245,6 +272,34 @@ class Setup_Wizard {
 				),
 			)
 		);
+	}
+
+	/**
+	 * Keep the other BdThemes plugins' setup wizards off this one.
+	 *
+	 * Those plugins may enqueue their wizard script and stylesheet on every
+	 * admin screen and select the same .bdt-setup-wizard markup, so on this
+	 * page their handlers would run as well. Only handles loaded from another
+	 * plugin's includes/setup-wizard/ folder are removed.
+	 */
+	public function dequeue_sibling_wizards() {
+		if ( ! $this->is_wizard_request ) {
+			return;
+		}
+
+		foreach ( array( wp_scripts(), wp_styles() ) as $deps ) {
+			foreach ( (array) $deps->queue as $handle ) {
+				if ( 'pg-setup-wizard' === $handle || ! isset( $deps->registered[ $handle ] ) ) {
+					continue;
+				}
+
+				$src = (string) $deps->registered[ $handle ]->src;
+
+				if ( false !== strpos( $src, '/includes/setup-wizard/' ) && false === strpos( $src, '/' . BDTPG_PNAME . '/' ) ) {
+					$deps instanceof \WP_Scripts ? wp_dequeue_script( $handle ) : wp_dequeue_style( $handle );
+				}
+			}
+		}
 	}
 
 	public static function get_widget_map() {
