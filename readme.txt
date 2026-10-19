@@ -5,7 +5,7 @@ Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.4
+Stable tag: 2.2.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 4.0.0
@@ -329,6 +329,10 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 2.2.5 [20th October 2026] =
+
+* Added: BdThemes deals notice on the Dashboard, Plugins screen and plugin dashboard; “Don’t Show Again” hides it in every BdThemes plugin
 
 = 2.2.4 [20th September 2026] =
 
