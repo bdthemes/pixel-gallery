@@ -260,6 +260,7 @@ class PixelGallery_Admin_Settings
 		//initialize settings
 		$this->settings_api->admin_init();
 		$this->pg_redirect_to_get_pro();
+		$this->pg_redirect_to_deals();
 
 		if (_is_pg_pro_activated()) {
 			$this->bdt_redirect_to_renew_link();
@@ -281,6 +282,58 @@ class PixelGallery_Admin_Settings
 			wp_safe_redirect('https://pixelgallery.pro/pricing/');
 			exit;
 		}
+	}
+
+	/**
+	 * Deals page the free version's "Up To 86% Off" menu entry opens.
+	 */
+	const DEALS_URL = 'https://bdthemes.com/deals/?utm_source=PixelGallery&utm_medium=plugin_menu&utm_campaign=PixelGallery';
+
+	/**
+	 * Send the "Up To 86% Off" menu entry to the BdThemes deals page.
+	 *
+	 * @return void
+	 */
+	public function pg_redirect_to_deals()
+	{
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only menu routing check; no form data is processed and no state changes.
+		if (!isset($_GET['page']) || self::PAGE_ID . '_deals' !== sanitize_text_field(wp_unslash($_GET['page'])) || !current_user_can('manage_options')) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Intentional redirect to the external BdThemes deals page; wp_safe_redirect() would block this off-site host.
+		wp_redirect(self::DEALS_URL);
+		exit;
+	}
+
+	/**
+	 * Highlight the deals entry and open it in a new tab.
+	 *
+	 * @return void
+	 */
+	public function deals_menu_assets()
+	{
+		?>
+		<style>
+			#adminmenu #toplevel_page_pixel_gallery_options a[href$="page=pixel_gallery_options_deals"] {
+				color: #ffc107;
+				font-weight: 600;
+			}
+			#adminmenu #toplevel_page_pixel_gallery_options a[href$="page=pixel_gallery_options_deals"]:hover,
+			#adminmenu #toplevel_page_pixel_gallery_options a[href$="page=pixel_gallery_options_deals"]:focus {
+				color: #ffffff;
+			}
+		</style>
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				var link = document.querySelector('#toplevel_page_pixel_gallery_options a[href$="page=pixel_gallery_options_deals"]');
+				if (link) {
+					link.setAttribute('target', '_blank');
+					link.setAttribute('rel', 'noopener noreferrer');
+				}
+			});
+		</script>
+		<?php
 	}
 
 	/**
@@ -354,6 +407,20 @@ class PixelGallery_Admin_Settings
 			self::PAGE_ID . '#pixel_gallery_other_plugins',
 			[$this, 'plugin_page']
 		);
+
+		// Free version only: the BdThemes deals page (admin_init redirects there).
+		if (true !== pixel_gallery_is_pro_activated()) {
+			add_submenu_page(
+				self::PAGE_ID,
+				BDTPG_TITLE,
+				esc_html__('Up To 86% Off', 'pixel-gallery'),
+				'manage_options',
+				self::PAGE_ID . '_deals',
+				[$this, 'plugin_page']
+			);
+
+			add_action('admin_head', [$this, 'deals_menu_assets']);
+		}
 
 	}
 
@@ -1193,7 +1260,7 @@ class PixelGallery_Admin_Settings
 
 				window.addEventListener("hashchange", hashHandler, true);
 
-				jQuery('.toplevel_page_pixel_gallery_options > ul > li > a ').on('click', function (event) {
+				jQuery('.toplevel_page_pixel_gallery_options > ul > li > a ').not('[href$="page=pixel_gallery_options_deals"]').on('click', function (event) {
 					jQuery(this).parent().siblings().removeClass('current');
 					jQuery(this).parent().addClass('current');
 				});
