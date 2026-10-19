@@ -20,6 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+// BdThemes deals biggopti, shared by all BdThemes plugins (shown once).
+if ( is_admin() ) {
+	require_once __DIR__ . '/includes/bdthemes-deals-biggopti.php';
+}
+
 // Some pre defined value for easy use
 define( 'BDTPG_VER', '2.2.4' );
 define( 'BDTPG_TPL_DB_VER', '1.0.0' );
