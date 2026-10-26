@@ -666,6 +666,30 @@ class ModuleService {
                     'video_url'    => '',
                 ]
             ],
+
+            'pixel_gallery_other_settings' => [
+                [
+                    'name'         => 'asset_optimization_group_start',
+                    'label'        => esc_html__('Asset Optimization', 'pixel-gallery'),
+                    'desc'         => __('Loads only the widgets a page uses, joined into one CSS file and one JS file per page. The files are written to the uploads folder the first time a page is viewed and shared by every page that uses the same widgets. The helper stylesheet and icon font load only on pages that contain a Pixel Gallery widget, with or without this option.', 'pixel-gallery'),
+                    'type'         => 'start_group',
+                    'content_type' => 'new',
+                ],
+                [
+                    'name'        => 'asset-manager',
+                    'label'       => esc_html__('Asset Manager', 'pixel-gallery'),
+                    'tooltip'     => __('Joins the CSS and JS of the widgets each page uses into combined files, so a page loads only what it renders, in fewer files.', 'pixel-gallery'),
+                    'type'        => 'checkbox',
+                    'default'     => 'off',
+                    'widget_type' => 'free',
+                    'demo_url'    => '',
+                    'video_url'   => '',
+                ],
+                [
+                    'name' => 'asset_optimization_group_end',
+                    'type' => 'end_group',
+                ],
+            ],
         ];
 
         $settings                    = [];

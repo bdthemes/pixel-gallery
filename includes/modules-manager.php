@@ -65,13 +65,15 @@ final class Manager
 
         if (!pixel_gallery_is_preview()) {
             // register widgets css
+            // Each widget stylesheet depends on the shared helper and icon font, so
+            // a page loads those only when it has a widget.
             if (ModuleService::has_module_style($module_id)) {
-                wp_register_style('pg-' . $module_id, BDTPG_URL . 'assets/css/pg-' . $module_id . '.css', [], BDTPG_VER);
+                wp_register_style('pg-' . $module_id, BDTPG_URL . 'assets/css/pg-' . $module_id . '.css', pixel_gallery_module_asset_depends('css', $module_id), BDTPG_VER);
             }
 
             // register widget JS
             if (ModuleService::has_module_script($module_id)) {
-                wp_register_script('pg-' . $module_id, BDTPG_URL . 'assets/js/modules/pg-' . $module_id . '.min.js', ['jquery', 'elementor-frontend'], BDTPG_VER, true);
+                wp_register_script('pg-' . $module_id, BDTPG_URL . 'assets/js/modules/pg-' . $module_id . '.min.js', pixel_gallery_module_asset_depends('js', $module_id), BDTPG_VER, true);
             }
         }
 

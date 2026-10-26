@@ -122,6 +122,10 @@ class Pixel_Gallery_Loader {
         // All modules loading from here
         require_once BDTPG_INC_PATH . 'modules-manager.php';
 
+        // Asset Optimization: per-page combined widget CSS/JS files
+        require_once BDTPG_INC_PATH . 'class-asset-combiner.php';
+        Includes\Asset_Combiner::init();
+
 
         // Shortcode loader for works some essential shortcode that need for any purpose
         if ($essential_shortcodes == 'on') {
@@ -175,11 +179,50 @@ class Pixel_Gallery_Loader {
      * @return [type] [description]
      */
     public function enqueue_site_styles() {
+        // Registered here, enqueued only where needed: widget stylesheets depend on
+        // them, and maybe_enqueue_site_styles() covers the rest.
+        wp_register_style('pg-helper', BDTPG_ASSETS_URL . 'css/pg-helper.css', ['e-swiper'], BDTPG_VER);
+        wp_register_style('pg-font', BDTPG_ASSETS_URL . 'css/pg-font.css', [], BDTPG_VER);
+    }
 
-        $direction_suffix = is_rtl() ? '.rtl' : '';
+    /**
+     * Enqueue the helper stylesheet and icon font on their own where a page needs
+     * them without a widget declaring them: the editor and its preview, the
+     * essential shortcodes, and a queue that already holds a Pixel Gallery file
+     * registered without the dependency (Pixel Gallery Pro before 2.3.0). A page
+     * with no Pixel Gallery widget loads neither file.
+     *
+     * @return void
+     */
+    public function maybe_enqueue_site_styles() {
+        $needed = pixel_gallery_is_preview() || pixel_gallery_is_edit()
+            || 'on' === pixel_gallery_option('essential-shortcodes', 'pixel_gallery_other_settings', 'off');
 
-        wp_enqueue_style('pg-helper', BDTPG_ASSETS_URL . 'css/pg-helper.css', ['e-swiper'], BDTPG_VER);
-        wp_enqueue_style('pg-font', BDTPG_ASSETS_URL . 'css/pg-font.css', [], BDTPG_VER);
+        if (!$needed) {
+            foreach ([wp_styles(), wp_scripts()] as $deps) {
+                foreach ((array) $deps->queue as $handle) {
+                    $src = isset($deps->registered[$handle]) ? (string) $deps->registered[$handle]->src : '';
+
+                    // Handle names are shared with Pixel Gallery Pro and are short,
+                    // so match on the plugin folders the files come from.
+                    if (0 === strpos($handle, 'pg-') && preg_match('#/plugins/pixel-gallery(?:-pro)?/#', $src)) {
+                        $needed = true;
+                        break 2;
+                    }
+                }
+            }
+        }
+
+        /**
+         * Filters whether the Pixel Gallery helper stylesheet and icon font are
+         * enqueued on this request regardless of the widgets on the page.
+         *
+         * @param bool $needed Whether to enqueue them.
+         */
+        if (apply_filters('pixel_gallery/frontend/enqueue_site_styles', $needed)) {
+            wp_enqueue_style('pg-helper');
+            wp_enqueue_style('pg-font');
+        }
     }
 
     public function enqueue_editor_scripts() {
@@ -319,6 +362,7 @@ class Pixel_Gallery_Loader {
         add_action('elementor/editor/after_enqueue_scripts', [$this, 'enqueue_editor_scripts']);
 
         add_action('elementor/frontend/after_register_styles', [$this, 'enqueue_site_styles']);
+        add_action('wp_enqueue_scripts', [$this, 'maybe_enqueue_site_styles'], 99999);
 
         // When user not login add this action
         if (!is_user_logged_in()) {

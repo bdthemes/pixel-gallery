@@ -28,6 +28,13 @@ class PixelGallery_Admin_Settings
 
 	private $settings_api;
 
+	/**
+	 * React dashboard, when its build is available.
+	 *
+	 * @var PixelGallery_React_Dashboard|null
+	 */
+	private $react_dashboard = null;
+
 	public $responseObj;
 	public $licenseMessage;
 	public $showMessage = false;
@@ -36,6 +43,12 @@ class PixelGallery_Admin_Settings
 	function __construct()
 	{
 		$this->settings_api = new PixelGallery_Settings_API;
+
+		require_once BDTPG_ADMIN_PATH . 'class-react-dashboard.php';
+
+		if (PixelGallery_React_Dashboard::is_enabled()) {
+			$this->react_dashboard = new PixelGallery_React_Dashboard();
+		}
 
 		add_action('admin_init', [$this, 'admin_init']);
 		add_action('admin_menu', [$this, 'admin_menu'], 201);
@@ -453,6 +466,10 @@ class PixelGallery_Admin_Settings
 			[
 				'id' => 'pixel_gallery_elementor_extend',
 				'title' => esc_html__('Extensions', 'pixel-gallery')
+			],
+			[
+				'id' => 'pixel_gallery_other_settings',
+				'title' => esc_html__('Performance', 'pixel-gallery')
 			],
 		];
 
@@ -994,6 +1011,11 @@ class PixelGallery_Admin_Settings
 
 	public function plugin_page()
 	{
+
+		if ($this->react_dashboard) {
+			$this->react_dashboard->render();
+			return;
+		}
 
 		?>
 
