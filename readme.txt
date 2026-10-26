@@ -1,15 +1,15 @@
-=== Pixel Gallery ===
+=== Pixel Gallery Addons for Elementor ===
 Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, maudud, shmusuf, arafatakashakku, shaikatazim, shamim496
 Donate link: https://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.2.5
+Stable tag: 2.3.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Elementor requires at least: 4.0.0
-Elementor tested up to: 4.2.4
+Elementor tested up to: 4.3.5
 
 Pixel Gallery is an Elementor gallery plugin for creating responsive image and portfolio grids with customizable layouts and effects.
 
@@ -329,6 +329,14 @@ https://youtu.be/f70l2qE7W7o
 
 
 == Changelog ==
+
+= 2.3.0 [26th October 2026] =
+
+* Added: New admin dashboard, laid out like Element Pack and Prime Slider: Widgets, Extensions, System Status and Other Plugins, with light and dark modes
+* Added: With Pixel Gallery Pro, Custom Code, White Label, Rollback Version and License open as dashboard tabs
+* Added: Asset Manager on the new Performance page (off by default) combines the widget CSS used on each page into one file, and the widget JS into another, rebuilt automatically after updates or Elementor's Clear Files & Data
+* Updated: The Pixel Gallery helper and icon font stylesheets (and Elementor's Swiper styles they pull in) now load only on pages that use Pixel Gallery widgets
+* Fixed: Other Plugins showed HTML entities such as &#8211; in plugin names
 
 = 2.2.5 [20th October 2026] =
 

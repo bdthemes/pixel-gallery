@@ -1,12 +1,14 @@
 {
 	"name": "pixel-gallery",
-	"version": "2.2.5",
+	"version": "2.3.0",
 	"main": "index.php",
 	"scripts": {
 		"dev": "cross-env NODE_ENV=development grunt watch",
 		"build": "npm run && npm run clean && cross-env NODE_ENV=production grunt",
 		"clean": "rimraf ./assets",
-		"zip": "npm run && npm run clean && cross-env NODE_ENV=production grunt && rsync -av --exclude-from=.buildignore . pixel-gallery && rm -f ../pixel-gallery-v.$npm_package_version.zip && zip -r ../pixel-gallery-v.$npm_package_version.zip pixel-gallery/* && rm -rf pixel-gallery"
+		"zip": "npm run && npm run clean && cross-env NODE_ENV=production grunt && rsync -av --exclude-from=.buildignore . pixel-gallery && rm -f ../pixel-gallery-v.$npm_package_version.zip && zip -r ../pixel-gallery-v.$npm_package_version.zip pixel-gallery/* && rm -rf pixel-gallery",
+		"start:admin": "wp-scripts start",
+		"build:admin": "wp-scripts build"
 	},
 	"keywords": [
 		"pixel-gallery",
@@ -26,6 +28,15 @@
 		"jit-grunt": "^0.10.0",
 		"rimraf": "^5.0.1",
 		"terser": "^5.18.2",
-		"uikit": "3.16.23-dev.10a221fa8"
+		"uikit": "3.16.23-dev.10a221fa8",
+		"@wordpress/scripts": "^27.9.0",
+		"autoprefixer": "^10.5.4",
+		"postcss": "^8.5.25",
+		"tailwindcss": "^3.4.19"
+	},
+	"dependencies": {
+		"@wordpress/element": "^6.4.0",
+		"@wordpress/i18n": "^5.4.0",
+		"react-router-dom": "^6.26.0"
 	}
 }
