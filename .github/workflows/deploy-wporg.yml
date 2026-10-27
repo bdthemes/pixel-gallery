@@ -1,0 +1,74 @@
+name: Deploy to WordPress.org
+
+# Publishing a GitHub release (not a pre-release) commits that tag to
+# https://plugins.svn.wordpress.org/pixel-gallery/ as trunk + tags/<version>.
+# The files shipped are `git archive` of the tag, so anything marked
+# export-ignore in .gitattributes stays out of SVN.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to deploy (e.g. 2.3.1)"
+        required: true
+      dry_run:
+        description: "Dry run (prepare the SVN commit without committing)"
+        type: boolean
+        default: true
+
+concurrency:
+  group: wporg-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: github.event_name == 'workflow_dispatch' || !github.event.release.prerelease
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ env.TAG }}
+
+      - name: Check version numbers match the tag
+        id: version
+        run: |
+          VERSION="${TAG#v}"
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Tag '$TAG' is not a plugin version (expected 1.2.3 or v1.2.3)"
+            exit 1
+          fi
+
+          header=$(sed -n 's/^[ *]*Version:[[:space:]]*//p' pixel-gallery.php | head -n1 | tr -d '\r ')
+          constant=$(sed -n "s/.*define([[:space:]]*'BDTPG_VER',[[:space:]]*'\([^']*\)'.*/\1/p" pixel-gallery.php | tr -d '\r')
+          stable=$(sed -n 's/^Stable tag:[[:space:]]*//p' readme.txt | head -n1 | tr -d '\r ')
+
+          echo "Tag:                 $VERSION"
+          echo "Plugin header:       $header"
+          echo "BDTPG_VER:           $constant"
+          echo "readme Stable tag:   $stable"
+
+          if [[ "$header" != "$VERSION" || "$constant" != "$VERSION" || "$stable" != "$VERSION" ]]; then
+            echo "::error::Version mismatch: bump pixel-gallery.php (Version + BDTPG_VER) and readme.txt Stable tag to $VERSION before releasing"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy to WordPress.org SVN
+        # 10up/action-wordpress-plugin-deploy 2.3.0, pinned by commit since it receives the SVN credentials
+        uses: 10up/action-wordpress-plugin-deploy@54bd289b8525fd23a5c365ec369185f2966529c2
+        with:
+          dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: pixel-gallery
+          VERSION: ${{ steps.version.outputs.version }}

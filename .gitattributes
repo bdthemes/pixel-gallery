@@ -8,3 +8,4 @@ package-lock.json export-ignore
 .idea export-ignore
 .DS_Store export-ignore
 .github export-ignore
+/LICENSE export-ignore
