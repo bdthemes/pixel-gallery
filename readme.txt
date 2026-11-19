@@ -1,5 +1,5 @@
 === Pixel Gallery Addons for Elementor ===
-Contributors: bdthemes, selimmw, mohammaadfarid, abutalib, muhammadasik, maudud, shmusuf, arafatakashakku, shaikatazim, shamim496
+Contributors: bdthemes, selimmw, maudud, abutalib, arafatakashakku, shamim496
 Donate link: https://bdthemes.com/
 Tags:  gallery, responsive gallery, image gallery, video gallery, gallery plugin
 Requires at least: 6.0
@@ -330,7 +330,7 @@ https://youtu.be/f70l2qE7W7o
 
 == Changelog ==
 
-= 2.3.2 [28th October 2026] =
+= 2.3.2 [19th November 2026] =
 
 * Updated: System improved
 
