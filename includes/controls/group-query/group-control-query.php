@@ -567,7 +567,9 @@ trait Group_Control_Query {
 			 */
 			$selected_ids      = $this->get_settings_for_display('posts_selected_ids');
 			$selected_ids      = wp_parse_id_list($selected_ids);
-			$args['post_type'] = 'any';
+			// 'any' covers every searchable type, non-public ones included, and the ids come
+			// from the saved widget. Only the types the Source control offers are queried.
+			$args['post_type'] = pixel_gallery_query_post_types();
 			if (!empty($selected_ids)) {
 				$args['post__in'] = $selected_ids;
 			}
@@ -610,8 +612,12 @@ trait Group_Control_Query {
 
 			/**
 			 * Set Post Type
+			 *
+			 * Elementor saves the Source value verbatim, never checked against the
+			 * control's options, so anything but a type the control offers falls back
+			 * to posts instead of exposing another post type's published entries.
 			 */
-			$args['post_type'] = $this->getGroupControlQueryPostType();
+			$args['post_type'] = pixel_gallery_sanitize_query_post_type($this->getGroupControlQueryPostType());
 
 			/**
 			 * Set Exclude Post
@@ -770,17 +776,11 @@ trait Group_Control_Query {
 	 * @return array|string[]|\WP_Post_Type[]
 	 */
 	private function getGroupControlQueryPostTypes() {
-		$post_types = get_post_types(['public' => true], 'objects');
+		$post_types = get_post_types([], 'objects');
 		$post_types = array_column($post_types, 'label', 'name');
 
-		$ignorePostTypes = [
-			'elementor_library'    => '',
-			'attachment'           => '',
-			'bdt_template_manager' => '',
-			'bdt-custom-template'  => '',
-		];
-
-		$post_types = array_diff_key($post_types, $ignorePostTypes);
+		// Exactly the list the query accepts (public types minus media and templates).
+		$post_types = array_intersect_key($post_types, array_flip(pixel_gallery_query_post_types()));
 
 		$extra_types = [
 			'manual_selection'   => __('Manual Selection', 'pixel-gallery'),

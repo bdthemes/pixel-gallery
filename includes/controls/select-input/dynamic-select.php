@@ -88,7 +88,7 @@ class Dynamic_Select extends Base_Data_Control {
                     var selected = ( -1 !== value.indexOf( option_value ) ) ? 'selected' : '';
                     }
                     #>
-                    <option {{ selected }} value="{{ option_value }}">{{{option_title }}}</option>
+                    <option {{ selected }} value="{{ option_value }}">{{ option_title }}</option>
                     <# } ); #>
                 </select>
             </div>

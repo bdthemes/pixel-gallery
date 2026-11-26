@@ -364,10 +364,11 @@ class Pixel_Gallery_Loader {
         add_action('elementor/frontend/after_register_styles', [$this, 'enqueue_site_styles']);
         add_action('wp_enqueue_scripts', [$this, 'maybe_enqueue_site_styles'], 99999);
 
-        // When user not login add this action
-        if (!is_user_logged_in()) {
-            add_action('elementor/init', [$this, 'pixel_gallery_ajax_login_init']);
-        }
+        // pixel_gallery_ajax_login_init() is no longer hooked. No Pixel Gallery widget has a
+        // login form, so the unauthenticated login endpoint it registered had no caller of
+        // its own. It accepted the 'ajax-login-nonce' that Element Pack's login widget
+        // prints to every visitor, which let a script sign in around that widget's
+        // reCAPTCHA and any protection bound to wp-login.php.
     }
 
     public function init(){

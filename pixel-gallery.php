@@ -83,6 +83,9 @@ if ( ! function_exists( '_is_pg_pro_activated' ) ) {
 // Helper function here
 require_once ( dirname( __FILE__ ) . '/includes/helper.php' );
 
+// Guards for widget-controlled URLs and query sources.
+require_once ( dirname( __FILE__ ) . '/includes/security-helpers.php' );
+
 if ( ! pixel_gallery_is_pro_activated() ) {
 	require_once BDTPG_INC_PATH . 'class-pro-widget-map.php';
 }
