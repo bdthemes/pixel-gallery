@@ -85,17 +85,33 @@ class Dynamic_Select_Input_Module {
 
 	/**
 	 * Get Post Type
+	 *
+	 * The post type comes from the request. Anything but the gallery query's own
+	 * post types (see pixel_gallery_query_post_types()) is ignored, so the endpoint
+	 * cannot be pointed at WooCommerce coupons, form entries or other internal types.
+	 *
 	 * @return string
 	 */
 	protected function getPostType() {
-		return isset($_POST['post_type']) ? sanitize_text_field(wp_unslash($_POST['post_type'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via wp_verify_nonce() in getSelectInputData().
+		$post_type = isset($_POST['post_type']) ? sanitize_key(wp_unslash($_POST['post_type'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via wp_verify_nonce() in getSelectInputData().
+
+		if ('' === $post_type) {
+			return '';
+		}
+
+		// '_related_post_type' is an internal marker handled by the callers.
+		if ('_related_post_type' === $post_type) {
+			return $post_type;
+		}
+
+		return in_array($post_type, $this->getAllPublicPostTypes(), true) ? $post_type : '';
 	}
 
 	/**
 	 * @return string[]|\WP_Post_Type[]
 	 */
 	protected function getAllPublicPostTypes() {
-		return array_values(get_post_types(['public' => true]));
+		return pixel_gallery_query_post_types();
 	}
 
 	/**
@@ -106,20 +122,85 @@ class Dynamic_Select_Input_Module {
 	}
 
 	/**
-	 * @return array|mixed
+	 * Add a search term to a post query.
+	 *
+	 * This endpoint only needs edit_posts, which a Contributor has. WordPress
+	 * searches content and excerpts too, so a term would match inside other
+	 * authors' password-protected posts and reveal, title by title, what they
+	 * say. Users who may not edit others' posts search titles only.
+	 *
+	 * @param array  $args       WP_Query arguments.
+	 * @param string $searchText Search term.
+	 * @return array
 	 */
-	protected function getselecedIds() {
-		// The control posts `ids` as an array; sanitize_text_field() on the whole array returned '',
-		// so saved selections never got their titles back when the editor reopened.
-		$ids = isset($_POST['ids']) ? wp_unslash($_POST['ids']) : []; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verified via wp_verify_nonce() in getSelectInputData(); each value is sanitized below.
-
-		if (!is_array($ids)) {
-			$ids = explode(',', (string) $ids);
+	protected function addSearchArgs(array $args, $searchText) {
+		if ('' === $searchText) {
+			return $args;
 		}
 
-		$ids = array_map('sanitize_text_field', array_filter($ids, 'is_scalar'));
+		$args['s'] = $searchText;
 
-		return array_values(array_filter($ids, 'strlen'));
+		if (!current_user_can('edit_others_posts')) {
+			$args['search_columns'] = ['post_title'];
+		}
+
+		return $args;
+	}
+
+	/**
+	 * Build the select options for a post query.
+	 *
+	 * Queries here are published-only, which is all a gallery shows; anything the
+	 * current user may not read is still skipped. Titles are sent as plain text:
+	 * the control escapes them when it prints the options.
+	 *
+	 * @param WP_Query $query
+	 * @return array
+	 */
+	protected function getPostResults(WP_Query $query) {
+		$results = [];
+
+		foreach ($query->posts as $post) {
+			if (!current_user_can('read_post', $post->ID)) {
+				continue;
+			}
+
+			$post_type_obj = get_post_type_object($post->post_type);
+			$text          = ($post_type_obj && $post_type_obj->hierarchical) ? $this->get_post_name_with_parents($post) : $post->post_title;
+
+			$results[] = [
+				'id'   => $post->ID,
+				'text' => $this->plainText($text),
+			];
+		}
+
+		return $results;
+	}
+
+	/**
+	 * Option label as plain text (the control escapes it when it is displayed).
+	 *
+	 * @param string $text
+	 * @return string
+	 */
+	protected function plainText($text) {
+		return html_entity_decode(wp_strip_all_tags((string) $text), ENT_QUOTES, get_bloginfo('charset'));
+	}
+
+	/**
+	 * @return int[]
+	 */
+	protected function getselecedIds() {
+		if (!isset($_POST['ids'])) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via wp_verify_nonce() in getSelectInputData().
+			return [];
+		}
+
+		// Every consumer feeds this into post__in / include, so force a flat list of
+		// positive integers instead of trusting the raw request shape.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verified via wp_verify_nonce() in getSelectInputData(); wp_parse_id_list() sanitizes.
+		$ids = wp_unslash($_POST['ids']);
+
+		return array_values(array_filter(wp_parse_id_list(is_array($ids) ? array_filter($ids, 'is_scalar') : $ids)));
 	}
 
 
@@ -151,7 +232,9 @@ class Dynamic_Select_Input_Module {
 		$include    = $this->getselecedIds();
 		$searchText = $this->getSearchQuery();
 
-		$args = [];
+		$args = [
+			'post_status' => 'publish',
+		];
 
 		if ($this->getPostType() && $this->getPostType() !== '_related_post_type') {
 			$args['post_type'] = $this->getPostType();
@@ -160,91 +243,51 @@ class Dynamic_Select_Input_Module {
 		}
 
 		if (!empty($include)) {
-			$args['post__in']       = array_map('absint', $include);
+			$args['post__in']       = $include;
 			$args['posts_per_page'] = count($include);
 		} else {
 			$args['posts_per_page'] = 20;
 		}
 
-		if ($searchText) {
-			$args['s'] = $searchText;
-		}
+		$args = $this->addSearchArgs($args, $searchText);
 
-		$query   = new WP_Query($args);
-		$results = [];
-		foreach ($query->posts as $post) {
-			$post_type_obj = get_post_type_object($post->post_type);
-			if (!empty($data['include_type'])) {
-				$text = $post_type_obj->labels->name . ': ' . $post->post_title;
-			} else {
-				$text = ($post_type_obj->hierarchical) ? $this->get_post_name_with_parents($post) : $post->post_title;
-			}
-
-			$results[] = [
-				'id'   => $post->ID,
-				'text' => esc_html($text),
-			];
-		}
-
-		return $results;
+		return $this->getPostResults(new WP_Query($args));
 	}
+
 	public function getDynamicTemplates() {
 		$searchText = $this->getSearchQuery();
-		$args = [];
-		$args['post_type'] = 'elementor_library';
-		if ($searchText) {
-			$args['s'] = $searchText;
-		}
-		$query   = new WP_Query($args);
-		$results = [];
-		foreach ($query->posts as $post) {
-			$post_type_obj = get_post_type_object($post->post_type);
-			$text = ($post_type_obj->hierarchical) ? $this->get_post_name_with_parents($post) : $post->post_title;
-			$results[] = [
-				'id'   => $post->ID,
-				'text' => esc_html($text),
-			];
-		}
-		return $results;
+
+		// Same rule as Elementor's own template list: published templates only.
+		$args = [
+			'post_type'      => 'elementor_library',
+			'post_status'    => 'publish',
+			'posts_per_page' => 20,
+		];
+
+		$args = $this->addSearchArgs($args, $searchText);
+
+		return $this->getPostResults(new WP_Query($args));
 	}
 
 	public function getOnlyPosts() {
 		$include    = $this->getselecedIds();
 		$searchText = $this->getSearchQuery();
 
-		$args = [];
-
-		$args['post_type'] = 'post';
-
+		$args = [
+			'post_type'   => 'post',
+			'post_status' => 'publish',
+		];
 
 		if (!empty($include)) {
-			$args['post__in']       = array_map('absint', $include);
+			$args['post__in']       = $include;
 			$args['posts_per_page'] = count($include);
 		} else {
 			$args['posts_per_page'] = 20;
 		}
 
-		if ($searchText) {
-			$args['s'] = $searchText;
-		}
+		$args = $this->addSearchArgs($args, $searchText);
 
-		$query   = new WP_Query($args);
-		$results = [];
-		foreach ($query->posts as $post) {
-			$post_type_obj = get_post_type_object($post->post_type);
-			if (!empty($data['include_type'])) {
-				$text = $post_type_obj->labels->name . ': ' . $post->post_title;
-			} else {
-				$text = ($post_type_obj->hierarchical) ? $this->get_post_name_with_parents($post) : $post->post_title;
-			}
-
-			$results[] = [
-				'id'   => $post->ID,
-				'text' => esc_html($text),
-			];
-		}
-
-		return $results;
+		return $this->getPostResults(new WP_Query($args));
 	}
 
 	private function get_post_name_with_parents($post, $max = 3) {
@@ -327,7 +370,7 @@ class Dynamic_Select_Input_Module {
 
 			$data[] = [
 				'id'   => $term->term_taxonomy_id,
-				'text' => $label,
+				'text' => $this->plainText($label),
 			];
 		}
 
@@ -346,15 +389,31 @@ class Dynamic_Select_Input_Module {
 		$args = [
 			'fields'  => ['ID', 'display_name'],
 			'orderby' => 'display_name',
+			// Always bounded: without a limit an empty search returns every user.
+			'number'  => 20,
 		];
 
+		// Match the REST API: without list_users only people who have published
+		// something are listed, and the search matches names only, never e-mail
+		// addresses, URLs or login names, so it can't be used to discover them.
+		$can_list_users = current_user_can('list_users');
+
+		if (!$can_list_users) {
+			$args['has_published_posts'] = true;
+		}
+
 		if (!empty($include)) {
-			$args['include'] = array_map('absint', $include);
+			$args['include'] = $include;
+			// Room for every already-selected author, still bounded.
+			$args['number'] = min(100, max(20, count($include)));
 		}
 
 		if ($search_text) {
-			$args['number'] = 20;
 			$args['search'] = "*$search_text*";
+
+			if (!$can_list_users) {
+				$args['search_columns'] = ['user_nicename', 'display_name'];
+			}
 		}
 
 		$users = get_users($args);
@@ -368,7 +427,7 @@ class Dynamic_Select_Input_Module {
 		foreach ($users as $user) {
 			$data[] = [
 				'id'   => $user->ID,
-				'text' => $user->display_name,
+				'text' => $this->plainText($user->display_name),
 			];
 		}
 
@@ -399,6 +458,7 @@ class Dynamic_Select_Input_Module {
 	 */
 	public function getElementorTemplates() {
 		$searchText = $this->getSearchQuery();
+		$args       = [];
 		if ($searchText) {
 			$args['s'] = $searchText;
 		}
@@ -411,7 +471,7 @@ class Dynamic_Select_Input_Module {
 			foreach ($templates as $template) {
 				$results[] = [
 					'id'   => $template['template_id'],
-					'text' => $template['title'],
+					'text' => $this->plainText($template['title']),
 				];
 			}
 		}
@@ -437,7 +497,7 @@ class Dynamic_Select_Input_Module {
 			foreach ($anywhere as $key => $value) {
 				$results[] = [
 					'id'   => $value,
-					'text' => get_the_title($value)
+					'text' => $this->plainText(get_the_title($value)),
 				];
 			}
 		} else {

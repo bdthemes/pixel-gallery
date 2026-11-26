@@ -1597,7 +1597,11 @@ trait Global_Widget_Controls
 				'show_label' => false,
 				'type' => Controls_Manager::REPEATER,
 				'fields' => $repeater->get_controls(),
-				'title_field' => '<div style="display: flex !important; align-items: center; height: 100%;"><img src="{{{ image.url }}}" style="height: 24px; width: 24px; border-radius: 40px; margin-right: 10px; object-fit: cover;"> <span>{{{ title }}}</span></div>',
+				// The image URL is printed escaped: a raw `"` in a saved URL would end the src
+				// attribute in the editor panel. It is decoded once first (a <textarea> only
+				// parses text), as the browser used to decode the raw print, so a saved &amp;
+				// still loads as &. The title stays raw: it is kses'd text, not an attribute.
+				'title_field' => '<# var pgThumb = document.createElement( "textarea" ); pgThumb.innerHTML = String( image && image.url ? image.url : "" ); #><div style="display: flex !important; align-items: center; height: 100%;"><img src="{{ pgThumb.value }}" style="height: 24px; width: 24px; border-radius: 40px; margin-right: 10px; object-fit: cover;"> <span>{{{ title }}}</span></div>',
 				'default' => [
 					[
 						'title' => __('Gallery Item one', 'pixel-gallery'),
@@ -2672,7 +2676,13 @@ trait Global_Widget_Controls
 		}
 
 		if ('file' == $settings['link_to'] && 'no' == $settings['open_lightbox']) {
-			$this->add_render_attribute($attr, 'onclick', "window.open('" . esc_url($lightbox_url) . "', '_self')", true);
+			// Not "window.open('" . esc_url() . "')": the browser decodes esc_url()'s &#039;
+			// back to ' before the handler runs, which ends the JS string.
+			$open_handler = pixel_gallery_window_open_handler($lightbox_url);
+
+			if ('' !== $open_handler) {
+				$this->add_render_attribute($attr, 'onclick', $open_handler, true);
+			}
 		}
 
 		if (Plugin::$instance->editor->is_edit_mode()) {
@@ -2703,6 +2713,27 @@ trait Global_Widget_Controls
 	}
 
 	/**
+	 * Backbone `content_template()` fragment: defines `pgSafeHref( url )` for the link helpers below.
+	 *
+	 * elementor.helpers.sanitizeUrl() checks the string it is given, not what the browser
+	 * makes of it: `javascript&#58;alert(1)` passes (it looks like a relative URL), and
+	 * printed raw into href the browser decodes it to `javascript:`. The saved URL is
+	 * therefore decoded once first (a <textarea> only ever parses text), checked, and the
+	 * result must be printed escaped, with {{ }}. A saved `&amp;` still opens as `&`.
+	 */
+	protected function print_content_template_safe_href_helper() {
+		?>
+						<#
+						var pgSafeHref = function ( url ) {
+							var pgDecoder = document.createElement( 'textarea' );
+							pgDecoder.innerHTML = String( url );
+							return elementor.helpers.sanitizeUrl( pgDecoder.value );
+						};
+						#>
+		<?php
+	}
+
+	/**
 	 * Backbone `content_template()` fragment: whole-item overlay link for editor preview.
 	 * Aligns with {@see render_lightbox_link_url()} (real href, Elementor lightbox + slideshow, clickable in editor).
 	 *
@@ -2710,18 +2741,19 @@ trait Global_Widget_Controls
 	 */
 	protected function print_content_template_lightbox_overlay( $slug ) {
 		$slug = preg_replace( '/[^a-z0-9-]/', '', (string) $slug );
+		$this->print_content_template_safe_href_helper();
 		?>
 						<#
 						var pgLbSlideshowId = 'pg-<?php echo esc_js( $slug ); ?>-' + view.getID();
 						var pgLbHref = '';
 						if ( settings.link_to === 'custom' && item.link && item.link.url ) {
-							pgLbHref = elementor.helpers.sanitizeUrl( item.link.url );
+							pgLbHref = pgSafeHref( item.link.url );
 						} else if ( settings.link_to === 'file' && item.media_type !== 'video' && item.image && item.image.url ) {
-							pgLbHref = elementor.helpers.sanitizeUrl( item.image.url );
+							pgLbHref = pgSafeHref( item.image.url );
 						}
 						#>
 						<# if ( pgLbHref ) { #>
-						<a href="{{{ pgLbHref }}}" class="elementor-clickable pg-open-lightbox"<#
+						<a href="{{ pgLbHref }}" class="elementor-clickable pg-open-lightbox"<#
 							if ( settings.link_to === 'file' && item.media_type !== 'video' && item.image && item.image.id ) {
 						#> data-elementor-open-lightbox="{{ settings.open_lightbox }}" data-elementor-lightbox-slideshow="{{ pgLbSlideshowId }}"<#
 							}
@@ -2738,14 +2770,15 @@ trait Global_Widget_Controls
 	 */
 	protected function print_content_template_item_link_prepare( $slug ) {
 		$slug = preg_replace( '/[^a-z0-9-]/', '', (string) $slug );
+		$this->print_content_template_safe_href_helper();
 		?>
 						<#
 						var pgItemSlideshowId = 'pg-<?php echo esc_js( $slug ); ?>-' + view.getID();
 						var pgItemHref = '';
 						if ( settings.link_to === 'custom' && item.link && item.link.url ) {
-							pgItemHref = elementor.helpers.sanitizeUrl( item.link.url );
+							pgItemHref = pgSafeHref( item.link.url );
 						} else if ( settings.link_to === 'file' && item.media_type !== 'video' && item.image && item.image.url ) {
-							pgItemHref = elementor.helpers.sanitizeUrl( item.image.url );
+							pgItemHref = pgSafeHref( item.image.url );
 						}
 						#>
 		<?php
@@ -2781,7 +2814,7 @@ trait Global_Widget_Controls
 			$classes .= ' ' . $extra;
 		}
 		?>
-						<a href="{{{ pgItemHref }}}" class="<?php echo esc_attr( $classes ); ?>"<#
+						<a href="{{ pgItemHref }}" class="<?php echo esc_attr( $classes ); ?>"<#
 							if ( settings.link_to === 'file' && item.media_type !== 'video' && item.image && item.image.id ) {
 						#> data-elementor-open-lightbox="{{ settings.open_lightbox }}" data-elementor-lightbox-slideshow="{{ pgItemSlideshowId }}"<#
 							}
